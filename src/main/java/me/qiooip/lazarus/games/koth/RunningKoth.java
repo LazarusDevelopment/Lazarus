@@ -4,6 +4,8 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.factions.FactionsManager;
+import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.Capzone;
 import me.qiooip.lazarus.games.Placeholder;
 import me.qiooip.lazarus.games.koth.event.KothCappedEvent;
@@ -40,12 +42,23 @@ public class RunningKoth {
     }
 
     private void handleWin() {
-        Language.KOTH_CAPPED.forEach(line -> Messages.sendMessage(Placeholder.RunningKothReplacer
-            .parse(this, line.replace("<uptime>", StringUtils
-            .formatMillis(System.currentTimeMillis() - this.startTime)))));
+        Player capper = this.capzone.getCapper();
+        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(capper);
+
+        String uptime = StringUtils.formatMillis(System.currentTimeMillis() - this.startTime);
+
+        if(faction == null) {
+            Language.KOTH_CAPPED_NO_FACTION.forEach(line -> Messages.sendMessage(Placeholder.RunningKothReplacer
+            .parse(this, line.replace("<uptime>", uptime))));
+        } else {
+            Language.KOTH_CAPPED_WITH_FACTION.forEach(line -> Messages.sendMessage(Placeholder.RunningKothReplacer
+            .parse(this, line
+                .replace("<faction>", faction.getDisplayName(capper))
+                .replace("<uptime>", uptime))));
+        }
 
         Tasks.sync(() -> {
-            new KothCappedEvent(this.kothData, this.capzone.getCapper());
+            new KothCappedEvent(this.kothData, capper);
             Lazarus.getInstance().getKothManager().stopKoth(this);
         });
     }

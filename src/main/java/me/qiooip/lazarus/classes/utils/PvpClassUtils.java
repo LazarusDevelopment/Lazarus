@@ -6,6 +6,7 @@ import me.qiooip.lazarus.classes.items.BardHoldableItem;
 import me.qiooip.lazarus.classes.items.ClickableItem;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.ItemUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,7 @@ public class PvpClassUtils {
             bardItem.setCooldown(potionSection.getInt(potion + ".COOLDOWN"));
             bardItem.setCanBardHimself(potionSection.getBoolean(potion + ".CAN_BARD_HIMSELF"));
             bardItem.setEnergyNeeded(potionSection.getInt(potion + ".ENERGY_NEEDED"));
+            bardItem.setChatColor(Color.translate(potionSection.getString(potion + ".CHAT_COLOR", "&b")));
             bardItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
             .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 

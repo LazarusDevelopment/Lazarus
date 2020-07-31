@@ -76,9 +76,9 @@ BARD_CLASS:
     ACTIVE_COOLDOWN: "&eYou are on cooldown for &c<seconds> &emore seconds!"
     COOLDOWN_EXPIRED: "&eYour &cbard buff &ecooldown has expired."
     NOT_ENOUGH_ENERGY: "&eThis effect requires &c<energy> &eenergy!"
-    MESSAGE_FRIENDLY: "&eYou have given your faction members &b<effect>&e."
-    MESSAGE_ENEMY: "&eYou have given your enemies &b<effect>&e."
-    MESSAGE_OTHERS: "&eYou have been given &b<effect>&e."
+    MESSAGE_FRIENDLY: "&eYou have given your faction members <effect>&e."
+    MESSAGE_ENEMY: "&eYou have given your enemies <effect>&e."
+    MESSAGE_OTHERS: "&eYou have been given <effect>&e."
 
 MINER_CLASS:
   EFFECT_REWARD: "&7[&b*&7] &c<player> &ehas been upgraded to &b<name>"
@@ -698,12 +698,24 @@ KOTH:
     - "  &b/koth settime <koth> <&btime&3> &f- &7Set running koth cap time"
     - "  &b/koth startingtime <koth> <&btime&3> &f- &7Set starting cap time"
     - "&7&m                                                                                "
-  CAPPED:
+  CAPPED_NO_FACTION:
     - "&8&m                                                                      "
     - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
     - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
     - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &6&l<koth> &7has been capped by:"
     - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &7* &a<capper>"
+    - "&7\u2588\u2588&4\u2588&4\u2588&7\u2588\u2588\u2588\u2588\u2588"
+    - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &eUptime:"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &7* <uptime>"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
+    - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+    - "&8&m                                                                      "
+  CAPPED_WITH_FACTION:
+    - "&8&m                                                                      "
+    - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &6&l<koth> &7has been capped by:"
+    - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &7* &5(<faction>&5) &a<capper>"
     - "&7\u2588\u2588&4\u2588&4\u2588&7\u2588\u2588\u2588\u2588\u2588"
     - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &eUptime:"
     - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &7* <uptime>"

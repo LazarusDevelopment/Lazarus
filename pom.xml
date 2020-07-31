@@ -6,7 +6,7 @@
 
     <groupId>me.qiooip</groupId>
     <artifactId>lazarus</artifactId>
-    <version>0.9.4</version>
+    <version>0.9.5</version>
     <packaging>jar</packaging>
 
     <properties>
