@@ -12,4 +12,5 @@ public class BardClickableItem extends ClickableItem {
     private int cooldown;
     private boolean canBardHimself;
     private boolean applyToEnemy;
+    private String chatColor;
 }

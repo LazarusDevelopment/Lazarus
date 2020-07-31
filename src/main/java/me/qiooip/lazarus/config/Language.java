@@ -496,7 +496,8 @@ public class Language {
     public static String KOTH_COMMAND_FOOTER;
     public static List<String> KOTH_COMMAND_USAGE_PLAYER;
     public static List<String> KOTH_COMMAND_USAGE_ADMIN;
-    public static List<String> KOTH_CAPPED;
+    public static List<String> KOTH_CAPPED_NO_FACTION;
+    public static List<String> KOTH_CAPPED_WITH_FACTION;
     public static String KOTH_KNOCKED;
     public static String KOTH_YOU_STARTED_CAPPING;
     public static String KOTH_SOMEONE_STARTED_CAPPING;
@@ -1786,7 +1787,8 @@ public class Language {
         KOTH_COMMAND_FOOTER = language.getString("KOTH.COMMAND_FOOTER");
         KOTH_COMMAND_USAGE_PLAYER = language.getStringList("KOTH.COMMAND_USAGE_PLAYER");
         KOTH_COMMAND_USAGE_ADMIN = language.getStringList("KOTH.COMMAND_USAGE_ADMIN");
-        KOTH_CAPPED = language.getStringList("KOTH.CAPPED");
+        KOTH_CAPPED_NO_FACTION = language.getStringList("KOTH.CAPPED_NO_FACTION");
+        KOTH_CAPPED_WITH_FACTION = language.getStringList("KOTH.CAPPED_WITH_FACTION");
         KOTH_KNOCKED = language.getString("KOTH.KNOCKED");
         KOTH_YOU_STARTED_CAPPING = language.getString("KOTH.YOU_STARTED_CAPPING");
         KOTH_SOMEONE_STARTED_CAPPING = language.getString("KOTH.SOMEONE_STARTED_CAPPING");

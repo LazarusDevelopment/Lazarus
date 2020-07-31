@@ -93,6 +93,7 @@ BARD_CLASS:
       DURATION: 5
       LEVEL: 3
       APPLY_TO_ENEMY: false
+      CHAT_COLOR: "&b"
     DAMAGE_RESISTANCE:
       MATERIAL_ID: "265:0"
       ENERGY_NEEDED: 35
@@ -102,6 +103,7 @@ BARD_CLASS:
       DURATION: 5
       LEVEL: 3
       APPLY_TO_ENEMY: false
+      CHAT_COLOR: "&7"
     JUMP:
       MATERIAL_ID: "288:0"
       ENERGY_NEEDED: 40
@@ -111,6 +113,7 @@ BARD_CLASS:
       DURATION: 5
       LEVEL: 7
       APPLY_TO_ENEMY: false
+      CHAT_COLOR: "&b"
     REGENERATION:
       MATERIAL_ID: "370:0"
       ENERGY_NEEDED: 35
@@ -120,6 +123,7 @@ BARD_CLASS:
       DURATION: 5
       LEVEL: 4
       APPLY_TO_ENEMY: false
+      CHAT_COLOR: "&a"
     FIRE_RESISTANCE:
       MATERIAL_ID: "378:0"
       ENERGY_NEEDED: 40
@@ -129,6 +133,7 @@ BARD_CLASS:
       DURATION: 20
       LEVEL: 1
       APPLY_TO_ENEMY: false
+      CHAT_COLOR: "&6"
     INCREASE_DAMAGE:
       MATERIAL_ID: "377:0"
       ENERGY_NEEDED: 50
@@ -138,6 +143,7 @@ BARD_CLASS:
       DURATION: 5
       LEVEL: 1
       APPLY_TO_ENEMY: false
+      CHAT_COLOR: "&c"
     WITHER:
       MATERIAL_ID: "375:0"
       ENERGY_NEEDED: 40
@@ -147,6 +153,7 @@ BARD_CLASS:
       DURATION: 5
       LEVEL: 2
       APPLY_TO_ENEMY: true
+      CHAT_COLOR: "&7"
 
 #=========================================================#
 #                     Miner configuration                 #

@@ -41,7 +41,7 @@ public class Capzone {
     }
 
     public Player getCapper() {
-        return Bukkit.getPlayer(this.players.get(0));
+        return Bukkit.getPlayer(this.getCapperName());
     }
 
     public String getCapperName() {
