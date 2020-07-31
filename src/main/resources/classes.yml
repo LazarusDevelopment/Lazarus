@@ -1,0 +1,249 @@
+#=========================================================#
+#                    Archer configuration                 #
+#=========================================================#
+
+ARCHER_CLASS:
+  # Should archer class be enabled?
+  ENABLED: true
+  # Archer warmup time in seconds
+  WARMUP: 10
+  # Archer tag settings
+  ARCHER_TAG:
+    # Should we allow archers to tag other archers?
+    CAN_TAG_OTHER_ARCHERS: false
+    # Archer tag duration in seconds
+    DURATION: 10
+    # Archer tag damage multiplier
+    DAMAGE_MULTIPLIER: 1.25
+  # Effects applied to archer by default
+  PASSIVE_EFFECTS:
+    SPEED: 3
+    DAMAGE_RESISTANCE: 3
+  # Archer clickable potion effects represented by potion effect
+  CLICKABLE_POTION_EFFECTS:
+    JUMP:
+      MATERIAL_ID: "288:0"
+      COOLDOWN: 60
+      DURATION: 10
+      LEVEL: 5
+    SPEED:
+      MATERIAL_ID: "353:0"
+      COOLDOWN: 60
+      DURATION: 10
+      LEVEL: 4
+
+#=========================================================#
+#                     Bard configuration                  #
+#=========================================================#
+
+BARD_CLASS:
+  # Should bard class be enabled?
+  ENABLED: true
+  # Bard warmup time in seconds
+  WARMUP: 10
+  # Maximum bard energy level
+  MAX_ENERGY: 120
+  # Should we apply combat tag to bard after clickable effect is given?
+  COMBAT_TAG_ON_CLICKABLE_ITEM: true
+  # Effects applied to bard by default
+  PASSIVE_EFFECTS:
+    SPEED: 2
+    REGENERATION: 2
+    DAMAGE_RESISTANCE: 2
+  # Bard holdable potion effects represented by potion effect
+  HOLDABLE_ITEMS:
+    SPEED:
+      MATERIAL_ID: "353:0"
+      DISTANCE: 25
+      CAN_BARD_HIMSELF: false
+      DURATION: 5
+      LEVEL: 2
+    DAMAGE_RESISTANCE:
+      MATERIAL_ID: "265:0"
+      DISTANCE: 25
+      CAN_BARD_HIMSELF: false
+      DURATION: 5
+      LEVEL: 1
+    JUMP:
+      MATERIAL_ID: "288:0"
+      DISTANCE: 25
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 2
+    REGENERATION:
+      MATERIAL_ID: "370:0"
+      DISTANCE: 25
+      CAN_BARD_HIMSELF: false
+      DURATION: 5
+      LEVEL: 1
+    FIRE_RESISTANCE:
+      MATERIAL_ID: "378:0"
+      DISTANCE: 25
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 1
+  # Bard clickable potion effects represented by potion effect
+  CLICKABLE_ITEMS:
+    SPEED:
+      MATERIAL_ID: "353:0"
+      ENERGY_NEEDED: 25
+      DISTANCE: 25
+      COOLDOWN: 10
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 3
+      APPLY_TO_ENEMY: false
+    DAMAGE_RESISTANCE:
+      MATERIAL_ID: "265:0"
+      ENERGY_NEEDED: 35
+      DISTANCE: 25
+      COOLDOWN: 15
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 3
+      APPLY_TO_ENEMY: false
+    JUMP:
+      MATERIAL_ID: "288:0"
+      ENERGY_NEEDED: 40
+      DISTANCE: 25
+      COOLDOWN: 10
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 7
+      APPLY_TO_ENEMY: false
+    REGENERATION:
+      MATERIAL_ID: "370:0"
+      ENERGY_NEEDED: 35
+      DISTANCE: 25
+      COOLDOWN: 20
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 4
+      APPLY_TO_ENEMY: false
+    FIRE_RESISTANCE:
+      MATERIAL_ID: "378:0"
+      ENERGY_NEEDED: 40
+      DISTANCE: 25
+      COOLDOWN: 10
+      CAN_BARD_HIMSELF: true
+      DURATION: 20
+      LEVEL: 1
+      APPLY_TO_ENEMY: false
+    INCREASE_DAMAGE:
+      MATERIAL_ID: "377:0"
+      ENERGY_NEEDED: 50
+      DISTANCE: 25
+      COOLDOWN: 20
+      CAN_BARD_HIMSELF: false
+      DURATION: 5
+      LEVEL: 1
+      APPLY_TO_ENEMY: false
+    WITHER:
+      MATERIAL_ID: "375:0"
+      ENERGY_NEEDED: 40
+      DISTANCE: 25
+      COOLDOWN: 10
+      CAN_BARD_HIMSELF: true
+      DURATION: 5
+      LEVEL: 2
+      APPLY_TO_ENEMY: true
+
+#=========================================================#
+#                     Miner configuration                 #
+#=========================================================#
+
+MINER_CLASS:
+  # Should miner class be enabled?
+  ENABLED: true
+  # Miner warmup time in seconds
+  WARMUP: 10
+  # Effects applied to miner by default
+  PASSIVE_EFFECTS:
+    FAST_DIGGING: 2
+    FIRE_RESISTANCE: 1
+    NIGHT_VISION: 1
+    INVISIBILITY: 1
+  # Miner potion effect rewards
+  POTION_EFFECT_REWARDS:
+    250:
+      NAME: "Basic Miner"
+      EFFECTS:
+        SPEED: 1
+    500:
+      NAME: "Regular Miner"
+      EFFECTS:
+        SPEED: 1
+        FAST_DIGGING: 3
+        SATURATION: 1
+    1000:
+      NAME: "Advanced Miner"
+      EFFECTS:
+        SPEED: 2
+        DAMAGE_RESISTANCE: 1
+        FAST_DIGGING: 3
+        SATURATION: 1
+    1500:
+      NAME: "Expert Miner"
+      EFFECTS:
+        SPEED: 2
+        DAMAGE_RESISTANCE: 1
+        FAST_DIGGING: 4
+        SATURATION: 2
+    2000:
+      NAME: "Elite Miner"
+      EFFECTS:
+        SPEED: 2
+        DAMAGE_RESISTANCE: 2
+        FAST_DIGGING: 4
+        SATURATION: 3
+
+#=========================================================#
+#                     Rogue configuration                 #
+#=========================================================#
+
+ROGUE_CLASS:
+  # Should rogue class be enabled?
+  ENABLED: true
+  # Rogue warmup time in seconds
+  WARMUP: 10
+  # Rogue custom armor configuration
+  CHAIN_ARMOR_RECIPE:
+    # Should we enable custom chain armor recipe?
+    ENABLED: true
+    # What material should we use for custom chain armor recipe?
+    MATERIAL: "IRON_FENCE"
+  # Rogue backstab configuration
+  BACKSTAB:
+    # Rogue backstab item type
+    ITEM: "GOLD_SWORD"
+    # Rogue backstab damage in heart amount
+    DAMAGE: 3
+    # Rogue backstab cooldown in seconds
+    COOLDOWN: 10
+    # Should we enable effect after rogue backstab?
+    EFFECTS_ENABLED: true
+    # What effects should we apply after backstab?
+    EFFECTS:
+      SLOW:
+        DURATION: 2
+        LEVEL: 1
+      WITHER:
+        DURATION: 2
+        LEVEL: 1
+  # Effects applied to rogue by default
+  PASSIVE_EFFECTS:
+    SPEED: 3
+    JUMP: 3
+    DAMAGE_RESISTANCE: 3
+  # Rogue clickable potion effects represented by potion effect
+  CLICKABLE_POTION_EFFECTS:
+    JUMP:
+      MATERIAL_ID: "288:0"
+      COOLDOWN: 60
+      DURATION: 10
+      LEVEL: 5
+    SPEED:
+      MATERIAL_ID: "353:0"
+      COOLDOWN: 60
+      DURATION: 10
+      LEVEL: 4

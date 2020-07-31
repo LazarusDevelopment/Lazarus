@@ -1,0 +1,1129 @@
+#=========================================================#
+#                 Anti leak configuration                 #
+#=========================================================#
+
+# Licence key
+LICENCE: ""
+
+#=========================================================#
+#                  Database configuration                 #
+#=========================================================#
+
+# Data saving method (JSON or MONGO)
+DATASTORE: "JSON"
+
+# Mongo connection
+MONGO:
+  SERVER_IP: "localhost"
+  SERVER_PORT: 27017
+  DATABASE_NAME: "hcf"
+  AUTH:
+    ENABLED: true
+    USER: ""
+    PASSWORD: ""
+
+#=========================================================#
+#                   General configuration                 #
+#=========================================================#
+
+# What timezone should we use?
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+TIMEZONE: "Europe/Zagreb"
+
+# What date format should we use?
+# https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+DATE_FORMAT: "dd.MM HH:mm:ss"
+
+SEND_TO_HUB_ON_KICK:
+  # Should we enable player sending to hub on kick?
+  ENABLED: false
+  # List of hubs from bungee config.yml (you can add multiple hubs)
+  HUBS:
+  - "Hub"
+
+# Should we enabled join welcome message?
+JOIN_WELCOME_MESSAGE_ENABLED: true
+
+# Commands cooldown in seconds
+COMMANDS_COOLDOWN: 2
+
+# What should be mob limit per chunk?
+MOB_LIMIT_PER_CHUNK: 20
+
+# Should we disable all natural mob spawning?
+MOBS_SPAWN_ONLY_FROM_SPAWNERS: false
+
+# Should we disable block damage by explosions?
+DISABLE_EXPLOSIONS_BLOCK_DAMAGE: true
+
+# Should we disable bed bombing?
+DISABLE_BED_BOMBING: true
+
+# Should we disable creeper targeting?
+DISABLE_CREEPER_PLAYER_TARGETING: true
+
+# Should we enable mob spawning in warzone?
+SPAWN_MOBS_IN_WARZONE: false
+
+# Should we use lightning effect on player death?
+LIGHTNING_EFFECT_ON_DEATH: true
+
+# Should we remove empty bottle after potion use?
+REMOVE_EMPTY_BOTTLE_ON_POTION_USE: false
+
+# Should we enable enderpearl glitch fixes?
+ENDERPEARL_GLITCH_FIX_ENABLED: true
+
+# Should we deny spawner break in end or nether?
+DENY_SPAWNER_BREAK:
+  IN_END: true
+  IN_NETHER: true
+
+# Should we deny spawner place in end or nether?
+DENY_SPAWNER_PLACE:
+  IN_END: true
+  IN_NETHER: true
+
+#=========================================================#
+#                    Chat configuration                   #
+#=========================================================#
+
+# Default chat delay in seconds
+DEFAULT_CHAT_DELAY: 0
+
+CHAT_FORMAT:
+  # Should we enable custom chat format?
+  ENABLED: true
+  # Chat format when player has no faction
+  FORMAT: "&6[&c*&6] <displayName>&7: "
+  # Chat format when player is in faction
+  FORMAT_WITH_FACTION: "&6[<faction>&6] <displayName>&7: "
+
+#=========================================================#
+#                  Commands configuration                 #
+#=========================================================#
+
+# What Lazarus commands should we disable?
+DISABLED_LAZARUS_COMMANDS:
+  - "cmd1"
+  - "cmd2"
+
+DISABLED_FACTION_SUBCOMMANDS:
+  - "subcmd1"
+  - "subcmd2"
+
+#=========================================================#
+#               Selection wand configuration              #
+#=========================================================#
+
+# Claim wand configuration
+CLAIM_WAND:
+  MATERIAL_ID: "294:0"
+  NAME: "&cClaim Wand"
+  LORE:
+  - "&7Left or right click a block to set the"
+  - "&afirst &7and &asecond &7position of your claim"
+  - ""
+  - "&7Shift and left click the air or a block to"
+  - "&apurchase &7your current claim selection"
+  - ""
+  - "&7Right click the air to &aclear"
+  - "&7your current claim selection"
+
+# Selection wand configuration
+SELECTION_WAND:
+  MATERIAL_ID: "294:0"
+  NAME: "&cSelection Wand"
+  LORE:
+  - "&7Left click to set &afirst &7position"
+  - "&7Right click to set &asecond &7position"
+
+#=========================================================#
+#                  Factions configuration                 #
+#=========================================================#
+
+# Factions auto save task interval in minutes
+FACTIONS_AUTO_SAVE: 30
+
+# Should we send player his faction info on join?
+SHOW_FACTION_INFO_ON_JOIN: true
+
+FACTION_DTR:
+  # Dtr per player
+  DTR_PER_PLAYER: 0.9
+  # Maximum faction dtr
+  MAX_DTR: 6.5
+  # Minimum faction dtr
+  MIN_DTR: -6.5
+  # Dtr regen per minute
+  REGEN_PER_MINUTE: 0.1
+  # Solo faction dtr
+  SOLO_FACTION_DTR: 1.1
+  # Freeze duration in minutes
+  FREEZE_DURATION: 45
+  # Per world dtr loss
+  DTR_DEATH_LOSS:
+    OVERWORLD: 1
+    NETHER: 0.5
+    END: 1
+
+FACTION_PLAYER:
+  # Faction player limit
+  FACTION_LIMIT: 15
+  # Enable join while frozen?
+  JOIN_WHILE_FROZEN: false
+  # Enable leave while frozen?
+  LEAVE_WHILE_FROZEN: true
+  # Enable disband while frozen?
+  DISBAND_WHILE_FROZEN: false
+  # Enable unclaim while frozen?
+  UNCLAIM_WHILE_FROZEN: false
+  # Enable leave while in own claim?
+  LEAVE_WHILE_IN_OWN_CLAIM: false
+  # Should players be able to damage themselves?
+  PLAYERS_TAKE_OWN_DAMAGE: true
+  # Enable ally friendly fire?
+  ALLY_FRIENDLY_FIRE: false
+  # Enable block break in warzone
+  WARZONE_BREAK_AFTER:
+    OVERWORLD: 300
+    NETHER: 200
+
+# Per faction pvp class limit (-1 for unlimited)
+FACTION_PVP_CLASS_LIMIT:
+  # Faction archer limit
+  ARCHER: 3
+  # Faction bard limit
+  BARD: 2
+  # Faction miner limit
+  MINER: -1
+  # Faction rogue limit
+  ROGUE: 2
+
+# Max faction ally count (0 to disable)
+FACTION_MAX_ALLIES: 0
+
+# Radius in which claim pillars are shown
+FACTION_MAP_RADIUS: 32
+
+FACTION_CLAIM:
+  # Do all faction claims must be connected?
+  MUST_BE_CONNECTED: true
+  # Max claims per faction
+  MAX_CLAIMS: 6
+  # Max claims per player
+  CLAIMS_PER_PLAYER: 1
+  # Min claim size (example: 5x5)
+  MIN_CLAIM_SIZE: 5
+  # Max claim size (example: 40x40)
+  MAX_CLAIM_SIZE: 40
+  # Min faction claim buffer
+  CLAIM_BUFFER: 2
+  # Should we ignore claim buffer next to road claims?
+  CLAIM_BUFFER_IGNORE_ROADS: true
+  # Claim price per block (10x10 would cost $50)
+  CLAIM_PRICE_PER_BLOCK: 0.5
+  # Unclaim price reduce multiplier
+  UNCLAIM_PRICE_MULTIPLIER: 0.5
+  # Should we allow liquid flow from wilderness to claimed land?
+  LIQUID_FLOW_FROM_WILDERNESS_TO_CLAIMS: false
+
+WARZONE_RADIUS:
+  # Overworld warzone radius
+  OVERWORLD: 1000
+  # Nether warzone radius
+  NETHER: 500
+  # End warzone radius
+  END: 500
+
+FACTION_TOP:
+  # Should we allow negative faction points?
+  ALLOW_NEGATIVE_POINTS: true
+  # Points per player kill
+  KILL: 5
+  # Points per player death
+  DEATH: -5
+  # Points per koth cap
+  KOTH_CAP: 20
+  # Points per conquest cap
+  CONQUEST_CAP: 100
+
+# Should we disable home teleport from enemy territory?
+DENY_HOME_TELEPORT_FROM_ENEMY_TERRITORY: true
+
+# Per world home teleport delay in seconds
+HOME_WARMUP:
+  OVERWORLD: 10
+  NETHER: 30
+  END: 30
+  ENEMY_TERRITORY: 20
+
+FACTION_STUCK:
+  # Stuck teleport delay in seconds
+  WARMUP: 60
+  # Stuck movement radius before cancelling teleport
+  ALLOWED_MOVEMENT_RADIUS: 5
+
+# Faction create cooldown in seconds
+FACTION_CREATE_COOLDOWN: 30
+
+# Faction rename cooldown in seconds
+FACTION_RENAME_COOLDOWN: 30
+
+# Faction open status change cooldown in seconds
+FACTION_OPEN_CHANGE_COOLDOWN: 30
+
+SYSTEM_FACTION_NAMES:
+  # Wilderness faction name
+  WILDERNESS: "&2Wilderness"
+  # Warzone faction name
+  WARZONE: "&4Warzone"
+
+FACTION_NAME:
+  # Minimum faction name length
+  MINIMUM_LENGTH: 3
+  # Maximum faction name length
+  MAXIMUM_LENGTH: 15
+  # Disallowed faction names
+  DISALLOWED_NAMES:
+  - "Staff"
+  - "Admin"
+  - "Dick"
+  - "Test"
+
+RELATION_COLORS:
+  # Teammate tab relation color
+  TEAMMATE_COLOR: "&a"
+  # Ally tab relation color
+  ALLY_COLOR: "&d"
+  # Enemy tab relation color
+  ENEMY_COLOR: "&c"
+  # Archer tagged color
+  ARCHER_TAGGED_COLOR: "&4"
+  # Focused color
+  FOCUSED_COLOR: "&b&l"
+  # Sotw active color
+  SOTW_COLOR: "&6"
+  # Staff prefix
+  STAFF_MODE_COLOR: "&8[&bS&8] &b"
+
+#=========================================================#
+#                 Conquest configuration                  #
+#=========================================================#
+
+CONQUEST:
+  # Cap time per point in seconds
+  CAP_TIME: 30
+  # How many points faction get per cap?
+  POINTS_PER_CAP: 1
+  # How much points should we remove upon death?
+  DEATH_PENALTY: 20
+  # How much points do we need to win conquest?
+  POINTS_TO_WIN: 300
+  # Should we allow cap points going below 0?
+  ALLOW_NEGATIVE_POINTS: false
+
+CONQUEST_CAPPED_SIGN:
+  # Should we enable Conquest capped sign?
+  ENABLED: true
+  # Conquest capped sign name
+  NAME: "&6Conquest Cap Sign"
+  # Conquest capped sign lore
+  LORE:
+    - "&5Conquest"
+    - "&dcapped by"
+    - "&5<faction>"
+    - "<date>"
+
+#=========================================================#
+#                    DTC configuration                    #
+#=========================================================#
+
+DTC:
+  # How many times we need to break the core?
+  CORE_BREAKS: 300
+  # Announce core break every x breaks
+  BREAK_MESSAGE_INTERVAL: 50
+
+#=========================================================#
+#                   KoTH configuration                    #
+#=========================================================#
+
+KOTH:
+  # Default koth cap time in seconds
+  DEFAULT_CAP_TIME: 900
+  # How often should we send capping message?
+  CAPPING_MESSAGE_INTERVAL: 30
+  # How often should we send nobody capping message?
+  NOBODY_CAPPING_MESSAGE_INTERVAL: 60
+  # Koth started capping/knocked anti spam message delay in seconds
+  ANTI_SPAM_MESSAGE_DELAY: 3
+  # Maximum amount of KoTH's running at the same time
+  MAX_RUNNING_KOTHS_AT_THE_SAME_TIME: 2
+
+KOTH_CAPPED_SIGN:
+  # Should we enable koth capped sign?
+  ENABLED: true
+  # Koth capped sign name
+  NAME: "&6KoTH Cap Sign"
+  # Koth capped sign lore
+  LORE:
+  - "&3<koth>"
+  - "&ecapped by"
+  - "&3<capper>"
+  - "<date>"
+
+#=========================================================#
+#              Kill the king configuration                #
+#=========================================================#
+
+KILL_THE_KING:
+  # Should we disable item drops for the King?
+  DENY_ITEM_DROP: true
+  # Should we enable auto reward for King's slayer?
+  AUTO_REWARD_ENABLED: true
+  # Kill the king reward
+  REWARD:
+  - "luckperms user <player> parent set VIP"
+  - "give <player> COOKIE 1"
+
+#=========================================================#
+#                 Mountain configuration                  #
+#=========================================================#
+
+# Respawn interval in seconds
+MOUNTAIN_RESPAWN_INTERVAL: 1800
+
+# Mountain respawn message interval in seconds
+MOUNTAIN_MESSAGE_INTERVAL: 300
+
+#=========================================================#
+#               Ender dragon configuration                #
+#=========================================================#
+
+# Configuration for ender dragon event
+ENDER_DRAGON:
+  # Ender dragon name
+  NAME: "&5&lEnder dragon"
+  # Ender dragon max health
+  HEALTH: 600
+
+#=========================================================#
+#                   Loot configuration                    #
+#=========================================================#
+
+LOOT:
+  # How much items should player get by default
+  DEFAULT_REWARD_AMOUNT: 1
+  # Should we randomize reward items?
+  RANDOMIZE_REWARDS: false
+  # What should loot inventory name be?
+  INVENTORY_NAME: "&3&l<event>'s &4&lloot"
+  # What should be the size of loot inventory?
+  INVENTORY_SIZE: 9
+
+#=========================================================#
+#                   World configuration                   #
+#=========================================================#
+
+# Number player position will be multiplied and divided by
+# when using nether portal. For example if player enters
+# nether portal at X=1000 and Z=1000 in overworld he will
+# be teleported to X=500 and Z=500 in nether with value 2
+NETHER_PORTAL_POSITION_TRANSLATION:
+  ENABLED: true
+  VALUE: 2
+
+# Border size in blocks
+BORDER_SIZE:
+  OVERWORLD: 3000
+  NETHER: 1000
+  END: 300
+
+#=========================================================#
+#                   Economy configuration                 #
+#=========================================================#
+
+# Max balance for players
+MAX_BALANCE: 1000000
+
+# Default economy balances
+DEFAULT_BALANCE:
+  PLAYER: 200
+  FACTION: 0
+
+# Buy signs configuration
+BUY_SIGN:
+  LINES:
+  - "&a[Buy]"
+  - "<material>"
+  - "<amount>"
+  - "$<price>"
+
+# Sell signs configuration
+SELL_SIGN:
+  LINES:
+  - "&c[Sell]"
+  - "<material>"
+  - "<amount>"
+  - "$<price>"
+
+#=========================================================#
+#                 Kitmap mode configuration               #
+#=========================================================#
+
+KITMAP_MODE:
+  # Should kitmap mode be enabled?
+  ENABLED: false
+  # Should we disable deathbans when in kitmap mode?
+  DISABLE_DEATHBAN: true
+  # Should we disable DTR loss during kitmap mode
+  DISABLE_DTR_LOSS: false
+  # Should we disable item drop in safezone during kitmap mode?
+  DISABLE_ITEM_DROP_IN_SAFEZONE: true
+  # Spawn teleport delay for normal players in seconds
+  SPAWN_TELEPORT_DELAY: 10
+
+KITMAP_CLEAR_ITEMS:
+  # Should we enable item clear task in kitmap mode?
+  ENABLED: true
+  # Item clear task interval in seconds
+  INTERVAL: 30
+
+KITMAP_KILL_REWARD:
+  # Should we enable kill rewards in kitmap mode?
+  ENABLED: true
+  # Commands that will be issued when player gets a kill
+  COMMANDS:
+  - "econ give <player> 150"
+
+KITMAP_KILLSTREAK:
+  # Should we enable killstreak rewards in kitmap mode?
+  ENABLED: true
+  # Killstreak rewards sorted by kill count
+  KILLS:
+    3:
+    - "econ give <player> 250"
+    - "give <player> 322:0 3"
+    5:
+    - "econ give <player> 500"
+    - "give <player> 373:16388 1"
+    - "give <player> 373:16426 1"
+    10:
+    - "econ give <player> 750"
+    - "effect <player> INVISIBILITY 300 0"
+    15:
+    - "econ give <player> 1000"
+    - "give <player> 322:1 1"
+    20:
+    - "econ give <player> 2000"
+    - "effect <player> REGENERATION 300 0"
+    25:
+    - "econ give <player> 3000"
+    - "effect <player> SPEED 99999999 1"
+
+#=========================================================#
+#                    Kits configuration                   #
+#=========================================================#
+
+KITS:
+  # First join kit enabled?
+  FIRST_JOIN_KIT_ENABLED: true
+  # First join kit
+  FIRST_JOIN_KIT: "Starter"
+  # Kitmap archer kit sign color
+  ARCHER_SIGN_COLOR: "&5&l"
+  # Kitmap bard kit sign color
+  BARD_SIGN_COLOR: "&6&l"
+  # Kitmap builder kit sign color
+  BUILDER_SIGN_COLOR: "&7&l"
+  # Kitmap diamond kit sign color
+  DIAMOND_SIGN_COLOR: "&b&l"
+  # Kitmap rogue kit sign color
+  ROGUE_SIGN_COLOR: "&c&l"
+  # Regular kits sign format
+  REGULAR_KIT_SIGN_FORMAT:
+    - ""
+    - "&a[Kit]"
+    - "&7<kitName>"
+    - ""
+
+#=========================================================#
+#                  Deathban configuration                 #
+#=========================================================#
+
+DEATHBAN:
+  # Should we deathban players upon death?
+  ENABLED: true
+  # What should be default deathban time in minutes?
+  DEFAULT_BAN_TIME: 180
+  # Should we enable inventory restore?
+  INVENTORY_RESTORE: true
+  # After how much hours should we delete inventory restore file?
+  INVENTORY_RESTORE_FILE_CACHE: 48
+  # Deathban times represented by time (minutes) and permission
+  BAN_TIMES:
+    30: "lazarus.deathban.30"
+    45: "lazarus.deathban.45"
+    60: "lazarus.deathban.60"
+    75: "lazarus.deathban.75"
+    90: "lazarus.deathban.90"
+
+# Default amount of lives player receives on map start
+DEFAULT_LIVES: 0
+
+#=========================================================#
+#               Player settings configuration             #
+#=========================================================#
+
+PLAYER_SETTINGS:
+  # Name of settings inventory
+  INVENTORY_NAME: "&4&lYour settings"
+  # Size of settings inventory
+  INVENTORY_SIZE: 45
+  # Settings inventory items
+  SETTINGS:
+    ITEM_1:
+      NAME: "&3&lToggle messages"
+      MATERIAL_ID: "386:0"
+      SLOT: 11
+      SETTING: "<messages>"
+      COMMAND: "/togglemessages"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aShow private messages"
+      - "&7Hide private messages"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Show private messages"
+      - "&6\u25CF &cHide private messages"
+    ITEM_2:
+      NAME: "&3&lToggle message sounds"
+      MATERIAL_ID: "25:0"
+      SLOT: 13
+      SETTING: "<sounds>"
+      COMMAND: "/togglesounds"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aMessage sounds enabled"
+      - "&7Message sounds disabled"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Message sounds enabled"
+      - "&6\u25CF &cMessage sounds disabled"
+    ITEM_3:
+      NAME: "&3&lToggle public chat"
+      MATERIAL_ID: "339:0"
+      SLOT: 15
+      SETTING: "<publicchat>"
+      COMMAND: "/togglechat"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aShow public chat"
+      - "&7Hide public chat"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Show public chat"
+      - "&6\u25CF &cHide public chat"
+    ITEM_4:
+      NAME: "&3&lToggle found ore"
+      MATERIAL_ID: "56:0"
+      SLOT: 17
+      SETTING: "<foundore>"
+      COMMAND: "/togglefoundore"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aFound ore enabled"
+      - "&7Found ore disabled"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Found ore enabled"
+      - "&6\u25CF &cFound ore disabled"
+    ITEM_5:
+      NAME: "&3&lToggle death messages"
+      MATERIAL_ID: "351:1"
+      SLOT: 29
+      SETTING: "<deathmessages>"
+      COMMAND: "/toggledeathmessages"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aDeath messages enabled"
+      - "&7Death messages disabled"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Death messages enabled"
+      - "&6\u25CF &cDeath messages disabled"
+    ITEM_6:
+      NAME: "&3&lToggle cobble pickup"
+      MATERIAL_ID: "4:0"
+      SLOT: 31
+      SETTING: "<cobble>"
+      COMMAND: "/togglecobble"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aCobble pickup enabled"
+      - "&7Cobble pickup disabled"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Cobble pickup enabled"
+      - "&6\u25CF &cCobble pickup disabled"
+    ITEM_7:
+      NAME: "&3&lToggle death lightning"
+      MATERIAL_ID: "369:0"
+      SLOT: 33
+      SETTING: "<lightning>"
+      COMMAND: "/togglelightning"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aDeath lightning enabled"
+      - "&7Death lightning disabled"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Death lightning enabled"
+      - "&6\u25CF &cDeath lightning disabled"
+    ITEM_8:
+      NAME: "&3&lToggle scoreboard"
+      MATERIAL_ID: "399:0"
+      SLOT: 35
+      SETTING: "<scoreboard>"
+      COMMAND: "/togglescoreboard"
+      TOGGLED_ON_LORE:
+      - ""
+      - "&6\u25CF &aScoreboard enabled"
+      - "&7Scoreboard disabled"
+      TOGGLED_OFF_LORE:
+      - ""
+      - "&7Scoreboard enabled"
+      - "&6\u25CF &cScoreboard disabled"
+
+#=========================================================#
+#                  Handlers configuration                 #
+#=========================================================#
+
+BLOCKED_COMMANDS:
+  # Should we disable using ":" in commands?
+  DISABLE_COLON: true
+  # Blocked commands
+  COMMANDS:
+  - "/op"
+  - "/reload"
+  - "/rl"
+  - "/restart"
+  - "/plugins"
+  - "/pl"
+  - "/icanhasbukkit"
+
+BOTTLE:
+  # Should we drop player exp on death?
+  DROP_ON_DEATH: true
+  # Exp bottle title
+  NAME: "&6&lExp Bottle"
+  # Exp bottle lore
+  LORE:
+  - "&bContains: &7<exp> exp levels."
+  - "&bRight click to receive exp."
+
+# How much faster should brewing be?
+BREWING_SPEED_MULTIPLIER: 3
+
+COMBAT_LOGGER:
+  # Combat logger name format
+  NAME_FORMAT: "&7(CombatLogger) &c<player>"
+  # Combat logger removal time in seconds
+  TIME: 15
+
+COMBAT_TAG:
+  # Combat tag duration in seconds
+  DURATION: 30
+  # Should we disable entering end while tagged?
+  DISABLE_END_ENTRY: false
+  # Should we disable enderchests while in combat?
+  DISABLE_ENDERCHESTS: false
+  # Should we enable placing blocks in combat?
+  PLACE_BLOCKS: true
+  # Should we enable breaking blocks in combat?
+  BREAK_BLOCKS: true
+  # What commands should we disable during combat tag?
+  DISABLED_COMMANDS:
+  - "/spawn"
+
+CROWBAR:
+  # What item should we use as crowbar?
+  MATERIAL_ID: "294:0"
+  # What crowbar name should we use?
+  NAME: "&3&lCrowbar"
+  # What crowbar lore should we use?
+  LORE:
+  - "&5Spawners: &a{&c<scount>&a}"
+  - "&5Portals: &a{&c<pcount>&a}"
+  # Crowbar spawner uses before it breaks
+  SPAWNER_USES: 1
+  # Crowbar portal uses before it breaks
+  PORTAL_USES: 6
+  # What color should be spawner name
+  SPAWNER_NAME_COLOR: "&a&l"
+  # Should we disable crowbar usage in warzone?
+  DISABLE_IN_WARZONE: false
+
+DEATH_SIGN:
+  # Should we enable death signs?
+  ENABLED: true
+  # Death sign name
+  NAME: "&6DeathSign"
+  # Death sign lore
+  LORE:
+  - "&a<killer>"
+  - "killed"
+  - "&c<victim>"
+  - "<date>"
+
+ENDER_PEARL:
+  # Should we enable enderpearl cooldown?
+  COOLDOWN_ENABLED: true
+  # Enderpearl cooldown time in seconds
+  COOLDOWN_TIME: 15
+  # Should we refund enderpearl to player if teleport was canceled?
+  REFUND_ENDER_PEARL_ON_CANCEL: true
+
+EOTW_TIMER:
+  # Should we clear all deathbans when eotw is started?
+  CLEAR_DEATHBANS_ON_START: true
+
+EXPERIENCE_AMPLIFIER:
+  # Looting experience amplifier
+  LOOTING: 3
+  # Fortune experience amplifier
+  FORTUNE: 3
+
+FOUND_ORE:
+  # Should we enable found ore messages?
+  ENABLED: true
+
+FREEZE:
+  # How often should we send freeze message?
+  MESSAGE_INTERVAL: 10
+  # Commands that are disabled when frozen
+  DISABLED_COMMANDS:
+  - "/f home"
+  - "/fhome"
+  - "/f stuck"
+  - "/fstuck"
+  - "/logout"
+
+# How much faster should smelting be?
+FURNACE_SPEED_MULTIPLIER: 3
+
+GLISTERING_MELON:
+  # Should we enable easier glistering melon crafting?
+  EASY_CRAFTING: true
+
+GOLDEN_APPLE:
+  # Normal golden apple configuration
+  NORMAL:
+    # Should we show cooldown on scoreboard?
+    ON_SCOREBOARD: true
+    # Cooldown in seconds
+    COOLDOWN: 120
+  # Enchanted golden apple configuration
+  ENCHANTED:
+    # Should we show cooldown on scoreboard?
+    ON_SCOREBOARD: true
+    # Cooldown in seconds
+    COOLDOWN: 7200
+
+HEAD_DROP:
+  # Should we enable head drop on player death?
+  ENABLED: true
+  # What skull name format should we use?
+  SKULL_NAME_FORMAT: "&b<player>'s head"
+
+LFF_COMMAND:
+  # Looking for faction command cooldown in seconds
+  COOLDOWN: 300
+
+LIST_COMMAND:
+  NO_STAFF_ONLINE: "No staff"
+  # Should we show vanished staff on /list?
+  SHOW_VANISHED_STAFF: false
+
+# Time before player is safely logged out
+LOGOUT_DELAY: 30
+
+MAPKIT:
+  # How should we name mapkit inventory?
+  INVENTORY_NAME: "&4&lMapKit"
+  # What size should mapkit inventory be?
+  INVENTORY_SIZE: 54
+
+MINECART_ELEVATOR:
+  # Should minecart elevators be enabled?
+  ENABLED: true
+  # Should we disable it while in combat?
+  DISABLED_IN_COMBAT: true
+  # Should we enable minecart elevators in own claims only?
+  OWN_CLAIM_ONLY: false
+
+MOB_STACK:
+  # Should we enable mob stacking?
+  ENABLED: true
+  # Stacked mob nametag color
+  COLOR: "RED"
+  # Radius we are stacking mobs in
+  RADIUS: 15
+  # Entities we are stacking
+  ENTITIES:
+  - "ZOMBIE"
+  - "SKELETON"
+  - "SPIDER"
+  - "CAVE_SPIDER"
+  - "COW"
+  # What should be maximum stack size?
+  MAX_AMOUNT: 200
+
+PVP_PROTECTION:
+  # Pvp protection duration in seconds
+  DURATION: 3600
+  # Should we deny end portal usage during pvp timer?
+  DISABLE_END_ENTRY: false
+  # Can players enter own claims during pvp timer?
+  CAN_ENTER_OWN_CLAIM: false
+  # Items which usage is disabled during pvp timer
+  DISABLED_ITEMS:
+  - "12:0"
+  - "13:0"
+  - "30:0"
+  - "46:0"
+  - "145:0"
+  - "259:0"
+  - "327:0"
+  # Items which pickup is disabled during pvp timer
+  PICKUP_DENY_ITEMS:
+  - "261:0"
+  - "276:0"
+  - "310:0"
+  - "311:0"
+  - "312:0"
+  - "313:0"
+
+# Rank revive data configuration
+# Cooldown is in minutes
+RANK_REVIVE_COMMAND:
+  1:
+    RANK_NAME: "&4Ruby"
+    PERMISSION: "lazarus.rankrevive.ruby"
+    COOLDOWN: 30
+  2:
+    RANK_NAME: "&5Supreme"
+    PERMISSION: "lazarus.rankrevive.supreme"
+    COOLDOWN: 60
+
+# Reclaim data configuration
+RECLAIM_COMMAND:
+  1:
+    RANK_NAME: "&5Supreme"
+    PERMISSION: "lazarus.reclaim.supreme"
+    COMMANDS:
+      - "give <player> diamond_block 4"
+      - "lives add <player> 4"
+  2:
+    RANK_NAME: "&4Ruby"
+    PERMISSION: "lazarus.reclaim.ruby"
+    COMMANDS:
+      - "give <player> diamond_block 2"
+      - "lives add <player> 2"
+
+RENAME_COMMAND:
+  # Max new name length
+  MAX_LENGTH: 64
+  # Rename blacklisted words
+  BLACKLISTED_WORDS:
+    - "retard"
+    - "idiot"
+
+REPORT_COMMAND:
+  # Report cooldown in seconds
+  COOLDOWN: 60
+
+REQUEST_COMMAND:
+  # Request cooldown in seconds
+  COOLDOWN: 60
+
+SIGN_ELEVATOR:
+  # Should sign elevators be enabled?
+  ENABLED: true
+  # Should we disable sign elevators while in combat?
+  DISABLED_IN_COMBAT: true
+  # Should we enable sign elevators in own claims only?
+  OWN_CLAIM_ONLY: false
+  # Elevator up format
+  ELEVATOR_UP:
+    - "[&bElevator&0]"
+    - "Up"
+    - ""
+    - ""
+  # Elevator down format
+  ELEVATOR_DOWN:
+    - "[&bElevator&0]"
+    - "Down"
+    - ""
+    - ""
+
+SOTW_TIMER:
+  # Default Sotw time in minutes
+  DEFAULT_TIME: 120
+  # Should we spawn mobs only from spawners on Sotw?
+  SPAWN_MOBS_FROM_SPAWNERS_ONLY: true
+  # Should we hide players in safezones
+  HIDE_PLAYERS: true
+
+# Staff mode items configuration
+STAFF_MODE_ITEMS:
+  ITEM_1:
+    NAME: "&5Teleporter"
+    MATERIAL_ID: "345:0"
+    SLOT: 1
+    ACTION: ""
+    LORE:
+    - "&bEasier teleporting"
+  ITEM_2:
+    NAME: "&6Inventory Inspect"
+    MATERIAL_ID: "340:0"
+    SLOT: 2
+    ACTION: "INVINSPECT"
+    LORE:
+    - "&bInspect player's inventory"
+  ITEM_3:
+    NAME: "&eWorldEdit Wand"
+    MATERIAL_ID: "271:0"
+    SLOT: 3
+    ACTION: ""
+    LORE:
+    - "&bWorldEdit wand editor"
+  ITEM_4:
+    NAME: "&bBetter View"
+    MATERIAL_ID: "171:3"
+    SLOT: 5
+    ACTION: ""
+    LORE:
+    - "&bBetter view for 1.7 users"
+  ITEM_5:
+    NAME: "&aVanish"
+    MATERIAL_ID: "288:0"
+    SLOT: 7
+    ACTION: "VANISH"
+    LORE:
+    - "&bVanish yourself"
+  ITEM_6:
+    NAME: "&3Freeze"
+    MATERIAL_ID: "79:0"
+    SLOT: 8
+    ACTION: "FREEZE"
+    LORE:
+    - "&bFreeze player"
+  ITEM_7:
+    NAME: "&cRandom Teleport"
+    MATERIAL_ID: "2267:0"
+    SLOT: 9
+    ACTION: "RANDOMTELEPORT"
+    LORE:
+    - "&bRandomly teleport to a player"
+
+STATS_COMMAND:
+  # Name of stats inventory
+  INVENTORY_NAME: "&cStats &7- &6<player>"
+  # Size of stats inventory
+  INVENTORY_SIZE: 45
+  # Stats inventory items
+  INVENTORY_ITEMS:
+    ITEM_1:
+      NAME: "&aKills: &7"
+      REPLACE: "<kills>"
+      MATERIAL_ID: "264:0"
+      SLOT: 13
+    ITEM_2:
+      NAME: "&cDeaths: &7"
+      REPLACE: "<deaths>"
+      MATERIAL_ID: "351:1"
+      SLOT: 14
+    ITEM_3:
+      NAME: "&6Balance: &7$"
+      REPLACE: "<balance>"
+      MATERIAL_ID: "339:0"
+      SLOT: 15
+    ITEM_4:
+      NAME: "&bDiamonds: &c"
+      REPLACE: "<diamonds>"
+      MATERIAL_ID: "56:0"
+      SLOT: 29
+    ITEM_5:
+      NAME: "&2Emeralds: &c"
+      REPLACE: "<emeralds>"
+      MATERIAL_ID: "129:0"
+      SLOT: 30
+    ITEM_6:
+      NAME: "&6Gold: &c"
+      REPLACE: "<gold>"
+      MATERIAL_ID: "14:0"
+      SLOT: 31
+    ITEM_7:
+      NAME: "&7Iron: &c"
+      REPLACE: "<iron>"
+      MATERIAL_ID: "15:0"
+      SLOT: 32
+    ITEM_8:
+      NAME: "&9Lapis: &c"
+      REPLACE: "<lapis>"
+      MATERIAL_ID: "21:0"
+      SLOT: 33
+    ITEM_9:
+      NAME: "&4Redstone: &c"
+      REPLACE: "<redstone>"
+      MATERIAL_ID: "73:0"
+      SLOT: 34
+    ITEM_10:
+      NAME: "&8Coal: &c"
+      REPLACE: "<coal>"
+      MATERIAL_ID: "16:0"
+      SLOT: 35
+
+STAT_TRAK:
+  # Should we enable weapons stattrak?
+  ENABLED: true
+  # Stattrak kills counter format
+  KILLS_FORMAT: "&6&lKills&7: &b<kills>"
+  # Stattrak kill string
+  KILL_STRING: "&e<player> &fwas slain by &e<killer> &6<date>"
+  # Stattrak items
+  TRACKING_ITEMS:
+  - "DIAMOND_SWORD"
+  - "IRON_SWORD"
+  - "STONE_SWORD"
+  - "GOLD_SWORD"
+  - "WOOD_SWORD"
+
+STRENGTH_NERF:
+  # Should we enable strength nerf?
+  ENABLED: true
+  # Strength I nerf percentage
+  STRENGTH_1_NERF_PERCENTAGE: 40
+  # Strength II nerf percentage
+  STRENGTH_2_NERF_PERCENTAGE: 50
+  # Should we remove strength upon entering END?
+  REMOVE_STRENGTH_ON_END_ENTER: true
+
+SUBCLAIMS:
+  # What title should we use for subclaim signs?
+  SIGN_TITLE: "[&3Subclaim&r]"
+  # Leader only subclaim sign
+  LEADER_ONLY: "&cLeader"
+  # CoLeaders only subclaim sign
+  CO_LEADERS_ONLY: "&cCoLeaders"
+  # Captains only subclaim sign
+  CAPTAINS_ONLY: "&aCaptains"
+
+# Item with this lore will be unrepairable
+UNREPAIRABLE_ITEM_LORE: "&cUnrepairable"
+
+VANISH:
+  # Should we enable vanish on join?
+  VANISH_ON_JOIN_ENABLED: true

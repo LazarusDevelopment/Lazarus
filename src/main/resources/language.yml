@@ -1,0 +1,1950 @@
+PREFIX: ""
+FACTION_PREFIX: ""
+KIT_PREFIX: ""
+CONQUEST_PREFIX: "&8[&3&lConquest&8] "
+DTC_PREFIX: "&8[&c&lDTC&8] "
+KING_PREFIX: "&8[&5&lKing&8] "
+KOTH_PREFIX: "&8[&3&lKoTH&8] "
+MOUNTAIN_PREFIX: "&8[&6&lMountain&8] "
+ENDER_DRAGON_PREFIX: "&8[&5&lDragon&8] "
+LOOT_PREFIX: "&8[&b&lLoot&8] "
+SCHEDULE_PREFIX: "&8[&6&lSchedule&8] "
+
+STAFF_JOIN_MESSAGE: "&8[&aJoin&8] &a<player>"
+STAFF_JOIN_MESSAGE_VANISHED: "&8[&aJoin&8] &a<player> &8(&cVanished&8)"
+STAFF_QUIT_MESSAGE: "&8[&cQuit&8] &c<player>"
+
+JOIN_WELCOME_MESSAGE:
+  - "&7&m                                                                                "
+  - " &eWelcome <rankPrefix><player> &eto &6HCF &emap 1"
+  - ""
+  - " &6* &eTeamspeak: &fwww.example.com"
+  - " &6* &eDiscord: &fdiscord.example.com"
+  - " &6* &eStore: &fstore.example.com"
+  - "&7&m                                                                                "
+
+HARD_RESET_COMMAND_USAGE:
+  - "&c&m                                                                                "
+  - " &4&lHard reset command usage. Use with caution!"
+  - "  &e/hardreset playerfactions &7- Delete all player factions"
+  - "  &e/hardreset factionpoints &7- Reset player faction points"
+  - "  &e/hardreset userdata &7- Delete all userdata"
+  - "  &e/hardreset timers &7- Delete all timers"
+  - "  &e/hardreset deathbans &7- Delete all deathbans"
+  - "  &e/hardreset all &7- Delete all of the above"
+  - "&c&m                                                                                "
+
+USERDATA_FAILED_TO_LOAD: "&cFailed to load your data. Please join again!"
+
+COMMANDS:
+  FOR_PLAYERS_ONLY: "&eThis command is for &cplayer &euse only!"
+  FOR_CONSOLE_ONLY: "&eThis command is for &cconsole &euse only!"
+  NO_PERMISSION: "&eYou have no &cpermission &efor this command!"
+  PLAYER_NOT_ONLINE: "&ePlayer &c<player> &eis not online!"
+  PLAYER_NOT_FOUND: "&ePlayer &c<player> &ehas never played before!"
+  COMMAND_NOT_FOUND: "&eCommand &c<command> &ecould not be found!"
+  INVALID_NUMBER: "&ePlease use a valid &cinteger &evalue."
+  INVALID_DURATION: "&ePlease use a valid &ctime duration&e."
+  COOLDOWN: "&cYou are currently on command cooldown."
+
+PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
+
+ITEMS:
+  NOT_HOLDING: "&eYou must &chold item &ein your hand!"
+  INVALID_NAME: "&eThis is not a valid &citem name&e!"
+
+ENTITIES:
+  INVALID_ENTITY: "&eEntity type &c<type> &edoes not exist."
+
+ARCHER_CLASS:
+  CLICKABLE_ACTIVATED: "&b<effect> &eactivated for &c<seconds> &eseconds."
+  CLICKABLE_COOLDOWN: "&eYou cannot use &b<effect> &efor &c<seconds> &emore seconds."
+  COOLDOWN_EXPIRED: "&eYour archer &b<effect> &ecooldown has expired."
+
+ARCHER_TAG:
+  EXPIRED_MESSAGE: "&eYour &carcher tag &ehas expired."
+  TAGGED_VICTIM: "&eArcher tagged by &b<player> &efor &c<seconds> &eseconds!"
+  TAGGED_TAGGER: "&eYou archer tagged &b<victim> &efor &c<seconds> &eseconds!"
+
+BARD_CLASS:
+  VANISHED_OR_IN_STAFFMODE: "&eYou cannot &6bard &ewhile &cvanished &eor in &cstaffmode&e!"
+  CAN_NOT_BARD_TO_YOURSELF: "&eYou cannot &6bard &ethis effect to yourself!"
+  CAN_NOT_BARD_WITH_PVP_TIMER: "&eYou cannot &6bard &ewhile your &cpvp timer &eis active!"
+  CAN_NOT_BARD_IN_SAFEZONE: "&eYou cannot &6bard &ewhilst in &csafezone&e!"
+  CAN_NOT_BARD_WHEN_SOTW_NOT_ENABLED: "&eYou cannot &6bard &ewhile your &csotw protection &eis active!"
+  CLICKABLE_ITEM:
+    ACTIVE_COOLDOWN: "&eYou are on cooldown for &c<seconds> &emore seconds!"
+    COOLDOWN_EXPIRED: "&eYour &cbard buff &ecooldown has expired."
+    NOT_ENOUGH_ENERGY: "&eThis effect requires &c<energy> &eenergy!"
+    MESSAGE_FRIENDLY: "&eYou have given your faction members &b<effect>&e."
+    MESSAGE_ENEMY: "&eYou have given your enemies &b<effect>&e."
+    MESSAGE_OTHERS: "&eYou have been given &b<effect>&e."
+
+MINER_CLASS:
+  EFFECT_REWARD: "&7[&b*&7] &c<player> &ehas been upgraded to &b<name>"
+
+ROGUE_CLASS:
+  CLICKABLE_ACTIVATED: "&b<effect> &eactivated for &c<seconds> &eseconds."
+  CLICKABLE_COOLDOWN: "&eYou cannot use &b<effect> &efor &c<seconds> &emore seconds."
+  COOLDOWN_EXPIRED: "&eYour rogue &b<effect> &ecooldown has expired."
+  BACKSTAB_COOLDOWN: "&eYou cannot &6backstab &efor &c<seconds> &emore seconds."
+  BACKSTAB_COOLDOWN_EXPIRED: "&eYour &cbackstab &ecooldown has expired."
+
+SPAWNERS:
+  DISABLE_PLACE:
+    NETHER: "&cSpawner &eplacing is disabled in &cnether&e!"
+    END: "&cSpawner &eplacing is disabled in &cend&e!"
+  DISABLE_BREAK:
+    NETHER: "&cSpawner &ebreaking is disabled in &cnether&e!"
+    END: "&cSpawner &ebreaking is disabled in &cend&e!"
+
+FACTIONS:
+  NAME_TOO_SHORT: "&eName did not reach &cminimum &efaction name length!"
+  NAME_TOO_BIG: "&eName exceeded &cmaximum &efaction name length!"
+  BLOCKED_FACTION_NAME: "&eThis faction name is &cforbidden&e!"
+  NAME_NOT_ALPHANUMERIC: "&eFaction name must be &calphanumeric&e!"
+  FACTION_ALREADY_EXISTS: "&eFaction with name &c<name> &ealready exists!"
+  FACTION_DOESNT_EXIST: "&eFaction with search argument &c<argument> &edoesn't exist!"
+  ALREADY_IN_FACTION_SELF: "&eYou are already in &cfaction&e."
+  ALREADY_IN_FACTION_OTHERS: "&ePlayer &c<player> &eis already in your faction."
+  NOT_IN_FACTION: "&ePlayer &c<player> &eis not in a faction."
+  NOT_IN_FACTION_SELF: "&eYou are not in a &cfaction&e."
+  NOT_IN_FACTION_OTHERS: "&ePlayer &c<player> &eis not in your faction."
+  MUST_BE_LEADER: "&eYou must be faction &cleader&e!"
+  NO_PERMISSION: "&eYou must be at least &c<role>&e."
+  NO_PERMISSION_ROLE: "&ePlayer &c<player> &ehas equal or higher &crole &ethan you."
+  MEMBER_ONLINE: "&aMember &e<player> &acame online."
+  MEMBER_OFFLINE: "&cMember &e<player> &cwent offline."
+  MEMBER_DEATH: "&cMember &b<player> &cdied! &7[&4DTR: <dtr>&7/<maxDtr>&7]"
+  ALLIES_DISABLED: "&cAllies &eare disabled this map."
+  DENY_DAMAGE_ALLIES: "&eYou cannot damage <player>&e."
+  ENDERPEARLS_DISABLED: "&eEnderpearls are disabled in <faction>'s &eterritory!"
+  REGENERATION_FINISHED: "&eYour &cfaction's DTR &ehas been &afully regenerated&e."
+  PVP_CLASS_LIMIT:
+    DENY_EQUIP: "&eYou cannot equip &b<pvpClass> class &ebecause your faction &cexceeded limit&e!"
+    CLASS_DEACTIVATED: "&eYou &b<pvpClass> class &ewas &cdeactivated &ebecause you joined faction that &cexceeded limit&e!"
+  SAFEZONE:
+    DENY_DAMAGE_ATTACKER: "&eYou cannot &cattack &eplayers while in &asafezone&e."
+    DENY_DAMAGE_OTHERS: "&eYou cannot &cattack &eplayers that are inside &asafezone&e."
+  PROTECTION_MESSAGES:
+    DENY_BUILD: "&eYou cannot build in the territory of <faction>&e."
+    DENY_INTERACT: "&eYou cannot do this in the territory of <faction>&e."
+  FACTION_CHAT:
+    FACTION_FORMAT: "&a(Faction) <player>&7: &e<message>"
+    ALLY_FORMAT: "&d(Ally) <player>&7: &e<message>"
+  CLAIM_MESSAGES:
+    ENTERING: "&eEntering <faction> &e(<deathban>&e)"
+    LEAVING: "&eLeaving <faction> &e(<deathban>&e)"
+  ADD_DTR_COMMAND:
+    USAGE: "&cUsage: /f adddtr <faction> <amount>"
+    CHANGED_SENDER: "&eYou changed &c<faction>'s &edtr to <value>&e."
+    CHANGED_FACTION: "&eYour faction's dtr has been set to <dtr> &eby &c<player>&e."
+  ALLY_COMMAND:
+    USAGE: "&cUsage: /f ally <faction>"
+    MAX_ALLIES_SELF: "&eYour &cfaction &ehas already reached maximum &callies &elimit."
+    MAX_ALLIES_OTHERS: "&eFaction &c<faction> &eis already at maximum &callies &elimit."
+    ALREADY_ALLIES: "&eYou are already ally with &c<faction>&e."
+    CANNOT_ALLY_SELF: "&eYou cannot send &cally request &eto your own faction."
+    REQUEST_ALREADY_SENT: "&eYou already requested alliance with &c<faction>&e."
+    REQUESTED_SELF: "&eFaction &c<faction> &ewere informed that you wish to be &callies&e."
+    REQUESTED_OTHERS: "&eFaction &c<faction> &ehas sent you alliance request."
+    ACCEPTED: "&eYour faction is now in alliance with &c<faction>&e."
+  ANNOUNCEMENT_COMMAND:
+    USAGE: "&cUsage: /f announcement <message>"
+    REMOVED: "&eYou have successfully removed faction &cannouncement&e."
+    MESSAGE: "&eNew announcement: &b<message>"
+  AUTO_REVIVE_COMMAND:
+    ENABLED: "&c<player> &ehas &aenabled &eauto revive for this faction."
+    DISABLED: "&c<player> &ehas &cdisabled &eauto revive for this faction."
+  BALANCE_COMMAND:
+    MESSAGE: "&eYour faction's balance is &b$<amount>&e."
+  CHAT_COMMAND:
+    CHANGED: "&eChat type changed to &c<type>&e."
+  CHATSPY_COMMAND:
+    ENABLED: "&eYou are now chat spying on &cfactions&e."
+    DISABLED: "&eYou are no longer chat spying on &cfactions&e."
+    FORMAT: "&8[&cSpy&8] <format>"
+  CLAIM_COMMAND:
+    MAX_CLAIMS_EXCEEDED: "&eYour faction has exceeded maximum &cclaim count&e."
+    CLAIMING_WAND_RECEIVED: "&eClaiming wand added to inventory, read the item to understand how to claim. Alternatively you can use &b/f claimchunk&e."
+    SELECTION_CLEARED: "&eYou have cleared your current &cclaim selection&e."
+    SELECTION_NOT_SET: "&ePlease finish making &cclaim selection &ebefore claiming."
+    POSITION_ONE_SET: "&eSet &cfirst &eclaim position. (&b<location>&e)"
+    POSITION_TWO_SET: "&eSet &csecond &eclaim position. (&b<location>&e)"
+    CLAIM_PRICE_MESSAGE: "&bClaim selection cost: <price>&b. Current size: (&f<sizeX>, <sizeZ>&b), &f<size> &bblocks."
+    LOCATION_ALREADY_CLAIMED: "&eLand at this &clocation &eis already &cclaimed&e."
+    SPAWN_TOO_CLOSE: "&eYou must be &c<amount> blocks &efrom spawn to claim land!"
+    INVENTORY_FULL: "&eThere is no place for &cclaiming wand &ein your inventory!"
+    CAN_CLAIM_ONLY_IN_OVERWORLD: "&eYou can only claim in &coverworld&e."
+    NOT_ENOUGH_MONEY: "&eYour &cfaction &edoes not have enough money!"
+    CLAIM_MIN_SIZE: "&eClaim must be at least &c<size> blocks &ewide."
+    CLAIM_MAX_SIZE: "&eClaim max size is &c<size> blocks &ewide."
+    CLAIM_BUFFER: "&eMinimal claim buffer size is &c<buffer> blocks&e."
+    CLAIM_OVERLAPPING: "&eThis claim selection is &coverlapping &ewith other claims."
+    CLAIM_NOT_CONNECTED: "&eCurrent claim selection is &cnot connected &eto your existing claims!"
+    CANNOT_CLAIM_WARZONE: "&eYou cannot claim land that belongs to &cWarzone&e!"
+    CLAIM_CLAIMED: "&c<player> &ehas claimed land between: &b<location1> &eand &b<location2>&e."
+  CLAIM_FOR_COMMAND:
+    USAGE: "&cUsage: /f claimfor <faction>"
+    NOT_SYSTEM_FACTION: "&eYou can only claim for &csystem factions&e."
+    MAKE_A_SELECTION: "&ePlease first make a &cselection&e."
+    SET_BOTH_POSITIONS: "&eYou first have to set &cboth positions&e."
+    CLAIM_OVERLAPPING: "&eCurrent claim selection is &coverlapping &ewith other &6system claim&e."
+    CLAIM_CLAIMED: "&c<player> &ehas claimed land for <faction>&e."
+  CLEAR_CLAIMS_COMMAND:
+    USAGE: "&cUsage: /f clearclaims <faction>"
+    CLEARED_SENDER: "&eYou have removed all <faction>'s &eclaims."
+    CLEARED_FACTION: "&eAll faction claims were cleared by &c<player>&e."
+    HOME_TELEPORT_CANCELLED: "&cHome teleport &ecancelled due to &cforce land &eunclaim!"
+  COLOR_COMMAND:
+    USAGE: "&cUsage: /f color <faction> <color>"
+    NOT_SYSTEM_FACTION: "&cColor &evalue can only be changed to &6system factions&e."
+    COLOR_DOESNT_EXIST: "&eColor &c<color> &edoes not exist."
+    CHANGED: "&eYou changed <faction>'s &ecolor to <color>&e."
+  CREATE_COMMAND:
+    USAGE: "&cUsage: /f create <name>"
+    CREATED: "&7[&b*&7] &eFaction &a<name> &ewas created by &a<player>"
+    COOLDOWN: "&eYou can create new &cfaction &ein &b<time>&e."
+  DEATHBAN_COMMAND:
+    USAGE: "&cUsage: /f deathban <faction>"
+    NOT_SYSTEM_FACTION: "&cDeathban &evalue can only be changed to &6system factions&e."
+    CHANGED: "&eYou changed <faction>'s &edeathban value to <deathban>&e."
+  DEMOTE_COMMAND:
+    USAGE: "&cUsage: /f demote <player>"
+    DEMOTED: "&c<player> &ehas been demoted to &c<role>&e."
+    MIN_DEMOTE: "&ePlayer is already &clowest &erole."
+    CANNOT_DEMOTE_SELF: "&eYou cannot &cdemote &eyourself."
+  DEPOSIT_COMMAND:
+    USAGE: "&cUsage: /f deposit <amount>"
+    DEPOSITED: "&c<player> &edeposited &b$<amount> &einto faction's balance."
+    CAN_NOT_DEPOSIT_ZERO: "&eYou cannot deposit &c$0&e!"
+    NOT_ENOUGH_MONEY: "&eYou only have &c$<amount>&e!"
+  DISBAND_COMMAND:
+    DISBANDED: "&7[&b*&7] &eFaction &c<name> &ewas disbanded by &c<player>"
+    CLAIM_MONEY_REFUNDED: "&eYou were refunded &c$<amount> &edue to claim removal."
+    RAIDABLE_DENY: "&eYou cannot &cdisband &eyour faction while &craidable&e!"
+    CANNOT_DISBAND_WHILE_REGENERATING: "&eYou cannot disband your &cfaction &ewhen it is &cregenerating&e!"
+  FRIENDLY_FIRE_COMMAND:
+    TOGGLED_ON: "&eYour faction's friendly fire is now &cenabled&e!"
+    TOGGLED_OFF: "&eYour faction's friendly fire is now &adisabled&e!"
+  ENDERPEARLS_COMMAND:
+    USAGE: "&cUsage: /f enderpearls <faction>"
+    NOT_SYSTEM_FACTION: "&cEnderpearls &evalue can only be changed to &6system factions&e."
+    ENABLED: "&eYou &aenabled &eenderpearl usage in <faction>'s &eterritory."
+    DISABLED: "&eYou &cdisabled &eenderpearl usage in <faction>'s &eterritory."
+  FORCE_DEMOTE_COMMAND:
+    USAGE: "&cUsage: /f forcedemote <player>"
+    DEMOTED_SENDER: "&eYou have force demoted &c<player> &eto &c<role>&e."
+    DEMOTED_FACTION: "&c<player> &ehas been force demoted to &c<role>&e."
+    MIN_DEMOTE: "&ePlayer is already &clowest &erole."
+    CANNOT_DEMOTE_LEADER: "&eYou cannot force demote &cfaction leader&e."
+  FORCE_JOIN_COMMAND:
+    USAGE: "&cUsage: /f forcejoin <faction>"
+    JOINED: "&ePlayer &c<player> &ehas force joined faction."
+  FORCE_KICK_COMMAND:
+    USAGE: "&cUsage: /f forcekick <player>"
+    CANNOT_KICK_LEADER: "&eYou cannot force kick &cfaction leader&e."
+    KICKED_SENDER: "&eYou have force kicked &c<player> &efrom faction &c<faction>&e."
+    KICKED_SELF: "&eYou have been force kicked from faction &c<name>&e."
+    KICKED_OTHERS: "&ePlayer &c<player> &ehas been force kicked from faction."
+  FORCE_LEADER_COMMAND:
+    USAGE: "&cUsage: /f forceleader <player>"
+    CHANGED_SENDER: "&eYou promoted &c<player> &eto faction leader of &c<faction>&e."
+    CHANGED_FACTION: "&c<sender> &eforcefully transferred faction leadership to &c<player>&e."
+    ALREADY_LEADER: "&ePlayer &c<player> &eis already &cfaction leader&e."
+  FORCE_PROMOTE_COMMAND:
+    USAGE: "&cUsage: /f forcepromote <player>"
+    PROMOTED_SENDER: "&eYou have force promoted &c<player> &eto &c<role>&e."
+    PROMOTED_FACTION: "&c<player> &ehas been promoted to &c<role>&e."
+    MAX_PROMOTE: "&ePlayer is already &chighest role&e."
+  FORCE_RENAME_COMMAND:
+    USAGE: "&cUsage: /f forcerename <faction> <name>"
+    RENAMED: "&7[&b*&7] &eFaction &c<name> &ewas renamed to &a<newName>"
+    SAME_NAME: "&eFaction already has name &c<name>&e."
+  HELP_COMMAND:
+    PAGE_NOT_FOUND: "&ePage &c<page> &enot found."
+    PAGES:
+      1:
+        - "&7&m                                                                                "
+        - " &6&lFaction Help &e(Page 1/4)"
+        - ""
+        - " &e/f join &f- &7Accept a join request from an faction."
+        - " &e/f chat &f- &7Toggle faction chat only mode on or off."
+        - " &e/f claim &f- &7Claim land in the Wilderness."
+        - " &e/f create &f- &7Create a faction."
+        - " &e/f disband &f- &7Disband your faction."
+        - " &e/f home &f- &7Teleport to the faction home."
+        - ""
+        - " &6You are currently on &ePage 1/4."
+        - " &6To view other pages, use &e/f help <page>"
+        - "&7&m                                                                                "
+      2:
+        - "&7&m                                                                                "
+        - " &6&lFaction Help &e(Page 2/4)"
+        - ""
+        - " &e/f invite &f- &7Invite a player to the faction."
+        - " &e/f kick &f- &7Kick a player from the faction."
+        - " &e/f leader &f- &7Sets the new leader for your faction."
+        - " &e/f leave &f- &7Leave your current faction."
+        - " &e/f list &f- &7See a list of all factions."
+        - " &e/f map &f- &7View all claims around your location."
+        - ""
+        - " &6You are currently on &ePage 2/4."
+        - " &6To view other pages, use &e/f help <page>"
+        - "&7&m                                                                                "
+      3:
+        - "&7&m                                                                                "
+        - " &6&lFaction Help &e(Page 3/4)"
+        - ""
+        - " &e/f rename &f- &7Change the name of your faction."
+        - " &e/f promote &f- &7Promotes a player to a higher role."
+        - " &e/f sethome &f- &7Sets the faction home location."
+        - " &e/f show &f- &7Get details about a faction."
+        - " &e/f unclaim &f- &7Unclaims land from your faction."
+        - " &e/f deinvite &f- &7Revoke an invitation to a player."
+        - ""
+        - " &6You are currently on &ePage 3/4."
+        - " &6To view other pages, use &e/f help <page>"
+        - "&7&m                                                                                "
+      4:
+        - "&7&m                                                                                "
+        - " &6&lFaction Help &e(Page 4/4)"
+        - ""
+        - " &e/f demote &f- &7Demotes a player to a lower role."
+        - " &e/f deposit &f- &7Deposit money to your faction."
+        - " &e/f withdraw &f- &7Withdraw money from your faction."
+        - " &e/f stuck &f- &7Use it when stuck in enemy teritory."
+        - ""
+        - " &6You are currently on &ePage 4/4."
+        - " &6To view other pages, use &e/f help <page>."
+        - "&7&m                                                                                "
+  HOME_COMMAND:
+    CANNOT_TELEPORT:
+      ALREADY_TELEPORTING: "&eYou are already teleporting to &cfaction home&e."
+      IN_COMBAT: "&eYou cannot teleport to &cfaction home &ewhile in &ccombat&e."
+      IN_ENEMY_TERRITORY: "&eYou cannot teleport to &cfaction home &ewhile in &cenemy territory&e."
+      WITH_PVP_TIMER: "&eYou cannot teleport to &cfaction home &ewith enabled &cpvp timer&e."
+    HOME_NOT_SET: "&eYour &cfaction home &eis not set."
+    TASK_STARTED: "&eYou will be teleported to &cfaction home &ein &b<seconds> &eseconds."
+    TELEPORTED: "&eYou have been teleported to your &cfaction home&e."
+    TELEPORT_CANCELLED:
+      MOVED: "&cHome teleport &ecancelled because you &cmoved&e!"
+      DAMAGED: "&cHome teleport &ecancelled because you &cwere damaged&e!"
+  INVITE_COMMAND:
+    USAGE: "Usage: /f invite <player>"
+    INVITED_SELF: "&eYou have been invited to faction &c<name>&e."
+    INVITED_OTHERS: "&ePlayer &c<player> &ehas been invited to faction."
+    ALREADY_INVITED: "&ePlayer &c<player> &eis already invited to faction."
+    FACTION_FULL: "&eYour &cfaction &ealready has max member count."
+    HOVER_TEXT: "&7Click to join <faction>"
+  JOIN_COMMAND:
+    USAGE: "&cUsage: /f join <faction>"
+    JOINED: "&ePlayer &c<player> &ehas joined faction."
+    NOT_INVITED: "&eYou are not invited to faction &c<name>&e."
+    FACTION_FULL: "&eFaction &c<faction> &ealready has max member count."
+    CANNOT_JOIN_WHILE_REGENERATING: "&eYou cannot join <faction> &efaction when it is &cregenerating&e!"
+  KICK_COMMAND:
+    USAGE: "&cUsage: /f kick <player>"
+    KICKED_SELF: "&eYou have been kicked from faction &c<name>&e."
+    KICKED_OTHERS: "&ePlayer &c<player> &ehas been kicked from faction."
+  LEADER_COMMAND:
+    USAGE: "&cUsage: /f leader <player>"
+    LEADER_CHANGED: "&c<player> &etransferred faction leadership to &c<target>&e."
+    ALREADY_LEADER: "&eYou are already &cleader&e."
+  LEAVE_COMMAND:
+    LEFT_SELF: "&eYou have left faction &c<name>&e."
+    LEFT_OTHERS: "&ePlayer &c<player> &ehas left the faction."
+    LEADER_LEAVE: "&eYou are &cfaction leader &eand therefore cannot leave this faction."
+    CANNOT_LEAVE:
+      WHILE_REGENERATING: "&eYou cannot leave your faction when it is &cregenerating&e!"
+      WHILE_IN_OWN_CLAIM: "&eYou cannot leave your faction while in &cown claim&e!"
+  LIST_COMMAND:
+    PAGE_NOT_FOUND: "&eThere is only &c<number> &epage(s)."
+    FACTION_FORMAT: " &f<number>. <name> &7(<online-count> Online) (<dtr> &7DTR)"
+    HEADER:
+      - "&7&m                                                                                "
+      - " &6&lFaction list &7(Page <page>/<pageTotal>)"
+    FOOTER:
+      - "&7&m                                                                                "
+  LIVES_COMMAND:
+    LIVES_SELF: "&eYour faction has &c<amount> &elives."
+    LIVES_OTHERS: "&eFaction <faction> &ehas &b<amount> &elives."
+  LIVES_DEPOSIT_COMMAND:
+    USAGE: "&cUsage: /f livesdeposit <amount>"
+    DEPOSITED: "&c<player> &edeposited &b<amount> &elives into faction's account."
+    NOT_ENOUGH_LIVES: "&eYou do not have enough &clives &eto deposit!"
+  LIVES_REVIVE_COMMAND:
+    USAGE: "&cUsage: /f livesrevive <player>"
+    REVIVED: "&eFaction member &c<target> &ehas been revived by &c<player>&e."
+    NOT_ENOUGH_LIVES: "&eYour faction does not have enough &clives&e."
+    NOT_DEATHBANNED: "&eFaction member &c<target> &eis currently not deathbanned."
+  LIVES_WITHDRAW_COMMAND:
+    USAGE: "&cUsage: /f liveswithdraw <amount>"
+    WITHDRAWN: "&c<player> &ewithdrawn &b<amount> &elives from faction's account."
+    NOT_ENOUGH_LIVES: "&eYour faction does not have enough &clives &eto withdraw!"
+  MAP_COMMAND:
+    NO_NEARBY_CLAIMS: "&eThere are no &cnearby claims &ein radius of &b<radius> &eblocks."
+    OWNER_MESSAGE: "<faction> &eowns land marked with &b<material>&e."
+    DISABLED: "&eAll claim pillars are now &chidden&e."
+  OPEN_COMMAND:
+    OPENED: "&7[&b*&7] &eFaction &c<name> &eis now &aopened &eto the public."
+    CLOSED: "&7[&b*&7] &eFaction &c<name> &eis now &cclosed &eto the public."
+    COOLDOWN: "&eYou can change your faction &copen status &ein &b<time>&e!"
+  PROMOTE_COMMAND:
+    USAGE: "&cUsage: /f promote <player>"
+    PROMOTED: "&c<player> &ehas been promoted to &c<role>&e."
+    MAX_PROMOTE: "&ePlayer is already &chighest &erole."
+    CANNOT_PROMOTE_SELF: "&eYou cannot &cpromote &eyourself."
+  REMOVE_CLAIM_COMMAND:
+    NO_CLAIM: "&eLand at your location is &cnot claimed&e!"
+    REMOVED_SENDER: "&eYou have removed <faction>'s &eclaim at &c<location>&e."
+    REMOVED_FACTION: "&eYour claim at &c<location> &ehas been removed by &c<player>&e."
+  REMOVE_COMMAND:
+    USAGE: "&cUsage: /f remove <faction>"
+    CANNOT_REMOVE_THIS_TYPE: "&eThis &cfaction type &eis not removable!"
+    REMOVED_SENDER: "&eYou have removed faction <faction>&e."
+    REMOVED_FACTION: "&eYour faction was force removed by &c<player>&e."
+  REMOVE_DTR_COMMAND:
+    USAGE: "&cUsage: /f removedtr <faction> <amount>"
+    CHANGED_SENDER: "&eYou changed &c<faction>'s &edtr to <value>&e."
+    CHANGED_FACTION: "&eYour faction's dtr has been set to <dtr> &eby &c<player>&e."
+  RENAME_COMMAND:
+    USAGE: "&cUsage: /f rename <name>"
+    RENAMED: "&7[&b*&7] &eFaction &c<name> &ewas renamed to &a<newName>"
+    SAME_NAME: "&eFaction already has name &c<name>&e."
+    COOLDOWN: "&eYou can rename your &cfaction &ein &b<time>&e."
+  SAFEZONE_COMMAND:
+    USAGE: "&cUsage: /f safezone <faction>"
+    NOT_SYSTEM_FACTION: "&cSafezone &evalue can only be changed to &6system factions&e."
+    CHANGED: "&eYou changed <faction>'s &esafezone value to <safezone>&e."
+  SAVE_COMMAND:
+    SAVED: "&eSuccessfully &csaved &eall factions data."
+  SET_BALANCE_COMMAND:
+    USAGE: "&cUsage: /f setbalance <faction> <amount>"
+    CHANGED_SENDER: "&eYou set &c<faction>'s &ebalance to &a$c<amount>&e."
+    CHANGED_FACTION: "&eYour faction's balance has been set to &a$&c<amount> &eby &c<player>&e."
+  SET_DTR_COMMAND:
+    USAGE: "&cUsage: /f setdtr <faction> <amount>"
+    CHANGED_SENDER: "&eYou changed &c<faction>'s &edtr to <value>&e."
+    CHANGED_FACTION: "&eYour faction's dtr has been set to <dtr> &eby &c<player>&e."
+  SET_HOME_COMMAND:
+    NOT_IN_OWN_CLAIM: "&cFaction home &emust be in your territory."
+    HOME_SET: "&eYour &cfaction home &ehas been set to &b<x>&e, &b<z>&e."
+  SET_FREEZE_COMMAND:
+    USAGE: "&cUsage: /f setfreeze <faction> <time>"
+    CHANGED_SENDER: "&eYou changed &c<faction>'s &efreeze time to &b<time>&e."
+    CHANGED_FACTION: "&eYour faction's freeze time has been set to &b<time> &eby &c<player>&e."
+  SET_LIVES_COMMAND:
+    USAGE: "&cUsage: /f setlives <faction> <amount>"
+    CHANGED_SENDER: "&eYou set &c<faction>'s &elives to &b<amount>&e."
+    CHANGED_FACTION: "&eYour faction's lives has been set to &b<amount> &eby &c<player>&e."
+  SET_POINTS_COMMAND:
+    USAGE: "&cUsage: /f setpoints <faction> <amount>"
+    CHANGED_SENDER: "&eYou set &c<faction>'s &epoints to &b<amount>&e."
+    CHANGED_FACTION: "&eYour faction's points has been set to &b<amount> &eby &c<player>&e."
+  SHOW_COMMAND:
+    HOVER_TEXT: "&7Click to view <faction>"
+    NAME_FORMAT: "<player>&e[&a<kills>&e]&7"
+    PLAYER_FACTION_MESSAGE:
+      - "&7&m                                                                                "
+      - " <faction> &7[<online-count>/<faction-size>] &e- &eHome: &7<home-location>"
+      - " &eAnnouncement: &7<announcement>"
+      - " &eAuto revive: &7<autoRevive>"
+      - " &eFaction lives: &7<lives>"
+      - " &eTotal Kills: &7<kills>"
+      - " &ePoints: &7<points>"
+      - " &eBalance: &7$<balance>"
+      - " &eLeader: <leader>"
+      - " &eCo-leaders: <co-leaders>"
+      - " &eCaptains: <captains>"
+      - " &eMembers: <members>"
+      - " &eAllies: <allies>"
+      - " &eRegenerating: &7<regen-time>"
+      - " &eDTR: <dtr>&7/&a<dtrMax> &eRaidable: <raidable>"
+      - "&7&m                                                                                "
+    SYSTEM_CLAIM_FORMAT: " &eLocation: &7<claimLocation>"
+    SYSTEM_FACTION_MESSAGE:
+      - "&7&m                                                                                "
+      - " <factionName>"
+      - "<claims>"
+      - "&7&m                                                                                "
+  STUCK_COMMAND:
+    CANNOT_TELEPORT:
+      ALREADY_TELEPORTING: "&eYou are already teleporting from &cenemy territory&e."
+      ONLY_IN_OVERWORLD: "&eYou can only use stuck in &coverworld&e."
+      ONLY_FROM_ENEMY_CLAIMS: "&eYou can only stuck from &cenemy territory&e."
+      IN_OWN_CLAIM: "&eYou cannot stuck from own &cterritory&e."
+    TASK_STARTED: "&eYou will be teleported to &csafe location &ein &b<time>&e."
+    TELEPORTED: "&eYou have been teleported to &csafe location&e."
+    TELEPORT_CANCELLED:
+      MOVED: "&cStuck teleport &ehas been cancelled because you moved more than &c5 blocks&e!"
+      DAMAGED: "&cStuck teleport &ecancelled because you &cwere damaged&e!"
+  SYSTEM_CREATE_COMMAND:
+    USAGE: "&cUsage: /f systemcreate <name>"
+    CREATED: "&eYou have created system faction named &c<name>&e."
+  SYSTEM_LIST_COMMAND:
+    FACTION_FORMAT: " &f<number>. <name>"
+    HEADER:
+      - "&7&m                                                                                "
+      - " &6&lSystem faction list &7(<count> factions)"
+    FOOTER: "&7&m                                                                                "
+  SYSTEM_RENAME_COMMAND:
+    USAGE: "&cUsage: /f systemrename <faction> <name>"
+    RENAMED: "&eYou set <faction>'s &ename to &c<name>&e."
+    NOT_SYSTEM_FACTION: "&eWith this command you can only rename &6system factions&e."
+    CANNOT_RENAME_THIS_TYPE: "&eThis &cfaction type &eis not renamable!"
+    SAME_NAME: "&eFaction already has name &c<name>&e."
+  THAW_COMMAND:
+    USAGE: "&cUsage: /f thaw <faction>"
+    CHANGED_SENDER: "&eYou have unfrozen faction &c<faction>&e."
+    CHANGED_FACTION: "&eYour faction has been unfrozen by &c<player>&e."
+  TOP_COMMAND:
+    NO_FACTIONS: "&eThere are &cno factions &eyet."
+    FACTION_FORMAT: " &f<number>. <name> &7(&b<points> points&7)"
+    HEADER:
+      - "&7&m                                                                                "
+      - " &6&lFaction top &7(Top 10 factions)"
+    FOOTER:
+      - "&7&m                                                                                "
+  TP_HERE_COMMAND:
+    USAGE: "&cUsage: /f tphere <faction>"
+    TELEPORTED_SENDER: "&eYou teleported &c<faction> &eto your location."
+    TELEPORTED_FACTION: "&eYour whole faction was teleported to &c<player>&e."
+  UNALLY_COMMAND:
+    USAGE: "&cUsage: /f unally <faction>"
+    NOT_ALLIES: "&eYou are not allies with <faction>&e."
+    REMOVED: "&eYour faction is no longer in alliance with &c<faction>&e."
+  UNCLAIM_ALL_COMMAND:
+    NO_CLAIMS: "&eYour &cfaction &ehas no claims."
+    UNCLAIMED_ALL: "&c<player> &ehas unclaimed all faction &cclaims&e."
+    HOME_TELEPORT_CANCELLED: "&cHome teleport &ecancelled due to &call land &eunclaim!"
+    CANNOT_UNCLAIM_ALL_WHILE_REGENERATING: "&eYou cannot unclaim all your faction's claims when it is &cregenerating&e!"
+  UNCLAIM_COMMAND:
+    NO_CLAIMS: "&eYour &cfaction &ehas no claims."
+    NOT_OWNER: "&eYour faction does not own this &cclaim&e."
+    UNCLAIMED: "&c<player> &ehas unclaimed faction &cclaim &eat &b<location>&e."
+    CLAIM_MONEY_REFUNDED: "&eYou faction was refunded &a$&c<amount> &edue to claim removal."
+    HOME_TELEPORT_CANCELLED: "&cHome teleport &ecancelled due to &cland unclaim&e!"
+    CANNOT_UNCLAIM_WHILE_REGENERATING: "&eYou cannot unclaim your faction's claim when it is &cregenerating&e!"
+  UNINVITE_COMMAND:
+    USAGE: "&cUsage: /f uninvite <player>"
+    UNINVITED: "&ePlayer &c<player> &ehas been uninvited from faction."
+    UNINVITE_ALL: "&ePlayer &c<player> &ehas removed all player invitations."
+    NOT_INVITED: "&ePlayer &c<player> &eis not invited to faction."
+  WITHDRAW_COMMAND:
+    USAGE: "&cUsage: /f withdraw <amount>"
+    WITHDRAWN: "&c<player> &ewithdrawn &a$&c<amount> &efrom faction's balance."
+    NOT_ENOUGH_MONEY: "&eYour faction only has &a$&c<amount>&e!"
+
+CONQUEST:
+  COMMAND_USAGE_PLAYER:
+    - "&7&m                                                                                "
+    - " &5&lConquest Help"
+    - "  &d/conquest info &f- &7Print conquest info"
+    - "  &d/conquest loot &f- &7View conquest loot"
+    - "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &5&lConquest Help"
+    - "  &d/conquest setcapzone <zone> &7- Set capzones"
+    - "  &d/conquest area &f- &7Define conquest faction area"
+    - "  &d/conquest start &f- &7Start conquest"
+    - "  &d/conquest stop &f- &7Stop conquest"
+    - "  &d/conquest info &f- &7Print conquest info"
+    - "  &d/conquest loot &f- &7View conquest loot"
+    - "  &d/conquest tp <zone> &f- &7Teleport to conquest zone"
+    - "  &d/conquest setpoints <faction> <amount> &f- &7Set faction cap points"
+    - "&7&m                                                                                "
+  CAPPED:
+    - "&8&m                                                                      "
+    - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+    - "&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+    - "&7\u2588&7\u2588&c\u2588&c\u2588&7\u2588&b\u2588&b\u2588&7\u2588\u2588   &5&lConquest &7has been capped by:"
+    - "&7\u2588&7\u2588&c\u2588&c\u2588&7\u2588&b\u2588&b\u2588&7\u2588\u2588   &7* &a<faction>"
+    - "&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+    - "&7\u2588&7\u2588&a\u2588&a\u2588&7\u2588&e\u2588&e\u2588&7\u2588\u2588   &dUptime:"
+    - "&7\u2588&7\u2588&a\u2588&a\u2588&7\u2588&e\u2588&e\u2588&7\u2588\u2588   &7* <uptime>"
+    - "&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+    - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+    - "&8&m                                                                      "
+  STARTED_CAPPING: "&7Your faction started capping &3<zone>&7."
+  STOPPED_CAPPING: "&7You stopped capping &3<zone>&7."
+  EXCEPTION:
+    NOT_RUNNING: "&3Conquest &bis not running!"
+    INVALID_ZONE: "&bPlace specify a valid capzone type. &7(&cRed&7, &bBlue&7, &aGreen&7, &eYellow&7)"
+  AREA_COMMAND:
+    MAKE_A_SELECTION: "&bPlease first make a &3selection&b."
+    SET_BOTH_POSITIONS: "&bYou first have to set &3both positions&b."
+    CLAIM_OVERLAPPING: "&bCurrent claim selection is &3overlapping &bwith other &3system claim&b."
+    CREATED: "&3<player> &bhas created faction area for &cconquest&b."
+  INFO_COMMAND:
+    NOT_SETUP: "&3Conquest &bcapzones are not set yet."
+    MESSAGE:
+      - "&7&m                                                 "
+      - " &3Conquest info:"
+      - " &7* &c&lRed&7: <red_location>"
+      - " &7* &b&lBlue&7: <blue_location>"
+      - " &7* &a&lGreen&7: <green_location>"
+      - " &7* &e&lYellow&7: <yellow_location>"
+      - ""
+      - " &7* &6Captime&7: <captime> seconds"
+      - " &7* &6Points to win&7: <points>"
+      - "&7&m                                                 "
+  SET_CAPZONE_COMMAND:
+    USAGE: "&bUsage: &3/&bconquest setcapzone &3<&bzone&3>"
+    MAKE_A_SELECTION: "&bPlease first make a &6selection&b."
+    SET_BOTH_POSITIONS: "&bYou first have to set &6both positions&b."
+    CREATED: "&bCapzone &6<zone> &bhas been set."
+  SET_POINTS_COMMAND:
+    USAGE: "&bUsage: &3/&bconquest setpoints &3<&bfaction&3> &3<&bamount&3>"
+    INVALID_FACTION: "&bFaction with search argument &3<argument> &bdoesn't exist."
+    CHANGED: "&bYou set &3<faction>'s &bconquest points to &a<amount>&b."
+  START_COMMAND:
+    ALREADY_RUNNING: "&3Conquest &bis already running!"
+    NOT_SETUP: "&bPlease setup all &3conquest capzones &bfirst!"
+    STARTED:
+      - "&8&m                                                                      "
+      - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+      - "&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &5&lConquest &7has been started"
+      - "&7\u2588&7\u2588&c\u2588&c\u2588&7\u2588&b\u2588&b\u2588&7\u2588\u2588   &7* &aPoints to win: &7<points>"
+      - "&7\u2588&7\u2588&c\u2588&c\u2588&7\u2588&b\u2588&b\u2588&7\u2588\u2588"
+      - "&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &7* &c&lRed&7: <red_location>"
+      - "&7\u2588&7\u2588&a\u2588&a\u2588&7\u2588&e\u2588&e\u2588&7\u2588\u2588   &7* &b&lBlue&7: <blue_location>"
+      - "&7\u2588&7\u2588&a\u2588&a\u2588&7\u2588&e\u2588&e\u2588&7\u2588\u2588   &7* &a&lGreen&7: <green_location>"
+      - "&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &7* &e&lYellow&7: <yellow_location>"
+      - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+      - "&8&m                                                                      "
+  STOP_COMMAND:
+    STOPPED: "&3Conquest &bhas been stopped by &c<player>&b!"
+  TELEPORT_COMMAND:
+    USAGE: "&bUsage: &3/&bconquest tp &3<&bzone&3>"
+    ZONE_NOT_SET: "&bZone <zone> &bis not set!"
+
+DTC:
+  COMMAND_USAGE_PLAYER:
+    - "&7&m                                                                                "
+    - " &4&lDTC Help"
+    - "  &c/dtc info &f- &7Print dtc info"
+    - "  &c/dtc loot &f- &7View dtc loot"
+    - "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &4&lDTC Help"
+    - "  &c/dtc area &f- &7Define dtc faction area"
+    - "  &c/dtc set &f- &7Set core block"
+    - "  &c/dtc start &f- &7Start dtc"
+    - "  &c/dtc stop &f- &7Stop dtc"
+    - "  &c/dtc info &f- &7Print dtc info"
+    - "  &c/dtc loot &f- &7View dtc loot"
+    - "  &c/dtc tp &f- &7Teleport to the core"
+    - "&7&m                                                                                "
+  DESTROYED: "&cCore &7has been destroyed by &c<player> &7after &e<time>&7."
+  HEALTH_MESSAGE: "&cCore &7is at &e<amount> &7health points."
+  AREA_COMMAND:
+    MAKE_A_SELECTION: "&7Please first make a &cselection&7."
+    SET_BOTH_POSITIONS: "&7You first have to set &cboth positions&7."
+    CLAIM_OVERLAPPING: "&7Current claim selection is &coverlapping &7with other &csystem claim&7."
+    CREATED: "&c<player> &7has created faction area for &cDTC&7."
+  INFO_COMMAND:
+    NOT_SETUP: "&cDTC &7core is not set yet."
+    MESSAGE:
+      - "&7&m                                                 "
+      - " &cDTC info:"
+      - " &e* &7Core location: &e<location>"
+      - ""
+      - " &e* &7Core breaks to win: &e<amount>"
+      - "&7&m                                                 "
+  SET_COMMAND:
+    MUST_BE_OBSIDIAN: "&7You must be looking at &5Obsidian&7!"
+    CORE_SET: "&cDTC &7core has been set at: &c<location>"
+  START_COMMAND:
+    ALREADY_RUNNING: "&cDTC &7is already running!"
+    NOT_SETUP: "&7Please setup &cDTC &7core first!"
+    STARTED:
+      - "&7&m                                                 "
+      - " &cDTC has started. Good luck!"
+      - " &e* &7Core location: &e<location>"
+      - ""
+      - " &e* &7Core breaks to win: &e<amount>"
+      - "&7&m                                                 "
+  STOP_COMMAND:
+    NOT_RUNNING: "&cDTC &7is not running!"
+    STOPPED: "&cDTC &7has been stopped by &c<player>&7!"
+  TELEPORT_COMMAND:
+    CORE_NOT_SET: "&cDTC &7core is not set!"
+
+KOTH:
+  COMMAND_HEADER: "&7&m                                                                                "
+  COMMAND_FOOTER: "&7&m                                                                                "
+  COMMAND_USAGE_PLAYER:
+    - "&7&m                                                                                "
+    - " &3&lKoTH Help"
+    - "  &b/koth list &f- &7List all koths"
+    - "  &b/koth loot <koth> &f- &7View koth loot"
+    - "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &3&lKoTH Help"
+    - "  &b/koth create <koth> &f- &7Create koth"
+    - "  &b/koth remove <koth> &f- &7Delete koth"
+    - "  &b/koth area <koth> &f- &7Define koth faction area"
+    - "  &b/koth start <koth> &f- &7Start koth"
+    - "  &b/koth stop <koth> &f- &7Stop koth"
+    - "  &b/koth end <koth> &f- &7End koth"
+    - "  &b/koth tp <koth> &f- &7Teleport to koth"
+    - "  &b/koth stopall &f- &7Stop all koths"
+    - "  &b/koth list &f- &7List all koths"
+    - "  &b/koth loot <koth> &f- &7View koth loot"
+    - "  &b/koth settime <koth> <&btime&3> &f- &7Set running koth cap time"
+    - "  &b/koth startingtime <koth> <&btime&3> &f- &7Set starting cap time"
+    - "&7&m                                                                                "
+  CAPPED:
+    - "&8&m                                                                      "
+    - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &6&l<koth> &7has been capped by:"
+    - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &7* &a<capper>"
+    - "&7\u2588\u2588&4\u2588&4\u2588&7\u2588\u2588\u2588\u2588\u2588"
+    - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &eUptime:"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &7* <uptime>"
+    - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
+    - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+    - "&8&m                                                                      "
+  KNOCKED: "&bKoTH &6<koth> &bhas been knocked!"
+  YOU_STARTED_CAPPING: "&bYou have started capping &6<koth>&b."
+  SOMEONE_STARTED_CAPPING: "&bSomeone has started capping &6<koth>&b."
+  NO_ONE_CAPPING: "&bThere is nobody capping &6<koth>&b. &7(&c<world> <x>, <z>&7)"
+  YOU_ARE_CAPPING: "&bYou are capping &6<koth>&b. &7(&c<time>&7)"
+  SOMEONE_IS_CAPPING: "&bSomeone is capping &6<koth>&b. &7(&c<time>&7)"
+  EXCEPTION:
+    DOESNT_EXIST: "&bKoth &6<koth> &bdoesn't exists!"
+    NOT_RUNNING: "&bKoth &6<koth> &bis not running!"
+    MAX_RUNNING_KOTHS_AMOUNT_REACHED: "&bThere is already &cmaximum &bamount of &6KoTH's &brunning!"
+  AREA_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth area &3<&bkoth&3>"
+    MAKE_A_SELECTION: "&bPlease first make a &6selection&b."
+    SET_BOTH_POSITIONS: "&bYou first have to set &eboth positions&b."
+    CLAIM_OVERLAPPING: "&bCurrent claim selection is &3overlapping &bwith other &3system claim&b."
+    CREATED: "&3<player> &bhas created faction area for koth <koth>&b."
+  CREATE_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth create &3<&bkoth&3> [&bcaptime&3]"
+    ALREADY_EXISTS: "&bKoth &6<koth> &bis already exists!"
+    MAKE_A_SELECTION: "&bPlease first make a &6capzone &bselection."
+    SET_BOTH_POSITIONS: "&bYou first have to set &6both positions&b."
+    CREATED: "&bKoth &6<koth> &bhas been created."
+  END_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth end &3<&bkoth&3>"
+    ENDED: "&bKoth &6<koth> &bhas ended!"
+  LIST_COMMAND:
+    TITLE: " &3&lKoth List"
+    FORMAT: " &e- &b<koth> &7(<world>, <x>, <z>) (Captime: &a<captime>&7)"
+    NO_KOTHS: "&bThere are no &3koths &bdefined yet!"
+  LOOT_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth loot &3<&bkoth&3>"
+  REMOVE_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth remove &3<&bkoth&3>"
+    REMOVED: "&bKoth &6<koth> &bhas been removed."
+  START_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth start &3<&bkoth&3>"
+    ALREADY_RUNNING: "&bKoth &6<koth> &bis already running!"
+    STARTED:
+      - "&8&m                                                                      "
+      - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+      - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
+      - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &6&l<koth> &7(<time>)"
+      - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &7has been started"
+      - "&7\u2588\u2588&4\u2588&4\u2588&7\u2588\u2588\u2588\u2588\u2588"
+      - "&7\u2588\u2588&4\u2588&7\u2588&4\u2588&7\u2588\u2588\u2588\u2588   &eLocation:"
+      - "&7\u2588\u2588&4\u2588&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588   &7* <world> <x>, <z>"
+      - "&7\u2588\u2588&4\u2588&7\u2588\u2588\u2588&4\u2588&7\u2588\u2588"
+      - "&8\u2588&7\u2588\u2588\u2588\u2588\u2588\u2588\u2588&8\u2588"
+      - "&8&m                                                                      "
+  STOP_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth stop &3<&bkoth&3>"
+    STOPPED: "&bKoth &6<koth> &bhas been stopped by &c<player>&b!"
+  STOP_ALL_COMMAND:
+    STOPPED_ALL: "&bAll &6koths &bhave been stopped by &c<player>&b!"
+    NO_RUNNING_KOTHS: "&bThere are no running &6koths&b!"
+  SET_TIME_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth settime &3<&bkoth&3> <&btime&3>"
+    CHANGED: "&6<koth>'s &bcap time has been changed to &c<time>&b."
+  STARTING_TIME_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth startingtime &3<&bkoth&3> <&btime&3>"
+    CHANGED: "&6<koth>'s &bstarting cap time has been changed to &c<time>&b."
+  TELEPORT_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth tp &3<&bkoth&3>"
+
+KILL_THE_KING:
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &5&lKill the king"
+    - "  &d/king start <king> &f- &7Start kill the king"
+    - "  &d/king stop &f- &7Stop kill the king"
+    - "&7&m                                                                                "
+  KING_SLAIN:
+    - ""
+    - "&7&m                                                                                "
+    - "&cKing &5<king> &chas been slain by &5<killer>&c. Congratulations!"
+    - "&7&m                                                                                "
+    - ""
+  KING_LOCATION: "&cKing's location: &b<location>&c."
+  EXCEPTION:
+    ALREADY_RUNNING: "&cKill the king is already running!"
+    NOT_RUNNING: "&cKill the king is currently not running!"
+    ITEM_DROP_DENY: "&cYou cannot drop items while you are &5King&c!"
+  START_COMMAND:
+    USAGE: "&cUsage: &5/&ckilltheking start &5<&cking&5>"
+    STARTED: "&cKill the king has been started. &5King's &clocation: &b<location>&c."
+  STOP_COMMAND:
+    STOPPED: "&cKill the king has been stopped by &5<player>&c."
+
+MOUNTAIN:
+  COMMAND_HEADER: "&7&m                                                                                "
+  COMMAND_FOOTER: "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &6&lMountain Help"
+    - "  &e/mountain create <type> &f- &7Create mountain"
+    - "  &e/mountain remove <id> &f- &7Delete mountain"
+    - "  &e/mountain respawn <id> &f- &7Force respawn mountain"
+    - "  &e/mountain tp <id> &f- &7Teleport to the mountain"
+    - "  &e/mountain update <id> &f- &7Update mountain blocks"
+    - "  &e/mountain time &f- &7Info on next respawn"
+    - "  &e/mountain list &f- &7List all mountains"
+    - ""
+    - "  &7* Type can be &6GLOWSTONE &7or &6ORE&7!"
+    - "&7&m                                                                                "
+  RESPAWNED:
+    - "&eAll &6mountains &ehave been respawned!"
+    - "&eNext respawn is in &3<time> &eminutes."
+  NEXT_RESPAWN: "&7* &eNext &6mountain &erespawn will commence in &3<time>&e."
+  EXCEPTION:
+    DOESNT_EXISTS: "&eMountain with id &6<id> &edoesn't exists!"
+    INCORRECT_TYPE: "&ePlease specify correct &cmountain type&e!"
+  CREATE_COMMAND:
+    USAGE: "&eUsage: &6/&emountain create &6<&etype&6>"
+    MAKE_A_SELECTION: "&ePlease first make a &6selection&e."
+    SET_BOTH_POSITIONS: "&eYou first have to set &6both positions&e."
+    CLAIM_OVERLAPPING: "&eCurrent claim selection is &6overlapping &ewith other &6system claim&e."
+    CREATED: "&eMountain with id &6<id> &ehas been created."
+  LIST_COMMAND:
+    TITLE: " &5&lMountains List"
+    ADMIN_FORMAT: "  &c- &7<id>. <mountain> &7(<world>, <x>, <z>)"
+    PLAYER_FORMAT: "  &c- <mountain> &7(<world>, <x>, <z>)"
+    NO_MOUNTAINS: "&eThere are no &6mountains &edefined yet!"
+  REMOVE_COMMAND:
+    USAGE: "&eUsage: &6/&emountain remove &6<&eid&6>"
+    REMOVED: "&eMountain with id &6<id> &ehas been removed."
+  RESPAWN_COMMAND:
+    USAGE: "&eUsage: &6/&emountain respawn &6<&eid&6>"
+    RESPAWNED: "<mountain> &ehas been respawned at &7<world>, <x>, <z>&e!"
+  TELEPORT_COMMAND:
+    USAGE: "&eUsage: &6/&emountain tp &6<&eid&6>"
+  UPDATE_COMMAND:
+    USAGE: "&eUsage: &6/&emountain update &6<&eid&6>"
+    UPDATED: "&eYou have updated &6blocks &eof mountain with id &6<id>&e."
+
+ENDER_DRAGON:
+  COMMAND_USAGE_PLAYER:
+    - "&7&m                                                                                "
+    - " &5&lEnderDragon Help"
+    - "  &d/dragon info &f- &7Print ender dragon info"
+    - "  &d/dragon loot &f- &7View ender dragon loot"
+    - "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &5&lEnderDragon Help"
+    - "  &d/dragon start &f- &7Start ender dragon event"
+    - "  &d/dragon stop &f- &7Stop ender dragon event"
+    - "  &d/dragon tp &f- &7Teleport to ender dragon"
+    - "  &d/dragon info &f- &7Print ender dragon info"
+    - "  &d/dragon loot &f- &7View ender dragon loot"
+    - "  &d/dragon setspawn &f- &7Set ender dragon spawn point"
+    - "  &d/dragon sethealth <amount> &f- &7Set dragon's health"
+    - "&7&m                                                                                "
+  ENDED:
+    - "&8&m                                                                      "
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &5&lEnder Dragon &7has been killed by:"
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &7* &a<killer>"
+    - "&d\u2588&5\u2588&d\u2588&0\u2588\u2588\u2588&d\u2588&5\u2588&d\u2588"
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &eTop damagers:"
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   <damager1>"
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   <damager2>"
+    - "&0\u2588\u2588&d\u2588\u2588\u2588\u2588&5\u2588&0\u2588\u2588   <damager3>"
+    - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+    - "&8&m                                                                      "
+  DAMAGER_FORMAT: "&7&l* &b<player>&7: &c<damage> damage dealt"
+  EXCEPTION:
+    NOT_RUNNING: "&5EnderDragon &devent is not running!"
+    SPAWN_NOT_SET: "&5EnderDragon &dspawn point is not set! Use &c/enderdragon setspawn &dto set it."
+  INFO_COMMAND:
+    SPAWN_NOT_SET: "&7Not set"
+    MESSAGE:
+      - "&3&m  &8&m                                             &3&m  "
+      - " &5&lEnderDragon info:"
+      - " &7* &dDragon max health&7: <health>"
+      - ""
+      - " &7* &dDragon spawn location&7:"
+      - "     &7<location>"
+      - "&3&m  &8&m                                             &3&m  "
+  START_COMMAND:
+    ALREADY_RUNNING: "&5EnderDragon &devent is already running!"
+    STARTED:
+      - "&8&m                                                                      "
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &5&lEnder Dragon"
+      - "&d\u2588&5\u2588&d\u2588&0\u2588\u2588\u2588&d\u2588&5\u2588&d\u2588   &7has been started"
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &eLocation:"
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   &7* <world> <x>, <z>"
+      - "&0\u2588\u2588&d\u2588\u2588\u2588\u2588&5\u2588&0\u2588\u2588"
+      - "&0\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+      - "&8&m                                                                      "
+  STOP_COMMAND:
+    STOPPED: "&5EnderDragon &devent has been stopped!"
+  SET_HEALTH_COMMAND:
+    USAGE: "&dUsage: &5/&denderdragon sethealth &5<&damount&5>"
+    CHANGED: "&5EnderDragon's &dhealth has been changed to &c<amount>&d."
+  SET_SPAWN_COMMAND:
+    NOT_IN_END: "&5EnderDragon &dspawn point must be in &bend world&d!"
+    SPAWN_SET: "&5EnderDragon &dspawn point set to &b<location>&e."
+
+LOOT:
+  COMMAND_HEADER: "&7&m                                                                                "
+  COMMAND_FOOTER: "&7&m                                                                                "
+  COMMAND_USAGE_PLAYER:
+    - "&7&m                                                                                "
+    - " &a&lLoot Help"
+    - "  &b/loot list &f- &7List all loot"
+    - "  &b/loot view <loot> &f- &7View loot"
+    - "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &a&lLoot Help"
+    - "  &b/loot clear <loot> &f- &7Clear loot"
+    - "  &b/loot edit <loot> &f- &7Edit loot"
+    - "  &b/loot view <loot> &f- &7View loot"
+    - "  &b/loot setamount <loot> <amount> &f- &7Set amount"
+    - "  &b/loot list &f- &7List all loot"
+    - "&7&m                                                                                "
+  EXCEPTION:
+    DOESNT_EXIST: "&7Loot &e<loot> &7doesn't exist."
+  CLEAR_COMMAND:
+    USAGE: "&7Usage: &e/&7loot clear &e<&7loot&e>"
+    CLEARED: "&7Loot &e<loot> &7has been cleared."
+  EDIT_COMMAND:
+    USAGE: "&7Usage: &e/&7loot edit &e<&7loot&e>"
+    EDITED: "&7Loot &e<loot> &7has been edited."
+  LIST_COMMAND:
+    TITLE: " &b&lLoot List"
+    FORMAT: "  &c- &a<loot> &7(<itemcount> items), Reward amount: &3<amount>"
+  SET_AMOUNT_COMMAND:
+    USAGE: "&7Usage: &e/&7loot setamount &e<&7loot&e> <&7amount&e>"
+    CHANGED: "&e<loot>'s &7reward amount set to &b<amount>&7."
+  VIEW_COMMAND:
+    USAGE: "&7Usage: &e/&7loot view &e<&7loot&e>"
+
+SCHEDULE:
+  COMMAND_HEADER: "&7&m                                                                                "
+  COMMAND_FOOTER: "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &a&lSchedule Help"
+    - "  &b/schedule create <event> <day> <time> &f- &7Create schedule"
+    - "  &b/schedule remove <id> &f- &7Remove schedule"
+    - "  &b/schedule clear &f- &7Clear all schedules"
+    - "  &b/schedule list &f- &7List all schedules"
+    - "  &b/schedule next &f- &7List next schedules"
+    - " "
+    - "  &7* Day Example &6- &7Daily, Monday, Tuesday etc."
+    - "  &7* Time Example &6- &711:47 or 11"
+    - "&7&m                                                                                "
+  UPCOMING_EVENTS_FORMAT: " &6- &7<id>. &b<event> &estarts in: &c<time>"
+  CLEAR_COMMAND:
+    NO_SCHEDULES: "&bEvent &6schedule &bis empty at the moment!"
+    CLEARED: "&bEvent &6schedules &bhave been cleared by &c<player>&b!"
+  CREATE_COMMAND:
+    USAGE: "&7Usage: &e/&7schedule create &e<&7name&e> <&7day&e> <&7time&e>"
+    CREATED: "&bSuccessfully created schedule with id &6&l<id>&b."
+    EVENT_DOESNT_EXIST: "&bEvent with name &6<name> &bdoes not exist!"
+    INCORRECT_DAY_FORMAT: "&bDay format incorrect. Correct format: &7Monday, Tuesday etc."
+    INCORRECT_TIME_FORMAT: "&bTime format incorrect. Correct format: &711:30 or 11"
+  DELETE_COMMAND:
+    USAGE: "&7Usage: &e/&7schedule delete &e<&7id&e>"
+    DOESNT_EXIST: "&bSchedule with id &6&l<id> &bdoes not exist!"
+    DELETED: "&bSuccessfully removed schedule with id &6&l<id>&b."
+  LIST_COMMAND:
+    NO_SCHEDULES: "&bThere are no &6schedules &byet!"
+    TITLE: " &b&lSchedule List"
+    CURRENT_TIME: " &7Current time is: "
+    DAY_FORMAT: " &6&l<day>"
+    PLAYER_FORMAT: "  &7- Event: &b&l<event> &7Time: &b<time>"
+    ADMIN_FORMAT: "  &7- &6<id>. &7Event: &b&l<event> &7Time: &b<time>"
+
+BACK_COMMAND:
+  TELEPORTED: "&eYou have been &cteleported &eto your last known location."
+  NO_LOCATION: "&eYour previous &clocation &ecould not be found."
+
+BLOCKED_COMMANDS:
+  COLON_DISABLED: "&ePlease refrain from &cusing colon &ein commands!"
+  DISABLED_COMMAND_MESSAGE: "&eThis command is &cdisabled&e!"
+
+BOOK_DISENCHANT: "&eRemoved all &cenchantments &efrom this book."
+
+BORDER:
+  REACHED_BORDER: "&eYou have &creached &ethe border."
+  BUCKET_FILL_DENY: "&eYou cannot &cfill buckets &epast the border."
+  BUCKET_EMPTY_DENY: "&eYou cannot &cempty buckets &epast the border."
+  BLOCK_PLACE_DENY: "&eYou cannot &cplace blocks &epast the border."
+  BLOCK_BREAK_DENY: "&eYou cannot &cbreak blocks &epast the border."
+  TELEPORT_DENY: "&eYou cannot &cteleport &epast the border."
+
+BROADCAST_COMMAND:
+  PREFIX: "&8[&4Broadcast&8] &c"
+  USAGE: "&cUsage: /broadcast <message>"
+
+BROADCAST_RAW_COMMAND:
+  USAGE: "&cUsage: /broadcastraw <message>"
+
+COORDS_MESSAGE:
+  - "&7&m                                                                                "
+  - " &e&lSpawns (x,z)"
+  - "  &aMain spawn&7: 0 , 0"
+  - "  &aNether spawn&7: 0 , 0"
+  - "  &aEnd spawn&7: 0 , 0"
+  - ""
+  - " &e&lKoths (x,z)"
+  - "  &3Towers Koth&7: 500 , 500"
+  - "  &3Islands Koth&7: -500 , 500"
+  - "  &3Moon Koth&7: 500 , -500"
+  - "  &3End Koth&7: -80, 90 (End)"
+  - "  &3&lConquest&7: -500 , -500"
+  - ""
+  - " &e&lPortals (x,z)"
+  - "  &cEnd Portals&7: 700 , 700 (All quadrants)"
+  - "  &cEnd Exit&7: 0 , 200 (South road)"
+  - "&7&m                                                                                "
+
+CHAT_CONTROL:
+  CHAT_MUTED: "&eChat has been &cmuted &eby &c<player>&e."
+  CHAT_UNMUTED: "&eChat has been &aunmuted &eby &c<player>&e."
+  CHAT_DELAY_BROADCAST: "&cChat delay &ehas been set to &c<delay>&e!"
+  CHAT_CLEAR_BROADCAST: "&eChat has been &ccleared &eby &c<player>&e."
+  CHATEVENT_MUTED_MESSAGE: "&eChat is currently &cmuted&e!"
+  COOLDOWN_MESSAGE: "&eYou are on &cdelay &efor &c<seconds> &emore seconds."
+  FOUNDORE_ENABLED: "&cFound ore &enotifications have been &aenabled&e!"
+  FOUNDORE_DISABLED: "&cFound ore &enotifications have been &cdisabled&e!"
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lChat management"
+    - "  &e/chat mute"
+    - "  &e/chat clear"
+    - "  &e/chat delay <amount>"
+    - "  &e/chat toggle foundore"
+    - "&7&m                                                      "
+
+CLEARINVENTORY_COMMAND:
+  MESSAGE_SELF: "&eYour inventory has been &ccleared&e."
+  MESSAGE_OTHERS: "&eYour cleared &c<player>'s &einventory."
+
+COMBAT_TAG:
+  COMMAND_DENY: "&eThis command is &cdisabled &eduring pvp!"
+  TAG_EXPIRED: "&eYour &ccombat tag &ecooldown has expired."
+  END_PORTAL_TELEPORT_DENY: "&eYou cannot use &cend portals &ewhile in combat!"
+  ENDERCHEST_DENY: "&eYou cannot use &cenderchest &ewhile in combat!"
+  BLOCK_BREAK_DENY: "&eYou cannot &cbreak blocks &ewhile in combat!"
+  BLOCK_PLACE_DENY: "&eYou cannot &cplace blocks &ewhile in combat!"
+
+CROWBAR:
+  COMMAND_USAGE: "&cUsage: /crowbar give <player>"
+  ZERO_USAGES_SPAWNERS: "&eThis &ccrowbar &ehas &c0 &emore usages for &cspawners&e!"
+  ZERO_USAGES_PORTALS: "&eThis &ccrowbar &ehas &c0 &emore usages for &cportals&e!"
+  DENY_USAGE_NETHER: "&cCrowbar &eis disabled in &cnether&e!"
+  DENY_USAGE_END: "&cCrowbar &eis disabled in &cend&e!"
+  DENY_USAGE_WARZONE: "&eYou cannot use &ccrowbar &ein warzone!"
+  GAVE: "&eYou gave &ccrowbar &eto &c<player>&e."
+  RECEIVED: "&eYou have received &ccrowbar&e."
+
+CUSTOM_TIMER_COMMAND:
+  USAGE:
+    - "&7&m                                                                "
+    - " &6&lCustom timer management"
+    - "  &e/customtimer start <name> <placeholder> <time>"
+    - "  &e/customtimer cancel <name>"
+    - "  &e/customtimer list"
+    - "&7&m                                                                "
+  LIST_COMMAND:
+    HEADER:
+      - "&7&m                                                           "
+      - " &6&lActive custom timers"
+    FOOTER:
+      - "&7&m                                                           "
+    TIMER_FORMAT: " &f<id>. &7<timerName> &e- <placeholder>"
+  TIMER_NOT_RUNNING: "&eTimer with name &c<name> &eis not running!"
+  STARTED: "<timerName> &etimer has been started by &a<player>&e."
+  STOPPED: "<timerName> &etimer has been stopped by &c<player>&e."
+
+DEATHBAN:
+  BAN_MESSAGE: "&eYou are &cdeathbanned &efor: &c<time>&7. \n\n &eReason: <reason>&e"
+  JOIN_AGAIN_FOR_REVIVE: "&eYou have &b<amount> &elive(s). Please join again to use life."
+  PLAYER_NOT_DEATHBANNED: "&ePlayer &c<player> &eis not &cdeathbanned&e!"
+  REVIVED_PLAYER: "&c<player> &esuccessfully revived &c<target>&e."
+  EOTW_MESSAGE: "&eYou died while &4EOTW &ewas running! Therefore you cannot join until next map!"
+  COMMAND_USAGE:
+    - "&7&m                                                      "
+    - " &6&lDeathban management"
+    - "  &e/deathban check <player>"
+    - "  &e/deathban revive <player>"
+    - "&7&m                                                      "
+  COMMAND_CHECK:
+    - "&7&m                                                                                "
+    - " &c&lDeathban info"
+    - "  &ePlayer: &7<player>"
+    - "  &eDuration: &7<duration>"
+    - "  &eReason: &7<reason>"
+    - "  &eLocation: &7<location>"
+    - "&7&m                                                                                "
+
+DEATHMESSAGE:
+  PLAYER_NAME_FORMAT: "&c<player>&8[&4<kills>&8]"
+  KILLER_NAME_FORMAT: "&c<killer>&8[&4<kills>&8]"
+  REASON_BLOCK_EXPLOSION: "<player> &7was blown up by &cTNT&7."
+  REASON_CONTACT: "<player> &7was slain by angry &ccactus&7."
+  REASON_CUSTOM: "<player> &7died."
+  REASON_COMBATLOGGER_KILLER: "&7(CombatLogger) <player> &7was slain by <killer>&7."
+  REASON_COMBATLOGGER: "&7(CombatLogger) <player> &7died."
+  REASON_DROWNING: "<player> &7do not know how to &cswim&7."
+  REASON_ENTITY_ATTACK_ENTITY: "<player> &7was slain by &c<entity>&7."
+  REASON_ENTITY_ATTACK_PLAYER_ITEM: "<player> &7was slain by <killer> &7using &b<item>&7."
+  REASON_ENTITY_ATTACK_PLAYER_NO_ITEM: "<player> &7was slain by <killer>&7."
+  REASON_ENTITY_EXPLOSION: "<player> &7was blown up by &ccreeper&7."
+  REASON_FALL: "<player> &7hit the ground too hard."
+  REASON_FALLING_BLOCK: "<player> &7died to a &cfalling block&7."
+  REASON_FIRE: "<player> &7went up in flames."
+  REASON_FIRE_TICK: "<player> &7went up in flames."
+  REASON_LAVA: "<player> &7tried to swim in &clava&7."
+  REASON_LIGHTNING: "<player> &7was slain by &clightning&7. :O"
+  REASON_MAGIC: "<player> &7died to a &cvoodoo&7."
+  REASON_MELTING: "<player> &7died."
+  REASON_POISON: "<player> &7was poisoned."
+  REASON_PROJECTILE_ENTITY: "<player> &7was shot by &cskeleton&7."
+  REASON_PROJECTILE_PLAYER_ITEM: "<player> &7was shot by <killer> &7using &b<item>&7."
+  REASON_PROJECTILE_PLAYER_NO_ITEM: "<player> &7was shot by <killer>&7."
+  REASON_STARVATION: "<player> &7forgot to &ceat&7."
+  REASON_SUFFOCATION: "<player> &7suffocated."
+  REASON_SUICIDE: "<player> &7killed himself."
+  REASON_THORNS: "<player> &7was killed by &cthorns&7."
+  REASON_VOID: "<player> &7fell into the &cvoid&7."
+  REASON_WITHER: "<player> &7withered away."
+
+DEL_WARP_COMMAND:
+  USAGE: "&cUsage: /delwarp <name>"
+  DELETED: "&eYou successfully deleted warp &c<name>&e."
+  DOESNT_EXIST: "&eWarp with name &c<name> &edoes not exist."
+
+ECONOMY:
+  BALANCE_SELF: "&eYou have &a$&c<amount>&e."
+  BALANCE_OTHERS: "&c<player> &ehas &a$&c<amount>&e."
+  PAY_USAGE: "&cUsage: /pay <player> <amount>"
+  BALANCE_CHANGED: "&eYour balance has been changed by &c<sender>&e. New balance: &a$&c<amount>&e."
+  BALANCE_CHANGED_STAFF: "&c<player>'s &ebalance changed by &c<sender>&e. New balance: &a$&c<amount>&e."
+  CANNOT_SEND_TO_YOURSELF: "&eYou cannot &csend money &eto yourself!"
+  TRANSACTION_INVALID_AMOUNT: "&ePlease use &cpositive &etransaction amount!"
+  TRANSACTION_MAX_AMOUNT: "&c<player> &ehas exceeded &cmaximum money &eamount."
+  TRANSACTION_MIN_AMOUNT: "&eYou do not have &cenough &emoney."
+  TRANSACTION_SUCCESS_SELF: "&eYou have sent &a$&c<amount> &eto &c<player>&e."
+  TRANSACTION_SUCCESS_OTHERS: "&eYou have received &a$&c<amount> &efrom &c<player>&e."
+  ADMIN_COMMAND_USAGE:
+    - "&7&m                                                      "
+    - " &6&lEconomy management"
+    - "  &e/economy add <player> <amount>"
+    - "  &e/economy remove <player> <amount>"
+    - "  &e/economy set <player> <amount>"
+    - "&7&m                                                      "
+
+ECONOMY_SIGNS:
+  INVALID_MATERIAL: "&ePlease use valid &cmaterial&e."
+  INVALID_AMOUNT: "&ePlease use valid item &cquantity&e."
+  INVALID_PRICE: "&ePlease use valid item &cprice&e."
+  CANNOT_AFFORD: "&cCannot afford"
+  NOT_CARRYING: "&cNot carrying"
+  NO_SPACE: "&cNo space for"
+  BOUGHT: "&aYou bought"
+  SOLD: "&aYou sold"
+
+ENCHANT_COMMAND:
+  USAGE: "&cUsage: /enchant <enchant> <level>"
+  DOESNT_EXIST: "&eEnchant &c<name> &edoes not exist."
+  NON_OP_LIMIT: "&eEnchant level cannot be higher than &c7&e."
+  ENCHANTED: "&eYou have enchanted &c<item>&e."
+  ENCHANT_REMOVED: "&eYou have removed &c<enchantment> &efrom &c<item>&e."
+
+ENDERPEARL:
+  DENY_MESSAGE: "&eYou cannot use &cenderpearl &efor &c<seconds> &emore seconds!"
+  DENY_REFUNDED: "&eYou cannot enderpearl into &csafe-zones&e."
+  COOLDOWN_EXPIRED: "&eYour &cenderpearl &ecooldown has expired."
+  GLITCH_DENY: "&eGlitching detected. Teleport cancelled and &cenderpearl &erefunded!"
+
+ENDPORTAL:
+  SELECTOR_ADDED_TO_INVENTORY: "&eEnd portal &cselector &ehas been added to your inventory."
+  NOT_END_PORTAL_FRAME: "&eYou must select an &cend portal &eframe!"
+  SELECTION_TOO_BIG_OR_SMALL: "&eYour &cselection &eis too big or too small!"
+  WRONG_ELEVATION: "&ePlease use same block &celevation&e."
+
+EOTW:
+  NO_EOTW_KOTH: "&cYou cannot start &eEOTW task &cwithout &eEOTW koth&c!"
+  NOT_RUNNING: "&cEOTW &eis currently not active!"
+  ALREADY_RUNNING: "&cEOTW &eis already active!"
+  TIMER_STARTED: "&8[&c!&8] &4EOTW &etimer has been activated. &4EOTW &ewill start in &c<seconds> &eseconds! &8[&c!&8]"
+  BROADCAST_START: "&8[&c!&8] &4EOTW &ehas been activated. All factions became raidable. &8[&c!&8]"
+  BROADCAST_STOP: "&cEOTW &ehas been canceled."
+  PVP_TIMER_DISABLED: "&eYour &cpvp timer &ehas been &cdisabled &edue to running &4EOTW&e."
+  COMMAND_USAGE:
+    - "&7&m                                                      "
+    - " &6&lEotw management"
+    - "  &e/eotw start <time>"
+    - "  &e/eotw stop"
+    - "&7&m                                                      "
+
+EXIT_COMMAND:
+  EXIT_DOESNT_EXIST: "&eExit for world &c<world> &edoes not exist."
+  TELEPORTED: "&eYou have been teleported to exit. &7(&c<world>&7)"
+
+EXPERIENCE_COMMAND:
+  ADDED: "&eYou added &c<level> &elevels to &c<player>'s &eexperience."
+  REMOVED: "&eYou removed &c<level> &elevels from &c<player>'s &eexperience."
+  SET: "&eYou set &c<player>'s &eexperience to &c<level> &elevels."
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lExperience management"
+    - "  &e/experience add <player> <levels>"
+    - "  &e/experience remove <player> <levels>"
+    - "  &e/experience set <player> <levels>"
+    - "&7&m                                                      "
+
+BOTTLE_COMMAND:
+  USAGE: "&cUsage: /bottle <exp>"
+  NOT_ENOUGH_LEVELS: "&eYou do not have &c<level> &eexp levels!"
+
+COPY_INVENTORY_COMMAND:
+  USAGE: "&cUsage: /copyinv <player>"
+  COPIED: "&eYou have copied &c<player>'s &einventory."
+
+FEED_COMMAND:
+  MESSAGE_SELF: "&eYour &chunger &ehas been satisfied."
+  MESSAGE_OTHERS: "&eYou have feed &c<player>&e."
+
+FILTER_COMMAND:
+  ADDED: "&eYou have added &c<item> &eto your filter."
+  REMOVED: "&eYou have removed &c<item> &efrom your filter."
+  CLEARED: "&eYour &cfilter &ehas been cleared."
+  EMPTY: "&eYour &cfilter &eis currently empty."
+  TOGGLED_ON: "&eYou have &ctoggled on &eyour filter."
+  TOGGLED_OFF: "&eYou have &ctoggled off &eyour filter."
+  ALREADY_FILTERED: "&eYou are already &cfiltering &ethis item!"
+  NOT_FILTERED: "&eYou are still &cnot filtering &ethis item!"
+  LIST_MESSAGE:
+    - "&7&m                                                                                "
+    - " &cFilter list &7(&a<itemcount> items&7):"
+    - " &7* &e<items>"
+    - "&7&m                                                                                "
+  USAGE:
+    - "&7&m                                                               "
+    - " &c/filter add <item> &f- &7Add item to filter"
+    - " &c/filter remove <item> &f- &7Remove item from filter"
+    - " &c/filter list &f- &7List filtered items"
+    - " &c/filter toggle &f- &7Toggle filter"
+    - " &c/filter clear &f- &7Clear filter"
+    - "&7&m                                                               "
+
+FILL_BOTTLE_COMMAND:
+  NO_GLASS_BOTTLE: "&eYou must hold &cglass bottles &ein your hand."
+  CHEST_NOT_FOUND: "&eYou are not looking at a &cchest&e."
+  ALREADY_FULL: "&eThis &cchest &eis already full."
+  FILLED: "&eYou filled &c<amount> &eempty slots with &cwater bottles&e."
+
+FLY_COMMAND:
+  MESSAGE_SELF_ENABLED: "&eYour &cfly mode &ehas been &aenabled&e."
+  MESSAGE_SELF_DISABLED: "&eYour &cfly mode &ehas been &cdisabled&e."
+  MESSAGE_OTHERS_ENABLED: "&eYou have &aenabled &e<player>'s fly mode."
+  MESSAGE_OTHERS_DISABLED: "&eYou have &cdisabled &e<player>'s fly mode."
+
+FOCUS_COMMAND:
+  USAGE: "&cUsage: /focus <player>"
+  ALREADY_FOCUSING: "&eYou are already focusing &c<player>&e."
+  CANNOT_FOCUS: "&eYou cannot focus this &cplayer&e."
+  FOCUSED:
+    - ""
+    - "&7&l* &b&lYour faction is now focusing on &a&l<target> &b&l."
+    - ""
+
+FOUND_ORE:
+  MESSAGE: "&7[&b*&7] &e<player> &7has found &bdiamonds&7. &7[&c<amount>&7]"
+
+FREEZE_COMMAND:
+  USAGE: "&cUsage: /freeze <player>"
+  DISABLED_COMMAND_MESSAGE: "&eYou cannot use this &ccommand &ewhen frozen!"
+  FREEZE_ALL: "&c&lWhole server has been frozen by &e&l<player>&c&l!"
+  UNFREEZE_ALL: "&a&lWhole server has been unfrozen by &e&l<player>&a&l!"
+  FREEZED_STAFF_MESSAGE: "&c<target> &ehas been frozen by &c<player>&e."
+  UNFREEZED_STAFF_MESSAGE: "&c<target> &ehas been unfrozen by &c<player>&e."
+  UNFREEZED_MESSAGE_TARGET: "&eYou have been unfrozen by &c<player>&e."
+  PVP_DENY_MESSAGE_DAMAGER: "&eYou cannot &cdamage &eother players while frozen!"
+  PVP_DENY_MESSAGE_VICTIM: "&c<player> &eis frozen. You cannot &cdamage &ehim!"
+  QUIT_WHEN_FROZEN: "&5Attention&e! &c<player> &eleft while frozen!"
+  CAN_NOT_FREEZE_PLAYER: "&eYou cannot freeze &c<player>&e!"
+  MESSAGE:
+    - "&7&m                                                                                "
+    - "                          &4&lWARNING! WARNING!                        "
+    - "                         &bYou have been &cFROZEN&b.                    "
+    - "                 &bJoin our teamspeak at: &cts.example.com             "
+    - "&7&m                                                                                "
+
+GAMEMODE_COMMAND:
+  USAGE: "&cUsage: /gamemode <gamemode> [player]"
+  INVALID_GAMEMODE: "&dGamemode &evalue does not exist."
+  MESSAGE_SELF: "&eYour gamemode has been updated to &c<gamemode>&e."
+  MESSAGE_OTHERS: "&eYou have set &c<player>'s &egamemode to &a<gamemode>&e."
+
+GIVE_COMMAND:
+  USAGE: "&cUsage: /give <player> <item> [amount]"
+  INVALID_ITEM: "&eItem &c<item> &edoes not exist."
+  GIVEN_SENDER: "&eYou gave &b<amount>x &c<item> &eto &c<player>&e."
+  GIVEN_OTHERS: "&eYou have been given &b<amount>x &c<item> &eby &c<player>&e."
+  INVENTORY_FULL: "&c<player>'s &einventory is already full."
+
+GOD_COMMAND:
+  MESSAGE_SELF_ENABLED: "&eYour &cgod mode &ehas been &aenabled&e."
+  MESSAGE_SELF_DISABLED: "&eYour &cgod mode &ehas been &cdisabled&e."
+  MESSAGE_OTHERS_ENABLED: "&eYou have &aenabled &c<player>'s &egod mode."
+  MESSAGE_OTHERS_DISABLED: "&eYou have &cdisabled &c<player>'s &egod mode."
+
+GOLDEN_APPLE:
+  NO_COOLDOWNS: "&eYou have no &cgolden apple &ecooldowns&e."
+  NORMAL:
+    COOLDOWN_STARTED_MESSAGE: "&eYou have used &cgolden apple&e. Starting cooldown at &b<time>&e."
+    COOLDOWN_DENY_MESSAGE: "&eYou are on &cgolden apple &ecooldown for: &b<time>&e."
+    COOLDOWN_EXPIRED: "&eYour &cgolden apple &ecooldown has expired."
+    COMMAND_MESSAGE: "&eNormal golden apple cooldown&e: &b<time>"
+  ENCHANTED:
+    COOLDOWN_STARTED_MESSAGE: "&eYou have used &csuper golden apple&e. Starting cooldown at &b<time>&e."
+    COOLDOWN_DENY_MESSAGE: "&eYou are on &csuper golden apple &ecooldown for: &b<time>&e."
+    COOLDOWN_EXPIRED: "&eYour &csuper golden apple &ecooldown has expired."
+    COMMAND_MESSAGE: "&cEnchanted golden apple cooldown&e: &b<time>"
+
+HEAD_DROP:
+  CLICK_MESSAGE: "&eThis is &c<player>&e."
+
+HEAL_COMMAND:
+  MESSAGE_SELF: "&eYou have been &chealed&e."
+  MESSAGE_OTHERS: "&eYou have healed &c<player>&e."
+
+HELP_MESSAGE:
+  - "&7&m                                                                                "
+  - " &c&lUseful commands:"
+  - "  &e/faction &f- &7Use to see all factions related commands."
+  - "  &e/koth &f- &7Use to see all koth related commands."
+  - "  &e/lives &f- &7Use to check your lives amount."
+  - "  &e/mapkit &f- &7Use to check this map kit."
+  - "  &e/coords &f- &7Use to see all important coordinates."
+  - "  &e/subclaim &f- &7Tutorial on how to make subclaimed chests."
+  - "  &e/logout &f- &7Logout countdown for safe logout."
+  - ""
+  - " &c&lMax Enchantments:"
+  - "  &eSharpness I"
+  - "  &eProtection I"
+  - ""
+  - " &eFor further assistance use &c/request&3."
+  - "&7&m                                                                                "
+
+HIDE_STAFF_COMMAND:
+  HIDDEN: "&eVanished &cstaff &ehas been &chidden&e!"
+  SHOWN: "&eVanished &cstaff &ehas been &ashown&e!"
+
+IGNORE_COMMAND:
+  USAGE: "&cUsage: /ignore <player>"
+  ENABLED: "&eYou are now ignoring &c<player>&e."
+  DISABLED: "&eYou are no longer ignoring &c<player>&e."
+  CANNOT_IGNORE_SELF: "&eYou cannot ignore &cyourself&e!"
+
+INVENTORY_RESTORE_COMMAND:
+  USAGE: "&cUsage: /invrestore <player>"
+  NOTHING_TO_RESTORE: "&c<target> &ehas no inventory data to restore!"
+  RESTORED_SENDER: "&c<player> &esuccessfully restored &c<target>'s &einventory."
+  RESTORED_PLAYER: "&eYour inventory has been restored by &c<player>&e."
+
+INVSEE_COMMAND:
+  USAGE: "&cUsage: /invsee <player>"
+
+ITEM_COMMAND:
+  USAGE: "&cUsage: /item <item> [amount]"
+  INVALID_ITEM: "&eItem &c<item> &edoes not exist."
+  RECEIVED: "&eYou gave yourself &b<amount>x &c<item>&e."
+  INVENTORY_FULL: "&eYour &cinventory &eis already full."
+
+JOIN_FULL_SERVER_MESSAGE: "&cServer is &4full&c. In order to play donate at: &eshop.example.com"
+
+KILL_COMMAND:
+  USAGE: "&cUsage: /kill <player>"
+  MESSAGE_SELF: "&eYou have been killed by &c<player>&e."
+  MESSAGE_OTHERS: "&eYou killed &c<player>&e."
+
+KICKALL_COMMAND:
+  USAGE: "&cUsage: /kickall <reason>"
+  STAFF_MESSAGE: "&eAll players have been kicked by &c<player> &efor: &7<reason>"
+
+KILLALL_COMMAND:
+  USAGE: "&cUsage: /killall <all|mobs|animals|items>"
+  KILLED: "&eYou have killed all &c<type>&e."
+  COUNT: "&eTotal: &c<amount>"
+
+KITMAP_KILLSTREAK:
+  ON_DEATH: "&eYou lost your &ckillstreak &eof &c<amount> &ekills."
+  MESSAGE: "&7[&e*&7] &bPlayer &5<player> &breceived rewards for their &a<amount> &bconsecutive kills."
+
+KITMAP_DENY_ITEM_DROP: "&cYou cannot drop items in &csafezone &eduring kitmap mode!"
+
+KITS:
+  COMMAND_USAGE_PLAYER:
+    - "&7&m                                                                                "
+    - " &c/kit list &f- &7List kits you can redeem"
+    - " &c/kit <name> &f- &7Apply kit with specific name"
+    - "&7&m                                                                                "
+  COMMAND_USAGE_ADMIN:
+    - "&7&m                                                                                "
+    - " &6&lKit management"
+    - "  &e/kit create <name> <delay>"
+    - "  &e/kit delay <name> <delay>"
+    - "  &e/kit remove <name>"
+    - "  &e/kit give <player> <kit>"
+    - "  &e/kit edit <name>"
+    - "  &e/kit list"
+    - ""
+    - " &7* Set delay to &c-1 &7for one use only kits"
+    - "&7&m                                                                                "
+  APPLIED_OTHERS: "&eYou have applied kit &c<kit> &eto &c<player>&e."
+  EQUIPPED: "&eYou have received items from kit &c<kit>&e."
+  EXCEPTION:
+    ONE_TIME_ONLY: "&eYou have already used kit &c<kit>&e."
+    COOLDOWN: "&eYou cannot use kit &c<kit> &efor: &c<time>"
+    NO_PERMISSION: "&eYou do not have permission for kit &c<kit>&e!"
+    ALREADY_EXISTS: "&eKit &c<kit> &ealready exists!"
+    DOESNT_EXISTS: "&eKit with name &c<kit> &edoes not exists!"
+    FULL_INVENTORY: "&eYour &cinventory &eis full. Dropping some items on the &cfloor&e!"
+    KITMAP_ONLY_KIT: "&eThis kit is only obtainable via &ckitmap &esigns."
+    SPECIAL_EVENT_KIT: "&eThis is &cspecial event &ekit. Not obtainable!"
+  CREATE_COMMAND:
+    USAGE: "&cUsage: /kit create <name> <delay>"
+    CREATED: "&eKit &c<kit> &ehas been created."
+  EDIT_COMMAND:
+    USAGE: "&cUsage: /kit edit <kit>"
+    EDITED: "&eKit &c<kit> &ehas been edited."
+  GIVE_COMMAND:
+    USAGE: "&cUsage: /kit give <player> <kit>"
+  LIST_COMMAND:
+    NO_KITS: "&eYou have no &ckits &eto use right now!"
+    FORMAT: "&eKits you can use: <kits>"
+  REMOVE_COMMAND:
+    USAGE: "&cUsage: /kit remove <kit>"
+    REMOVED: "&eKit &c<kit> &ehas been removed."
+    CANNOT_REMOVE_KITMAP_KIT: "&eYou cannot remove &ckitmap &ekits!"
+    CANNOT_REMOVE_SPECIAL_EVENT_KIT: "&eYou cannot remove &cspecial event &ekits!"
+  SET_DELAY_COMMAND:
+    USAGE: "&cUsage: /kit setdelay <kit> <delay>"
+    CHANGED: "&c<kit>'s &edelay has been set to &c<delay>&e."
+
+LAG_COMMAND:
+  WORLD_FORMAT: " &7* &d<world>&7: &eLoaded Chunks&7: &d<loaded_chunks>&7, &eEntities&7: &d<entities>"
+  MESSAGE:
+    - "&7&m                                                              "
+    - "&c&lServer Info"
+    - " &7* &eTPS&7: &d<tps>"
+    - " &7* &eUptime&7: &d<uptime>"
+    - " &7* &eMaximum Memory&7: &d<max_memory>MB"
+    - " &7* &eAllocated Memory&7: &d<allocated_memory>MB"
+    - " &7* &eFree Memory&7: &d<free_memory>MB"
+    - ""
+    - "&c&lWorlds&7:"
+    - "<worlds>"
+    - "&7&m                                                              "
+
+LAST_DEATHS_COMMAND:
+  USAGE: "&cUsage: /lastdeaths <player>"
+  HEADER_FORMAT: "&eLast &c5 &edeaths for player &c<player>&e:"
+  DEATH_MESSAGE_FORMAT: " &f* &7<deathMessage>"
+  NO_DEATHS_YET: "&ePlayer &c<player> &ehas not died yet!"
+
+LFF_COMMAND:
+  COOLDOWN: "&eYou cannot use &clff &efor &c<seconds> &emore seconds!"
+  COOLDOWN_EXPIRED: "&eYour &clff &ecooldown has expired."
+  ALREADY_IN_FACTION: "&eYou are already in &cfaction&e!"
+  MESSAGE:
+    - "&c&m   &7&m                                                        &c&m   "
+    - " &7&l* &e<player> &7is looking for &cfaction &7&l*"
+    - "&c&m   &7&m                                                        &c&m   "
+
+LIST_COMMAND:
+  - "&7&m                                                                                "
+  - " &eThere is currently &c&l<online>&e/&c&l<max> &eplayers online."
+  - ""
+  - " &eStaff Online:"
+  - " &f- &7<staffonline>"
+  - "&7&m                                                                                "
+
+LIVES_COMMAND:
+  CHECK_SELF: "&eYou have &c<lives> &elives."
+  CHECK_OTHERS: "&ePlayer &c<player> &ehas &c<lives> &elives."
+  PLAYER_NOT_DEATHBANNED: "&ePlayer &c<player> &eis not deathbanned!"
+  SUCCESSFULLY_REVIVED_PLAYER: "&eYou successfully revived &c<player>&e."
+  SUCCESSFULLY_SENT_LIVES: "&eYou sent &c<amount> &elives to &c<player>&e."
+  SUCCESSFULLY_RECEIVED_LIVES: "&eYou received &c<amount> &elife(s) from &c<player>&e."
+  CAN_NOT_SEND_LIVES_TO_YOURSELF: "&eYou cannot send lives to &cyourself&e!"
+  LIVES_ADD_USAGE: "&cUsage: /lives add <player> <amount>"
+  LIVES_ADDED: "&eYou added &c<amount> &elives to &c<player>'s &eaccount."
+  LIVES_ADD_RECEIVED: "&c<player> &eadded &c<amount> &elives to you account."
+  LIVES_SET_USAGE: "&cUsage: /lives set <player> <amount>"
+  LIVES_SET: "&eYou set &c<player>'s &elives to &c<amount>&e."
+  LIVES_SET_RECEIVED: "&eYour lives were set to &c<amount> &eby &c<player>&e."
+  ZERO_LIVES: "&eYou have &c0 &elives!"
+  NOT_ENOUGH_LIVES: "&eYou do not have &c<amount> &elives."
+  USAGE:
+    - "&7&m                                                      "
+    - " &c/lives check <player>"
+    - " &c/lives revive <player>"
+    - " &c/lives send <player> <amount>"
+    - "&7&m                                                      "
+
+LOGOUT:
+  KICK_MESSAGE: "&aYou have been safely logged out."
+  TELEPORT_CANCELLED_MOVED: "&cLogout &ecancelled because you &cmoved&e!"
+  TELEPORT_CANCELLED_DAMAGED: "&cLogout &ecancelled because you &cwere damaged&e!"
+  ALREADY_RUNNING: "&eYour &clogout task &eis already running!"
+  START_MESSAGE: "&eYou will be safely &clogged out &ein &c<seconds> &eseconds."
+
+MAPKIT_EDIT_MESSAGE: "&eYou successfully edited &cmapkit inventory&e."
+
+MESSAGE_COMMAND:
+  USAGE: "&cUsage: /message <player> <message>"
+  SEND_FORMAT: "&d(To <rankPrefix><player>&d) "
+  RECEIVE_FORMAT: "&d(From <rankPrefix><player>&d) "
+  MESSAGES_DISABLED: "&ePlayer &c<player> &ehas messages &ctoggled off&e!"
+
+MINECART_ELEVATOR:
+  DENY_COMBAT: "&eElevator is &cdisabled &ewhile in combat!"
+  OWN_CLAIM_ONLY: "&eYou can use &celevator &ein own claim only."
+  NO_VALID_LOCATION: "&eCould not find valid &cteleport location&e!"
+
+MINER_EFFECT_COMMAND:
+  HEADER: "&7&m                                                                                "
+  FOOTER: "&7&m                                                                                "
+  TITLE: " &6&lMiner Effects"
+  FORMAT:
+    - "  &e<name>"
+    - "  &f- &7Diamonds: &c<diamonds>"
+    - "  &f- &7Effects: &c<effects>"
+
+MORE_COMMAND_MESSAGE: "&eYou have stacked item in your hand to &c64&e."
+
+NETHER_PORTAL_TRAP_FIX: "&cYou right clicked a portal! &eSome portal blocks have been removed so you can use commands."
+
+NOTES_COMMAND:
+  MESSAGE: "&eNotes of player &c<player>&e:"
+  NO_NOTES: "&ePlayer &c<player> &ehas no notes."
+  NOTE_ADDED: "&eSuccessfully added note for player &c<player>&e."
+  NOTE_REMOVED: "&eNote with id &c<id> &ehas been removed."
+  NOTE_DOESNT_EXIST: "&eNote with id &c<id> &edoes not exist."
+  FORMAT: " &f<id>. &7<note>"
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lNotes management"
+    - "  &e/notes check <player>"
+    - "  &e/notes add <player> <note>"
+    - "  &e/notes remove <player> <number>"
+    - "&7&m                                                      "
+
+PING_COMMAND:
+  MESSAGE_SELF: "&eYour ping is &7<ping>ms&e."
+  MESSAGE_OTHERS: "&c<player>'s &eping is &7<ping>ms&e."
+
+PLAYTIME_COMMAND:
+  USAGE: "&cUsage: /playtime <player>"
+  MESSAGE: "&ePlayer &c<player> &eplayed for: &b<time>&e."
+
+POTION_LIMITER_DENY_MESSAGE: "&eThis &cpotion effect &eis disabled!"
+
+PVP_CLASSES:
+  ACTIVATED: "&b<name> &aclass activated."
+  DEACTIVATED: "&b<name> &cclass disabled!"
+  WARMING_UP: "&b<name> &7class warming up."
+  WARMUP_CANCELLED: "&b<name> &cclass warmup cancelled!"
+
+PVP_COMMAND:
+  PROTECTION_DISABLED: "&eYou have disabled your &cpvp protection&e!"
+  NOT_ACTIVE: "&eYour &cpvp protection &eis not active!"
+  TIME_STATUS: "&eYour &cpvp protection &etime is: &c<time>"
+  USAGE:
+    - "&7&m                                                           "
+    - " &c/pvp enable &f- &7Enable PvP for yourself"
+    - " &c/pvp time &f- &7Check time left on your timer"
+    - "&7&m                                                           "
+
+PVP_PROTECTION:
+  DENY_TELEPORT: "&eYou cannot teleport inside claims while your &cpvp protection &eis active!"
+  PROTECTION_EXPIRED: "&eYour &cpvp protection &ehas expired!"
+  PVP_DENY_ATTACKER: "&eYou cannot attack &c<name> &ewhile their &cpvp protection &eis active!"
+  PVP_DENY_VICTIM: "&eYou cannot attack other players while your &cpvp protection &eis active!"
+  ITEM_DENY_MESSAGE: "&eYou cannot use &c<item> &ewith active &cpvp protection&e!"
+  END_PORTAL_TELEPORT_DENY: "&eYou cannot use &cend portals &ewith active &cpvp protection&e!"
+  TELEPORT_DUE_TO_CLAIM: "&eYou have been &cteleported &eoutside claimed land!"
+
+RANK_REVIVE_COMMAND:
+  USAGE: "&cUsage: /rankrevive <player>"
+  NO_PERMISSION: "&eYou do not have &crank revive &eability!"
+  NOT_DEATHBANNED: "&ePlayer &c<player> &eis not &cdeathbanned&e!"
+  COOLDOWN_EXPIRED: "&eYour &crank revive &ecooldown has expired."
+  COOLDOWN_ACTIVE: "&eYou cannot use &crank revive &efor &c<seconds> &emore seconds!"
+  BROADCAST_MESSAGE: "&7[&b*&7] &c<player> &ehas used their <rankName> &crank &eto revive &c<target>&e."
+
+REBOOT_COMMAND:
+  USAGE:
+    - "&7&m                                                           "
+    - " &4&lReboot management"
+    - "  &c/reboot start <time>"
+    - "  &c/reboot cancel"
+    - "&7&m                                                           "
+  NOT_RUNNING: "&eServer is currently not &crebooting&e."
+  ALREADY_RUNNING: "&eServer is already &crebooting&e."
+  PLAYER_KICK_MESSAGE: "&cServer is rebooting."
+  BROADCAST:
+    - "&c&m   &4&m                                                        &c&m   "
+    - " &cServer rebooting in <time>"
+    - "&c&m   &4&m                                                        &c&m   "
+  CANCELED:
+    - "&c&m   &4&m                                                        &c&m   "
+    - " &cServer reboot has been canceled."
+    - "&c&m   &4&m                                                        &c&m   "
+
+SALE_COMMAND:
+  STARTED: "&8[&a!&8] &b<type> &asale has started. It ends in &c<time> &8[&a!&8]"
+  STOPPED: "&c<type> &esale has been stopped by &c<player>&e."
+  FINISHED: "&8[&c!&8] &b<type> &csale has finished &8[&c!&8]"
+  EXCEPTION:
+    ALREADY_RUNNING: "&c<type> &esale is already running!"
+    NOT_RUNNING: "&c<type> &esale is currently not running!"
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lSale management"
+    - "  &e/sale start <type> <time>"
+    - "  &e/sale stop <type>"
+    - ""
+    - " &7* Type can be &cSTORE &7or &cKEY"
+    - "&7&m                                                      "
+
+SALVAGE_COMMAND:
+  NOT_SALVAGEABLE: "&eThis item is &cnot salvageable&e. You can only salvage &carmor&e, &ctools &eand &cweapons&e!"
+  SALVAGED: "&eYou salvaged &c<item> &7(Durability: &c<durability>%&7)&e:"
+  INGREDIENT_FORMAT: " &f\u25CF &a<amount>&7x &7<material>"
+
+RECLAIM_COMMAND:
+  ALREADY_USED: "&eYou have already used your &c/reclaim &ereward."
+  BROADCAST_MESSAGE: "&8[&a*&8] &6<player> &eredeemed their &6<rankName> &ereward using &c/reclaim&e."
+  NO_PERMISSION: "&eYou do not have &creclaim &eability!"
+
+RENAME_COMMAND:
+  USAGE: "&cUsage: /rename <name>"
+  MAX_LENGTH_EXCEEDED: "&eNew name exceeded maximum length of &c<length> characters&e."
+  BLACKLISTED_WORD: "&eNew item name contains &cforbidden &ewords!"
+  RENAMED: "&eYou have renamed item to &c<name>&e."
+
+REPAIR_COMMAND:
+  USAGE: "&cUsage: /repair <hand|all>"
+  NOT_REPAIRABLE: "&eThis item is not &crepairable&e!"
+  REPAIRED_ITEM: "&eYou have repaired &c<item>&e."
+  REPAIRED_ALL: "&eYou have repaired &call items&e."
+
+REPLY_COMMAND:
+  USAGE: "&cUsage: /reply <message>"
+  NOBODY_TO_REPLY: "&eYou have &cnobody &eto reply to!"
+
+REPORT_COMMAND:
+  USAGE: "&cUsage: /report <player> <reason>"
+  REPORTED: "&eYou have successfully reported &c<player>&e."
+  COOLDOWN: "&eYou cannot use &creport &efor &c<seconds> &emore seconds!"
+  COOLDOWN_EXPIRED: "&eYour &creport &ecooldown has expired."
+  FORMAT:
+    - "&7&m                                                                                "
+    - " &f* &eReporter&7: &a<reporter>"
+    - " &f* &eSuspect&7: &c<suspect>"
+    - " &f* &eReason&7: <reason>"
+    - "&7&m                                                                                "
+
+REQUEST_COMMAND:
+  USAGE: "&cUsage: /request <message>"
+  REQUESTED: "&eYour &crequest &ehas been successfully sent."
+  COOLDOWN: "&eYou cannot use &crequest &efor &c<seconds> &emore seconds!"
+  COOLDOWN_EXPIRED: "&eYour &crequest &ecooldown has expired."
+  FORMAT:
+    - "&8[&eRequest&8] &3<player>&7: &c<message>"
+
+SEEN_COMMAND:
+  USAGE: "&cUsage: /seen <player>"
+  ONLINE: "&ePlayer &c<player> &eis online for: &7<time>"
+  MESSAGE: "&ePlayer &c<player> &ewas last online: &7<time> ago"
+
+SELECTION:
+  LOCATION_ONE_SET: "&eLocation &cone &ehas been set."
+  LOCATION_TWO_SET: "&eLocation &ctwo &ehas been set."
+
+SET_EXIT_COMMAND:
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lExit management"
+    - "  &e/setexit nether"
+    - "  &e/setexit end"
+    - "&7&m                                                      "
+  EXIT_SET: "&c<worldName> &eexit set to: &c<world>&e, &c<x>&e, &c<y>&e, &c<z>&e."
+
+SET_RECLAIM_COMMAND:
+  USAGE: "&cUsage: /setreclaim <player> <true|false>"
+  INVALID_BOOLEAN: "&ePlease use either &ctrue &eor &cfalse&e!"
+  SET_USED_MESSAGE: "&eChanged &c<player>'s &ereclaim to &cused&e!"
+  SET_NOT_USED_MESSAGE: "&eChanged &c<player>'s &ereclaim to &anot used&e!"
+
+SET_SLOTS_COMMAND:
+  USAGE: "&cUsage: /setslots <amount>"
+  MESSAGE:
+    - "&7&m                                                                                "
+    - ""
+    - " &8[&a*&8] &e&lSlots have been set to &c&l<number> &e&lby &c&l<player>&e&l."
+    - ""
+    - "&7&m                                                                                "
+
+SET_SPAWN_COMMAND:
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lSpawn management"
+    - "  &e/setspawn world"
+    - "  &e/setspawn nether"
+    - "  &e/setspawn end"
+    - "&7&m                                                      "
+  SPAWN_SET: "&c<world> &espawn set to: &c<x>&e, &c<y>&e, &c<z>&e."
+  NOT_IN_WORLD: "&eYou must be in &c<world> &eto execute this command."
+
+SET_WARP_COMMAND:
+  USAGE: "&cUsage: /setwarp <name>"
+  CREATED: "&eWarp &c<name> &ecreated at: &c<world>&e, &c<x>&e, &c<y>&e, &c<z>&e."
+  ALREADY_EXIST: "&eWarp with name &c<name> &ealready exists!"
+
+SIGN_ELEVATOR:
+  CREATED: "&eYou have created &csign elevator&e."
+  DESTROYED: "&eYou have destroyed &csign elevator&e."
+  NO_VALID_LOCATION: "&eCould not find valid &cteleport location&e!"
+
+SOCIAL_SPY_COMMAND:
+  ENABLED: "&eYou have &aenabled &esocial spy."
+  DISABLED: "&eYou have &cdisabled &esocial spy."
+  MESSAGE_FORMAT: "&8[&cSpy&8] &7<sender> &7-> &7<target>&7: <message>"
+
+SOTW:
+  STARTED: "&8[&a!&8] &aSOTW &ehas been started at &b<time>&e. &e&lGood Luck! &8[&a!&8]"
+  ENDED: "&8[&c!&8] &aSOTW &ehas ended. &eWatch your back! &8[&c!&8]"
+  NOT_RUNNING: "&cSotw timer &eis currently not running!"
+  ALREADY_RUNNING: "&eThere is &csotw timer &ealready running!"
+  ENABLED: "&eYou have &cdisabled &eyour &csotw &edamage protection!"
+  ALREADY_ENABLED: "&eYou have already &cdisabled &eyour &csotw &edamage protection!"
+  VOID_FIX: "&eDue to active &csotw &eyou have been teleported to &cend spawn&e!"
+  TIME_STATUS: "&eRemaining &cSOTW &etimer time is: &c<time>"
+  HIDE_PLAYERS_ENABLED: "&eYou have &aenabled &esotw &chide players &efeature."
+  HIDE_PLAYERS_DISABLED: "&eYou have &cdisabled &esotw &chide players &efeature."
+  ADMIN_COMMAND_USAGE:
+    - "&7&m                                                           "
+    - " &6&lSotw management"
+    - "  &e/sotw start [time]"
+    - "  &e/sotw stop"
+    - "  &e/sotw hideplayers"
+    - "&7&m                                                           "
+  PLAYER_COMMAND_USAGE:
+    - "&7&m                                                           "
+    - " &c/sotw enable &f- &7Disable SOTW protection"
+    - " &c/sotw time &f- &7Check SOTW time left"
+    - "&7&m                                                           "
+
+SOUNDS_COMMAND:
+  ENABLED: "&eMessage &csounds &ehave been &aenabled&c."
+  DISABLED: "&eMesage &csounds &ehave been &cdisabled&c."
+
+SPAWN_COMMAND:
+  SPAWN_DOESNT_EXIST: "&eSpawn for world &c<world> &edoes not exist."
+  ALREADY_TELEPORTING: "&eYou are already teleporting to &cspawn&e!"
+  TELEPORTED: "&eYou have been teleported to spawn. &7(&c<world>&7)"
+  TELEPORT_STARTED: "&eYou will be teleported to spawn in &c<time> seconds&e."
+  TELEPORTED_KITMAP: "&eYou have been teleported to &cspawn&e."
+  TELEPORT_CANCELLED:
+    DAMAGE: "&cSpawn teleport &ewas cancelled because you &cwere damaged&e!"
+    MOVED: "&cSpawn teleport &ewas cancelled because you &cmoved&e!"
+
+SPAWNER_COMMAND:
+  USAGE: "&cUsage: /spawner <type>"
+  MUST_LOOK_AT_SPAWNER: "&eYou must be looking at &cspawner&e."
+  UPDATED_SPAWNER: "&eYou have updated spawner to &c<type>&e."
+
+SPEED_COMMAND:
+  USAGE: "&cUsage: /speed <speed>"
+  LIMIT_REACHED: "&eSpeed limit is &c10&e."
+  SPEED_CHANGED: "&eYou have changed &c<type> &espeed to &c<value>&e."
+
+STAFF_CHAT:
+  ENABLED: "&eStaff chat &aenabled&e."
+  DISABLED: "&eStaff chat &cdisabled&e."
+  FORMAT: "&8[&aStaff&8] &c<player>&7: &7<message>"
+
+STAFF_MODE:
+  ENABLED: "&eYou have &aenabled &estaffmode."
+  DISABLED: "&eYou have &cdisabled &estaffmode."
+  ENABLED_OTHERS: "&c<target>'s &estaffmode has been &aenabled &eby &c<player>&e."
+  DISABLED_OTHERS: "&c<target>'s &estaffmode has been &cdisabled &eby &c<player>&e."
+  RANDOM_TELEPORT_MESSAGE: "&eRandomly teleported you to &c<player>&e."
+  INVENTORY_INSPECT_MESSAGE: "&eOpening inventory of &c<player>&e. Cannot edit."
+  DAMAGE_DENY: "&eYou cannot &cdeal damage &ewhen in staffmode!"
+  INTERACT_DENY: "&eYou cannot &cuse this &ewhen in staffmode!"
+  PLACE_DENY: "&eYou cannot &cplace blocks &ewhen in staffmode!"
+  BREAK_DENY: "&eYou cannot &cbreak blocks &ewhen in staffmode!"
+
+STAFF_SCOREBOARD_COMMAND:
+  ENABLED: "&eYou have &aenabled &estaff scoreboard."
+  DISABLED: "&eYou have &cdisabled &estaff scoreboard."
+
+SUBCLAIM_MESSAGE:
+  - "&7&m                                                      "
+  - " &c&lSubclaim tutorial"
+  - ""
+  - " &3Player &7subclaim:"
+  - "   &7Line 1&7: &c[Subclaim]"
+  - "   &7Line 2&7: &cPlayer name"
+  - ""
+  - " &2Captain &7subclaim:"
+  - "   &7Line 1&7: &c[Subclaim]"
+  - "   &7Line 2&7: &cCaptain"
+  - ""
+  - " &5Leader &7subclaim:"
+  - "   &7Line 1&7: &c[Subclaim]"
+  - "   &7Line 2&7: &cLeader"
+  - "&7&m                                                      "
+
+SUBCLAIMS:
+  SUCCESSFULLY_CREATED: "&ePlayer &c<player> &ecreated subclaimed &bchest &eat &b<x>&e, &b<y>&e, &b<z>&e."
+  CAN_NOT_DESTROY_SIGN: "&eYou cannot destroy this &csubclaim sign&e!"
+  CAN_NOT_DESTROY_SUBCLAIM: "&eYou cannot destroy this &csubclaimed chest&e!"
+  CAN_NOT_OPEN: "&eYou cannot open this &csubclaimed chest&e!"
+  NOT_IN_OWN_CLAIM: "&eMust be in your own &cclaim&e!"
+  ALREADY_EXISTS: "&eThere is already a subclaim on this &cchest&e."
+  MUST_BE_LEADER: "&eYou must be &cfaction leader &eto create this &csubclaim&e!"
+  MUST_BE_CO_LEADER: "&eYou must be at least &cfaction coleader &eto create this &csubclaim&e!"
+  MUST_BE_CAPTAIN: "&eYou must be at least &cfaction captain &eto create this &csubclaim&e!"
+
+TELEPORT_COMMAND:
+  USAGE: "&cUsage: /teleport <player>"
+  MESSAGE: "&eYou have been teleported to &c<player>&e."
+
+TELEPORTALL_COMMAND:
+  MESSAGE: "&eEverybody has been teleported to &cyour location&e."
+
+TELEPORTHERE_COMMAND:
+  USAGE: "&cUsage: /teleporthere <player>"
+  MESSAGE: "&eYou have teleported &c<player> &eto yourself."
+
+TELEPORTPOSITION_COMMAND:
+  USAGE: "&cUsage: /teleporposition <x> <y> <z>"
+  MESSAGE: "&eYou have teleported yourself to &c<x>&e, &c<y>&e, &c<z>&e."
+
+TELL_LOCATION_COMMAND:
+  MESSAGE: "&8[&bTL&8] &c<player>'s &elocation: &7<location>"
+
+TIME_COMMANDS:
+  MESSAGE_DAY: "&eTime has been set to &cday&e."
+  MESSAGE_NIGHT: "&eTime has been set to &cnight&e."
+
+TIMER_COMMAND:
+  USAGE: "&cUsage: /timer <player> <timer> <time>"
+  TIMER_NOT_CHANGEABLE: "&eThis &ctimer type &eis not changeable!"
+  CHANGED: "&eYour &c<timer> &etimer has been set to &c<time> &eby &c<sender>&e."
+  CHANGED_SENDER: "&eYou set &c<player>'s &e<timer> timer to &c<time>&e."
+
+TOGGLE_COBBLE_COMMAND:
+  TOGGLED_ON: "&eYou have &aenabled &ccobblestone &epickup."
+  TOGGLED_OFF: "&eYou have &cdisabled &ccobblestone &epickup."
+
+TOGGLE_DEATHMESSAGES_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &cdeath messages&e."
+  TOGGLED_OFF: "&eYou have toggled &coff &cdeath messages&e."
+
+TOGGLE_FOUND_ORE_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &cfound ore &emessages."
+  TOGGLED_OFF: "&eYou have toggled &coff &cfound ore &emessages."
+
+TOGGLE_LIGHTNING_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &edeath &clightning effect&e."
+  TOGGLED_OFF: "&eYou have toggled &coff &edeath &clightning effect&e."
+
+TOGGLE_MESSAGES_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &eyour &cmessages&e."
+  TOGGLED_OFF: "&eYou have toggled &coff &eyour &cmessages&e."
+
+TOGGLE_PUBLIC_CHAT_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &eyour &cpublic chat&e."
+  TOGGLED_OFF: "&eYou have toggled &coff &eyour &cpublic chat&e."
+
+TOGGLE_SCOREBOARD_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &eyour &cscoreboard&e."
+  TOGGLED_OFF: "&eYou have toggled &coff &eyour &cscoreboard&e."
+
+TOGGLE_SOUNDS_COMMAND:
+  TOGGLED_ON: "&eYou have toggled &aon &eyour &cmessage sounds&e."
+  TOGGLED_OFF: "&eYou have toggled &coff &eyour &cmessage sounds&e."
+
+TOP_COMMAND_MESSAGE: "&eTeleported to &chighest &eblock."
+
+UNFOCUS_COMMAND:
+  NOT_FOCUSING: "&cYou are currently &cnot focusing &canyone."
+  UNFOCUSED: "&cYou are no longer focusing &c<player>&c."
+
+UNREPAIRABLE_ITEM_MESSAGE: "&eThis item is not &crepairable&e!"
+
+VANISH:
+  ENABLED: "&eYou have &aenabled &evanish."
+  DISABLED: "&eYou have &cdisabled &evanish."
+  ENABLED_OTHERS: "&c<target>'s &evanish has been &aenabled &eby &c<player>&e."
+  DISABLED_OTHERS: "&c<target>'s &evanish has been &cdisabled &eby &c<player>&e."
+  ENABLED_STAFF_BROADCAST: "&ePlayer &c<player> &ehas vanished! :O"
+  DISABLED_STAFF_BROADCAST: "&ePlayer &c<player> &ehas become visible!"
+  BUILD_ENABLED: "&eYou have &aenabled &ebuilding while &cvanished&e."
+  BUILD_DISABLED: "&eYou have &cdisabled &ebuilding while &cvanished&e."
+  CHEST_MESSAGE: "&4[&cSilent&4] &eOpening silently. Cannot edit."
+  DAMAGE_DENY: "&eYou cannot &cdeal damage &ewhen vanished!"
+  INTERACT_DENY: "&eYou cannot &cuse this &ewhen vanished!"
+  PLACE_DENY: "&eYou cannot &cplace blocks &ewhen vanished!"
+  BREAK_DENY: "&eYou cannot &cbreak blocks &ewhen vanished!"
+
+VIEW_DISTANCE_COMMAND:
+  ALREADY_RUNNING: "&eChange &cview distance &etask is already running!"
+  FINISHED: "&eChange &cview distance &etask has been finished."
+  STARTED:
+    - "&eYou have successfully started change &cview distance &etask."
+    - "&eEstimated finish time &c<seconds> seconds&e."
+  USAGE:
+    - "&7&m                                                           "
+    - " &7* &eThis command can cause lag!"
+    - " &7* &eCurrent view distance (Chunks) &7- &c<chunks>"
+    - " &7* &eUsage: &7/viewdistance <distance>"
+    - "&7&m                                                           "
+
+WARP_COMMAND:
+  LIST: "&eList of warps&7: &b<warps>"
+  TELEPORTED: "&eTeleported to warp &c<name>&e."
+  DOESNT_EXIST: "&eWarp with name &c<name> &edoes not exist."
+
+WORLD_COMMAND:
+  USAGE: "&cUsage: /world <world>"
+  WORLD_DOESNT_EXIST: "&eWorld &c<name> &edoes not exist."

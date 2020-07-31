@@ -1,0 +1,72 @@
+#=========================================================#
+#                  Scoreboard configuration               #
+#=========================================================#
+
+SCOREBOARD_TITLE: "&d&lHCF &8(&cMap I&8)"
+
+SCOREBOARD_LINE_COLOR: "&7"
+SCOREBOARD_LINE_AFTER_EVERY_SECTION: true
+
+SCOREBOARD_FOOTER:
+  ENABLED: true
+  PLACEHOLDER: "&7lazarus.com"
+
+STAFFMODE_PLACEHOLDER: "&e&lStaff Mode"
+VANISH_PLACEHOLDER: "&e&lVanish Mode"
+VISIBILITY_PLACEHOLDER: " &6* &9Visibility&7: "
+CHATMODE_PLACEHOLDER: " &6* &9ChatMode&7: "
+GAMEMODE_PLACEHOLDER: " &6* &9GameMode&7: "
+ONLINE_PLACEHOLDER: " &6* &9Online&7: &c"
+
+STAFF_SCOREBOARD:
+  VISIBILITY_VANISHED: "&aVanished"
+  VISIBILITY_VISIBLE: "&cVisible"
+  CHAT_STAFFCHAT: "&aStaffChat"
+  CHAT_GLOBAL: "&cGlobal"
+  GAMEMODE_SURVIVAL: "&cSurvival"
+  GAMEMODE_CREATIVE: "&aCreative"
+
+PVPCLASS_WARMUP_PLACEHOLDER: "&5&lClass Warmup&7: &c"
+PVPCLASS_ACTIVE_PLACEHOLDER: "&6&lClass&7: &c"
+ARCHER_TAG_PLACEHOLDER: "&e&lArcher Tag&7: &c"
+BARD_ENERGY_PLACEHOLDER: " &6* &b&lEnergy&7: &c"
+COOLDOWN_PLACEHOLDER: " &6* &6&lCooldown&7: &c"
+MINER_DIAMOND_COUNT_PLACEHOLDER: "&6* &bDiamonds&7: &c"
+
+SALE_PLACEHOLDER: "&6&lSale&7: &c"
+KEYSALE_PLACEHOLDER: "&b&lKeySale&7: &c"
+
+KITMAP_KILLS_PLACEHOLDER: "&4&lKills&7: "
+KITMAP_DEATHS_PLACEHOLDER: "&4&lDeaths&7: "
+KITMAP_BALANCE_PLACEHOLDER: "&4&lBalance&7: $"
+KITMAP_KILLSTREAK_PLACEHOLDER: "&4&lKillstreak&7: "
+
+COMBAT_TAG_PLACEHOLDER: "&c&lSpawn Tag&7: &c"
+ENDERPEARL_PLACEHOLDER: "&e&lEnderpearl&7: &c"
+PVP_PROTECTION_PLACEHOLDER: "&a&lPvP Timer&7: &c"
+SOTW_PLACEHOLDER: "&a&lSOTW&7: &c"
+SOTW_ENABLE_PLACEHOLDER: "&c&l&mSOTW&7: &c"
+EOTW_START_PLACEHOLDER: "&4&lEOTW starts in&7: &c"
+TELEPORT_PLACEHOLDER: "&a&lTeleporting&7: &c"
+LOGOUT_PLACEHOLDER: "&b&lLogout&7: &c"
+NORMAL_GOLDEN_APPLE_PLACEHOLDER: "&e&lApple&7: &c"
+ENCHANTED_GOLDEN_APPLE_PLACEHOLDER: "&6&lGApple&7: &c"
+
+KILL_THE_KING:
+  TITLE_PLACEHOLDER: "&6&lKill The King"
+  KING_PLACEHOLDER: " &fKing: &c"
+  TIME_LASTED_PLACEHOLDER: " &fLasted for: &c"
+  WORLD_PLACEHOLDER: " &fWorld: &c"
+  LOCATION_PLACEHOLDER: " &fLocation: &c"
+
+CONQUEST_PLACEHOLDER: "&5&lConquest"
+CONQUEST_FACTION_FORMAT: "&b<faction>&7: &c"
+
+KOTH_PLACEHOLDER: "&9&l<kothname>&7: &c"
+DTC_PLACEHOLDER: "&c&lDTC&7: &c"
+ENDER_DRAGON_PLACEHOLDER: "&6&lDragon&7: &c"
+
+HOME_PLACEHOLDER: "&b&lHome teleport&7: &c"
+STUCK_PLACEHOLDER: "&6&lStuck teleport&7: &c"
+
+REBOOT_PLACEHOLDER: "&4&lRestarting in&7: &c"
