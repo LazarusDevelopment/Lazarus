@@ -105,44 +105,57 @@ public class DynamicEventHandler extends Handler implements Listener {
     public void onInteractGlitch(PlayerInteractEvent event) {
         if(!event.hasItem() || event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-        Block block = event.getClickedBlock();
-        if(block.getType() != Material.FENCE && block.getType() != Material.NETHER_FENCE && block.getType() != Material.CAULDRON) return;
+        Material blockType = event.getClickedBlock().getType();
+        if(blockType != Material.FENCE && blockType != Material.NETHER_FENCE && blockType != Material.CAULDRON) return;
 
         ItemStack item = event.getItem();
 
-        if(!item.getType().isEdible() && item.getType() != Material.POTION &&
-        item.getType() != Material.BOW && !item.getType().name().endsWith("SWORD")) return;
+        if(item.getType() != Material.POTION && item.getType() != Material.BOW
+        && !item.getType().isEdible() && !item.getType().name().endsWith("SWORD")) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if(event.isCancelled() && !event.getPlayer().getAllowFlight()) {
-            if(event.getPlayer().getLocation().getBlockY() <= event.getBlock().getLocation().getBlockY()) return;
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
 
-            Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getBlock());
+        if(event.isCancelled() && !player.getAllowFlight()) {
+            if(player.getLocation().getBlockY() <= block.getLocation().getBlockY()) return;
+
+            Faction factionAt = ClaimManager.getInstance().getFactionAt(block);
             if(factionAt instanceof KothFaction || factionAt instanceof ConquestFaction) return;
 
-            event.getPlayer().setVelocity(new Vector(0, -0.5, 0));
+            player.setVelocity(new Vector(0, -0.5, 0));
             return;
         }
 
-        if(event.getBlock().getType() != Material.MOB_SPAWNER) return;
+        if(!player.isOp() && Config.DISABLED_BLOCK_PLACEMENT.contains(block.getType())) {
+            String blockName = ItemUtils.getMaterialName(block.getType());
 
-        switch(event.getBlock().getWorld().getEnvironment()) {
-            case NETHER: {
-                if(!Config.DENY_SPAWNER_PLACE_IN_NETHER || event.getPlayer().isOp()) return;
+            player.sendMessage(Language.PREFIX + Language.BLOCKS_PLACEMENT_DISABLED
+                .replace("<block>", blockName));
 
-                event.setCancelled(true);
-                event.getPlayer().sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_NETHER);
-                break;
-            }
-            case THE_END: {
-                if(!Config.DENY_SPAWNER_PLACE_IN_END || event.getPlayer().isOp()) return;
+            event.setCancelled(true);
+            return;
+        }
 
-                event.setCancelled(true);
-                event.getPlayer().sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_END);
+        if(block.getType() == Material.MOB_SPAWNER) {
+            switch(block.getWorld().getEnvironment()) {
+                case NETHER: {
+                    if(!Config.DENY_SPAWNER_PLACE_IN_NETHER || player.isOp()) return;
+
+                    event.setCancelled(true);
+                    player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_NETHER);
+                    return;
+                }
+                case THE_END: {
+                    if(!Config.DENY_SPAWNER_PLACE_IN_END || player.isOp()) return;
+
+                    event.setCancelled(true);
+                    player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_END);
+                }
             }
         }
     }

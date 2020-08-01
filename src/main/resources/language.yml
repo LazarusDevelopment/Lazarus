@@ -49,6 +49,9 @@ COMMANDS:
 
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
+BLOCKS:
+  PLACEMENT_DISABLED: "&eYou are not allowed to place &c<block>&e!"
+
 ITEMS:
   NOT_HOLDING: "&eYou must &chold item &ein your hand!"
   INVALID_NAME: "&eThis is not a valid &citem name&e!"

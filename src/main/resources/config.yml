@@ -84,6 +84,11 @@ DENY_SPAWNER_PLACE:
   IN_END: true
   IN_NETHER: true
 
+# For what blocks should we disable placement?
+DISABLED_BLOCK_PLACEMENT:
+  - "130:0"
+  - "137:0"
+
 #=========================================================#
 #                    Chat configuration                   #
 #=========================================================#

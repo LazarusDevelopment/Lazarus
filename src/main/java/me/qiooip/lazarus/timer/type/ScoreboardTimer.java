@@ -11,6 +11,4 @@ public interface ScoreboardTimer {
     default String getScoreboardEntry() { return ""; }
 
     default String getScoreboardEntry(Player player) { return ""; }
-
-    default String getScoreboardEntry(Player player, String pvpClassName) { return ""; }
 }
