@@ -30,14 +30,17 @@ import me.qiooip.lazarus.factions.type.RoadFaction;
 import me.qiooip.lazarus.factions.type.SpawnFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.SystemType;
+import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -53,10 +56,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class FactionsManager implements Listener {
 
@@ -122,13 +127,21 @@ public class FactionsManager implements Listener {
 
         this.factions = Lazarus.getInstance().getGson().fromJson(content, GsonUtils.FACTION_TYPE);
 
-        this.factions.values().forEach(faction -> {
+        for(Faction faction : this.factions.values()) {
             this.factionNames.put(faction.getName(), faction.getId());
 
             if(faction instanceof RoadFaction) {
                 ((RoadFaction) faction).setupDisplayName();
             }
-        });
+
+            if(faction instanceof SystemFaction) {
+                SystemFaction systemFaction = (SystemFaction) faction;
+
+                try {
+                    systemFaction.setColor(Color.translate("&" + ChatColor.valueOf(systemFaction.getColor()).getChar()));
+                } catch(IllegalArgumentException ignored) { }
+            }
+        }
 
         Lazarus.getInstance().log("- &7Loaded &a" + this.factions.size() + " &7factions.");
     }
@@ -377,6 +390,10 @@ public class FactionsManager implements Listener {
         Faction toDisband = this.getFactionByUuid(uuid);
         if(toDisband == null) return true;
 
+        return this.disbandFaction(toDisband, sender);
+    }
+
+    public boolean disbandFaction(Faction toDisband, CommandSender sender) {
         FactionDisbandEvent disbandEvent = new FactionDisbandEvent(toDisband, sender);
         if(disbandEvent.isCancelled()) return false;
 
@@ -395,7 +412,7 @@ public class FactionsManager implements Listener {
             this.players.remove(player.getUuid());
         });
 
-        playerFaction.getAlliesAsFactions().forEach(ally -> ally.getAllies().remove(uuid));
+        playerFaction.getAlliesAsFactions().forEach(ally -> ally.getAllies().remove(toDisband.getId()));
         return true;
     }
 
@@ -445,6 +462,20 @@ public class FactionsManager implements Listener {
 
         this.saveFactions(false);
         Lazarus.getInstance().log("- &cDeleted &e" + (factionsSize - this.factions.size()) + " &cplayer factions.");
+    }
+
+    public void removeKothFactionsWithoutKoths(List<KothData> koths) {
+        List<Faction> kothFactions = this.factions.values().stream()
+            .filter(faction -> faction instanceof KothFaction)
+            .collect(Collectors.toList());
+
+        Set<String> kothNames = koths.stream()
+            .map(KothData::getName)
+            .collect(Collectors.toSet());
+
+        kothFactions.stream()
+            .filter(kothFaction -> !kothNames.contains(kothFaction.getName()))
+            .forEach(kothFaction -> this.disbandFaction(kothFaction, Bukkit.getConsoleSender()));
     }
 
     @EventHandler(ignoreCancelled = true)

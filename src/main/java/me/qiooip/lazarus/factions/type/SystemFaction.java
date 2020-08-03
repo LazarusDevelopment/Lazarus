@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.Faction;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,15 +17,19 @@ import java.util.StringJoiner;
 @NoArgsConstructor
 public class SystemFaction extends Faction {
 
-    private ChatColor color;
+    private String color;
     private boolean safezone;
     private boolean enderpearls;
 
     public SystemFaction(String name) {
         super(name);
 
-        this.color = ChatColor.AQUA;
         this.enderpearls = true;
+        this.setColor("&b");
+    }
+
+    public void setColor(String value) {
+        this.color = Color.translate(value);
     }
 
     @Override

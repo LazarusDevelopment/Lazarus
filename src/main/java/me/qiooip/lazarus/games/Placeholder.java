@@ -60,7 +60,7 @@ public class Placeholder {
 
         String getValue(KothData koth) {
             switch(this) {
-                case KOTH_NAME: return koth.getName();
+                case KOTH_NAME: return koth.getColoredName();
                 case KOTH_CAPTIME: return StringUtils.formatMillis(koth.getCaptime() * 1000L);
                 case KOTH_WORLD: return StringUtils.getWorldName(koth.getCuboid().getCenter());
                 case KOTH_X_BLOCK: return String.valueOf(koth.getCuboid().getCenter().getBlockX());
@@ -95,7 +95,7 @@ public class Placeholder {
 
         String getValue(RunningKoth koth) {
             switch(this) {
-                case KOTH_NAME: return koth.getKothData().getName();
+                case KOTH_NAME: return koth.getKothData().getColoredName();
                 case KOTH_CAPPER: return koth.getCapzone().getCapperName();
                 case KOTH_TIME_LEFT: return koth.getCapzone().getTimeLeft();
                 case KOTH_WORLD: return StringUtils.getWorldName(koth.getKothData().getCuboid().getCenter());

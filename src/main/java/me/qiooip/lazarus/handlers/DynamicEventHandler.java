@@ -116,7 +116,7 @@ public class DynamicEventHandler extends Handler implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
@@ -131,30 +131,32 @@ public class DynamicEventHandler extends Handler implements Listener {
             return;
         }
 
-        if(!player.isOp() && Config.DISABLED_BLOCK_PLACEMENT.contains(block.getType())) {
-            String blockName = ItemUtils.getMaterialName(block.getType());
+        if(!event.isCancelled()) {
+            if(!player.isOp() && Config.DISABLED_BLOCK_PLACEMENT.contains(block.getType())) {
+                String blockName = ItemUtils.getMaterialName(block.getType());
 
-            player.sendMessage(Language.PREFIX + Language.BLOCKS_PLACEMENT_DISABLED
+                player.sendMessage(Language.PREFIX + Language.BLOCKS_PLACEMENT_DISABLED
                 .replace("<block>", blockName));
 
-            event.setCancelled(true);
-            return;
-        }
+                event.setCancelled(true);
+                return;
+            }
 
-        if(block.getType() == Material.MOB_SPAWNER) {
-            switch(block.getWorld().getEnvironment()) {
-                case NETHER: {
-                    if(!Config.DENY_SPAWNER_PLACE_IN_NETHER || player.isOp()) return;
+            if(block.getType() == Material.MOB_SPAWNER) {
+                switch(block.getWorld().getEnvironment()) {
+                    case NETHER: {
+                        if(!Config.DENY_SPAWNER_PLACE_IN_NETHER || player.isOp()) return;
 
-                    event.setCancelled(true);
-                    player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_NETHER);
-                    return;
-                }
-                case THE_END: {
-                    if(!Config.DENY_SPAWNER_PLACE_IN_END || player.isOp()) return;
+                        event.setCancelled(true);
+                        player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_NETHER);
+                        return;
+                    }
+                    case THE_END: {
+                        if(!Config.DENY_SPAWNER_PLACE_IN_END || player.isOp()) return;
 
-                    event.setCancelled(true);
-                    player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_END);
+                        event.setCancelled(true);
+                        player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_END);
+                    }
                 }
             }
         }

@@ -1,10 +1,13 @@
 package me.qiooip.lazarus.factions.commands.admin;
 
+import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.FactionsManager;
+import me.qiooip.lazarus.factions.type.KothFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
+import me.qiooip.lazarus.utils.Color;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -33,26 +36,44 @@ public class ColorCommand extends SubCommand {
             return;
         }
 
-        ChatColor color;
+        String color = args[1].toLowerCase();
 
-        try {
-            if(args[1].length() == 1) {
-                color = ChatColor.getByChar(args[1].toLowerCase());
-            } else if(args[1].length() == 2 && args[1].startsWith("&")) {
-                color = ChatColor.getByChar(args[1].replace("&", "").toLowerCase());
-            } else {
-                color = ChatColor.valueOf(args[1].toUpperCase());
-            }
-        } catch(IllegalArgumentException e) {
+        if(!this.isColorStringValid(color)) {
             sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_COLOR_DOESNT_EXIST.replace("<color>", args[1]));
             return;
         }
 
+        String oldColoredName = faction.getDisplayName(sender);
+
         SystemFaction systemFaction = (SystemFaction) faction;
-        systemFaction.setColor(color);
+        systemFaction.setColor(Color.translate(color));
+
+        if(systemFaction instanceof KothFaction) {
+            Lazarus.getInstance().getKothManager().getKoth(systemFaction.getName()).setupKothColor();
+        }
 
         sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_COLOR_CHANGED
-            .replace("<faction>", faction.getDisplayName(sender))
-            .replace("<color>", color + color.name()));
+            .replace("<faction>", oldColoredName)
+            .replace("<color>", faction.getDisplayName(sender)));
+    }
+
+    private boolean isColorStringValid(String value) {
+        if(value.length() % 2 != 0) return false;
+
+        String[] colorParts = new String[value.length() / 2];
+
+        int count = 0;
+
+        for(int i = 0; i < value.length(); i += 2) {
+            colorParts[count] = value.substring(i, i + 2);
+            count++;
+        }
+
+        for(String colorPart : colorParts) {
+            if(colorPart.charAt(0) != '&') return false;
+            if(ChatColor.getByChar(colorPart.charAt(1)) == null) return false;
+        }
+
+        return true;
     }
 }

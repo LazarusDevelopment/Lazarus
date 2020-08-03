@@ -62,7 +62,7 @@ KILL_THE_KING:
 CONQUEST_PLACEHOLDER: "&5&lConquest"
 CONQUEST_FACTION_FORMAT: "&b<faction>&7: &c"
 
-KOTH_PLACEHOLDER: "&9&l<kothname>&7: &c"
+KOTH_PLACEHOLDER: "<kothname>&7: &c"
 DTC_PLACEHOLDER: "&c&lDTC&7: &c"
 ENDER_DRAGON_PLACEHOLDER: "&6&lDragon&7: &c"
 

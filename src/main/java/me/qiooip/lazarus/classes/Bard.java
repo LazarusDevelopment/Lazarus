@@ -110,10 +110,8 @@ public class Bard extends PvpClass {
 
     private void applyClickableEffect(Player player, PlayerFaction faction, BardClickableItem item) {
         if(item.isApplyToEnemy()) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_ENEMY.replace("<effect>",
-            item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
-
             this.getManager().addPotionEffect(player, item.getPotionEffect());
+            int amountOfEnemies = 0;
 
             for(Entity nearby : player.getNearbyEntities(item.getDistance(), item.getDistance(), item.getDistance())) {
                 if(!(nearby instanceof Player)) continue;
@@ -126,28 +124,39 @@ public class Bard extends PvpClass {
                 PlayerFaction enemyFaction = FactionsManager.getInstance().getPlayerFaction(enemy);
                 if(faction != null && (faction == enemyFaction || faction.isAlly(enemyFaction))) continue;
 
+                amountOfEnemies++;
+
                 this.getManager().addPotionEffect(enemy, item.getPotionEffect());
                 TimerManager.getInstance().getCombatTagTimer().activate(enemy.getUniqueId());
 
                 enemy.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
                 item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
             }
+
+            player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_ENEMY
+                .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect()))
+                .replace("<amount>", String.valueOf(amountOfEnemies)));
         } else {
             if(faction != null) {
-                player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_FRIENDLY.replace("<effect>",
-                item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
+                int amountOfTeammates = 0;
 
                 for(Player member : faction.getOnlinePlayers()) {
                     if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
                     if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-                    if(player != member) {
+                    this.getManager().addPotionEffect(member, item.getPotionEffect());
+
+                    if(member != player) {
+                        amountOfTeammates++;
+
                         member.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
                         item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
                     }
-
-                    this.getManager().addPotionEffect(member, item.getPotionEffect());
                 }
+
+                player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_FRIENDLY
+                    .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect()))
+                    .replace("<amount>", String.valueOf(amountOfTeammates)));
             } else {
                 if(!item.isCanBardHimself()) {
                     player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_TO_YOURSELF);

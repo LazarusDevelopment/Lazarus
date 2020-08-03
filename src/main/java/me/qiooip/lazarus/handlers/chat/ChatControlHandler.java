@@ -32,13 +32,15 @@ public class ChatControlHandler extends Handler implements Listener {
 
     public void toggleChat(CommandSender sender) {
         if(this.isMuted()) {
-            this.setMuted(false);
+            this.muted = false;
+
             Messages.sendMessage(Language.PREFIX + Language.CHAT_UNMUTED
             .replace("<player>", sender.getName()));
             return;
         }
 
-        this.setMuted(true);
+        this.muted = true;
+
         Messages.sendMessage(Language.PREFIX + Language.CHAT_MUTED
         .replace("<player>", sender.getName()));
     }
@@ -59,12 +61,12 @@ public class ChatControlHandler extends Handler implements Listener {
 
     public void toggleFoundOreMessages(CommandSender sender) {
         if(this.isShowFoundOre()) {
-            this.setShowFoundOre(false);
+            this.showFoundOre = false;
             sender.sendMessage(Language.PREFIX + Language.CHAT_FOUNDORE_DISABLED);
             return;
         }
 
-        this.setShowFoundOre(true);
+        this.showFoundOre = true;
         sender.sendMessage(Language.PREFIX + Language.CHAT_FOUNDORE_ENABLED);
     }
 
