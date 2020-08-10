@@ -49,6 +49,9 @@ COMMANDS:
 
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
+BLOCKS:
+  PLACEMENT_DISABLED: "&eYou are not allowed to place &c<block>&e!"
+
 ITEMS:
   NOT_HOLDING: "&eYou must &chold item &ein your hand!"
   INVALID_NAME: "&eThis is not a valid &citem name&e!"
@@ -76,8 +79,8 @@ BARD_CLASS:
     ACTIVE_COOLDOWN: "&eYou are on cooldown for &c<seconds> &emore seconds!"
     COOLDOWN_EXPIRED: "&eYour &cbard buff &ecooldown has expired."
     NOT_ENOUGH_ENERGY: "&eThis effect requires &c<energy> &eenergy!"
-    MESSAGE_FRIENDLY: "&eYou have given your faction members <effect>&e."
-    MESSAGE_ENEMY: "&eYou have given your enemies <effect>&e."
+    MESSAGE_FRIENDLY: "&eYou have given <effect> &eto &a<amount> &eteammates."
+    MESSAGE_ENEMY: "&eYou have given <effect> &eto &c<amount> &eenemies."
     MESSAGE_OTHERS: "&eYou have been given <effect>&e."
 
 MINER_CLASS:
@@ -1416,7 +1419,7 @@ KITMAP_KILLSTREAK:
   ON_DEATH: "&eYou lost your &ckillstreak &eof &c<amount> &ekills."
   MESSAGE: "&7[&e*&7] &bPlayer &5<player> &breceived rewards for their &a<amount> &bconsecutive kills."
 
-KITMAP_DENY_ITEM_DROP: "&cYou cannot drop items in &csafezone &eduring kitmap mode!"
+KITMAP_DENY_ITEM_DROP: "&eYou cannot drop items in &csafezone &eduring kitmap mode!"
 
 KITS:
   COMMAND_USAGE_PLAYER:

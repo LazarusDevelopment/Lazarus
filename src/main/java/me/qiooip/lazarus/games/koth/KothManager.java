@@ -79,6 +79,7 @@ public class KothManager implements Listener, ManagerEnabler {
 
         while(iterator.hasNext()) {
             KothData koth = iterator.next();
+            koth.setupKothColor();
 
             if(koth.getFaction() == null) {
                 iterator.remove();
@@ -89,6 +90,8 @@ public class KothManager implements Listener, ManagerEnabler {
                 koth.setCaptime(Config.KOTH_DEFAULT_CAP_TIME);
             }
         }
+
+        FactionsManager.getInstance().removeKothFactionsWithoutKoths(this.koths);
     }
 
     private void saveKoths() {
@@ -112,7 +115,7 @@ public class KothManager implements Listener, ManagerEnabler {
         SystemFaction faction = FactionsManager.getInstance().createSystemFaction(name, SystemType.KOTH, sender);
         LootData loot = Lazarus.getInstance().getLootManager().createLoot(name);
 
-        this.koths.add(new KothData(name, faction.getId(), captime, capzone, loot));
+        this.koths.add(new KothData(name, faction.getId(), captime, capzone, faction.getColor(), loot));
     }
 
     public void deleteKoth(CommandSender sender, KothData koth) {

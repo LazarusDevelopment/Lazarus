@@ -57,11 +57,13 @@ public class Archer extends PvpClass implements Listener {
         TimerManager.getInstance().getArcherTagTimer().activate(player.getUniqueId());
         Lazarus.getInstance().getScoreboardManager().updateAllRelations(player);
 
-        player.sendMessage(Language.PREFIX + Language.ARCHER_TAG_TAGGED_VICTIM.replace("<player>",
-        tagger.getName()).replace("<seconds>", String.valueOf(Config.ARCHER_TAG_DURATION)));
+        player.sendMessage(Language.PREFIX + Language.ARCHER_TAG_TAGGED_VICTIM
+            .replace("<player>", tagger.getName())
+            .replace("<seconds>", String.valueOf(Config.ARCHER_TAG_DURATION)));
 
-        tagger.sendMessage(Language.PREFIX + Language.ARCHER_TAG_TAGGED_TAGGER.replace("<victim>",
-        player.getName()).replace("<seconds>", String.valueOf(Config.ARCHER_TAG_DURATION)));
+        tagger.sendMessage(Language.PREFIX + Language.ARCHER_TAG_TAGGED_TAGGER
+            .replace("<victim>", player.getName())
+            .replace("<seconds>", String.valueOf(Config.ARCHER_TAG_DURATION)));
     }
 
     @EventHandler

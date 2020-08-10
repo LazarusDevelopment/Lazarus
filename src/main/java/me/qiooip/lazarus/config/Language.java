@@ -42,6 +42,8 @@ public class Language {
 
     public static String PLUGIN_RELOAD_MESSAGE;
 
+    public static String BLOCKS_PLACEMENT_DISABLED;
+
     public static String ITEMS_NOT_HOLDING;
     public static String ITEMS_INVALID_NAME;
 
@@ -1330,6 +1332,8 @@ public class Language {
         COMMANDS_COOLDOWN = language.getString("COMMANDS.COOLDOWN");
 
         PLUGIN_RELOAD_MESSAGE = language.getString("PLUGIN_RELOAD_MESSAGE");
+
+        BLOCKS_PLACEMENT_DISABLED = language.getString("BLOCKS.PLACEMENT_DISABLED");
 
         ITEMS_NOT_HOLDING = language.getString("ITEMS.NOT_HOLDING");
         ITEMS_INVALID_NAME = language.getString("ITEMS.INVALID_NAME");

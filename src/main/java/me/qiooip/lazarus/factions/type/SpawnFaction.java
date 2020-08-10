@@ -1,6 +1,5 @@
 package me.qiooip.lazarus.factions.type;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class SpawnFaction extends SystemFaction {
@@ -8,7 +7,7 @@ public class SpawnFaction extends SystemFaction {
     public SpawnFaction() {
         super("Spawn");
 
-        this.setColor(ChatColor.GREEN);
+        this.setColor("&a");
         this.setDeathban(false);
         this.setSafezone(true);
     }

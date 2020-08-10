@@ -168,7 +168,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
 
                 if(!koths.isEmpty()) {
                     koths.forEach(koth -> scoreboard.add(Config.KOTH_PLACEHOLDER.replace("<kothname>",
-                    koth.getKothData().getName()), koth.getScoreboardEntry()));
+                    koth.getKothData().getColoredName()), koth.getScoreboardEntry()));
                 }
 
                 EnderDragonManager dragon = Lazarus.getInstance().getEnderDragonManager();

@@ -13,6 +13,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
@@ -58,6 +59,8 @@ public class Config {
 
     public static boolean DENY_SPAWNER_PLACE_IN_END;
     public static boolean DENY_SPAWNER_PLACE_IN_NETHER;
+
+    public static Set<Material> DISABLED_BLOCK_PLACEMENT;
 
     public static int DEFAULT_CHAT_DELAY;
 
@@ -479,6 +482,10 @@ public class Config {
 
         DENY_SPAWNER_PLACE_IN_END = config.getBoolean("DENY_SPAWNER_PLACE.IN_END");
         DENY_SPAWNER_PLACE_IN_NETHER = config.getBoolean("DENY_SPAWNER_PLACE.IN_END");
+
+        DISABLED_BLOCK_PLACEMENT = config.getStringList("DISABLED_BLOCK_PLACEMENT").stream()
+            .map(ItemUtils::parseItem).filter(Objects::nonNull)
+            .map(ItemStack::getType).collect(Collectors.toSet());
 
         DEFAULT_CHAT_DELAY = config.getInt("DEFAULT_CHAT_DELAY");
 

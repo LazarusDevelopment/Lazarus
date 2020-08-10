@@ -19,6 +19,7 @@ import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.factions.type.RoadFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.LocationUtils;
 import me.qiooip.lazarus.utils.Tasks;
@@ -54,6 +55,14 @@ public class MongoFactionsManager extends FactionsManager {
 
                 if(faction instanceof RoadFaction) {
                     ((RoadFaction) faction).setupDisplayName();
+                }
+
+                if(faction instanceof SystemFaction) {
+                    SystemFaction systemFaction = (SystemFaction) faction;
+
+                    try {
+                        systemFaction.setColor(Color.translate("&" + ChatColor.valueOf(systemFaction.getColor()).getChar()));
+                    } catch(IllegalArgumentException ignored) { }
                 }
             }
         }
@@ -167,7 +176,7 @@ public class MongoFactionsManager extends FactionsManager {
                 .append("deathban", faction.isDeathban())
                 .append("safezone", systemFaction.isSafezone())
                 .append("enderpearls", systemFaction.isEnderpearls())
-                .append("color", systemFaction.getColor().name());
+                .append("color", systemFaction.getColor());
         }
     }
 
@@ -203,7 +212,7 @@ public class MongoFactionsManager extends FactionsManager {
                 faction.setDeathban(document.getBoolean("deathban"));
                 faction.setSafezone(document.getBoolean("safezone"));
                 faction.setEnderpearls(document.getBoolean("enderpearls"));
-                faction.setColor(ChatColor.valueOf(document.getString("color")));
+                faction.setColor(document.getString("color"));
 
             } catch(InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
