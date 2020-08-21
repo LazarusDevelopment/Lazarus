@@ -22,7 +22,7 @@ public class FactionFreezeTimer extends SystemTimer {
     public FactionFreezeTimer(ScheduledExecutorService executor) {
         super(executor, "FactionFreezeTimer", Config.FACTION_DTR_FREEZE_DURATION * 60, false);
 
-        this.setExpiryMessage(Language.FACTIONS_REGENERATION_FINISHED);
+        this.setExpiryMessage(Language.FACTIONS_NO_LONGER_FROZEN);
         this.loadTimer();
     }
 
@@ -57,6 +57,7 @@ public class FactionFreezeTimer extends SystemTimer {
     }
 
     public void activate(PlayerFaction playerFaction) {
+        this.cancel(playerFaction.getId());
         this.activate(playerFaction.getId());
     }
 

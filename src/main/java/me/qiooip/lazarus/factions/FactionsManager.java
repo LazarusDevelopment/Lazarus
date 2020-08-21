@@ -518,6 +518,11 @@ public class FactionsManager implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onFactionDisband(FactionDisbandEvent event) {
+        TimerManager.getInstance().getFactionFreezeTimer().cancel(event.getFaction().getId());
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onFactionChat(FactionChatEvent event) {
         for(UUID uuid : this.chatSpy) {
             Player player = Bukkit.getPlayer(uuid);

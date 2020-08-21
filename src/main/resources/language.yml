@@ -78,7 +78,7 @@ BARD_CLASS:
   CLICKABLE_ITEM:
     ACTIVE_COOLDOWN: "&eYou are on cooldown for &c<seconds> &emore seconds!"
     COOLDOWN_EXPIRED: "&eYour &cbard buff &ecooldown has expired."
-    NOT_ENOUGH_ENERGY: "&eThis effect requires &c<energy> &eenergy!"
+    NOT_ENOUGH_ENERGY: "&eThis effect requires &c<energy> &eenergy but you only have &c<currentEnergy>&e!"
     MESSAGE_FRIENDLY: "&eYou have given <effect> &eto &a<amount> &eteammates."
     MESSAGE_ENEMY: "&eYou have given <effect> &eto &c<amount> &eenemies."
     MESSAGE_OTHERS: "&eYou have been given <effect>&e."
@@ -118,11 +118,11 @@ FACTIONS:
   NO_PERMISSION_ROLE: "&ePlayer &c<player> &ehas equal or higher &crole &ethan you."
   MEMBER_ONLINE: "&aMember &e<player> &acame online."
   MEMBER_OFFLINE: "&cMember &e<player> &cwent offline."
-  MEMBER_DEATH: "&cMember &b<player> &cdied! &7[&4DTR: <dtr>&7/<maxDtr>&7]"
+  MEMBER_DEATH: "&cMember &b<player> &cdied! &7(Loss: &c<dtrLoss>&7) &7(Dtr: <dtr>&7/<maxDtr>&7)"
   ALLIES_DISABLED: "&cAllies &eare disabled this map."
   DENY_DAMAGE_ALLIES: "&eYou cannot damage <player>&e."
   ENDERPEARLS_DISABLED: "&eEnderpearls are disabled in <faction>'s &eterritory!"
-  REGENERATION_FINISHED: "&eYour &cfaction's DTR &ehas been &afully regenerated&e."
+  NO_LONGER_FROZEN: "&eYour &cfaction &eis no longer &afrozen&e."
   PVP_CLASS_LIMIT:
     DENY_EQUIP: "&eYou cannot equip &b<pvpClass> class &ebecause your faction &cexceeded limit&e!"
     CLASS_DEACTIVATED: "&eYou &b<pvpClass> class &ewas &cdeactivated &ebecause you joined faction that &cexceeded limit&e!"
@@ -432,7 +432,7 @@ FACTIONS:
     CHANGED_FACTION: "&eYour faction's dtr has been set to <dtr> &eby &c<player>&e."
   SET_HOME_COMMAND:
     NOT_IN_OWN_CLAIM: "&cFaction home &emust be in your territory."
-    HOME_SET: "&eYour &cfaction home &ehas been set to &b<x>&e, &b<z>&e."
+    HOME_SET: "&eYour &cfaction home &ehas been set to &b<x>&e, &b<z> &eby &c<player>&e."
   SET_FREEZE_COMMAND:
     USAGE: "&cUsage: /f setfreeze <faction> <time>"
     CHANGED_SENDER: "&eYou changed &c<faction>'s &efreeze time to &b<time>&e."
@@ -1136,6 +1136,7 @@ DEATHMESSAGE:
   REASON_ENTITY_ATTACK_PLAYER_NO_ITEM: "<player> &7was slain by <killer>&7."
   REASON_ENTITY_EXPLOSION: "<player> &7was blown up by &ccreeper&7."
   REASON_FALL: "<player> &7hit the ground too hard."
+  REASON_FALL_KILLER: "<player> &7hit the ground too hard thanks to <killer>&7."
   REASON_FALLING_BLOCK: "<player> &7died to a &cfalling block&7."
   REASON_FIRE: "<player> &7went up in flames."
   REASON_FIRE_TICK: "<player> &7went up in flames."
@@ -1152,6 +1153,7 @@ DEATHMESSAGE:
   REASON_SUICIDE: "<player> &7killed himself."
   REASON_THORNS: "<player> &7was killed by &cthorns&7."
   REASON_VOID: "<player> &7fell into the &cvoid&7."
+  REASON_VOID_KILLER: "<player> &7fell into the &cvoid &7thanks to <killer>&7."
   REASON_WITHER: "<player> &7withered away."
 
 DEL_WARP_COMMAND:
@@ -1875,7 +1877,7 @@ TELEPORTPOSITION_COMMAND:
   MESSAGE: "&eYou have teleported yourself to &c<x>&e, &c<y>&e, &c<z>&e."
 
 TELL_LOCATION_COMMAND:
-  MESSAGE: "&8[&bTL&8] &c<player>'s &elocation: &7<location>"
+  MESSAGE: "&8[&bTL&8] &c<player>'s &elocation: &7<location> &7[&c<world>&7]"
 
 TIME_COMMANDS:
   MESSAGE_DAY: "&eTime has been set to &cday&e."

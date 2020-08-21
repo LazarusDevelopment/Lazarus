@@ -212,8 +212,10 @@ public class PlayerFaction extends Faction {
     }
 
     public void onDeath(Player player) {
+        double dtrLoss = 0.0;
+
         if(!Config.KITMAP_MODE_ENABLED || !Config.KITMAP_MODE_DISABLE_DTR_LOSS) {
-            double dtrLoss = Config.FACTION_DTR_DEATH_LOSS.get(player.getWorld().getEnvironment());
+            dtrLoss = Config.FACTION_DTR_DEATH_LOSS.get(player.getWorld().getEnvironment());
             this.setDtr(this.getDtr() - dtrLoss);
 
             TimerManager.getInstance().getFactionFreezeTimer().activate(this);
@@ -221,7 +223,8 @@ public class PlayerFaction extends Faction {
 
         this.setPoints(this.points + Config.FACTION_TOP_DEATH);
 
-        this.sendMessage(Language.FACTIONS_MEMBER_DEATH.replace("<player>", player.getName())
+        this.sendMessage(Language.FACTIONS_MEMBER_DEATH
+            .replace("<player>", player.getName()).replace("<dtrLoss>", "-" + dtrLoss)
             .replace("<dtr>", this.getDtrString()).replace("<maxDtr>", this.getMaxDtrString()));
     }
 
@@ -343,7 +346,8 @@ public class PlayerFaction extends Faction {
 
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(fplayer.getUuid());
 
-        return Language.FACTIONS_SHOW_NAME_FORMAT.replace("<player>", color + offlinePlayer
-        .getName()).replace("<kills>", String.valueOf(userdata.getKills()));
+        return Language.FACTIONS_SHOW_NAME_FORMAT
+            .replace("<player>", color + offlinePlayer
+            .getName()).replace("<kills>", String.valueOf(userdata.getKills()));
     }
 }

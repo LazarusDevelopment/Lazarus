@@ -39,7 +39,8 @@ public class SetHomeCommand extends SubCommand {
         faction.setHome(player.getLocation());
 
         faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_HOME_HOME_SET
-        .replace("<x>", String.valueOf(player.getLocation().getBlockX()))
-        .replace("<z>", String.valueOf(player.getLocation().getBlockZ())));
+            .replace("<x>", String.valueOf(player.getLocation().getBlockX()))
+            .replace("<z>", String.valueOf(player.getLocation().getBlockZ()))
+            .replace("<player>", player.getName()));
     }
 }

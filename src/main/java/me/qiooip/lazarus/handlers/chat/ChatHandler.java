@@ -8,13 +8,13 @@ import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.integration.Chat_AquaCore;
 import me.qiooip.lazarus.integration.Chat_Atom;
-import me.qiooip.lazarus.integration.Chat_NCore;
 import me.qiooip.lazarus.integration.Chat_Basic;
 import me.qiooip.lazarus.integration.Chat_Chronium;
 import me.qiooip.lazarus.integration.Chat_Core;
 import me.qiooip.lazarus.integration.Chat_GroupManager;
 import me.qiooip.lazarus.integration.Chat_LuckPerms;
 import me.qiooip.lazarus.integration.Chat_Mizu;
+import me.qiooip.lazarus.integration.Chat_NCore;
 import me.qiooip.lazarus.integration.Chat_PermissionsEx;
 import me.qiooip.lazarus.integration.Chat_PowerfulPerms;
 import me.qiooip.lazarus.integration.Chat_Spark;
@@ -31,48 +31,43 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 public class ChatHandler extends Handler implements Listener {
 
     @Getter public static ChatHandler instance;
 
     public static void setup() {
-        PluginManager manager = Bukkit.getPluginManager();
-        Plugin plugin;
-
-        if((plugin = manager.getPlugin("AquaCore")) != null && plugin.isEnabled()) {
+        if(Bukkit.getPluginManager().isPluginEnabled("AquaCore")) {
             instance = new Chat_AquaCore();
-        } else if((plugin = manager.getPlugin("AtomAPI")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("AtomAPI")) {
             instance = new Chat_Atom();
-        } else if((plugin = manager.getPlugin("Chronium")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("Chronium")) {
             instance = new Chat_Chronium();
-        } else if((plugin = manager.getPlugin("CoreAPI")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("CoreAPI")) {
             instance = new Chat_Basic();
-        } else if((plugin = manager.getPlugin("Core")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("Core")) {
             instance = new Chat_Core();
-        } else if((plugin = manager.getPlugin("GroupManager")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("GroupManager")) {
             instance = new Chat_GroupManager();
-        } else if((plugin = manager.getPlugin("LuckPerms")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
             instance = new Chat_LuckPerms();
-        } else if((plugin = manager.getPlugin("mCore")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("mCore")) {
             instance = new Chat_mCore();
-        } else if((plugin = manager.getPlugin("MizuAPI")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("MizuAPI")) {
             instance = new Chat_Mizu();
-        } else if((plugin = manager.getPlugin("NCore")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("NCore")) {
             instance = new Chat_NCore();
-        } else if((plugin = manager.getPlugin("PermissionsEx")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("PermissionsEx")) {
             instance = new Chat_PermissionsEx();
-        } else if((plugin = manager.getPlugin("PowerfulPerms")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("PowerfulPerms")) {
             instance = new Chat_PowerfulPerms();
-        } else if((plugin = manager.getPlugin("Spark")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("Spark")) {
             instance = new Chat_Spark();
-        } else if((plugin = manager.getPlugin("TeikoCore")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("TeikoCore")) {
             instance = new Chat_TeikoCore();
-        } else if((plugin = manager.getPlugin("Zoot")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("Zoot")) {
             instance = new Chat_Zoot();
-        } else if((plugin = manager.getPlugin("zPermissions")) != null && plugin.isEnabled()) {
+        } else if(Bukkit.getPluginManager().isPluginEnabled("zPermissions")) {
             instance = new Chat_zPermissions();
         } else {
             instance = new ChatHandler();
