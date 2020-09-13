@@ -1832,6 +1832,7 @@ STAFF_MODE:
   INTERACT_DENY: "&eYou cannot &cuse this &ewhen in staffmode!"
   PLACE_DENY: "&eYou cannot &cplace blocks &ewhen in staffmode!"
   BREAK_DENY: "&eYou cannot &cbreak blocks &ewhen in staffmode!"
+  REPLACEMENT_ITEM_NOT_FOUND: "&eReplacement item &c<item> &enot found, please change this!"
 
 STAFF_SCOREBOARD_COMMAND:
   ENABLED: "&eYou have &aenabled &estaff scoreboard."

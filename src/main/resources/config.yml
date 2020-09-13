@@ -986,6 +986,7 @@ STAFF_MODE_ITEMS:
     NAME: "&5Teleporter"
     MATERIAL_ID: "345:0"
     SLOT: 1
+    REPLACEMENT_ITEM: ""
     COMMAND: ""
     LORE:
     - "&bEasier teleporting"
@@ -993,14 +994,15 @@ STAFF_MODE_ITEMS:
     NAME: "&6Inventory Inspect"
     MATERIAL_ID: "340:0"
     SLOT: 2
-    ACTION: "INVINSPECT"
-    COMMAND: ""
+    REPLACEMENT_ITEM: ""
+    COMMAND: "invinspect <player>"
     LORE:
     - "&bInspect player's inventory"
   ITEM_3:
     NAME: "&eWorldEdit Wand"
     MATERIAL_ID: "271:0"
     SLOT: 3
+    REPLACEMENT_ITEM: ""
     COMMAND: ""
     LORE:
     - "&bWorldEdit wand editor"
@@ -1008,21 +1010,23 @@ STAFF_MODE_ITEMS:
     NAME: "&bBetter View"
     MATERIAL_ID: "171:3"
     SLOT: 5
+    REPLACEMENT_ITEM: ""
     COMMAND: ""
     LORE:
     - "&bBetter view for 1.7 users"
   ITEM_5:
     NAME: "&aVanish"
-    MATERIAL_ID: "288:0"
+    MATERIAL_ID: "351:10"
     SLOT: 7
-    ACTION: ""
+    REPLACEMENT_ITEM: "ITEM_8"
     COMMAND: "vanish"
     LORE:
-    - "&bVanish yourself"
+    - "&bBecome invisible"
   ITEM_6:
     NAME: "&3Freeze"
     MATERIAL_ID: "79:0"
     SLOT: 8
+    REPLACEMENT_ITEM: ""
     COMMAND: "ss <player>"
     LORE:
     - "&bFreeze player"
@@ -1030,9 +1034,18 @@ STAFF_MODE_ITEMS:
     NAME: "&cRandom Teleport"
     MATERIAL_ID: "2267:0"
     SLOT: 9
+    REPLACEMENT_ITEM: ""
     COMMAND: "randomteleport"
     LORE:
     - "&bRandomly teleport to a player"
+  ITEM_8:
+    NAME: "&aUnvanish"
+    MATERIAL_ID: "351:8"
+    SLOT: 7
+    REPLACEMENT_ITEM: "ITEM_5"
+    COMMAND: "vanish"
+    LORE:
+      - "&bBecome visible"
 
 STATS_COMMAND:
   # Name of stats inventory
