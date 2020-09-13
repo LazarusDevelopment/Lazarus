@@ -1205,7 +1205,6 @@ public class Language {
     public static String STAFF_MODE_INTERACT_DENY;
     public static String STAFF_MODE_PLACE_DENY;
     public static String STAFF_MODE_BREAK_DENY;
-    public static String STAFF_MODE_REPLACEMENT_ITEM_NOT_FOUND;
 
     public static String STAFF_SCOREBOARD_ENABLED;
     public static String STAFF_SCOREBOARD_DISABLED;
@@ -2505,7 +2504,6 @@ public class Language {
         STAFF_MODE_INTERACT_DENY = language.getString("STAFF_MODE.INTERACT_DENY");
         STAFF_MODE_PLACE_DENY = language.getString("STAFF_MODE.PLACE_DENY");
         STAFF_MODE_BREAK_DENY = language.getString("STAFF_MODE.BREAK_DENY");
-        STAFF_MODE_REPLACEMENT_ITEM_NOT_FOUND = language.getString("STAFF_MODE.REPLACEMENT_ITEM_NOT_FOUND");
 
         STAFF_SCOREBOARD_ENABLED = language.getString("STAFF_SCOREBOARD_COMMAND.ENABLED");
         STAFF_SCOREBOARD_DISABLED = language.getString("STAFF_SCOREBOARD_COMMAND.DISABLED");

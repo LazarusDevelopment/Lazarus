@@ -35,12 +35,12 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
     private final Map<UUID, StaffPlayerData> staffMode;
     private final Map<ItemStack, StaffModeItem> staffModeItems;
-    private final Map<String, StaffModeItem> cachedStaffModeItems;
+    private final Map<StaffItemType, StaffModeItem> staffModeItemsByType;
 
     public StaffModeManager() {
         this.staffMode = new HashMap<>();
         this.staffModeItems = new HashMap<>();
-        this.cachedStaffModeItems = new HashMap<>();
+        this.staffModeItemsByType = new HashMap<>();
 
         this.loadStaffModeItems();
 
@@ -51,7 +51,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         this.staffMode.keySet().stream().map(Bukkit::getPlayer).forEach(player -> this.disableStaffMode(player, true));
         this.staffMode.clear();
         this.staffModeItems.clear();
-        this.cachedStaffModeItems.clear();
+        this.staffModeItemsByType.clear();
     }
 
     private void loadStaffModeItems() {
@@ -63,18 +63,18 @@ public class StaffModeManager implements Listener, ManagerEnabler {
             ItemStack itemStack = ItemUtils.parseItem(section.getString(item + ".MATERIAL_ID"));
             if(itemStack == null) return;
 
-            ItemBuilder builder = new ItemBuilder(itemStack);
-            builder = builder.setName(section.getString(Color.translate(item + ".NAME")));
-            builder = builder.setLore(Lazarus.getInstance().getConfig()
-            .getStringList("STAFF_MODE_ITEMS." + item + ".LORE"));
-
-            staffItem.setItem(builder.build());
             staffItem.setSlot(section.getInt(item + ".SLOT") - 1);
             staffItem.setCommand(section.getString(item + ".COMMAND"));
-            staffItem.setReplacementItem(section.getString(item + ".REPLACEMENT_ITEM"));
+            staffItem.setItemType(StaffItemType.getByName(section.getString(item + ".USAGE"), true));
+            staffItem.setReplacementItemType(StaffItemType.getByName(section.getString(item + ".REPLACEMENT_ITEM"), false));
+
+            staffItem.setItem(new ItemBuilder(itemStack)
+                .setName(section.getString(Color.translate(item + ".NAME")))
+                .setLore(Lazarus.getInstance().getConfig().getStringList("STAFF_MODE_ITEMS." + item + ".LORE"))
+                .build());
 
             this.staffModeItems.put(staffItem.getItem(), staffItem);
-            this.cachedStaffModeItems.put(item, staffItem);
+            this.staffModeItemsByType.put(staffItem.getItemType(), staffItem);
         });
     }
 
@@ -92,12 +92,10 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         player.setGameMode(GameMode.CREATIVE);
 
         boolean vanished = Lazarus.getInstance().getVanishManager().isVanished(player);
-        this.cachedStaffModeItems.keySet().forEach(name -> {
-            StaffModeItem item = this.cachedStaffModeItems.get(name);
 
-            // Za svaki slucaj oba ifa ako neki kreten promjeni order u configu
-            if(vanished && name.equals("VANISH_ON")) return;
-            if(!vanished && name.equals("VANISH_OFF")) return;
+        this.staffModeItemsByType.forEach((itemType, item) -> {
+            if(vanished && itemType == StaffItemType.VANISH_ON) return;
+            if(!vanished && itemType == StaffItemType.VANISH_OFF) return;
 
             player.getInventory().setItem(item.getSlot(), item.getItem());
         });
@@ -147,6 +145,13 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         return this.isInStaffModeOrVanished(player.getUniqueId());
     }
 
+    public void inventoryInspect(Player player, Player target) {
+        player.openInventory(Lazarus.getInstance().getStaffModeManager().previewInventory(target));
+
+        player.sendMessage(Language.PREFIX + Language.STAFF_MODE_INVENTORY_INSPECT_MESSAGE
+            .replace("<player>", target.getName()));
+    }
+
     public void randomTeleport(Player player) {
         if(Bukkit.getOnlinePlayers().size() == 1) {
             player.sendMessage(Language.PREFIX + Language.STAFF_MODE_RANDOM_TELEPORT_NO_PLAYER_MESSAGE);
@@ -164,7 +169,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
                 .replace("<player>", target.getName()));
     }
 
-    private Inventory previewInventory(Player target) {
+    public Inventory previewInventory(Player target) {
         Inventory inventory = Bukkit.createInventory(null, 54, "Inventory preview");
         inventory.setContents(target.getInventory().getContents());
 
@@ -275,18 +280,14 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         if(!this.staffModeItems.containsKey(item)) return;
         StaffModeItem staffItem = this.staffModeItems.get(item);
 
-        if(!staffItem.getCommand().isEmpty()) {
+        if(!StringUtils.isNullOrEmpty(staffItem.getCommand()) && !staffItem.getItemType().fireOnEntityInteract()) {
             player.chat(staffItem.getCommand(player));
         }
 
-        if(!staffItem.getReplacementItem().isEmpty()) {
-            StaffModeItem replacement = this.cachedStaffModeItems.get(staffItem.getReplacementItem());
-            if(replacement == null) {
-                player.sendMessage(Language.PREFIX + Language.STAFF_MODE_REPLACEMENT_ITEM_NOT_FOUND.replace("<item>", staffItem.getReplacementItem()));
-                return;
-            }
+        StaffModeItem replacement = this.staffModeItemsByType.get(staffItem.getReplacementItemType());
 
-            player.getInventory().setItem(staffItem.getSlot(), staffItem.getItem());
+        if(replacement != null) {
+            player.getInventory().setItem(replacement.getSlot(), replacement.getItem());
         }
     }
 
@@ -307,25 +308,15 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         if(!this.staffModeItems.containsKey(item)) return;
         StaffModeItem staffItem = this.staffModeItems.get(item);
 
-        if(!staffItem.getCommand().isEmpty()) {
-            player.chat(staffItem.getCommand(rightClicked));
+        if(!StringUtils.isNullOrEmpty(staffItem.getCommand()) && staffItem.getItemType().fireOnEntityInteract()) {
+            player.chat(staffItem.getCommand(player));
         }
 
-        if(!staffItem.getReplacementItem().isEmpty()) {
-            StaffModeItem replacement = this.cachedStaffModeItems.get(staffItem.getReplacementItem());
-            if(replacement == null) {
-                player.sendMessage(Language.PREFIX + Language.STAFF_MODE_REPLACEMENT_ITEM_NOT_FOUND.replace("<item>", staffItem.getReplacementItem()));
-                return;
-            }
+        StaffModeItem replacement = this.staffModeItemsByType.get(staffItem.getReplacementItemType());
 
-            player.getInventory().setItem(staffItem.getSlot(), staffItem.getItem());
+        if(replacement != null) {
+            player.getInventory().setItem(replacement.getSlot(), replacement.getItem());
         }
-    }
-
-    public void inventoryInspect(Player player, Player target) {
-        player.openInventory(this.previewInventory(target));
-        player.sendMessage(Language.PREFIX + Language.STAFF_MODE_INVENTORY_INSPECT_MESSAGE
-                .replace("<player>", target.getName()));
     }
 
     @EventHandler
@@ -339,9 +330,11 @@ public class StaffModeManager implements Listener, ManagerEnabler {
     @Setter
     private static class StaffModeItem {
 
+        private StaffItemType itemType;
+        private StaffItemType replacementItemType;
+
         private ItemStack item;
         private String command;
-        private String replacementItem;
         private int slot;
 
         public String getCommand(Player target) {
@@ -356,5 +349,41 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         private ItemStack[] contents;
         private ItemStack[] armor;
         private GameMode gameMode;
+    }
+
+    private enum StaffItemType {
+
+        VANISH_ON,
+        VANISH_OFF,
+        TELEPORTER,
+        INV_INSPECT,
+        WORLD_EDIT_WAND,
+        BETTER_VIEW,
+        FREEZE,
+        RANDOM_TELEPORT;
+
+        public boolean fireOnEntityInteract() {
+            switch(this) {
+                case INV_INSPECT:
+                case FREEZE:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static StaffItemType getByName(String name, boolean throwOnNull) {
+            for(StaffItemType itemType : values()) {
+                if(itemType.name().equalsIgnoreCase(name)) {
+                    return itemType;
+                }
+            }
+
+            if(throwOnNull) {
+                throw new IllegalArgumentException("StaffItemType with name = " + name + " doesn't exist!");
+            } else {
+                return null;
+            }
+        }
     }
 }

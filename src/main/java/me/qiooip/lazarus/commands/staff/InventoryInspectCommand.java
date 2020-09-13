@@ -24,6 +24,7 @@ public class InventoryInspectCommand extends BaseCommand {
 
         Player player = (Player) sender;
         Player target = Bukkit.getPlayer(args[0]);
+
         if(!this.checkPlayer(player, target, args[0])) return;
 
         Lazarus.getInstance().getStaffModeManager().inventoryInspect(player, target);

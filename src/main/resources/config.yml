@@ -982,67 +982,66 @@ SOTW_TIMER:
 
 # Staff mode items configuration
 STAFF_MODE_ITEMS:
-  VANISH_ON:
+  ITEM_1:
+    USAGE: "VANISH_ON"
+    REPLACEMENT_ITEM: "VANISH_OFF"
     NAME: "&aVanish"
     MATERIAL_ID: "351:10"
     SLOT: 7
-    REPLACEMENT_ITEM: "VANISH_OFF"
     COMMAND: "vanish"
     LORE:
       - "&bBecome invisible"
-  VANISH_OFF:
+  ITEM_2:
+    USAGE: "VANISH_OFF"
+    REPLACEMENT_ITEM: "VANISH_ON"
     NAME: "&aUnvanish"
     MATERIAL_ID: "351:8"
     SLOT: 7
-    REPLACEMENT_ITEM: "VANISH_ON"
     COMMAND: "vanish"
     LORE:
       - "&bBecome visible"
-  ITEM_1:
+  ITEM_3:
+    USAGE: "TELEPORTER"
     NAME: "&5Teleporter"
     MATERIAL_ID: "345:0"
     SLOT: 1
-    REPLACEMENT_ITEM: ""
-    COMMAND: ""
     LORE:
     - "&bEasier teleporting"
-  ITEM_2:
+  ITEM_4:
+    USAGE: "INV_INSPECT"
     NAME: "&6Inventory Inspect"
     MATERIAL_ID: "340:0"
     SLOT: 2
-    REPLACEMENT_ITEM: ""
     COMMAND: "invinspect <player>"
     LORE:
     - "&bInspect player's inventory"
-  ITEM_3:
+  ITEM_5:
+    USAGE: "WORLD_EDIT_WAND"
     NAME: "&eWorldEdit Wand"
     MATERIAL_ID: "271:0"
     SLOT: 3
-    REPLACEMENT_ITEM: ""
-    COMMAND: ""
     LORE:
     - "&bWorldEdit wand editor"
-  ITEM_4:
+  ITEM_6:
+    USAGE: "BETTER_VIEW"
     NAME: "&bBetter View"
     MATERIAL_ID: "171:3"
     SLOT: 5
-    REPLACEMENT_ITEM: ""
-    COMMAND: ""
     LORE:
     - "&bBetter view for 1.7 users"
-  ITEM_5:
+  ITEM_7:
+    USAGE: "FREEZE"
     NAME: "&3Freeze"
     MATERIAL_ID: "79:0"
     SLOT: 8
-    REPLACEMENT_ITEM: ""
     COMMAND: "ss <player>"
     LORE:
     - "&bFreeze player"
-  ITEM_6:
+  ITEM_8:
+    USAGE: "RANDOM_TELEPORT"
     NAME: "&cRandom Teleport"
     MATERIAL_ID: "2267:0"
     SLOT: 9
-    REPLACEMENT_ITEM: ""
     COMMAND: "randomteleport"
     LORE:
     - "&bRandomly teleport to a player"
