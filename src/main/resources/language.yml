@@ -1386,6 +1386,9 @@ IGNORE_COMMAND:
   DISABLED: "&eYou are no longer ignoring &c<player>&e."
   CANNOT_IGNORE_SELF: "&eYou cannot ignore &cyourself&e!"
 
+INVENTORY_INSPECT_COMMAND:
+  USAGE: "&cUsage: /invinspect <player>"
+
 INVENTORY_RESTORE_COMMAND:
   USAGE: "&cUsage: /invrestore <player>"
   NOTHING_TO_RESTORE: "&c<target> &ehas no inventory data to restore!"
@@ -1823,6 +1826,7 @@ STAFF_MODE:
   ENABLED_OTHERS: "&c<target>'s &estaffmode has been &aenabled &eby &c<player>&e."
   DISABLED_OTHERS: "&c<target>'s &estaffmode has been &cdisabled &eby &c<player>&e."
   RANDOM_TELEPORT_MESSAGE: "&eRandomly teleported you to &c<player>&e."
+  RANDOM_TELEPORT_NO_PLAYER_MESSAGE: "&eNo players to teleport to!"
   INVENTORY_INSPECT_MESSAGE: "&eOpening inventory of &c<player>&e. Cannot edit."
   DAMAGE_DENY: "&eYou cannot &cdeal damage &ewhen in staffmode!"
   INTERACT_DENY: "&eYou cannot &cuse this &ewhen in staffmode!"

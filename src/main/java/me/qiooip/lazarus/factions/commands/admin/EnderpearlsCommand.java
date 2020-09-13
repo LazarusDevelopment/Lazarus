@@ -7,10 +7,12 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
+
 public class EnderpearlsCommand extends SubCommand {
 
     public EnderpearlsCommand() {
-        super("enderpearls", "lazarus.factions.enderpearls");
+        super("enderpearls", Arrays.asList("enderpearl", "ep"), "lazarus.factions.enderpearls");
     }
 
     @Override
