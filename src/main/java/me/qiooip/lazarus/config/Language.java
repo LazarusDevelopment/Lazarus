@@ -102,7 +102,7 @@ public class Language {
     public static String FACTIONS_ALLIES_DISABLED;
     public static String FACTIONS_DENY_DAMAGE_ALLIES;
     public static String FACTIONS_ENDERPEARL_USAGE_DENIED;
-    public static String FACTIONS_REGENERATION_FINISHED;
+    public static String FACTIONS_NO_LONGER_FROZEN;
 
     public static String FACTIONS_PVP_CLASS_LIMIT_DENY_EQUIP;
     public static String FACTIONS_PVP_CLASS_LIMIT_CLASS_DEACTIVATED;
@@ -752,6 +752,7 @@ public class Language {
     public static String DEATHMESSAGE_REASON_ENTITY_ATTACK_PLAYER_NO_ITEM;
     public static String DEATHMESSAGE_REASON_ENTITY_EXPLOSION;
     public static String DEATHMESSAGE_REASON_FALL;
+    public static String DEATHMESSAGE_REASON_FALL_KILLER;
     public static String DEATHMESSAGE_REASON_FALLING_BLOCK;
     public static String DEATHMESSAGE_REASON_FIRE;
     public static String DEATHMESSAGE_REASON_FIRE_TICK;
@@ -768,6 +769,7 @@ public class Language {
     public static String DEATHMESSAGE_REASON_SUICIDE;
     public static String DEATHMESSAGE_REASON_THORNS;
     public static String DEATHMESSAGE_REASON_VOID;
+    public static String DEATHMESSAGE_REASON_VOID_KILLER;
     public static String DEATHMESSAGE_REASON_WITHER;
 
     public static String DEL_WARP_USAGE;
@@ -1226,6 +1228,7 @@ public class Language {
     public static String TELEPORT_POSITION_MESSAGE;
 
     public static String TELL_LOCATION_MESSAGE;
+    public static String TELL_LOCATION_NOT_IN_FACTION;
 
     public static String TIME_MESSAGE_DAY;
     public static String TIME_MESSAGE_NIGHT;
@@ -1393,7 +1396,7 @@ public class Language {
         FACTIONS_ALLIES_DISABLED = language.getString("FACTIONS.ALLIES_DISABLED");
         FACTIONS_DENY_DAMAGE_ALLIES = language.getString("FACTIONS.DENY_DAMAGE_ALLIES");
         FACTIONS_ENDERPEARL_USAGE_DENIED = language.getString("FACTIONS.ENDERPEARLS_DISABLED");
-        FACTIONS_REGENERATION_FINISHED = language.getString("FACTIONS.REGENERATION_FINISHED");
+        FACTIONS_NO_LONGER_FROZEN = language.getString("FACTIONS.NO_LONGER_FROZEN");
 
         FACTIONS_PVP_CLASS_LIMIT_DENY_EQUIP = language.getString("FACTIONS.PVP_CLASS_LIMIT.DENY_EQUIP");
         FACTIONS_PVP_CLASS_LIMIT_CLASS_DEACTIVATED = language.getString("FACTIONS.PVP_CLASS_LIMIT.CLASS_DEACTIVATED");
@@ -2045,6 +2048,7 @@ public class Language {
         DEATHMESSAGE_REASON_ENTITY_ATTACK_PLAYER_NO_ITEM = language.getString("DEATHMESSAGE.REASON_ENTITY_ATTACK_PLAYER_NO_ITEM");
         DEATHMESSAGE_REASON_ENTITY_EXPLOSION = language.getString("DEATHMESSAGE.REASON_ENTITY_EXPLOSION");
         DEATHMESSAGE_REASON_FALL = language.getString("DEATHMESSAGE.REASON_FALL");
+        DEATHMESSAGE_REASON_FALL_KILLER = language.getString("DEATHMESSAGE.REASON_FALL_KILLER");
         DEATHMESSAGE_REASON_FALLING_BLOCK = language.getString("DEATHMESSAGE.REASON_FALLING_BLOCK");
         DEATHMESSAGE_REASON_FIRE = language.getString("DEATHMESSAGE.REASON_FIRE");
         DEATHMESSAGE_REASON_FIRE_TICK = language.getString("DEATHMESSAGE.REASON_FIRE_TICK");
@@ -2061,6 +2065,7 @@ public class Language {
         DEATHMESSAGE_REASON_SUICIDE = language.getString("DEATHMESSAGE.REASON_SUICIDE");
         DEATHMESSAGE_REASON_THORNS = language.getString("DEATHMESSAGE.REASON_THORNS");
         DEATHMESSAGE_REASON_VOID = language.getString("DEATHMESSAGE.REASON_VOID");
+        DEATHMESSAGE_REASON_VOID_KILLER = language.getString("DEATHMESSAGE.REASON_VOID_KILLER");
         DEATHMESSAGE_REASON_WITHER = language.getString("DEATHMESSAGE.REASON_WITHER");
 
         DEL_WARP_USAGE = language.getString("DEL_WARP_COMMAND.USAGE");
@@ -2519,6 +2524,7 @@ public class Language {
         TELEPORT_POSITION_MESSAGE = language.getString("TELEPORTPOSITION_COMMAND.MESSAGE");
 
         TELL_LOCATION_MESSAGE = language.getString("TELL_LOCATION_COMMAND.MESSAGE");
+        TELL_LOCATION_NOT_IN_FACTION = language.getString("TELL_LOCATION_COMMAND.NOT_IN_FACTION");
 
         TIME_MESSAGE_DAY = language.getString("TIME_COMMANDS.MESSAGE_DAY");
         TIME_MESSAGE_NIGHT = language.getString("TIME_COMMANDS.MESSAGE_NIGHT");

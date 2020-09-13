@@ -86,7 +86,6 @@ DENY_SPAWNER_PLACE:
 
 # For what blocks should we disable placement?
 DISABLED_BLOCK_PLACEMENT:
-  - "130:0"
   - "137:0"
 
 #=========================================================#
@@ -160,10 +159,10 @@ FACTION_DTR:
   MAX_DTR: 6.5
   # Minimum faction dtr
   MIN_DTR: -6.5
-  # Dtr regen per minute
-  REGEN_PER_MINUTE: 0.1
   # Solo faction dtr
   SOLO_FACTION_DTR: 1.1
+  # Dtr regen per minute
+  REGEN_PER_MINUTE: 0.1
   # Freeze duration in minutes
   FREEZE_DURATION: 45
   # Per world dtr loss

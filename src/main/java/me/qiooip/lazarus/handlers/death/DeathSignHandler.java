@@ -30,20 +30,22 @@ public class DeathSignHandler extends Handler implements Listener {
         Sign sign = (Sign) block.getState();
         String[] lines = sign.getLines();
 
-        return (lines.length > 0) && (lines[1] != null) && (lines[1].equals(Config.DEATH_SIGN_LORE.get(1)));
+        return lines.length > 0
+            && lines[1] != null
+            && lines[1].equals(Config.DEATH_SIGN_LORE.get(1));
     }
 
     private ItemStack getDeathSign(Player player, Player killer) {
         FastDateFormat dateFormat = FastDateFormat.getInstance(Config
-        .DATE_FORMAT, Config.TIMEZONE, Locale.ENGLISH);
+            .DATE_FORMAT, Config.TIMEZONE, Locale.ENGLISH);
 
         ItemBuilder deathSign = new ItemBuilder(Material.SIGN, 1)
-        .setName(Config.DEATH_SIGN_NAME)
-        .setLore(Config.DEATH_SIGN_LORE.stream().map(line -> line
-        .replace("<killer>", killer.getName())
-        .replace("<victim>", player.getName())
-        .replace("<date>", dateFormat.format(System.currentTimeMillis())))
-        .collect(Collectors.toList()));
+            .setName(Config.DEATH_SIGN_NAME)
+            .setLore(Config.DEATH_SIGN_LORE.stream().map(line -> line
+            .replace("<killer>", killer.getName())
+            .replace("<victim>", player.getName())
+            .replace("<date>", dateFormat.format(System.currentTimeMillis())))
+            .collect(Collectors.toList()));
 
         return deathSign.build();
     }

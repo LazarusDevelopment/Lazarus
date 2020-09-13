@@ -228,9 +228,13 @@ public class Bard extends PvpClass {
             return;
         }
 
-        if(this.getPower(player.getUniqueId()) < clickableItem.getEnergyNeeded()) {
+        int currentPower = (int) this.getPower(player.getUniqueId());
+
+        if(currentPower < clickableItem.getEnergyNeeded()) {
             player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_NOT_ENOUGH_ENERGY
-            .replace("<energy>", String.valueOf(clickableItem.getEnergyNeeded())));
+                .replace("<energy>", String.valueOf(clickableItem.getEnergyNeeded()))
+                .replace("<currentEnergy>", String.valueOf(currentPower)));
+
             return;
         }
 

@@ -44,122 +44,111 @@ public class DeathMessageHandler extends Handler implements Listener {
     }
 
     private String getDeathMessage(Player player) {
-        DamageCause cause = (player.getLastDamageCause() == null)
-        ? DamageCause.CUSTOM : player.getLastDamageCause().getCause();
+        DamageCause cause = player.getLastDamageCause() == null
+            ? DamageCause.CUSTOM
+            : player.getLastDamageCause().getCause();
 
         String message = "";
 
         if(player.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent damageEvent = (EntityDamageByEntityEvent) player.getLastDamageCause();
 
-            if(cause == DamageCause.ENTITY_ATTACK) {
-                Entity damager = damageEvent.getDamager();
-
-                if(damager instanceof Player) {
-                    Player playerDamager = (Player) damager;
-                    ItemStack handItem = playerDamager.getItemInHand();
-
-                    if(handItem != null && handItem.getType() != Material.AIR) {
-                        message = Language.DEATHMESSAGE_REASON_ENTITY_ATTACK_PLAYER_ITEM
-                            .replace("<player>", this.getPlayerName(player))
-                            .replace("<killer>", this.getKillerName(playerDamager))
-                            .replace("<item>", NmsUtils.getInstance().getItemName(handItem));
-                    } else {
-                        message = Language.DEATHMESSAGE_REASON_ENTITY_ATTACK_PLAYER_NO_ITEM
-                            .replace("<player>", this.getPlayerName(player))
-                            .replace("<killer>", this.getKillerName(playerDamager));
-                    }
-
-                } else {
-
-                    message = Language.DEATHMESSAGE_REASON_ENTITY_ATTACK_ENTITY
-                        .replace("<player>", this.getPlayerName(player))
-                        .replace("<entity>", StringUtils.getEntityName(damager.getType().name()));
+            switch(cause) {
+                case ENTITY_ATTACK: {
+                    message = this.getEntityAttackDeathMessage(player, damageEvent);
+                    break;
                 }
-
-            } else if(cause == DamageCause.PROJECTILE) {
-                Projectile projectile = (Projectile) damageEvent.getDamager();
-
-                if(projectile.getShooter() instanceof Player) {
-                    Player playerShooter = (Player) projectile.getShooter();
-                    ItemStack handItem = playerShooter.getItemInHand();
-
-                    if(handItem != null && handItem.getType() != Material.AIR) {
-                        message = Language.DEATHMESSAGE_REASON_PROJECTILE_PLAYER_ITEM
-                            .replace("<player>", this.getPlayerName(player))
-                            .replace("<killer>", this.getKillerName(playerShooter))
-                            .replace("<item>", NmsUtils.getInstance().getItemName(handItem));
-                    } else {
-                        message = Language.DEATHMESSAGE_REASON_PROJECTILE_PLAYER_NO_ITEM
-                            .replace("<player>", this.getPlayerName(player))
-                            .replace("<killer>", this.getKillerName(playerShooter));
-                    }
-
-                } else {
-                    Entity entityShooter = (Entity) projectile.getShooter();
-
-                    message = Language.DEATHMESSAGE_REASON_PROJECTILE_ENTITY
-                        .replace("<player>", this.getPlayerName(player))
-                        .replace("<entity>", StringUtils.getEntityName(entityShooter.getType().name()));
+                case PROJECTILE: {
+                    message = this.getProjectileDeathMessage(player, damageEvent);
+                    break;
                 }
-
-            } else if(cause == DamageCause.ENTITY_EXPLOSION) {
-                Entity damager = damageEvent.getDamager();
-
-                if(damager instanceof TNTPrimed) {
-                    message = Language.DEATHMESSAGE_REASON_BLOCK_EXPLOSION
-                        .replace("<player>", this.getPlayerName(player));
-                } else {
-                    message = Language.DEATHMESSAGE_REASON_ENTITY_EXPLOSION
-                        .replace("<player>", this.getPlayerName(player));
+                case ENTITY_EXPLOSION: {
+                    message = this.getEntityExplosionDeathMessage(player, damageEvent);
+                    break;
                 }
-            } else if(cause == DamageCause.FALLING_BLOCK) {
-                message = Language.DEATHMESSAGE_REASON_FALLING_BLOCK
-                    .replace("<player>", this.getPlayerName(player));
-            } else if(cause == DamageCause.LIGHTNING) {
-                message = Language.DEATHMESSAGE_REASON_LIGHTNING
-                    .replace("<player>", this.getPlayerName(player));
-            } else if(cause == DamageCause.FALL) {
-                message = Language.DEATHMESSAGE_REASON_FALL
-                    .replace("<player>", this.getPlayerName(player));
+                case FALLING_BLOCK: {
+                    message = Language.DEATHMESSAGE_REASON_FALLING_BLOCK.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case LIGHTNING: {
+                    message = Language.DEATHMESSAGE_REASON_LIGHTNING.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case FALL: {
+                    message = Language.DEATHMESSAGE_REASON_FALL.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
             }
-
         } else {
             switch(cause) {
-                case BLOCK_EXPLOSION: message = Language.DEATHMESSAGE_REASON_BLOCK_EXPLOSION
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case CONTACT: message = Language.DEATHMESSAGE_REASON_CONTACT
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case DROWNING: message = Language.DEATHMESSAGE_REASON_DROWNING
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case FALL: message = Language.DEATHMESSAGE_REASON_FALL
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case FIRE: message = Language.DEATHMESSAGE_REASON_FIRE
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case FIRE_TICK: message = Language.DEATHMESSAGE_REASON_FIRE_TICK
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case LAVA: message = Language.DEATHMESSAGE_REASON_LAVA
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case MAGIC: message = Language.DEATHMESSAGE_REASON_MAGIC
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case MELTING: message = Language.DEATHMESSAGE_REASON_MELTING
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case POISON: message = Language.DEATHMESSAGE_REASON_POISON
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case STARVATION: message = Language.DEATHMESSAGE_REASON_STARVATION
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case SUFFOCATION: message = Language.DEATHMESSAGE_REASON_SUFFOCATION
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case SUICIDE: message = Language.DEATHMESSAGE_REASON_SUICIDE
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case THORNS: message = Language.DEATHMESSAGE_REASON_THORNS
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case VOID: message = Language.DEATHMESSAGE_REASON_VOID
-                    .replace("<player>", this.getPlayerName(player)); break;
-                case WITHER: message = Language.DEATHMESSAGE_REASON_WITHER
-                    .replace("<player>", this.getPlayerName(player)); break;
-                default: message = Language.DEATHMESSAGE_REASON_CUSTOM
-                    .replace("<player>", this.getPlayerName(player)); break;
+                case BLOCK_EXPLOSION: {
+                    message = Language.DEATHMESSAGE_REASON_BLOCK_EXPLOSION.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case CONTACT: {
+                    message = Language.DEATHMESSAGE_REASON_CONTACT.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case DROWNING: {
+                    message = Language.DEATHMESSAGE_REASON_DROWNING.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case FIRE: {
+                    message = Language.DEATHMESSAGE_REASON_FIRE.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case FIRE_TICK: {
+                    message = Language.DEATHMESSAGE_REASON_FIRE_TICK.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case LAVA: {
+                    message = Language.DEATHMESSAGE_REASON_LAVA.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case MAGIC: {
+                    message = Language.DEATHMESSAGE_REASON_MAGIC.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case MELTING: {
+                    message = Language.DEATHMESSAGE_REASON_MELTING.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case POISON: {
+                    message = Language.DEATHMESSAGE_REASON_POISON.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case STARVATION: {
+                    message = Language.DEATHMESSAGE_REASON_STARVATION.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case SUFFOCATION: {
+                    message = Language.DEATHMESSAGE_REASON_SUFFOCATION.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case SUICIDE: {
+                    message = Language.DEATHMESSAGE_REASON_SUICIDE.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case THORNS: {
+                    message = Language.DEATHMESSAGE_REASON_THORNS.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case WITHER: {
+                    message = Language.DEATHMESSAGE_REASON_WITHER.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
+                case FALL: {
+                    message = this.getFallDeathMessage(player);
+                    break;
+                }
+                case VOID: {
+                    message = this.getVoidDeathMessage(player);
+                    break;
+                }
+                default: {
+                    message = Language.DEATHMESSAGE_REASON_CUSTOM.replace("<player>", this.getPlayerName(player));
+                    break;
+                }
             }
         }
 
@@ -180,5 +169,93 @@ public class DeathMessageHandler extends Handler implements Listener {
         return Language.DEATHMESSAGE_KILLER_NAME_FORMAT
             .replace("<killer>", killer.getName())
             .replace("<kills>", String.valueOf(data.getKills() + 1));
+    }
+
+    private String getEntityAttackDeathMessage(Player player, EntityDamageByEntityEvent damageEvent) {
+        Entity damager = damageEvent.getDamager();
+
+        if(damager instanceof Player) {
+            Player playerDamager = (Player) damager;
+            ItemStack handItem = playerDamager.getItemInHand();
+
+            if(handItem != null && handItem.getType() != Material.AIR) {
+                return Language.DEATHMESSAGE_REASON_ENTITY_ATTACK_PLAYER_ITEM
+                    .replace("<player>", this.getPlayerName(player))
+                    .replace("<killer>", this.getKillerName(playerDamager))
+                    .replace("<item>", NmsUtils.getInstance().getItemName(handItem));
+            } else {
+                return Language.DEATHMESSAGE_REASON_ENTITY_ATTACK_PLAYER_NO_ITEM
+                    .replace("<player>", this.getPlayerName(player))
+                    .replace("<killer>", this.getKillerName(playerDamager));
+            }
+        } else {
+            return Language.DEATHMESSAGE_REASON_ENTITY_ATTACK_ENTITY
+                .replace("<player>", this.getPlayerName(player))
+                .replace("<entity>", StringUtils.getEntityName(damager.getType().name()));
+        }
+    }
+
+    private String getProjectileDeathMessage(Player player, EntityDamageByEntityEvent damageEvent) {
+        Projectile projectile = (Projectile) damageEvent.getDamager();
+
+        if(projectile.getShooter() instanceof Player) {
+            Player playerShooter = (Player) projectile.getShooter();
+            ItemStack handItem = playerShooter.getItemInHand();
+
+            if(handItem != null && handItem.getType() != Material.AIR) {
+                return Language.DEATHMESSAGE_REASON_PROJECTILE_PLAYER_ITEM
+                    .replace("<player>", this.getPlayerName(player))
+                    .replace("<killer>", this.getKillerName(playerShooter))
+                    .replace("<item>", NmsUtils.getInstance().getItemName(handItem));
+            } else {
+                return Language.DEATHMESSAGE_REASON_PROJECTILE_PLAYER_NO_ITEM
+                    .replace("<player>", this.getPlayerName(player))
+                    .replace("<killer>", this.getKillerName(playerShooter));
+            }
+        } else {
+            Entity entityShooter = (Entity) projectile.getShooter();
+
+            return Language.DEATHMESSAGE_REASON_PROJECTILE_ENTITY
+                .replace("<player>", this.getPlayerName(player))
+                .replace("<entity>", StringUtils.getEntityName(entityShooter.getType().name()));
+        }
+    }
+
+    private String getEntityExplosionDeathMessage(Player player, EntityDamageByEntityEvent damageEvent) {
+        Entity damager = damageEvent.getDamager();
+
+        if(damager instanceof TNTPrimed) {
+            return Language.DEATHMESSAGE_REASON_BLOCK_EXPLOSION
+                .replace("<player>", this.getPlayerName(player));
+        } else {
+            return Language.DEATHMESSAGE_REASON_ENTITY_EXPLOSION
+                .replace("<player>", this.getPlayerName(player));
+        }
+    }
+
+    private String getFallDeathMessage(Player player) {
+        Player killer = player.getKiller();
+
+        if(killer != null && player != killer) {
+            return Language.DEATHMESSAGE_REASON_FALL_KILLER
+                .replace("<player>", this.getPlayerName(player))
+                .replace("<killer>", this.getKillerName(killer));
+        } else {
+            return Language.DEATHMESSAGE_REASON_FALL
+            .replace("<player>", this.getPlayerName(player));
+        }
+    }
+
+    private String getVoidDeathMessage(Player player) {
+        Player killer = player.getKiller();
+
+        if(killer != null && player != killer) {
+            return Language.DEATHMESSAGE_REASON_VOID_KILLER
+                .replace("<player>", this.getPlayerName(player))
+                .replace("<killer>", this.getKillerName(killer));
+        } else {
+            return Language.DEATHMESSAGE_REASON_VOID
+                .replace("<player>", this.getPlayerName(player));
+        }
     }
 }

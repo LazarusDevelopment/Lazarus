@@ -96,6 +96,10 @@ public class EotwHandler extends Handler implements Listener {
             Lazarus.getInstance().getKothManager().stopKoth(koth);
         }
 
+        SystemFaction spawnFaction = (SystemFaction) FactionsManager.getInstance().getFactionByName("Spawn");
+        spawnFaction.setSafezone(true);
+        spawnFaction.setDeathban(false);
+
         FactionsManager.getInstance().setAllRaidable(false);
 
         TimerManager.getInstance().getEotwTimer().cancel();
