@@ -4,7 +4,7 @@ import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;

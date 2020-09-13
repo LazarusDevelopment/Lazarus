@@ -2,8 +2,8 @@ package me.qiooip.lazarus.handlers;
 
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.handlers.manager.Handler;
-import me.qiooip.lazarus.utils.ItemBuilder;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

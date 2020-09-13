@@ -10,7 +10,7 @@ import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.WarzoneFaction;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Effect;
 import org.bukkit.Material;

@@ -1,5 +1,6 @@
-package me.qiooip.lazarus.utils;
+package me.qiooip.lazarus.utils.item;
 
+import me.qiooip.lazarus.utils.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -12,9 +13,11 @@ import java.util.List;
 public class ItemBuilder {
 
     private final ItemStack itemStack;
+    private final ItemMeta itemMeta;
 
     public ItemBuilder(ItemStack itemStack) {
         this.itemStack = itemStack;
+        this.itemMeta = itemStack.getItemMeta();
     }
 
     public ItemBuilder(Material material) {
@@ -27,6 +30,7 @@ public class ItemBuilder {
 
     public ItemBuilder(Material material, int amount, int durability) {
         this.itemStack = new ItemStack(material, amount, (short) durability);
+        this.itemMeta = itemStack.getItemMeta();
     }
 
     public ItemBuilder setDurability(int durability) {
@@ -45,41 +49,34 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setName(String name) {
-        ItemMeta meta = this.itemStack.getItemMeta();
-        meta.setDisplayName(Color.translate(name));
-        this.itemStack.setItemMeta(meta);
+        this.itemMeta.setDisplayName(Color.translate(name));
         return this;
     }
 
     public ItemBuilder setSkullOwner(String owner) {
         try {
-            SkullMeta meta = (SkullMeta) this.itemStack.getItemMeta();
-            meta.setOwner(owner);
-            this.itemStack.setItemMeta(meta);
+            ((SkullMeta) this.itemMeta).setOwner(owner);
         } catch(ClassCastException ignored) { }
 
         return this;
     }
 
     public ItemBuilder setLore(List<String> lore) {
-        ItemMeta meta = this.itemStack.getItemMeta();
-        meta.setLore(lore);
-        this.itemStack.setItemMeta(meta);
+        this.itemMeta.setLore(lore);
         return this;
     }
 
     public ItemBuilder addLoreLine(String line) {
-        ItemMeta meta = this.itemStack.getItemMeta();
-        meta.getLore().add(Color.translate(line));
-        this.itemStack.setItemMeta(meta);
+        try {
+            this.itemMeta.getLore().add(Color.translate(line));
+        } catch(NullPointerException ignored) { }
+
         return this;
     }
 
     public ItemBuilder addStoredEnchantment(Enchantment enchantment, int level) {
         try {
-            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) this.itemStack.getItemMeta();
-            meta.addStoredEnchant(enchantment, level, false);
-            this.itemStack.setItemMeta(meta);
+            ((EnchantmentStorageMeta) this.itemMeta).addStoredEnchant(enchantment, level, false);
         } catch(ClassCastException ignored) { }
 
         return this;
@@ -95,11 +92,17 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder addFakeGlow() {
+        this.itemMeta.addEnchant(ItemUtils.FAKE_GLOW, 1, true);
+        return this;
+    }
+
     public ItemMeta getItemMeta() {
-        return this.itemStack.getItemMeta();
+        return this.itemMeta;
     }
 
     public ItemStack build() {
+        this.itemStack.setItemMeta(this.itemMeta);
         return this.itemStack;
     }
 }

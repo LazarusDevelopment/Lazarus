@@ -3,11 +3,11 @@ package me.qiooip.lazarus.handlers.restore;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.FileUtils;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -52,7 +52,7 @@ public class InventoryRestoreManager implements Listener, ManagerEnabler {
             Instant creationDate = FileUtils.creationDate(file);
             if(creationDate == null) return;
 
-            if(ChronoUnit.HOURS.between(creationDate, Instant.now()) > Config.DEATHBAN_INVENTORY_RESTORE_FILE_CACHE) {
+            if(ChronoUnit.HOURS.between(creationDate, Instant.now()) > Config.INVENTORY_RESTORE_FILE_CACHE) {
                 file.delete();
                 return;
             }
@@ -77,7 +77,7 @@ public class InventoryRestoreManager implements Listener, ManagerEnabler {
     }
 
     public void saveInventoryUponDeath(Player player) {
-        if(!Config.DEATHBAN_INVENTORY_RESTORE) return;
+        if(!Config.INVENTORY_RESTORE_ENABLED) return;
 
         this.inventories.put(player.getUniqueId(), new InventoryData(player.getInventory()
         .getContents(), player.getInventory().getArmorContents()));

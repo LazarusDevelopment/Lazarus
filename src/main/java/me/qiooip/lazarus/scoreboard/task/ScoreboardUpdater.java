@@ -5,6 +5,7 @@ import me.qiooip.lazarus.classes.Bard;
 import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.RunningConquest;
 import me.qiooip.lazarus.games.conquest.ZoneType;
@@ -108,6 +109,12 @@ public class ScoreboardUpdater extends BukkitRunnable {
                 }
 
                 if(Config.KITMAP_MODE_ENABLED) {
+                    PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
+
+                    if(faction != null && scoreboard.add(Config.FACTION_PLACEHOLDER, faction.getName())) {
+                        scoreboard.addEmptyLine(ChatColor.DARK_RED);
+                    }
+
                     scoreboard.add(Config.KITMAP_KILLS_PLACEHOLDER, userdata.getKills() + "");
                     scoreboard.add(Config.KITMAP_DEATHS_PLACEHOLDER, userdata.getDeaths() + "");
                     scoreboard.add(Config.KITMAP_BALANCE_PLACEHOLDER, userdata.getBalance() + "");
@@ -116,7 +123,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                         scoreboard.add(Config.KITMAP_KILLSTREAK_PLACEHOLDER, userdata.getKillstreak() + "");
                     }
 
-                    scoreboard.addLine(ChatColor.DARK_RED);
+                    scoreboard.addLine(ChatColor.DARK_PURPLE);
                 }
 
                 TimerManager.getInstance().getCustomTimer().handleScoreboardUpdate(scoreboard);
@@ -143,7 +150,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                         if(++count == 4) break;
                     }
 
-                    scoreboard.addLine(ChatColor.DARK_PURPLE);
+                    scoreboard.addLine(ChatColor.GOLD);
                 }
 
                 KillTheKingManager killTheKing = Lazarus.getInstance().getKillTheKingManager();
@@ -155,7 +162,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                     scoreboard.add(Config.KING_WORLD_PLACEHOLDER, killTheKing.getKingWorld());
                     scoreboard.add(Config.KING_LOCATION_PLACEHOLDER, killTheKing.getKingLocation());
 
-                    scoreboard.addLine(ChatColor.GOLD);
+                    scoreboard.addLine(ChatColor.GRAY);
                 }
 
                 DtcManager dtcManager = Lazarus.getInstance().getDtcManager();

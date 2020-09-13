@@ -1,6 +1,8 @@
-package me.qiooip.lazarus.utils;
+package me.qiooip.lazarus.utils.item;
 
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -10,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +25,8 @@ public class ItemUtils {
 
     private static Map<String, String> ITEMS_BY_NAME;
     private static Map<String, String> ITEMS_BY_MATERIAL;
+
+    public static Enchantment FAKE_GLOW;
 
     public static void updateInventory(Player player) {
         Tasks.sync(() -> player.updateInventory());
@@ -369,6 +374,20 @@ public class ItemUtils {
         }
     }
 
+    public static void registerFakeEnchantmentGlow() {
+        try {
+            Field f = Enchantment.class.getDeclaredField("acceptingNew");
+            f.setAccessible(true);
+            f.set(null, true);
+
+            Enchantment.registerEnchantment(FAKE_GLOW);
+        } catch(IllegalArgumentException e1) {
+            FAKE_GLOW = Enchantment.getById(70);
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+    }
+
     static {
         BLOCK_RELATIVES = new ArrayList<>();
 
@@ -379,5 +398,7 @@ public class ItemUtils {
                 }
             }
         }
+
+        FAKE_GLOW = new FakeGlow(70);
     }
 }

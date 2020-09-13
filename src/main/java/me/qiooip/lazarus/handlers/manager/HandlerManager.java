@@ -14,6 +14,7 @@ import me.qiooip.lazarus.handlers.MobStackHandler;
 import me.qiooip.lazarus.handlers.StatsHandler;
 import me.qiooip.lazarus.handlers.block.AutoSmeltHandler;
 import me.qiooip.lazarus.handlers.block.CrowbarHandler;
+import me.qiooip.lazarus.handlers.block.DisabledBlocksHandler;
 import me.qiooip.lazarus.handlers.block.FilterHandler;
 import me.qiooip.lazarus.handlers.block.FoundOreHandler;
 import me.qiooip.lazarus.handlers.block.SubclaimHandler;
@@ -77,6 +78,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new CrowbarHandler());
         this.handlers.add(new DeathMessageHandler());
         this.handlers.add(new DeathSignHandler());
+        this.handlers.add(new DisabledBlocksHandler());
         this.handlers.add(new DisenchantHandler());
         this.handlers.add(new DynamicEventHandler());
         this.handlers.add(new EnchantLimiterHandler());

@@ -1,8 +1,8 @@
 package me.qiooip.lazarus.config;
 
 import me.qiooip.lazarus.Lazarus;
-import me.qiooip.lazarus.utils.ItemUtils;
 import me.qiooip.lazarus.utils.LocationUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -239,10 +240,11 @@ public class Config {
     public static String CROWBAR_SPAWNER_NAME_COLOR;
     public static boolean CROWBAR_DISABLE_IN_WARZONE;
 
+    public static boolean INVENTORY_RESTORE_ENABLED;
+    public static int INVENTORY_RESTORE_FILE_CACHE;
+
     public static boolean DEATHBAN_ENABLED;
     public static int DEATHBAN_DEFAULT_BAN_TIME;
-    public static boolean DEATHBAN_INVENTORY_RESTORE;
-    public static int DEATHBAN_INVENTORY_RESTORE_FILE_CACHE;
     public static int DEFAULT_LIVES;
 
     public static String PLAYER_SETTINGS_INVENTORY_NAME;
@@ -364,6 +366,9 @@ public class Config {
     public static int ROGUE_BACKSTAB_COOLDOWN;
     public static boolean ROGUE_BACKSTAB_EFFECTS_ENABLED;
 
+    public static boolean ABILITIES_GLOBAL_COOLDOWN_ENABLED;
+    public static int ABILITIES_GLOBAL_COOLDOWN_DURATION;
+
     public static boolean TAB_ENABLED;
 
     public static String SCOREBOARD_TITLE;
@@ -374,6 +379,7 @@ public class Config {
     public static boolean SCOREBOARD_FOOTER_ENABLED;
     public static String SCOREBOARD_FOOTER_PLACEHOLDER;
 
+    public static String FACTION_PLACEHOLDER;
     public static String COMBAT_TAG_PLACEHOLDER;
     public static String ENDERPEARL_PLACEHOLDER;
     public static String PVP_PROTECTION_PLACEHOLDER;
@@ -410,6 +416,11 @@ public class Config {
     public static String HOME_PLACEHOLDER;
     public static String STUCK_PLACEHOLDER;
     public static String REBOOT_PLACEHOLDER;
+
+    public static String ABILITIES_TITLE_PLACEHOLDER;
+    public static String ABILITIES_GLOBAL_COOLDOWN_PLACEHOLDER;
+    public static String ABILITIES_ABILITY_COOLDOWN_PLACEHOLDER;
+
     public static String KING_TITLE_PLACEHOLDER;
     public static String KING_KING_PLACEHOLDER;
     public static String KING_TIME_LASTED_PLACEHOLDER;
@@ -428,6 +439,7 @@ public class Config {
         ConfigFile scoreboard = Lazarus.getInstance().getScoreboardFile();
         ConfigFile tab = Lazarus.getInstance().getTabFile();
         ConfigFile classes = Lazarus.getInstance().getClassesFile();
+        ConfigFile abilitiesFile = Lazarus.getInstance().getAbilitiesFile();
         ConfigFile utilities = Lazarus.getInstance().getUtilitiesFile();
 
         TIMEZONE = TimeZone.getTimeZone(config.getString("TIMEZONE"));
@@ -483,9 +495,9 @@ public class Config {
         DENY_SPAWNER_PLACE_IN_END = config.getBoolean("DENY_SPAWNER_PLACE.IN_END");
         DENY_SPAWNER_PLACE_IN_NETHER = config.getBoolean("DENY_SPAWNER_PLACE.IN_END");
 
-        DISABLED_BLOCK_PLACEMENT = config.getStringList("DISABLED_BLOCK_PLACEMENT").stream()
+        DISABLED_BLOCK_PLACEMENT = EnumSet.copyOf(config.getStringList("DISABLED_BLOCK_PLACEMENT").stream()
             .map(ItemUtils::parseItem).filter(Objects::nonNull)
-            .map(ItemStack::getType).collect(Collectors.toSet());
+            .map(ItemStack::getType).collect(Collectors.toList()));
 
         DEFAULT_CHAT_DELAY = config.getInt("DEFAULT_CHAT_DELAY");
 
@@ -683,10 +695,11 @@ public class Config {
         CROWBAR_SPAWNER_NAME_COLOR = config.getString("CROWBAR.SPAWNER_NAME_COLOR");
         CROWBAR_DISABLE_IN_WARZONE = config.getBoolean("CROWBAR.DISABLE_IN_WARZONE");
 
+        INVENTORY_RESTORE_ENABLED = config.getBoolean("INVENTORY_RESTORE.ENABLED");
+        INVENTORY_RESTORE_FILE_CACHE = config.getInt("INVENTORY_RESTORE.FILE_CACHE");
+
         DEATHBAN_ENABLED = config.getBoolean("DEATHBAN.ENABLED");
         DEATHBAN_DEFAULT_BAN_TIME = config.getInt("DEATHBAN.DEFAULT_BAN_TIME");
-        DEATHBAN_INVENTORY_RESTORE = config.getBoolean("DEATHBAN.INVENTORY_RESTORE");
-        DEATHBAN_INVENTORY_RESTORE_FILE_CACHE = config.getInt("DEATHBAN.INVENTORY_RESTORE_FILE_CACHE");
         DEFAULT_LIVES = config.getInt("DEFAULT_LIVES");
 
         PLAYER_SETTINGS_INVENTORY_NAME = config.getString("PLAYER_SETTINGS.INVENTORY_NAME");
@@ -811,6 +824,9 @@ public class Config {
         ROGUE_BACKSTAB_COOLDOWN = classes.getInt("ROGUE_CLASS.BACKSTAB.COOLDOWN");
         ROGUE_BACKSTAB_EFFECTS_ENABLED = classes.getBoolean("ROGUE_CLASS.BACKSTAB.EFFECTS_ENABLED");
 
+        ABILITIES_GLOBAL_COOLDOWN_ENABLED = abilitiesFile.getBoolean("GLOBAL_COOLDOWN.ENABLED");
+        ABILITIES_GLOBAL_COOLDOWN_DURATION = abilitiesFile.getInt("GLOBAL_COOLDOWN.DURATION");
+
         TAB_ENABLED = tab.getBoolean("TAB_ENABLED");
 
         SCOREBOARD_TITLE = scoreboard.getString("SCOREBOARD_TITLE");
@@ -821,6 +837,7 @@ public class Config {
         SCOREBOARD_FOOTER_ENABLED = scoreboard.getBoolean("SCOREBOARD_FOOTER.ENABLED");
         SCOREBOARD_FOOTER_PLACEHOLDER = scoreboard.getString("SCOREBOARD_FOOTER.PLACEHOLDER");
 
+        FACTION_PLACEHOLDER = scoreboard.getString("FACTION_PLACEHOLDER");
         COMBAT_TAG_PLACEHOLDER = scoreboard.getString("COMBAT_TAG_PLACEHOLDER");
         ENDERPEARL_PLACEHOLDER = scoreboard.getString("ENDERPEARL_PLACEHOLDER");
         PVP_PROTECTION_PLACEHOLDER = scoreboard.getString("PVP_PROTECTION_PLACEHOLDER");
@@ -857,6 +874,11 @@ public class Config {
         HOME_PLACEHOLDER = scoreboard.getString("HOME_PLACEHOLDER");
         STUCK_PLACEHOLDER = scoreboard.getString("STUCK_PLACEHOLDER");
         REBOOT_PLACEHOLDER = scoreboard.getString("REBOOT_PLACEHOLDER");
+
+        ABILITIES_TITLE_PLACEHOLDER = scoreboard.getString("ABILITIES.TITLE_PLACEHOLDER");
+        ABILITIES_GLOBAL_COOLDOWN_PLACEHOLDER = scoreboard.getString("ABILITIES.GLOBAL_COOLDOWN_PLACEHOLDER");
+        ABILITIES_ABILITY_COOLDOWN_PLACEHOLDER = scoreboard.getString("ABILITIES.ABILITY_COOLDOWN_PLACEHOLDER");
+
         KING_TITLE_PLACEHOLDER = scoreboard.getString("KILL_THE_KING.TITLE_PLACEHOLDER");
         KING_KING_PLACEHOLDER = scoreboard.getString("KILL_THE_KING.KING_PLACEHOLDER");
         KING_TIME_LASTED_PLACEHOLDER = scoreboard.getString("KILL_THE_KING.TIME_LASTED_PLACEHOLDER");

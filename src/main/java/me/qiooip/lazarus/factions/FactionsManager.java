@@ -34,13 +34,11 @@ import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
-import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -134,12 +132,11 @@ public class FactionsManager implements Listener {
                 ((RoadFaction) faction).setupDisplayName();
             }
 
-            if(faction instanceof SystemFaction) {
-                SystemFaction systemFaction = (SystemFaction) faction;
+            if(faction instanceof SpawnFaction) {
+                SpawnFaction spawnFaction = (SpawnFaction) faction;
 
-                try {
-                    systemFaction.setColor(Color.translate("&" + ChatColor.valueOf(systemFaction.getColor()).getChar()));
-                } catch(IllegalArgumentException ignored) { }
+                spawnFaction.setSafezone(true);
+                spawnFaction.setDeathban(false);
             }
         }
 

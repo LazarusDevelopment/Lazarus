@@ -12,7 +12,7 @@ import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.PvpProtTimer;
 import me.qiooip.lazarus.timer.scoreboard.SotwTimer;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Location;

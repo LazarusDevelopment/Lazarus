@@ -6,7 +6,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.games.Cuboid;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -85,6 +85,7 @@ public class MountainData implements Listener {
         }
 
         ItemStack item = player.getItemInHand();
+        NmsUtils.getInstance().damageItemInHand(player);
 
         List<ItemStack> drops = NmsUtils.getInstance().getBlockDrops(item, block);
 

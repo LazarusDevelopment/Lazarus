@@ -3,7 +3,7 @@ package me.qiooip.lazarus.handlers.death;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

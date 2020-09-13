@@ -553,6 +553,16 @@ KITS:
     - ""
 
 #=========================================================#
+#             Inventory restore configuration             #
+#=========================================================#
+
+INVENTORY_RESTORE:
+  # Should we enable inventory restore?
+  ENABLED: true
+  # After how much hours should we delete inventory restore file?
+  FILE_CACHE: 48
+
+#=========================================================#
 #                  Deathban configuration                 #
 #=========================================================#
 
@@ -561,10 +571,6 @@ DEATHBAN:
   ENABLED: true
   # What should be default deathban time in minutes?
   DEFAULT_BAN_TIME: 180
-  # Should we enable inventory restore?
-  INVENTORY_RESTORE: true
-  # After how much hours should we delete inventory restore file?
-  INVENTORY_RESTORE_FILE_CACHE: 48
   # Deathban times represented by time (minutes) and permission
   BAN_TIMES:
     30: "lazarus.deathban.30"

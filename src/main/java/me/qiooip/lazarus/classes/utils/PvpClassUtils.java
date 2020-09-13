@@ -7,7 +7,7 @@ import me.qiooip.lazarus.classes.items.ClickableItem;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;

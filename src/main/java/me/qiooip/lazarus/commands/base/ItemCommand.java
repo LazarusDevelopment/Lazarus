@@ -2,7 +2,7 @@ package me.qiooip.lazarus.commands.base;
 
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

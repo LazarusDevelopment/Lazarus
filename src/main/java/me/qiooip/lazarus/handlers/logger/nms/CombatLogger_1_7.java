@@ -172,6 +172,10 @@ public class CombatLogger_1_7 extends EntitySkeleton implements CombatLogger {
         if(damageSourceEntity instanceof EntityPlayer) {
             Player damager = (Player) damageSourceEntity.getBukkitEntity();
 
+            if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(damager)) {
+                return false;
+            }
+
             if(TimerManager.getInstance().getPvpProtTimer().isActive(damager)) {
                 damager.sendMessage(Language.PREFIX + Language.PVP_PROT_PVP_DENY_VICTIM);
                 return false;

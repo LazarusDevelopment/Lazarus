@@ -147,3 +147,10 @@ ENTITY_LIMITER:
   WITHER: true
   WOLF: true
   ZOMBIE: true
+  BOAT: true
+  MINECART: true
+  MINECART_CHEST: true
+  MINECART_FURNACE: true
+  MINECART_TNT: true
+  MINECART_HOPPER: true
+  MINECART_MOB_SPAWNER: true

@@ -7,7 +7,7 @@ import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.ServerUtils;
@@ -224,7 +224,9 @@ public class SotwHandler extends Handler implements Listener {
         if(!this.autoInventoryMaterial.contains(block.getType())) return;
 
         Player player = event.getPlayer();
+
         ItemStack item = player.getItemInHand();
+        NmsUtils.getInstance().damageItemInHand(player);
 
         List<ItemStack> drops = NmsUtils.getInstance().getBlockDrops(item, block);
 

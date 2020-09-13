@@ -18,13 +18,13 @@ import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.factions.type.RoadFaction;
+import me.qiooip.lazarus.factions.type.SpawnFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.LocationUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bson.Document;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 
 import java.util.ArrayList;
@@ -57,12 +57,11 @@ public class MongoFactionsManager extends FactionsManager {
                     ((RoadFaction) faction).setupDisplayName();
                 }
 
-                if(faction instanceof SystemFaction) {
-                    SystemFaction systemFaction = (SystemFaction) faction;
+                if(faction instanceof SpawnFaction) {
+                    SpawnFaction spawnFaction = (SpawnFaction) faction;
 
-                    try {
-                        systemFaction.setColor(Color.translate("&" + ChatColor.valueOf(systemFaction.getColor()).getChar()));
-                    } catch(IllegalArgumentException ignored) { }
+                    spawnFaction.setSafezone(true);
+                    spawnFaction.setDeathban(false);
                 }
             }
         }
@@ -176,7 +175,7 @@ public class MongoFactionsManager extends FactionsManager {
                 .append("deathban", faction.isDeathban())
                 .append("safezone", systemFaction.isSafezone())
                 .append("enderpearls", systemFaction.isEnderpearls())
-                .append("color", systemFaction.getColor());
+                .append("color", systemFaction.getColor().replace('§', '&'));
         }
     }
 
@@ -212,7 +211,7 @@ public class MongoFactionsManager extends FactionsManager {
                 faction.setDeathban(document.getBoolean("deathban"));
                 faction.setSafezone(document.getBoolean("safezone"));
                 faction.setEnderpearls(document.getBoolean("enderpearls"));
-                faction.setColor(document.getString("color"));
+                faction.setColor(Color.translate(document.getString("color")));
 
             } catch(InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();

@@ -4,13 +4,13 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
 
 public class PlayerUtils {
 
@@ -48,14 +48,6 @@ public class PlayerUtils {
         }
 
         return removed;
-    }
-
-    public static void addPotionEffectSafely(Player player, PotionEffect potionEffect) {
-        try {
-            player.addPotionEffect(potionEffect, true);
-        } catch(IllegalStateException e) {
-            Tasks.sync(() -> player.addPotionEffect(potionEffect, true));
-        }
     }
 
     public static void sendToServer(Player player, String serverName) {

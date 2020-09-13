@@ -11,9 +11,9 @@ import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.nms.PlayerScoreboard_1_7;
 import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.nms.PlayerTab_1_7;
-import me.qiooip.lazarus.utils.ItemBuilder;
-import me.qiooip.lazarus.utils.ItemUtils;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import net.minecraft.server.v1_7_R4.BlockCocoa;
 import net.minecraft.server.v1_7_R4.Blocks;
 import net.minecraft.server.v1_7_R4.EntityLightning;
@@ -293,6 +293,12 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     }
 
     @Override
+    public void addPotionEffect(Player player, PotionEffect effect) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        entityPlayer.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+    }
+
+    @Override
     public void removePotionEffect(Player player, PotionEffect effect) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[effect.getType().getId()]);
@@ -368,6 +374,12 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         }
 
         return drops;
+    }
+
+    @Override
+    public void damageItemInHand(Player player) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        entityPlayer.inventory.getItemInHand().damage(1, entityPlayer);
     }
 
     @Override

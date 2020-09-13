@@ -20,11 +20,11 @@ public class PlayerTimer extends Timer {
 
     protected final Map<UUID, ScheduledFuture<?>> players;
 
-    protected PlayerTimer(ScheduledExecutorService executor, String name, int delay) {
+    public PlayerTimer(ScheduledExecutorService executor, String name, int delay) {
         this(executor, name, delay, false);
     }
 
-    protected PlayerTimer(ScheduledExecutorService executor, String name, int delay, boolean persistable) {
+    public PlayerTimer(ScheduledExecutorService executor, String name, int delay, boolean persistable) {
         super(executor, name, delay, persistable);
 
         this.players = new HashMap<>();

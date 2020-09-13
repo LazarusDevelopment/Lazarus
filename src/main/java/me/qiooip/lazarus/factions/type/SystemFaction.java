@@ -25,16 +25,20 @@ public class SystemFaction extends Faction {
         super(name);
 
         this.enderpearls = true;
-        this.setColor("&b");
+        this.setColor(Color.translate("&b"));
+    }
+
+    public String getColor() {
+        return this.color;
     }
 
     public void setColor(String value) {
-        this.color = Color.translate(value);
+        this.color = value;
     }
 
     @Override
     public String getName(CommandSender sender) {
-        return this.color + super.getName();
+        return this.getColor() + super.getName();
     }
 
     @Override

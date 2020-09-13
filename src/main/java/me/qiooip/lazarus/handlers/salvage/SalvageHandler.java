@@ -3,8 +3,8 @@ package me.qiooip.lazarus.handlers.salvage;
 import com.google.common.collect.Iterables;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
-import me.qiooip.lazarus.utils.ItemBuilder;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -77,7 +77,7 @@ public class SalvageHandler extends Handler implements Listener {
         Entry<Enchantment, Integer> enchantment = Iterables.get(enchantments, randomEntry);
 
         ItemStack bookItemStack = new ItemBuilder(Material.ENCHANTED_BOOK)
-        .addStoredEnchantment(enchantment.getKey(), enchantment.getValue()).build();
+            .addStoredEnchantment(enchantment.getKey(), enchantment.getValue()).build();
 
         if(player.getInventory().firstEmpty() == -1) {
             player.getWorld().dropItemNaturally(player.getLocation(), bookItemStack);

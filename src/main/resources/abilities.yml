@@ -1,0 +1,57 @@
+#=========================================================#
+#                  Abilities configuration                #
+#=========================================================#
+
+GLOBAL_COOLDOWN:
+  # Should we enable global abilities cooldown?
+  ENABLED: true
+  # Global abilities cooldown duration
+  DURATION: 10
+
+COCAINE:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 45
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "353:0"
+    NAME: "&bCocaine"
+    LORE:
+      - ""
+      - ""
+      - ""
+      - ""
+
+POCKET_BARD:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 45
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "378:0"
+    NAME: "&6Pocket bard"
+    LORE:
+      - ""
+      - ""
+      - ""
+      - ""
+
+SWITCHER:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 45
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "332:0"
+    NAME: "&aSwitcher ball"
+    LORE:
+      - ""
+      - ""
+      - ""
+      - ""

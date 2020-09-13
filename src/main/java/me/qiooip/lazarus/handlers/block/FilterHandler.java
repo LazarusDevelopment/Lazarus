@@ -2,7 +2,7 @@ package me.qiooip.lazarus.handlers.block;
 
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

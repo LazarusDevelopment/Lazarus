@@ -7,8 +7,8 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.utils.ItemBuilder;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import org.bukkit.Bukkit;
@@ -38,9 +38,20 @@ public class SignShopManager implements Listener, ManagerEnabler {
     private final Map<Location, ShopSign> signCache;
     private final Table<UUID, Sign, BukkitTask> signUpdate;
 
+    private final int buyMaterialLine, buyAmountLine, buyPriceLine;
+    private final int sellMaterialLine, sellAmountLine, sellPriceLine;
+
     public SignShopManager() {
         this.signCache = new HashMap<>();
         this.signUpdate = HashBasedTable.create();
+
+        this.buyMaterialLine = this.getSignLineWithPlaceholder(Config.BUY_SIGN_LINES, "<material>", 1);
+        this.buyAmountLine = this.getSignLineWithPlaceholder(Config.BUY_SIGN_LINES, "<amount>", 2);
+        this.buyPriceLine = this.getSignLineWithPlaceholder(Config.BUY_SIGN_LINES, "<price>", 3);
+
+        this.sellMaterialLine = this.getSignLineWithPlaceholder(Config.SELL_SIGN_LINES, "<material>", 1);
+        this.sellAmountLine = this.getSignLineWithPlaceholder(Config.SELL_SIGN_LINES, "<amount>", 2);
+        this.sellPriceLine = this.getSignLineWithPlaceholder(Config.SELL_SIGN_LINES, "<price>", 3);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
@@ -63,14 +74,16 @@ public class SignShopManager implements Listener, ManagerEnabler {
             return null;
         }
 
+        int materialLine = type == ShopSignType.BUY ? this.buyMaterialLine : this.sellMaterialLine;
+
         ItemStack item;
         String materialName;
 
-        if(lines[1].equalsIgnoreCase("Crowbar")) {
+        if(lines[materialLine].equalsIgnoreCase("Crowbar")) {
             item = Lazarus.getInstance().getCrowbarHandler().getNewCrowbar();
             materialName = "Crowbar";
         } else {
-            item = ItemUtils.parseItem(lines[1]);
+            item = ItemUtils.parseItem(lines[materialLine]);
 
             if(item == null) {
                 player.sendMessage(Language.PREFIX + Language.ECONOMY_SIGNS_INVALID_MATERIAL);
@@ -81,17 +94,21 @@ public class SignShopManager implements Listener, ManagerEnabler {
             materialName = materialName.length() > 15 ? item.getTypeId() + ":" + item.getDurability() : materialName;
         }
 
+        int amountLine = type == ShopSignType.BUY ? this.buyAmountLine : this.sellAmountLine;
         int amount;
+
         try {
-            amount = Math.abs(Integer.parseInt(lines[2].replaceAll("[^0-9]", "")));
+            amount = Math.abs(Integer.parseInt(lines[amountLine].replaceAll("[^0-9]", "")));
         } catch(NumberFormatException e) {
             player.sendMessage(Language.PREFIX + Language.ECONOMY_SIGNS_INVALID_AMOUNT);
             return null;
         }
 
+        int priceLine = type == ShopSignType.BUY ? this.buyPriceLine : this.sellPriceLine;
         int price;
+
         try {
-            price = Math.abs(Integer.parseInt(lines[3].replaceAll("[^0-9]", "")));
+            price = Math.abs(Integer.parseInt(lines[priceLine].replaceAll("[^0-9]", "")));
         } catch(NumberFormatException e) {
             player.sendMessage(Language.PREFIX + Language.ECONOMY_SIGNS_INVALID_PRICE);
             return null;
@@ -101,6 +118,14 @@ public class SignShopManager implements Listener, ManagerEnabler {
         this.signCache.put(location, shopSign);
 
         return shopSign;
+    }
+
+    private int getSignLineWithPlaceholder(List<String> lines, String placeholder, int def) {
+        for(int i = 0; i < 4; i++) {
+            if(lines.get(i).contains(placeholder)) return i;
+        }
+
+        return def;
     }
 
     private void sendShopSignChange(Player player, Sign sign, String message) {

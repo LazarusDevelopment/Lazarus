@@ -8,7 +8,6 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.games.Cuboid;
 import me.qiooip.lazarus.games.loot.LootData;
-import org.bukkit.ChatColor;
 
 import java.util.UUID;
 
@@ -16,8 +15,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class KothData {
-
-    private static final String DEFAULT_COLOR = ChatColor.BLUE + ChatColor.BOLD.toString();
 
     private String name;
     private UUID factionId;
@@ -36,7 +33,6 @@ public class KothData {
     }
 
     public void setupKothColor() {
-        SystemFaction kothFaction = (SystemFaction) this.getFaction();
-        this.color = kothFaction != null ? kothFaction.getColor() : DEFAULT_COLOR;
+        this.color =  ((SystemFaction) this.getFaction()).getColor();
     }
 }

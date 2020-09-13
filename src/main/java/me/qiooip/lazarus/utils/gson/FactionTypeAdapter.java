@@ -9,6 +9,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import me.qiooip.lazarus.factions.Faction;
+import me.qiooip.lazarus.factions.type.SystemFaction;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.GsonUtils;
 
 import java.lang.reflect.Type;
@@ -26,6 +28,11 @@ public class FactionTypeAdapter implements JsonSerializer<Map<UUID, Faction>>, J
 
         for(Faction faction : map.values()) {
             factionObject = new JsonObject();
+
+            if(faction instanceof SystemFaction) {
+                SystemFaction systemFaction = (SystemFaction) faction;
+                systemFaction.setColor(systemFaction.getColor().replace('§', '&'));
+            }
 
             factionObject.addProperty("type", GsonUtils.getFactionType(faction.getClass()));
             factionObject.add("data", context.serialize(faction, faction.getClass()));
@@ -49,6 +56,12 @@ public class FactionTypeAdapter implements JsonSerializer<Map<UUID, Faction>>, J
             clazz = GsonUtils.getFactionClass(element.getAsJsonObject().get("type").getAsString());
 
             faction = context.deserialize(element.getAsJsonObject().get("data"), clazz);
+
+            if(faction instanceof SystemFaction) {
+                SystemFaction systemFaction = (SystemFaction) faction;
+                systemFaction.setColor(Color.translate(systemFaction.getColor()));
+            }
+
             factionMap.put(faction.getId(), faction);
         }
 

@@ -9,8 +9,9 @@ public interface PlayerScoreboard  {
 
     void clear();
     void update();
-    void add(String value, String time);
+    boolean add(String value, String time);
     void addLine(ChatColor color);
+    void addEmptyLine(ChatColor color);
     void addConquest(String prefix, String value, String suffix);
     void addLinesAndFooter();
 

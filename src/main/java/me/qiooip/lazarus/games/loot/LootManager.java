@@ -7,7 +7,7 @@ import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.InventoryUtils;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;

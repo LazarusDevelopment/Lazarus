@@ -20,6 +20,7 @@ import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.DamageSource;
 import net.minecraft.server.v1_8_R3.EntityLightning;
+import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityTypes;
 import net.minecraft.server.v1_8_R3.GameProfileSerializer;
@@ -73,6 +74,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import protocolsupport.api.ProtocolSupportAPI;
 import us.myles.ViaVersion.api.Via;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -316,6 +319,12 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     }
 
     @Override
+    public void addPotionEffect(Player player, PotionEffect effect) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        entityPlayer.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+    }
+
+    @Override
     public void removePotionEffect(Player player, PotionEffect effect) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[effect.getType().getId()]);
@@ -392,6 +401,12 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
         }
 
         return drops;
+    }
+
+    @Override
+    public void damageItemInHand(Player player) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        entityPlayer.inventory.getItemInHand().damage(1, entityPlayer);
     }
 
     @Override

@@ -177,8 +177,13 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     }
 
     @Override
-    public void add(String value, String time) {
-        if(value.isEmpty() || this.entries.size() >= this.maxSize) return;
+    public void addEmptyLine(ChatColor color) {
+        this.entries.addLast(new ScoreboardInput("", color.toString() + Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH.toString(), ""));
+    }
+
+    @Override
+    public boolean add(String value, String time) {
+        if(value.isEmpty() || this.entries.size() >= this.maxSize) return false;
 
         value = Color.translate(value);
         if(!time.isEmpty()) time = Color.translate(time);
@@ -191,6 +196,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
         }
 
         this.lastLine.set(false);
+        return true;
     }
 
     @Override

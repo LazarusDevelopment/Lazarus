@@ -11,17 +11,18 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EntityLimiterHandler extends Handler implements Listener {
 
-    private final Set<String> disabledEntities;
+    private Set<EntityType> disabledEntities;
 
     public EntityLimiterHandler() {
-        this.disabledEntities = new HashSet<>();
-
         this.loadDisabledEntities();
     }
 
@@ -31,26 +32,32 @@ public class EntityLimiterHandler extends Handler implements Listener {
     }
 
     private void loadDisabledEntities() {
-        this.disabledEntities.clear();
-
         ConfigurationSection section = Lazarus.getInstance().getLimitersFile()
             .getConfigurationSection("ENTITY_LIMITER");
 
-        section.getKeys(false).forEach(type -> {
-            if(section.getBoolean(type)) return;
+        this.disabledEntities = EnumSet.copyOf(section.getKeys(false).stream()
+            .filter(typeName -> !section.getBoolean(typeName))
+            .map(typeName -> EntityType.valueOf(typeName))
+            .collect(Collectors.toList()));
+    }
 
-            this.disabledEntities.add(EntityType.valueOf(type).name());
-        });
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onEntitySpawn(EntitySpawnEvent event) {
+        if(this.disabledEntities.contains(event.getEntity().getType())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntitySpawn(VehicleCreateEvent event) {
+        if(this.disabledEntities.contains(event.getVehicle().getType())) {
+            event.getVehicle().remove();
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         if(event.getSpawnReason() == SpawnReason.CUSTOM) return;
-
-        if(this.disabledEntities.contains(event.getEntity().getType().name())) {
-            event.setCancelled(true);
-            return;
-        }
 
         if(Config.MOBS_SPAWN_ONLY_FROM_SPAWNERS && !ServerUtils.ALLOWED_SPAWN_REASONS.contains(event.getSpawnReason())) {
             event.setCancelled(true);

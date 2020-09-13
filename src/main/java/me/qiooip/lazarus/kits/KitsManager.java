@@ -10,7 +10,7 @@ import me.qiooip.lazarus.kits.kit.KitmapKitData;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.InventoryUtils;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.ManagerEnabler;

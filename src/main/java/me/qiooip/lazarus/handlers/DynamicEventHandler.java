@@ -16,7 +16,7 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.Tasks;
@@ -131,32 +131,20 @@ public class DynamicEventHandler extends Handler implements Listener {
             return;
         }
 
-        if(!event.isCancelled()) {
-            if(!player.isOp() && Config.DISABLED_BLOCK_PLACEMENT.contains(block.getType())) {
-                String blockName = ItemUtils.getMaterialName(block.getType());
+        if(!event.isCancelled() && block.getType() == Material.MOB_SPAWNER) {
+            switch(block.getWorld().getEnvironment()) {
+                case NETHER: {
+                    if(!Config.DENY_SPAWNER_PLACE_IN_NETHER || player.isOp()) return;
 
-                player.sendMessage(Language.PREFIX + Language.BLOCKS_PLACEMENT_DISABLED
-                .replace("<block>", blockName));
+                    event.setCancelled(true);
+                    player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_NETHER);
+                    return;
+                }
+                case THE_END: {
+                    if(!Config.DENY_SPAWNER_PLACE_IN_END || player.isOp()) return;
 
-                event.setCancelled(true);
-                return;
-            }
-
-            if(block.getType() == Material.MOB_SPAWNER) {
-                switch(block.getWorld().getEnvironment()) {
-                    case NETHER: {
-                        if(!Config.DENY_SPAWNER_PLACE_IN_NETHER || player.isOp()) return;
-
-                        event.setCancelled(true);
-                        player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_NETHER);
-                        return;
-                    }
-                    case THE_END: {
-                        if(!Config.DENY_SPAWNER_PLACE_IN_END || player.isOp()) return;
-
-                        event.setCancelled(true);
-                        player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_END);
-                    }
+                    event.setCancelled(true);
+                    player.sendMessage(Language.PREFIX + Language.SPAWNERS_DISABLE_PLACE_END);
                 }
             }
         }

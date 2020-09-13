@@ -21,10 +21,9 @@ import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
-import me.qiooip.lazarus.utils.PlayerUtils;
+import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -91,7 +90,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
     public void addPotionEffect(Player player, PotionEffect toAdd) {
         if(!player.hasPotionEffect(toAdd.getType())) {
-            PlayerUtils.addPotionEffectSafely(player, toAdd);
+            NmsUtils.getInstance().addPotionEffect(player, toAdd);
             return;
         }
 
@@ -101,7 +100,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(toAdd.getAmplifier() == effect.getAmplifier() && toAdd.getDuration() < effect.getDuration()) return;
 
         this.restorers.put(player.getUniqueId(), effect.getType(), effect);
-        PlayerUtils.addPotionEffectSafely(player, toAdd);
+        NmsUtils.getInstance().addPotionEffect(player, toAdd);
     }
 
     private void increaseFactionLimit(PvpClass pvpClass, PlayerFaction faction) {

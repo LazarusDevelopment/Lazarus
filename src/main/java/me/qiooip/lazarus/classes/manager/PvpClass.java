@@ -12,9 +12,8 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
-import me.qiooip.lazarus.utils.ItemUtils;
-import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -88,7 +87,7 @@ public abstract class PvpClass implements Listener {
 
         this.players.add(uuid);
 
-        this.effects.forEach(effect -> PlayerUtils.addPotionEffectSafely(player, effect));
+        this.effects.forEach(effect -> NmsUtils.getInstance().addPotionEffect(player, effect));
 
         player.sendMessage(Language.PVP_CLASSES_ACTIVATED.replace("<name>", this.getDisplayName()));
 
@@ -97,7 +96,7 @@ public abstract class PvpClass implements Listener {
             int diamondsMined = player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE);
 
             miner.getDiamondData(diamondsMined).forEach(data -> data.getEffects()
-                .forEach(effect -> PlayerUtils.addPotionEffectSafely(player, effect)));
+                .forEach(effect -> NmsUtils.getInstance().addPotionEffect(player, effect)));
         }
     }
 

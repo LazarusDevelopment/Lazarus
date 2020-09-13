@@ -89,6 +89,8 @@ public abstract class NmsUtils {
 
     public abstract PotionEffect getPotionEffect(Player player, PotionEffectType type);
 
+    public abstract void addPotionEffect(Player player, PotionEffect effect);
+
     public abstract void removePotionEffect(Player player, PotionEffect effect);
 
     public abstract Scoreboard getPlayerScoreboard(Player player);
@@ -96,6 +98,8 @@ public abstract class NmsUtils {
     public abstract String getItemName(ItemStack item);
 
     public abstract List<ItemStack> getBlockDrops(ItemStack itemInHand, Block block);
+
+    public abstract void damageItemInHand(Player player);
 
     public abstract void changeServerSlots(int amount);
 

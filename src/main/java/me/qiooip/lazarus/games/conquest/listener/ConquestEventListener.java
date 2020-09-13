@@ -5,7 +5,7 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.event.ConquestCappedEvent;
-import me.qiooip.lazarus.utils.ItemBuilder;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

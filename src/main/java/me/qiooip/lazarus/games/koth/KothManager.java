@@ -79,16 +79,12 @@ public class KothManager implements Listener, ManagerEnabler {
 
         while(iterator.hasNext()) {
             KothData koth = iterator.next();
-            koth.setupKothColor();
 
             if(koth.getFaction() == null) {
                 iterator.remove();
-                continue;
             }
 
-            if(koth.getCaptime() <= 0) {
-                koth.setCaptime(Config.KOTH_DEFAULT_CAP_TIME);
-            }
+            koth.setupKothColor();
         }
 
         FactionsManager.getInstance().removeKothFactionsWithoutKoths(this.koths);

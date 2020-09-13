@@ -20,8 +20,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-import java.util.stream.Stream;
-
 public class MobStackHandler extends Handler implements Listener {
 
     @Override
@@ -98,8 +96,9 @@ public class MobStackHandler extends Handler implements Listener {
         Chunk chunk = event.getChunk();
         int radius = Config.MOB_STACK_RADIUS;
 
-        Stream.of(chunk.getEntities()).forEach(entity -> entity.getNearbyEntities(radius, radius, radius)
-        .forEach(nearby -> this.stackEntity(nearby, entity)));
+        for(Entity entity : chunk.getEntities()) {
+            entity.getNearbyEntities(radius, radius, radius).forEach(nearby -> this.stackEntity(nearby, entity));
+        }
     }
 
     @EventHandler
