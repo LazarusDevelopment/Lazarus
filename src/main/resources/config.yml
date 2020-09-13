@@ -104,6 +104,17 @@ CHAT_FORMAT:
   FORMAT_WITH_FACTION: "&6[<faction>&6] <displayName>&7: "
 
 #=========================================================#
+#               LunarClient API configuration             #
+#=========================================================#
+LUNAR_CLIENT_API_ENABLED: true
+
+FORCED_WAYPOINTS:
+  ENABLED: true
+  SPAWN_COLOR: "#FFFFFF"
+  HOME_COLOR: "#202020"
+  FOCUSED_FACTION_HOME: "#990000"
+
+#=========================================================#
 #                  Commands configuration                 #
 #=========================================================#
 
