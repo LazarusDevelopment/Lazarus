@@ -91,8 +91,16 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
         player.setGameMode(GameMode.CREATIVE);
 
-        this.staffModeItems.values().forEach(staffItem -> player.getInventory()
-            .setItem(staffItem.getSlot(), staffItem.getItem()));
+        boolean vanished = Lazarus.getInstance().getVanishManager().isVanished(player);
+        this.cachedStaffModeItems.keySet().forEach(name -> {
+            StaffModeItem item = this.cachedStaffModeItems.get(name);
+
+            // Za svaki slucaj oba ifa ako neki kreten promjeni order u configu
+            if(vanished && name.equals("VANISH_ON")) return;
+            if(!vanished && name.equals("VANISH_OFF")) return;
+
+            player.getInventory().setItem(item.getSlot(), item.getItem());
+        });
     }
 
     private void disableStaffMode(Player player, boolean disable) {

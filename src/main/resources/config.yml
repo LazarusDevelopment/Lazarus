@@ -982,6 +982,22 @@ SOTW_TIMER:
 
 # Staff mode items configuration
 STAFF_MODE_ITEMS:
+  VANISH_ON:
+    NAME: "&aVanish"
+    MATERIAL_ID: "351:10"
+    SLOT: 7
+    REPLACEMENT_ITEM: "ITEM_8"
+    COMMAND: "vanish"
+    LORE:
+      - "&bBecome invisible"
+  VANISH_OFF:
+    NAME: "&aUnvanish"
+    MATERIAL_ID: "351:8"
+    SLOT: 7
+    REPLACEMENT_ITEM: "ITEM_5"
+    COMMAND: "vanish"
+    LORE:
+      - "&bBecome visible"
   ITEM_1:
     NAME: "&5Teleporter"
     MATERIAL_ID: "345:0"
@@ -1014,14 +1030,6 @@ STAFF_MODE_ITEMS:
     COMMAND: ""
     LORE:
     - "&bBetter view for 1.7 users"
-  ITEM_5:
-    NAME: "&aVanish"
-    MATERIAL_ID: "351:10"
-    SLOT: 7
-    REPLACEMENT_ITEM: "ITEM_8"
-    COMMAND: "vanish"
-    LORE:
-    - "&bBecome invisible"
   ITEM_6:
     NAME: "&3Freeze"
     MATERIAL_ID: "79:0"
@@ -1038,14 +1046,6 @@ STAFF_MODE_ITEMS:
     COMMAND: "randomteleport"
     LORE:
     - "&bRandomly teleport to a player"
-  ITEM_8:
-    NAME: "&aUnvanish"
-    MATERIAL_ID: "351:8"
-    SLOT: 7
-    REPLACEMENT_ITEM: "ITEM_5"
-    COMMAND: "vanish"
-    LORE:
-      - "&bBecome visible"
 
 STATS_COMMAND:
   # Name of stats inventory
