@@ -986,7 +986,7 @@ STAFF_MODE_ITEMS:
     NAME: "&aVanish"
     MATERIAL_ID: "351:10"
     SLOT: 7
-    REPLACEMENT_ITEM: "ITEM_8"
+    REPLACEMENT_ITEM: "VANISH_OFF"
     COMMAND: "vanish"
     LORE:
       - "&bBecome invisible"
@@ -994,7 +994,7 @@ STAFF_MODE_ITEMS:
     NAME: "&aUnvanish"
     MATERIAL_ID: "351:8"
     SLOT: 7
-    REPLACEMENT_ITEM: "ITEM_5"
+    REPLACEMENT_ITEM: "VANISH_ON"
     COMMAND: "vanish"
     LORE:
       - "&bBecome visible"
@@ -1030,7 +1030,7 @@ STAFF_MODE_ITEMS:
     COMMAND: ""
     LORE:
     - "&bBetter view for 1.7 users"
-  ITEM_6:
+  ITEM_5:
     NAME: "&3Freeze"
     MATERIAL_ID: "79:0"
     SLOT: 8
@@ -1038,7 +1038,7 @@ STAFF_MODE_ITEMS:
     COMMAND: "ss <player>"
     LORE:
     - "&bFreeze player"
-  ITEM_7:
+  ITEM_6:
     NAME: "&cRandom Teleport"
     MATERIAL_ID: "2267:0"
     SLOT: 9
