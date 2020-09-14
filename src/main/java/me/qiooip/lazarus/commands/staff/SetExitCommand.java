@@ -4,8 +4,10 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.handlers.event.ExitSetEvent;
 import me.qiooip.lazarus.utils.LocationUtils;
 import me.qiooip.lazarus.utils.StringUtils;
+import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,12 +40,15 @@ public class SetExitCommand extends BaseCommand {
     }
 
     private void setExit(Player player, Environment environment, String world) {
-        Config.WORLD_EXITS.put(environment, player.getLocation());
+        Location location = player.getLocation();
+        Config.WORLD_EXITS.put(environment, location);
+
+        new ExitSetEvent(player, environment, location);
 
         String worldName = StringUtils.getWorldName(player.getWorld());
-        int x = player.getLocation().getBlockX();
-        int y = player.getLocation().getBlockY();
-        int z = player.getLocation().getBlockZ();
+        int x = location.getBlockX();
+        int y = location.getBlockY();
+        int z = location.getBlockZ();
 
         player.sendMessage(Language.PREFIX + Language.SET_EXIT_EXIT_SET
             .replace("<worldName>", StringUtils.capitalize(world.toLowerCase()))
@@ -52,7 +57,7 @@ public class SetExitCommand extends BaseCommand {
             .replace("<y>", String.valueOf(y))
             .replace("<z>", String.valueOf(z)));
 
-        Lazarus.getInstance().getUtilitiesFile().set(world + "_EXIT", LocationUtils.locationToString(player.getLocation()));
+        Lazarus.getInstance().getUtilitiesFile().set(world + "_EXIT", LocationUtils.locationToString(location));
         Lazarus.getInstance().getUtilitiesFile().save();
     }
 }

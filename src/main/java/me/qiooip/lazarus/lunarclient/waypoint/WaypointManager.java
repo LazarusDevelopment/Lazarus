@@ -12,8 +12,11 @@ import com.lunarclient.bukkitapi.object.MinimapStatus;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
+import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionSetHomeEvent;
+import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
+import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.ConquestManager;
 import me.qiooip.lazarus.games.conquest.RunningConquest;
@@ -25,6 +28,7 @@ import me.qiooip.lazarus.games.dtc.event.DtcStopEvent;
 import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.games.koth.event.KothStartEvent;
 import me.qiooip.lazarus.games.koth.event.KothStopEvent;
+import me.qiooip.lazarus.handlers.event.ExitSetEvent;
 import me.qiooip.lazarus.handlers.event.SpawnSetEvent;
 import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import me.qiooip.lazarus.utils.Color;
@@ -88,6 +92,26 @@ public class WaypointManager implements Listener {
     }
 
     @EventHandler
+    public void onFactionDisband(FactionDisbandEvent event) {
+        if(!(event.getFaction() instanceof PlayerFaction)) return;
+        PlayerFaction faction = (PlayerFaction) event.getFaction();
+
+        for(Player player : faction.getOnlinePlayers()) {
+            this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
+        this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
+    }
+
+    @EventHandler
+    public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
+        this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
+    }
+
+    @EventHandler
     public void onFactionSetHome(FactionSetHomeEvent event) {
         for(Player player : event.getFaction().getOnlinePlayers()) {
             this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
@@ -104,6 +128,11 @@ public class WaypointManager implements Listener {
     @EventHandler
     public void onSpawnSet(SpawnSetEvent event) {
         this.updateGlobalWaypoints(PlayerWaypointType.SPAWN, true);
+    }
+
+    @EventHandler
+    public void onExitSet(ExitSetEvent event) {
+        this.updateGlobalWaypoints(PlayerWaypointType.END_EXIT, true);
     }
 
     @EventHandler
