@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.glass.GlassManager.GlassType;
+import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
@@ -20,6 +21,7 @@ public class CombatTagTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.PREFIX + Language.COMBAT_TAG_EXPIRED);
         this.setFormat(FormatType.MILLIS_TO_MINUTES);
+        this.setType(CooldownType.COMBAT_TAG);
     }
 
     @Override

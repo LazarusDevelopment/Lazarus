@@ -5,6 +5,7 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.event.LazarusKickEvent;
 import me.qiooip.lazarus.handlers.event.LazarusKickEvent.KickType;
+import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
@@ -20,6 +21,7 @@ public class LogoutTimer extends PlayerTimer implements ScoreboardTimer {
         super(executor, "LogoutTimer", Config.LOGOUT_DELAY);
 
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
+        this.setType(CooldownType.LOGOUT);
     }
 
     @Override

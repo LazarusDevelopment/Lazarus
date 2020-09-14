@@ -150,6 +150,30 @@ FORCED_WAYPOINTS:
 # Should we enable staff modules
 STAFF_MODULES_ENABLED: true
 
+# Should we enable cooldowns
+COOLDOWNS_ENABLED: true
+
+# List of cooldowns
+COOLDOWNS:
+  APPLE:
+    NAME: "Golden Apple"
+    MATERIAL_ID: "322:0"
+  COMBAT_TAG:
+    NAME: "Combat Tag"
+    MATERIAL_ID: "276:0"
+  ENDERPEARL:
+    NAME: "Enderpearl"
+    MATERIAL_ID: "368:0"
+  HOME:
+    NAME: "Home"
+    MATERIAL_ID: "107:0"
+  LOGOUT:
+    NAME: "Logout"
+    MATERIAL_ID: "152:0"
+  STUCK:
+    NAME: "Stuck"
+    MATERIAL_ID: "30:0"
+
 #=========================================================#
 #                  Commands configuration                 #
 #=========================================================#

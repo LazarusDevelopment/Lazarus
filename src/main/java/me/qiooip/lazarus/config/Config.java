@@ -71,6 +71,7 @@ public class Config {
     public static boolean LUNAR_CLIENT_API_ENABLED;
     public static boolean LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED;
     public static boolean LUNAR_CLIENT_API_STAFF_MODULES_ENABLED;
+    public static boolean LUNAR_CLIENT_API_COOLDOWNS_ENABLED;
 
     public static Set<String> DISABLED_LAZARUS_COMMANDS;
     public static Set<String> DISABLED_FACTION_SUBCOMMANDS;
@@ -500,6 +501,7 @@ public class Config {
         LUNAR_CLIENT_API_ENABLED = config.getBoolean("LUNAR_CLIENT_API_ENABLED");
         LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED = config.getBoolean("FORCED_WAYPOINTS_ENABLED");
         LUNAR_CLIENT_API_STAFF_MODULES_ENABLED = config.getBoolean("STAFF_MODULES_ENABLED");
+        LUNAR_CLIENT_API_COOLDOWNS_ENABLED = config.getBoolean("COOLDOWNS_ENABLED");
 
         DISABLED_LAZARUS_COMMANDS = config.getStringList("DISABLED_LAZARUS_COMMANDS")
             .stream().map(String::toLowerCase).collect(Collectors.toSet());

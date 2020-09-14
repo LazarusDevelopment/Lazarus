@@ -6,6 +6,7 @@ import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.lunarclient.cooldown.CooldownManager;
 import me.qiooip.lazarus.lunarclient.waypoint.WaypointManager;
 import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
 import org.bukkit.Bukkit;
@@ -22,13 +23,19 @@ public class LunarClientManager implements Listener {
 
     @Getter private static LunarClientManager instance;
 
+    private CooldownManager cooldownManager;
     private WaypointManager waypointManager;
+
     private final Set<UUID> players;
 
     public LunarClientManager() {
         instance = this;
 
         this.players = new HashSet<>();
+
+        if(Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED) {
+            this.cooldownManager = new CooldownManager();
+        }
 
         if(Config.LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED) {
             this.waypointManager = new WaypointManager();
@@ -39,6 +46,10 @@ public class LunarClientManager implements Listener {
 
     public void disable() {
         this.players.clear();
+
+        if(this.cooldownManager != null) {
+            this.cooldownManager.disable();
+        }
 
         if(this.waypointManager != null) {
             this.waypointManager.disable();

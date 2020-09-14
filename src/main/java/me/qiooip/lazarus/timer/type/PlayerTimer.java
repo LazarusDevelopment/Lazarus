@@ -1,5 +1,8 @@
 package me.qiooip.lazarus.timer.type;
 
+import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.lunarclient.LunarClientManager;
+import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.timer.Timer;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.StringUtils;
@@ -69,6 +72,11 @@ public class PlayerTimer extends Timer {
 
     public void activate(UUID uuid, int delay) {
         if(delay <= 0 || this.isActive(uuid)) return;
+
+        if(this.isLunarClientAPI()) {
+            LunarClientManager.getInstance().getCooldownManager().addCooldown(uuid, this.type, delay);
+        }
+
         this.players.put(uuid, this.scheduleExpiry(uuid, delay));
     }
 
@@ -86,6 +94,11 @@ public class PlayerTimer extends Timer {
 
     public void activate(UUID uuid, int delay, Callable callable) {
         if(delay <= 0 || this.isActive(uuid)) return;
+
+        if(this.isLunarClientAPI()) {
+            LunarClientManager.getInstance().getCooldownManager().addCooldown(uuid, this.type, delay);
+        }
+
         this.players.put(uuid, this.scheduleExpiry(uuid, delay, callable));
     }
 
@@ -95,6 +108,11 @@ public class PlayerTimer extends Timer {
 
     public void cancel(UUID uuid) {
         if(!this.isActive(uuid)) return;
+
+        if(this.isLunarClientAPI()) {
+            LunarClientManager.getInstance().getCooldownManager().removeCooldown(uuid, this.type);
+        }
+
         this.players.remove(uuid).cancel(true);
     }
 
@@ -141,6 +159,10 @@ public class PlayerTimer extends Timer {
             try {
                 this.players.remove(uuid);
                 this.sendMessage(uuid);
+
+                if(this.isLunarClientAPI()) {
+                    LunarClientManager.getInstance().getCooldownManager().removeCooldown(uuid, this.type);
+                }
             } catch(Throwable t) {
                 t.printStackTrace();
             }
@@ -153,9 +175,17 @@ public class PlayerTimer extends Timer {
                 this.players.remove(uuid);
                 callable.call();
                 this.sendMessage(uuid);
+
+                if(Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED && this.type != null) {
+                    LunarClientManager.getInstance().getCooldownManager().removeCooldown(uuid, this.type);
+                }
             } catch(Throwable t) {
                 t.printStackTrace();
             }
         }, delay, TimeUnit.SECONDS);
+    }
+
+    public boolean isLunarClientAPI() {
+        return Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED && this.type != null;
     }
 }
