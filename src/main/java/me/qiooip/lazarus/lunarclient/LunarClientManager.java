@@ -1,7 +1,7 @@
 package me.qiooip.lazarus.lunarclient;
 
-import com.moonsworth.client.api.event.PlayerRegisterLCEvent;
-import com.moonsworth.client.api.event.PlayerUnregisterLCEvent;
+import com.lunarclient.bukkitapi.event.LCPlayerRegisterEvent;
+import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,13 +21,9 @@ public class LunarClientManager implements Listener {
     @Getter private static LunarClientManager instance;
 
     private WaypointManager waypointManager;
-
-    private Set<UUID> players;
+    private final Set<UUID> players;
 
     public LunarClientManager() {
-        Plugin api = Bukkit.getPluginManager().getPlugin("LunarClientAPI");
-        if(api == null || !api.isEnabled() || !api.getDescription().getMain().equals("com.moonsworth.client.api.LunarClientAPI")) return;
-
         instance = this;
 
         this.players = new HashSet<>();
@@ -49,13 +44,13 @@ public class LunarClientManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRegisterLCEvent(PlayerRegisterLCEvent event) {
+    public void onPlayerRegisterLCEvent(LCPlayerRegisterEvent event) {
         Player player = event.getPlayer();
         this.players.add(player.getUniqueId());
     }
 
     @EventHandler
-    public void onPlayerUnregisterLC(PlayerUnregisterLCEvent event) {
+    public void onPlayerUnregisterLC(LCPlayerUnregisterEvent event) {
         Player player = event.getPlayer();
         this.players.remove(player.getUniqueId());
     }

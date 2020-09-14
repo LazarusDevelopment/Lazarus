@@ -26,7 +26,7 @@
 
         <repository>
             <id>moonsworth-mvn</id>
-            <url>https://maven.moonsworth.com/repository/maven-all/</url>
+            <url>https://maven.moonsworth.com/repository/lunarclient-public/</url>
         </repository>
     </repositories>
 
@@ -205,9 +205,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.moonsworth</groupId>
-            <artifactId>LunarClientAPI</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.lunarclient</groupId>
+            <artifactId>bukkitapi</artifactId>
+            <version>1.0-20200729.212152-7</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lunarclient</groupId>
+            <artifactId>bukkitapi-nethandler</artifactId>
+            <version>1.0-20200731.025623-13</version>
             <scope>provided</scope>
         </dependency>
 

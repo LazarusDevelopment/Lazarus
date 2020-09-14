@@ -1,20 +1,25 @@
 package me.qiooip.lazarus.lunarclient.waypoint;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import me.qiooip.lazarus.games.conquest.ZoneType;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public enum PlayerWaypointType {
 
-    CONQUEST, DTC, FOCUSED_FACTION_HOME, HOME, KOTH, SPAWN;
+    CONQUEST_RED(ZoneType.RED),
+    CONQUEST_BLUE(ZoneType.BLUE),
+    CONQUEST_GREEN(ZoneType.GREEN),
+    CONQUEST_YELLOW(ZoneType.YELLOW),
+    SPAWN,
+    KOTH,
+    DTC,
+    END_EXIT,
+    FACTION_HOME,
+    FOCUSED_FACTION_HOME;
 
-    public static PlayerWaypointType getByName(String name, boolean throwOnNull) {
-        for(PlayerWaypointType itemType : values()) {
-            if(itemType.name().equalsIgnoreCase(name)) {
-                return itemType;
-            }
-        }
-
-        if(throwOnNull) {
-            throw new IllegalArgumentException("LunarClientWaypointType with name = " + name + " doesn't exist!");
-        } else {
-            return null;
-        }
-    }
+    private ZoneType conquestZone;
 }

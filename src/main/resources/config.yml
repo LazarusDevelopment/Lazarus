@@ -106,34 +106,46 @@ CHAT_FORMAT:
 #=========================================================#
 #               LunarClient API configuration             #
 #=========================================================#
+
+# Should we enable lunar client API?
 LUNAR_CLIENT_API_ENABLED: true
 
+# Should we enable forced waypoints?
 FORCED_WAYPOINTS_ENABLED: true
+
+# List of forced waypoints
+# Colors are in RGB hex format (https://www.rapidtables.com/web/color/RGB_Color.html)
 FORCED_WAYPOINTS:
-  WAYPOINT_1:
-    TYPE: "CONQUEST"
-    NAME: "Conquest"
-    COLOR: "#990099"
-  WAYPOINT_2:
-    TYPE: "DTC"
-    NAME: "DTC"
-    COLOR: "#202020"
-  WAYPOINT_3:
-    TYPE: "HOME"
-    NAME: "Faction Home"
-    COLOR: "#CC0000"
-  WAYPOINT_4:
-    TYPE: "FOCUSED_FACTION_HOME"
-    NAME: "Focused Faction Home"
-    COLOR: "#990000"
-  WAYPOINT_5:
-    TYPE: "KOTH"
-    NAME: "<name> KoTH"
-    COLOR: "#00FFFF"
-  WAYPOINT_6:
-    TYPE: "SPAWN"
-    NAME: "Spawn"
+  SPAWN:
+    NAME: "&a&lSpawn"
     COLOR: "#00FF00"
+  CONQUEST_RED:
+    NAME: "&c&lConquest Red"
+    COLOR: "#FF0000"
+  CONQUEST_BLUE:
+    NAME: "&b&lConquest Blue"
+    COLOR: "#0000FF"
+  CONQUEST_GREEN:
+    NAME: "&a&lConquest Green"
+    COLOR: "#00FF00"
+  CONQUEST_YELLOW:
+    NAME: "&e&lConquest Yellow"
+    COLOR: "#FFFF00"
+  KOTH:
+    NAME: "&3&l<name> KoTH"
+    COLOR: "#00FFFF"
+  DTC:
+    NAME: "&4&lDTC"
+    COLOR: "#202020"
+  END_EXIT:
+    NAME: "&f&lEnd Exit"
+    COLOR: "#FFFFFF"
+  FACTION_HOME:
+    NAME: "&b&lFaction Home"
+    COLOR: "#CC0000"
+  FOCUSED_FACTION_HOME:
+    NAME: "&5&lFocused Faction Home"
+    COLOR: "#990000"
 
 #=========================================================#
 #                  Commands configuration                 #

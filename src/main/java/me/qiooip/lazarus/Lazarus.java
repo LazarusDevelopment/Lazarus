@@ -271,12 +271,15 @@ public class Lazarus extends JavaPlugin {
         this.glassManager.disable();
         this.inventoryRestoreManager.disable();
         this.kitsManager.disable();
-        this.lunarClientManager.disable();
         this.pvpClassManager.disable();
         this.selectionManager.disable();
         this.signShopManager.disable();
         this.staffModeManager.disable();
         this.vanishManager.disable();
+
+        if(this.lunarClientManager != null) {
+            this.lunarClientManager.disable();
+        }
     }
 
     private void disableGameManagers() {
@@ -353,7 +356,7 @@ public class Lazarus extends JavaPlugin {
             this.tabManager = new TabManager();
         }
 
-        if(Config.LUNAR_CLIENT_API_ENABLED) {
+        if(Config.LUNAR_CLIENT_API_ENABLED && Bukkit.getPluginManager().isPluginEnabled("LunarClient-API")) {
             this.lunarClientManager = new LunarClientManager();
         }
     }

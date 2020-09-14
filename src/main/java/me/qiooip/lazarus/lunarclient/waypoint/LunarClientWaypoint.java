@@ -1,6 +1,6 @@
 package me.qiooip.lazarus.lunarclient.waypoint;
 
-import com.moonsworth.client.api.object.LCWaypoint;
+import com.lunarclient.bukkitapi.object.LCWaypoint;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
