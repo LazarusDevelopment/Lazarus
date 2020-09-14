@@ -314,7 +314,6 @@ public class WaypointManager implements Listener {
 
                     this.addGlobalWaypoint(type, runningConquest.getCapzones().
                             get(type.getConquestZone()).getCuboid().getCenterWithMinY());
-
                 }
 
                 break;

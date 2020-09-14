@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.ItemBuilder;
 import me.qiooip.lazarus.utils.ItemUtils;
@@ -106,6 +107,8 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
         this.staffModeItems.forEach(staffItem -> player.getInventory()
             .setItem(staffItem.getSlot(), staffItem.getItem()));
+
+        new StaffModeToggleEvent(player, true);
     }
 
     private void disableStaffMode(Player player, boolean disable) {
@@ -117,6 +120,8 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         if(!disable) {
             this.staffMode.remove(player.getUniqueId());
         }
+
+        new StaffModeToggleEvent(player, false);
     }
 
     public void toggleStaffMode(Player player) {

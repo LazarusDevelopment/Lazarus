@@ -114,7 +114,7 @@ LUNAR_CLIENT_API_ENABLED: true
 FORCED_WAYPOINTS_ENABLED: true
 
 # List of forced waypoints
-# Colors are in RGB hex format (https://www.rapidtables.com/web/color/RGB_Color.html)
+# Waypoint beacon beam colors are in RGB hex format (https://www.rapidtables.com/web/color/RGB_Color.html)
 FORCED_WAYPOINTS:
   SPAWN:
     NAME: "&a&lSpawn"
@@ -146,6 +146,9 @@ FORCED_WAYPOINTS:
   FOCUSED_FACTION_HOME:
     NAME: "&5&lFocused Faction Home"
     COLOR: "#990000"
+
+# Should we enable staff modules
+STAFF_MODULES_ENABLED: true
 
 #=========================================================#
 #                  Commands configuration                 #
