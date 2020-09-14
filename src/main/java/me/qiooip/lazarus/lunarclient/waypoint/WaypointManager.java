@@ -46,19 +46,23 @@ import java.util.UUID;
 
 public class WaypointManager implements Listener {
 
+    private final Map<PlayerWaypointType, LunarClientWaypoint> waypoints;
+
     private final Map<PlayerWaypointType, LCWaypoint> globalWaypoints;
-    private final Table<UUID, PlayerWaypointType, LCWaypoint> playerWaypoints;
     private final Map<String, LCWaypoint> kothWaypoints;
 
-    private final Map<PlayerWaypointType, LunarClientWaypoint> waypoints;
+    private final Table<UUID, PlayerWaypointType, LCWaypoint> playerWaypoints;
+
     private final PlayerWaypointType[] waypointTypes;
 
     public WaypointManager() {
+        this.waypoints = new HashMap<>();
+
         this.globalWaypoints = new HashMap<>();
-        this.playerWaypoints = HashBasedTable.create();
         this.kothWaypoints = new HashMap<>();
 
-        this.waypoints = new HashMap<>();
+        this.playerWaypoints = HashBasedTable.create();
+
         this.waypointTypes = PlayerWaypointType.values();
 
         this.setupWaypoints();
@@ -67,11 +71,12 @@ public class WaypointManager implements Listener {
     }
 
     public void disable() {
+        this.waypoints.clear();
+
         this.globalWaypoints.clear();
-        this.playerWaypoints.clear();
         this.kothWaypoints.clear();
 
-        this.waypoints.clear();
+        this.playerWaypoints.clear();
     }
 
     private void setupWaypoints() {
@@ -86,12 +91,12 @@ public class WaypointManager implements Listener {
             this.waypoints.put(type, lunarClientWaypoint);
         });
 
-        for(PlayerWaypointType type : waypointTypes) {
+        for(PlayerWaypointType type : this.waypointTypes) {
             this.updateGlobalWaypoints(type, false);
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onFactionDisband(FactionDisbandEvent event) {
         if(!(event.getFaction() instanceof PlayerFaction)) return;
         PlayerFaction faction = (PlayerFaction) event.getFaction();
@@ -101,27 +106,27 @@ public class WaypointManager implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
         this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
         this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onFactionPlayerFocused(FactionPlayerFocusedEvent event) {
+        for(Player player : event.getFaction().getOnlinePlayers()) {
+            this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
+        }
     }
 
     @EventHandler
     public void onFactionSetHome(FactionSetHomeEvent event) {
         for(Player player : event.getFaction().getOnlinePlayers()) {
             this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
-        }
-    }
-
-    @EventHandler
-    public void onFactionPlayerFocused(FactionPlayerFocusedEvent event) {
-        for(Player player : event.getFaction().getOnlinePlayers()) {
-            this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
         }
     }
 
@@ -147,18 +152,12 @@ public class WaypointManager implements Listener {
 
     @EventHandler
     public void onConquestStart(ConquestStartEvent event) {
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_RED,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_BLUE,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_GREEN,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_YELLOW,true);
+        this.updateConquestWaypoints();
     }
 
     @EventHandler
     public void onConquestStop(ConquestStopEvent event) {
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_RED, true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_BLUE,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_GREEN,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_YELLOW,true);
+        this.updateConquestWaypoints();
     }
 
     @EventHandler
@@ -196,6 +195,13 @@ public class WaypointManager implements Listener {
         for(LCWaypoint waypoint : this.kothWaypoints.values()) {
             this.removeWaypoint(player, waypoint);
         }
+    }
+
+    private void updateConquestWaypoints() {
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_RED, true);
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_BLUE,true);
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_GREEN,true);
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_YELLOW,true);
     }
 
     private void registerPlayerWaypoints(Player player) {
@@ -290,10 +296,10 @@ public class WaypointManager implements Listener {
 
         switch(type) {
             case SPAWN: {
-                Config.WORLD_SPAWNS.values().forEach(location -> {
+                for(Location location : Config.WORLD_SPAWNS.values()) {
                     if(location == null) return;
-                    this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(location));
-                });
+                    this.addGlobalWaypoint(type, location);
+                }
             }
             case CONQUEST_RED:
             case CONQUEST_BLUE:
@@ -304,8 +310,9 @@ public class WaypointManager implements Listener {
                 if(conquestManager.isActive()) {
                     RunningConquest runningConquest = conquestManager.getRunningConquest();
 
-                    this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(runningConquest
-                        .getCapzones().get(type.getConquestZone()).getCuboid().getCenterWithMinY()));
+                    this.addGlobalWaypoint(type, runningConquest.getCapzones().
+                            get(type.getConquestZone()).getCuboid().getCenterWithMinY());
+
                 }
 
                 break;
@@ -314,7 +321,7 @@ public class WaypointManager implements Listener {
                 DtcManager dtcManager = Lazarus.getInstance().getDtcManager();
 
                 if(dtcManager.isActive()) {
-                    this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(dtcManager.getDtcData().getLocation()));
+                    this.addGlobalWaypoint(type, dtcManager.getDtcData().getLocation());
                 }
 
                 break;
@@ -323,7 +330,7 @@ public class WaypointManager implements Listener {
                 Location endExit = Config.WORLD_EXITS.get(Environment.THE_END);
 
                 if(endExit != null) {
-                    this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(endExit));
+                    this.addGlobalWaypoint(type, endExit);
                 }
             }
         }
@@ -335,6 +342,10 @@ public class WaypointManager implements Listener {
                 }
             }
         }
+    }
+
+    private void addGlobalWaypoint(PlayerWaypointType type, Location location) {
+        this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(location));
     }
 
     private void addWaypoint(Player player, LCWaypoint waypoint) {
