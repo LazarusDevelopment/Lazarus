@@ -4,6 +4,8 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.games.dtc.event.DtcStartEvent;
+import me.qiooip.lazarus.games.dtc.event.DtcStopEvent;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.Messages;
@@ -71,6 +73,8 @@ public class DtcManager implements Listener, ManagerEnabler {
         this.dtcData.setBreaksLeft(breaks);
         this.dtcData.setStartTime(System.currentTimeMillis());
 
+        new DtcStartEvent(this.dtcData);
+
         Language.DTC_START_STARTED.forEach(line -> Messages.sendMessage(line
         .replace("<location>", StringUtils.getLocationNameWithWorld(dtcData
         .getLocation())).replace("<amount>", String.valueOf(breaks))));
@@ -79,6 +83,8 @@ public class DtcManager implements Listener, ManagerEnabler {
     public void stopDtc() {
         this.active = false;
         this.dtcData.getLocation().getBlock().setType(Material.AIR);
+
+        new DtcStopEvent();
 
         HandlerList.unregisterAll(this);
     }

@@ -9,6 +9,7 @@ import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.enums.Role;
+import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
@@ -249,6 +250,8 @@ public class PlayerFaction extends Faction {
             scoreboard.updateRelation(player);
             if(current != null) scoreboard.updateRelation(current);
         }
+
+        new FactionPlayerFocusedEvent(this, player.getUniqueId());
     }
 
     public void unfocusPlayer(OfflinePlayer offlinePlayer) {

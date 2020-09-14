@@ -70,9 +70,6 @@ public class Config {
 
     public static boolean LUNAR_CLIENT_API_ENABLED;
     public static boolean LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED;
-    public static String LUNAR_CLIENT_API_SPAWN_COLOR;
-    public static String LUNAR_CLIENT_API_HOME_COLOR;
-    public static String LUNAR_CLIENT_API_FOCUSED_FACTION_HOME_COLOR;
 
     public static Set<String> DISABLED_LAZARUS_COMMANDS;
     public static Set<String> DISABLED_FACTION_SUBCOMMANDS;
@@ -500,10 +497,7 @@ public class Config {
         CHAT_FORMAT_WITH_FACTION = config.getString("CHAT_FORMAT.FORMAT_WITH_FACTION");
 
         LUNAR_CLIENT_API_ENABLED = config.getBoolean("LUNAR_CLIENT_API_ENABLED");
-        LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED = config.getBoolean("FORCED_WAYPOINTS.ENABLED");
-        LUNAR_CLIENT_API_SPAWN_COLOR = config.getString("FORCED_WAYPOINTS.SPAWN_COLOR");
-        LUNAR_CLIENT_API_HOME_COLOR = config.getString("FORCED_WAYPOINTS.HOME_COLOR");
-        LUNAR_CLIENT_API_FOCUSED_FACTION_HOME_COLOR = config.getString("FORCED_WAYPOINTS.FOCUSED_FACTION_HOME_COLOR");
+        LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED = config.getBoolean("FORCED_WAYPOINTS_ENABLED");
 
         DISABLED_LAZARUS_COMMANDS = config.getStringList("DISABLED_LAZARUS_COMMANDS")
             .stream().map(String::toLowerCase).collect(Collectors.toSet());

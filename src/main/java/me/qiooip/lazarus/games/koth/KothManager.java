@@ -9,6 +9,8 @@ import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.Cuboid;
 import me.qiooip.lazarus.games.Placeholder;
+import me.qiooip.lazarus.games.koth.event.KothStartEvent;
+import me.qiooip.lazarus.games.koth.event.KothStopEvent;
 import me.qiooip.lazarus.games.koth.listener.KothEventListeners;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.utils.FileUtils;
@@ -141,12 +143,15 @@ public class KothManager implements Listener, ManagerEnabler {
         RunningKoth runningKoth = new RunningKoth(koth, time);
         this.runningKoths.add(runningKoth);
 
+        new KothStartEvent(runningKoth);
+
         Language.KOTH_START_STARTED.forEach(line -> Messages.sendMessage(Placeholder
             .RunningKothReplacer.parse(runningKoth, line)));
     }
 
     public void stopKoth(RunningKoth runningKoth) {
         this.runningKoths.remove(runningKoth);
+        new KothStopEvent(runningKoth.getKothData());
 
         if(!this.runningKoths.isEmpty()) return;
 

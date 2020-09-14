@@ -64,7 +64,7 @@ public abstract class Faction {
 
     private String getRelationColor(CommandSender sender) {
         if(this instanceof SystemFaction) {
-            return ((SystemFaction) this).getColor().toString();
+            return ((SystemFaction) this).getColor();
         }
 
         return this.getRelation(sender).getColor();

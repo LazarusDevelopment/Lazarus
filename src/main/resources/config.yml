@@ -108,11 +108,32 @@ CHAT_FORMAT:
 #=========================================================#
 LUNAR_CLIENT_API_ENABLED: true
 
+FORCED_WAYPOINTS_ENABLED: true
 FORCED_WAYPOINTS:
-  ENABLED: true
-  SPAWN_COLOR: "#FFFFFF"
-  HOME_COLOR: "#202020"
-  FOCUSED_FACTION_HOME: "#990000"
+  WAYPOINT_1:
+    TYPE: "CONQUEST"
+    NAME: "Conquest"
+    COLOR: "#990099"
+  WAYPOINT_2:
+    TYPE: "DTC"
+    NAME: "DTC"
+    COLOR: "#202020"
+  WAYPOINT_3:
+    TYPE: "HOME"
+    NAME: "Faction Home"
+    COLOR: "#CC0000"
+  WAYPOINT_4:
+    TYPE: "FOCUSED_FACTION_HOME"
+    NAME: "Focused Faction Home"
+    COLOR: "#990000"
+  WAYPOINT_5:
+    TYPE: "KOTH"
+    NAME: "<name> KoTH"
+    COLOR: "#00FFFF"
+  WAYPOINT_6:
+    TYPE: "SPAWN"
+    NAME: "Spawn"
+    COLOR: "#00FF00"
 
 #=========================================================#
 #                  Commands configuration                 #

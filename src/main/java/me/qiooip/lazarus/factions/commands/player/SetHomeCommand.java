@@ -5,7 +5,9 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.enums.Role;
+import me.qiooip.lazarus.factions.event.FactionSetHomeEvent;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -31,16 +33,20 @@ public class SetHomeCommand extends SubCommand {
             return;
         }
 
-        if(ClaimManager.getInstance().getFactionAt(player.getLocation()) != faction) {
+        Location location = player.getLocation();
+
+        if(ClaimManager.getInstance().getFactionAt(location) != faction) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_HOME_NOT_IN_OWN_CLAIM);
             return;
         }
 
-        faction.setHome(player.getLocation());
+        faction.setHome(location);
 
         faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_HOME_HOME_SET
-            .replace("<x>", String.valueOf(player.getLocation().getBlockX()))
-            .replace("<z>", String.valueOf(player.getLocation().getBlockZ()))
+            .replace("<x>", String.valueOf(location.getBlockX()))
+            .replace("<z>", String.valueOf(location.getBlockZ()))
             .replace("<player>", player.getName()));
+
+        new FactionSetHomeEvent(faction, sender, location);
     }
 }
