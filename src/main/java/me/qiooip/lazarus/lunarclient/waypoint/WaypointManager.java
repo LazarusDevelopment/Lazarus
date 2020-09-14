@@ -54,6 +54,7 @@ public class WaypointManager implements Listener {
     private final Table<UUID, PlayerWaypointType, LCWaypoint> playerWaypoints;
 
     private final PlayerWaypointType[] waypointTypes;
+    private final LCPacketServerRule serverRulePacket;
 
     public WaypointManager() {
         this.waypoints = new HashMap<>();
@@ -64,6 +65,7 @@ public class WaypointManager implements Listener {
         this.playerWaypoints = HashBasedTable.create();
 
         this.waypointTypes = PlayerWaypointType.values();
+        this.serverRulePacket = new LCPacketServerRule(ServerRule.SERVER_HANDLES_WAYPOINTS, true);
 
         this.setupWaypoints();
 
@@ -174,7 +176,7 @@ public class WaypointManager implements Listener {
     public void onPlayerRegisterLCEvent(LCPlayerRegisterEvent event) {
         Player player = event.getPlayer();
 
-        LunarClientAPI.getInstance().sendPacket(player, new LCPacketServerRule(ServerRule.SERVER_HANDLES_WAYPOINTS, true));
+        LunarClientAPI.getInstance().sendPacket(player, this.serverRulePacket);
         LunarClientAPI.getInstance().setMinimapStatus(player, MinimapStatus.NEUTRAL);
 
         this.registerPlayerWaypoints(player);
