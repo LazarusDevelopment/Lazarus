@@ -21,7 +21,7 @@ public class CombatTagTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.PREFIX + Language.COMBAT_TAG_EXPIRED);
         this.setFormat(FormatType.MILLIS_TO_MINUTES);
-        this.setType(CooldownType.COMBAT_TAG);
+        this.setLunarCooldownType(CooldownType.COMBAT_TAG);
     }
 
     @Override

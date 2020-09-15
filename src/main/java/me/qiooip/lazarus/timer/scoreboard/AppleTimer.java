@@ -17,7 +17,7 @@ public class AppleTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.PREFIX + Language.NORMAL_APPLE_COOLDOWN_EXPIRED);
         this.setFormat(FormatType.MILLIS_TO_MINUTES);
-        this.setType(CooldownType.APPLE);
+        this.setLunarCooldownType(CooldownType.APPLE);
     }
 
     @Override

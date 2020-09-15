@@ -21,7 +21,7 @@ public class LogoutTimer extends PlayerTimer implements ScoreboardTimer {
         super(executor, "LogoutTimer", Config.LOGOUT_DELAY);
 
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
-        this.setType(CooldownType.LOGOUT);
+        this.setLunarCooldownType(CooldownType.LOGOUT);
     }
 
     @Override

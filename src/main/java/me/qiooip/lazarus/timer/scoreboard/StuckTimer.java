@@ -21,7 +21,7 @@ public class StuckTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.FACTION_PREFIX + Language.FACTIONS_STUCK_TELEPORTED);
         this.setFormat(FormatType.MILLIS_TO_MINUTES);
-        this.setType(CooldownType.STUCK);
+        this.setLunarCooldownType(CooldownType.STUCK);
     }
 
     public void activate(Player player, Location location) {

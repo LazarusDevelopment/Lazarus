@@ -20,7 +20,7 @@ public class HomeTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.FACTION_PREFIX + Language.FACTIONS_HOME_TELEPORTED);
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
-        this.setType(CooldownType.HOME);
+        this.setLunarCooldownType(CooldownType.HOME);
     }
 
     public void activate(Player player, int delay, Location location) {

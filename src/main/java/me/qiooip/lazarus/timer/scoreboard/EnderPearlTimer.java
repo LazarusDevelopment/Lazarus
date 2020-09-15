@@ -17,7 +17,7 @@ public class EnderPearlTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.PREFIX + Language.ENDERPEARL_COOLDOWN_EXPIRED);
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
-        this.setType(CooldownType.ENDERPEARL);
+        this.setLunarCooldownType(CooldownType.ENDERPEARL);
     }
 
     @Override

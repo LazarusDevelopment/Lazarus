@@ -16,7 +16,7 @@ public abstract class Timer {
 
     @Setter protected FormatType format;
     @Setter protected String expiryMessage;
-    @Setter protected CooldownType type;
+    @Setter protected CooldownType lunarCooldownType;
 
     protected Timer(ScheduledExecutorService executor, String name, int delay, boolean persistable) {
         this.name = name;
