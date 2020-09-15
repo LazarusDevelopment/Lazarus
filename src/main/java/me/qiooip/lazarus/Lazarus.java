@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import me.qiooip.lazarus.abilities.AbilitiesManager;
 import me.qiooip.lazarus.classes.manager.PvpClassManager;
 import me.qiooip.lazarus.commands.manager.CommandManager;
 import me.qiooip.lazarus.commands.manager.SubCommandExecutor;
@@ -81,7 +82,6 @@ import me.qiooip.lazarus.userdata.settings.Settings;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.Datastore;
 import me.qiooip.lazarus.utils.GsonUtils;
-import me.qiooip.lazarus.utils.ItemUtils;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.gson.FactionTypeAdapter;
 import me.qiooip.lazarus.utils.gson.LocationTypeAdapter;
@@ -89,6 +89,7 @@ import me.qiooip.lazarus.utils.gson.LootTypeAdapter;
 import me.qiooip.lazarus.utils.gson.PlayerTypeAdapter;
 import me.qiooip.lazarus.utils.gson.RestoreTypeAdapter;
 import me.qiooip.lazarus.utils.gson.SettingsTypeAdapter;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -115,6 +116,7 @@ public class Lazarus extends JavaPlugin {
     @Setter private ConfigFile tabFile;
     @Setter private ConfigFile classesFile;
     @Setter private ConfigFile limitersFile;
+    @Setter private ConfigFile abilitiesFile;
     @Setter private ConfigFile itemsFile;
     private ConfigFile utilitiesFile;
 
@@ -131,6 +133,7 @@ public class Lazarus extends JavaPlugin {
     private SignShopManager signShopManager;
     private StaffModeManager staffModeManager;
     private VanishManager vanishManager;
+    private AbilitiesManager abilitiesManager;
     private ScoreboardManager scoreboardManager;
     @Setter private TabManager tabManager;
     private HandlerManager handlerManager;
@@ -203,6 +206,7 @@ public class Lazarus extends JavaPlugin {
             this.tabFile = new ConfigFile("tab.yml");
             this.classesFile = new ConfigFile("classes.yml");
             this.limitersFile = new ConfigFile("limiters.yml");
+            this.abilitiesFile = new ConfigFile("abilities.yml");
             this.itemsFile = new ConfigFile("items.yml");
             this.utilitiesFile = new ConfigFile("utilities.yml");
         } catch(RuntimeException e) {
@@ -274,6 +278,7 @@ public class Lazarus extends JavaPlugin {
         this.signShopManager.disable();
         this.staffModeManager.disable();
         this.vanishManager.disable();
+        this.abilitiesManager.disable();
     }
 
     private void disableGameManagers() {

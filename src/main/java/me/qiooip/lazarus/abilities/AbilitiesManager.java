@@ -7,6 +7,7 @@ import me.qiooip.lazarus.abilities.type.PocketBardAbility;
 import me.qiooip.lazarus.abilities.type.SwitcherAbility;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.ManagerEnabler;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,6 +30,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.abilityItems = new HashMap<>();
 
         this.setupAbilityItems();
+        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void setupAbilityItems() {

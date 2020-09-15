@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class InventoryRestoreCommand extends BaseCommand {
 
     public InventoryRestoreCommand() {
-        super("invrestore", Arrays.asList("lastinv", "invrollback"), "lazarus.invrestore", true);
+        super("inventoryrestore", Arrays.asList("invrestore", "lastinv", "invrollback"), "lazarus.invrestore", true);
     }
 
     @Override
