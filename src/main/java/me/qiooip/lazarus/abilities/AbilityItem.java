@@ -17,6 +17,7 @@ public abstract class AbilityItem {
 
     private ItemStack item;
     private int cooldown;
+    private boolean enabled;
 
     public AbilityItem(String name, String configSection, ConfigFile config) {
         this.name = name;
@@ -46,6 +47,7 @@ public abstract class AbilityItem {
 
         this.item = builder.build();
         this.cooldown = section.getInt("COOLDOWN");
+        this.enabled = section.getBoolean("ENABLED");
     }
 
     protected abstract void onItemClick(Player player);
