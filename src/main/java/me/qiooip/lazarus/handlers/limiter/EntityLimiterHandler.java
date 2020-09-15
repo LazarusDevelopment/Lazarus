@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.vehicle.VehicleCreateEvent;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,10 +36,14 @@ public class EntityLimiterHandler extends Handler implements Listener {
         ConfigurationSection section = Lazarus.getInstance().getLimitersFile()
             .getConfigurationSection("ENTITY_LIMITER");
 
-        this.disabledEntities = EnumSet.copyOf(section.getKeys(false).stream()
+        List<EntityType> entityTypes = section.getKeys(false).stream()
             .filter(typeName -> !section.getBoolean(typeName))
             .map(typeName -> EntityType.valueOf(typeName))
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList());
+
+        this.disabledEntities = entityTypes.isEmpty()
+            ? EnumSet.noneOf(EntityType.class)
+            : EnumSet.copyOf(entityTypes);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)

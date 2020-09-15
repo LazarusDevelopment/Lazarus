@@ -5,7 +5,8 @@ import me.qiooip.lazarus.classes.Bard;
 import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
-import me.qiooip.lazarus.factions.FactionsManager;
+import me.qiooip.lazarus.factions.Faction;
+import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.RunningConquest;
 import me.qiooip.lazarus.games.conquest.ZoneType;
@@ -108,10 +109,10 @@ public class ScoreboardUpdater extends BukkitRunnable {
                     scoreboard.addLine(ChatColor.DARK_AQUA);
                 }
 
-                if(Config.KITMAP_MODE_ENABLED) {
-                    PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
+                Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
 
-                    if(faction != null && scoreboard.add(Config.FACTION_PLACEHOLDER, faction.getName())) {
+                if(Config.KITMAP_MODE_ENABLED) {
+                    if(scoreboard.add(Config.FACTION_PLACEHOLDER, factionAt.getName(player))) {
                         scoreboard.addEmptyLine(ChatColor.DARK_RED);
                     }
 
@@ -124,6 +125,8 @@ public class ScoreboardUpdater extends BukkitRunnable {
                     }
 
                     scoreboard.addLine(ChatColor.DARK_PURPLE);
+                } else {
+                    scoreboard.add(Config.FACTION_PLACEHOLDER, factionAt.getName(player));
                 }
 
                 TimerManager.getInstance().getCustomTimer().handleScoreboardUpdate(scoreboard);
