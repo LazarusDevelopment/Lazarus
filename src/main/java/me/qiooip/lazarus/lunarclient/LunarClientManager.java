@@ -60,6 +60,10 @@ public class LunarClientManager implements Listener {
     public void onPlayerRegisterLCEvent(LCPlayerRegisterEvent event) {
         Player player = event.getPlayer();
         this.players.add(player.getUniqueId());
+
+        if(Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
+            Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(player).updateRelation(player);
+        }
     }
 
     @EventHandler
