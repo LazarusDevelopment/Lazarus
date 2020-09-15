@@ -5,7 +5,6 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
-import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.ScoreboardInput;
 import me.qiooip.lazarus.scoreboard.base.ScoreboardBase_1_7;
@@ -283,40 +282,35 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
             players.forEach(online -> {
-                List<String> nametag = new ArrayList<>();
+                List<String> nametag = null;
 
-                if(Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
+                if(Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
+                    nametag = new ArrayList<>();
+
                     PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(online);
                     if(faction != null) {
-                        nametag.add(Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
+                        String tag = Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
                                 .replace("<faction>", faction.getName(this.player))
-                                .replace("|", "｜")
-                                .replace("<dtr>", faction.getDtrString()));
+                                .replace("<dtr>", faction.getDtrString());
+                        nametag.add(tag);
                     }
-
                 }
 
                 if(Lazarus.getInstance().getStaffModeManager().isInStaffMode(online)) {
-                    this.staff.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.staff.getPrefix());
+                    this.addAndUpdate(online, nametag, this.staff);
                     return;
                 } else if(this.player == online) {
-                    this.members.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.members.getPrefix());
+                    this.addAndUpdate(online, nametag, this.members);
                     return;
                 } else if(playerFaction == null) {
                     if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-                        this.invis.addEntry(online.getName());
-                        this.addAndUpdate(online, nametag, this.invis.getPrefix());
+                        this.addAndUpdate(online, nametag, this.invis);
                     } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
-                        this.archers.addEntry(online.getName());
-                        this.addAndUpdate(online, nametag, this.archers.getPrefix());
+                        this.addAndUpdate(online, nametag, this.archers);
                     } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
-                        this.sotw.addEntry(online.getName());
-                        this.addAndUpdate(online, nametag, this.sotw.getPrefix());
+                        this.addAndUpdate(online, nametag, this.sotw);
                     } else {
-                        this.enemies.addEntry(online.getName());
-                        this.addAndUpdate(online, nametag, this.enemies.getPrefix());
+                        this.addAndUpdate(online, nametag, this.enemies);
                     }
                     return;
                 }
@@ -325,34 +319,29 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
                 boolean isMemberOrAlly = playerFaction == targetFaction || playerFaction.isAlly(targetFaction);
 
                 if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
-                    this.invis.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.invis.getPrefix());
+                    this.addAndUpdate(online, nametag, this.invis);
                 } else if(playerFaction.isFocusing(online.getUniqueId())) {
-                    this.focused.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.focused.getPrefix());
+                    this.addAndUpdate(online, nametag, this.focused);
                 } else if(playerFaction == targetFaction) {
-                    this.members.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.members.getPrefix());
+                    this.addAndUpdate(online, nametag, this.members);
                 } else if(playerFaction.isAlly(targetFaction)) {
-                    this.allies.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.allies.getPrefix());
+                    this.addAndUpdate(online, nametag, this.allies);
                 } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
-                    this.archers.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.archers.getPrefix());
+                    this.addAndUpdate(online, nametag, this.archers);
                 } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
-                    this.sotw.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.sotw.getPrefix());
+                    this.addAndUpdate(online, nametag, this.sotw);
                 } else {
-                    this.enemies.addEntry(online.getName());
-                    this.addAndUpdate(online, nametag, this.enemies.getPrefix());
+                    this.addAndUpdate(online, nametag, this.enemies);
                 }
             });
         }
     }
 
-    private void addAndUpdate(Player online, List<String> nametag, String value) {
-        if(Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED && LunarClientManager.getInstance().getPlayers().contains(this.player.getUniqueId())) {
-            nametag.add(value + online.getName());
+    private void addAndUpdate(Player online, List<String> nametag, Team team) {
+        team.addEntry(online.getName());
+
+        if(nametag != null) {
+            nametag.add(team.getPrefix() + online.getName());
 
             LunarClientAPI.getInstance().overrideNametag(online, nametag, this.player);
         }
