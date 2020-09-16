@@ -7,6 +7,7 @@ import io.netty.channel.ChannelPromise;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilitiesManager;
 import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_8;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_8;
@@ -19,7 +20,6 @@ import me.qiooip.lazarus.scoreboard.nms.PlayerScoreboard_1_8;
 import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.nms.PlayerTab_1_8;
 import me.qiooip.lazarus.utils.Tasks;
-import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_8;
 import net.minecraft.server.v1_8_R3.BlockCocoa;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
@@ -33,6 +33,7 @@ import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.MobEffect;
 import net.minecraft.server.v1_8_R3.MobEffectList;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig.EnumPlayerDigType;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockPlace;
@@ -84,6 +85,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -490,6 +492,31 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
         if(channel == null) return;
 
         if(channel.pipeline().get(LISTENER_NAME) != null) channel.pipeline().remove(LISTENER_NAME);
+    }
+
+    @Override
+    public void updateArmor(Player player, boolean remove) {
+        Set<PacketPlayOutEntityEquipment> packets = new HashSet<>();
+
+        for (int slot = 1; slot < 5; slot++) {
+            PacketPlayOutEntityEquipment equipment = AbilitiesReflection_1_8.createEquipmentPacket(player, slot, remove);
+            packets.add(equipment);
+        }
+
+        for(Player other : player.getWorld().getPlayers()) {
+            if(other == player) continue;
+
+            for(PacketPlayOutEntityEquipment packet : packets) {
+                NmsUtils.getInstance().sendPacket(other, packet);
+            }
+        }
+
+        player.updateInventory();
+    }
+
+    @Override
+    public void sendPacket(Player player, Object packet) {
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet) packet);
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {

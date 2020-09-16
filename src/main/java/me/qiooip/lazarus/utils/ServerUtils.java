@@ -1,8 +1,5 @@
 package me.qiooip.lazarus.utils;
 
-import net.minecraft.server.v1_7_R4.Packet;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.PotionEffectEvent;
 import org.bukkit.potion.PotionEffect;
@@ -28,9 +25,5 @@ public class ServerUtils {
                 throw new RuntimeException(ex);
             }
         }
-    }
-
-    public static void sendPacket(Player player, Packet packet) {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 }

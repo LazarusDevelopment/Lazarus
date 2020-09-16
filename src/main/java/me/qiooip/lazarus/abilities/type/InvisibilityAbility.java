@@ -3,14 +3,15 @@ package me.qiooip.lazarus.abilities.type;
 import lombok.Getter;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
-import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_7;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.ServerUtils;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.PotionEffectExpireEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -22,10 +23,10 @@ import java.util.UUID;
 
 public class InvisibilityAbility extends AbilityItem {
 
-    // TODO: maknut nms use
-
     @Getter private final Set<UUID> players;
     private final Set<UUID> offline;
+
+    private int duration;
 
     public InvisibilityAbility(ConfigFile config) {
         super(AbilityType.INVISIBILITY, "INVISIBILITY", config);
@@ -35,14 +36,20 @@ public class InvisibilityAbility extends AbilityItem {
     }
 
     @Override
+    protected void loadAdditionalData(ConfigurationSection section) {
+        this.duration = section.getInt("DURATION");
+    }
+
+    @Override
     protected void onItemClick(Player player) {
         this.hidePlayer(player);
     }
 
     private void hidePlayer(Player player) {
-        new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0).apply(player);
+        PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, this.duration * 20, 1);
+        player.addPotionEffect(effect);
 
-        this.updateArmor(player, true);
+        NmsUtils.getInstance().updateArmor(player, true);
 
         this.players.add(player.getUniqueId());
     }
@@ -52,26 +59,7 @@ public class InvisibilityAbility extends AbilityItem {
 
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
 
-        this.updateArmor(player, false);
-    }
-
-    private void updateArmor(Player player, boolean remove) {
-        Set<PacketPlayOutEntityEquipment> packets = new HashSet<>();
-
-        for (int slot = 1; slot < 5; slot++) {
-            PacketPlayOutEntityEquipment equipment = AbilitiesReflection_1_7.createEquipmentPacket(player, slot, remove);
-            packets.add(equipment);
-        }
-
-        for(Player other : player.getWorld().getPlayers()) {
-            if(other == player) continue;
-
-            for(PacketPlayOutEntityEquipment packet : packets) {
-                ServerUtils.sendPacket(other, packet);
-            }
-        }
-
-        player.updateInventory();
+        NmsUtils.getInstance().updateArmor(player, false);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -109,6 +97,19 @@ public class InvisibilityAbility extends AbilityItem {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         if(!this.players.contains(player.getUniqueId())) return;
+
+        this.showPlayer(player);
+    }
+
+    @EventHandler
+    public void onPotionEffectExpire(PotionEffectExpireEvent event) {
+        if(!(event.getEntity() instanceof Player)) return;
+        Player player = (Player) event.getEntity();
+
+        if(!this.players.contains(player.getUniqueId())) return;
+
+        PotionEffect effect = NmsUtils.getInstance().getPotionEffect(player, ServerUtils.getEffect(event).getType());
+        if(effect == null || ServerUtils.getEffect(event).getType().getId() != 14) return;
 
         this.showPlayer(player);
     }

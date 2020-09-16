@@ -30,6 +30,7 @@ import net.minecraft.server.v1_7_R4.MobEffect;
 import net.minecraft.server.v1_7_R4.MobEffectList;
 import net.minecraft.server.v1_7_R4.NBTTagCompound;
 import net.minecraft.server.v1_7_R4.NetworkManager;
+import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketPlayInBlockDig;
 import net.minecraft.server.v1_7_R4.PacketPlayInBlockPlace;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
@@ -82,6 +83,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -110,12 +112,12 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
             Material.WORKBENCH, Material.FURNACE, Material.BURNING_FURNACE, Material.FENCE_GATE);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
-        Bukkit.getOnlinePlayers().forEach(player -> this.injectPacketInterceptor(player));
+        Bukkit.getOnlinePlayers().forEach(this::injectPacketInterceptor);
     }
 
     @Override
     public void disable() {
-        Bukkit.getOnlinePlayers().forEach(player -> this.deinjectPacketInterceptor(player));
+        Bukkit.getOnlinePlayers().forEach(this::deinjectPacketInterceptor);
     }
 
     @Override
@@ -475,6 +477,31 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         if(channel.pipeline().get(LISTENER_NAME) != null) {
             channel.pipeline().remove(LISTENER_NAME);
         }
+    }
+
+    @Override
+    public void updateArmor(Player player, boolean remove) {
+        Set<PacketPlayOutEntityEquipment> packets = new HashSet<>();
+
+        for (int slot = 1; slot < 5; slot++) {
+            PacketPlayOutEntityEquipment equipment = AbilitiesReflection_1_7.createEquipmentPacket(player, slot, remove);
+            packets.add(equipment);
+        }
+
+        for(Player other : player.getWorld().getPlayers()) {
+            if(other == player) continue;
+
+            for(PacketPlayOutEntityEquipment packet : packets) {
+                this.sendPacket(other, packet);
+            }
+        }
+
+        player.updateInventory();
+    }
+
+    @Override
+    public void sendPacket(Player player, Object packet) {
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet) packet);
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {

@@ -64,7 +64,11 @@ public abstract class AbilityItem implements Listener {
         this.item = builder.build();
         this.cooldown = section.getInt("COOLDOWN");
         this.enabled = section.getBoolean("ENABLED");
+
+        this.loadAdditionalData(section);
     }
+
+    protected void loadAdditionalData(ConfigurationSection section) { }
 
     protected abstract void onItemClick(Player player);
 }

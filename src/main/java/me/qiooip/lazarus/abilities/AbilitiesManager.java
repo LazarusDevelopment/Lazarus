@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
@@ -75,6 +76,19 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
     private int calculateItemHash(ItemMeta itemMeta) {
         return Objects.hash(itemMeta.getDisplayName(), itemMeta.getLore());
+    }
+
+    public int getItemInHandHash(ItemStack item) {
+        if(!item.hasItemMeta()) {
+            return -1;
+        }
+
+        ItemMeta itemMeta = item.getItemMeta();
+        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) {
+            return -1;
+        }
+
+        return this.calculateItemHash(itemMeta);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

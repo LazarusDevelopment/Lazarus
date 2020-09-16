@@ -11,6 +11,7 @@ import java.util.TreeMap;
 public enum AbilityType {
 
     COCAINE("Cocaine"),
+    EXOTIC_BONE("ExoticBone"),
     INVISIBILITY("Invisibility"),
     POCKET_BARD("PocketBard"),
     SWITCHER("Switcher");

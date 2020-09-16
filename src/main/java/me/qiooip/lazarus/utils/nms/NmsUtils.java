@@ -112,4 +112,8 @@ public abstract class NmsUtils {
     public abstract void injectPacketInterceptor(Player player);
 
     public abstract void deinjectPacketInterceptor(Player player);
+
+    public abstract void updateArmor(Player player, boolean remove);
+
+    public abstract void sendPacket(Player player, Object packet);
 }
