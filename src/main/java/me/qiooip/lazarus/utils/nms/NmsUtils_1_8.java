@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilitiesManager;
+import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_8;
@@ -18,7 +19,7 @@ import me.qiooip.lazarus.scoreboard.nms.PlayerScoreboard_1_8;
 import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.nms.PlayerTab_1_8;
 import me.qiooip.lazarus.utils.Tasks;
-import me.qiooip.lazarus.utils.nms.packet.PacketPlayOutEntityEquipmentWrapper_1_8;
+import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_8;
 import net.minecraft.server.v1_8_R3.BlockCocoa;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
@@ -492,16 +493,17 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {
-        if(AbilitiesManager.getInstance().isEnabled("INVISIBILITY")) {
-            InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getEnabledAbilities().get("INVISIBILITY");
+        InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
+
+        if(ability != null) {
 
             try {
-                int entityId = PacketPlayOutEntityEquipmentWrapper_1_8.getEntityId(equipmentPacket);
+                int entityId = AbilitiesReflection_1_8.getEntityId(equipmentPacket);
                 net.minecraft.server.v1_8_R3.Entity sender = ((CraftPlayer) player).getHandle().world.a(entityId);
 
                 if(sender instanceof EntityPlayer && ability.getPlayers().contains(sender.getUniqueID())) {
-                    int slot = PacketPlayOutEntityEquipmentWrapper_1_8.getSlot(equipmentPacket);
-                    net.minecraft.server.v1_8_R3.ItemStack itemStack = PacketPlayOutEntityEquipmentWrapper_1_8.getItemStack(equipmentPacket);
+                    int slot = AbilitiesReflection_1_8.getSlot(equipmentPacket);
+                    net.minecraft.server.v1_8_R3.ItemStack itemStack = AbilitiesReflection_1_8.getItemStack(equipmentPacket);
 
                     // Make sure we only cancel the armor packets
                     if(itemStack != null && slot != 0) {

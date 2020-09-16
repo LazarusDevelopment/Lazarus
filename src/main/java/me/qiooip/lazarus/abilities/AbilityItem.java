@@ -3,6 +3,7 @@ package me.qiooip.lazarus.abilities;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
@@ -11,18 +12,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public abstract class AbilityItem implements Listener {
 
-    private final String name;
+    private final AbilityType type;
     private final String configSection;
 
     private ItemStack item;
     private int cooldown;
     private boolean enabled;
 
-    public AbilityItem(String name, String configSection, ConfigFile config) {
-        this.name = name;
+    public AbilityItem(AbilityType type, String configSection, ConfigFile config) {
+        this.type = type;
         this.configSection = configSection;
 
         this.loadAbilityData(config);
@@ -32,21 +36,29 @@ public abstract class AbilityItem implements Listener {
 
     public void loadAbilityData(ConfigFile config) {
         ConfigurationSection section = config.getConfigurationSection(this.configSection);
-        ConfigurationSection itemSection = section.getConfigurationSection("ITEM");
 
-        ItemStack itemStack = ItemUtils.parseItem(itemSection.getString("MATERIAL_ID"));
-
-        if(itemStack == null) {
-            Lazarus.getInstance().log("&cCould not parse ability item for '&4" + this.name + "&c'");
+        if(section == null) {
+            Lazarus.getInstance().log("&cCould not load configuration for '&4" + this.type.getName() + "&c'");
             return;
         }
 
+        ConfigurationSection itemSection = section.getConfigurationSection("ITEM");
+        ItemStack itemStack = ItemUtils.parseItem(itemSection.getString("MATERIAL_ID"));
+
+        if(itemStack == null) {
+            Lazarus.getInstance().log("&cCould not parse ability item for '&4" + this.type.getName() + "&c'");
+            return;
+        }
+
+        List<String> itemLore = itemSection.getStringList("LORE")
+            .stream().map(Color::translate).collect(Collectors.toList());
+
         ItemBuilder builder = new ItemBuilder(itemStack)
             .setName(itemSection.getString("NAME"))
-            .setLore(itemSection.getStringList("LORE"));
+            .setLore(itemLore);
 
         if(itemSection.getBoolean("ENCHANTED_GLOW")) {
-            builder.addFakeGlow();
+            builder = builder.addFakeGlow();
         }
 
         this.item = builder.build();

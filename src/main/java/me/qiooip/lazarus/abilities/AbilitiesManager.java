@@ -28,7 +28,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     @Getter private static AbilitiesManager instance;
 
     private final Map<Integer, AbilityItem> abilityItems;
-    private final Map<String, AbilityItem> enabledAbilities;
+    private final Map<AbilityType, AbilityItem> enabledAbilities;
 
     public AbilitiesManager() {
         instance = this;
@@ -54,8 +54,12 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbilityItem(new SwitcherAbility(abilitiesFile));
     }
 
-    public boolean isEnabled(String name) {
-        return this.enabledAbilities.containsKey(name);
+    public boolean isEnabled(AbilityType type) {
+        return this.enabledAbilities.containsKey(type);
+    }
+
+    public AbilityItem getAbilityItemByType(AbilityType type) {
+        return this.enabledAbilities.get(type);
     }
 
     private void loadAbilityItem(AbilityItem abilityItem) {
@@ -64,8 +68,9 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         }
 
         Integer itemHash = this.calculateItemHash(abilityItem.getItem().getItemMeta());
+
         this.abilityItems.put(itemHash, abilityItem);
-        this.enabledAbilities.put(abilityItem.getConfigSection(), abilityItem);
+        this.enabledAbilities.put(abilityItem.getType(), abilityItem);
     }
 
     private int calculateItemHash(ItemMeta itemMeta) {

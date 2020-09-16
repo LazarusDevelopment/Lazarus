@@ -46,7 +46,7 @@ public class PlayerTab_1_7 extends ScoreboardBase_1_7 implements PlayerTab {
         this.clientVersion = cplayer.getHandle().playerConnection.networkManager.getVersion();
 
         this.teamNames = new String[80];
-        this.contents = new String[60];
+        this.contents = new String[80];
 
         if(this.clientVersion >= 47) {
             this.gameProfiles = new ArrayList<>();
@@ -62,7 +62,9 @@ public class PlayerTab_1_7 extends ScoreboardBase_1_7 implements PlayerTab {
     @Override
     public void set(int index, String line) {
         line = Color.translate(line);
+
         if(this.contents[index-1] != null && this.contents[index-1].equals(line)) return;
+        if(index > 60 && this.clientVersion < 47) return;
 
         Team team = this.getTeam(this.teamNames[index-1]);
 
@@ -94,7 +96,7 @@ public class PlayerTab_1_7 extends ScoreboardBase_1_7 implements PlayerTab {
 
             profile.getProperties().removeAll("textures");
             profile.getProperties().put("textures", new Property("textures",
-            TabManager.VALUE, TabManager.SIGNATURE));
+                TabManager.VALUE, TabManager.SIGNATURE));
         }
 
         this.createPlayerInfo(profile);

@@ -144,7 +144,7 @@ public class TabUpdater implements Runnable {
         ConfigFile tabFile = Lazarus.getInstance().getTabFile();
         AtomicInteger count = new AtomicInteger(1);
 
-        Stream.of("LEFT", "CENTER", "RIGHT").forEach(sides -> tabFile.getStringList(sides).forEach(line -> {
+        Stream.of("LEFT", "CENTER", "RIGHT", "FAR_RIGHT").forEach(sides -> tabFile.getStringList(sides).forEach(line -> {
             int slot = count.getAndIncrement();
             if(line.contains("<") && line.contains(">") || line.isEmpty()) return;
 
@@ -156,7 +156,7 @@ public class TabUpdater implements Runnable {
         ConfigFile tabFile = Lazarus.getInstance().getTabFile();
         AtomicInteger count = new AtomicInteger(1);
 
-        Stream.of("LEFT", "CENTER", "RIGHT").forEach(sides -> tabFile.getStringList(sides).forEach(line -> {
+        Stream.of("LEFT", "CENTER", "RIGHT", "FAR_RIGHT").forEach(sides -> tabFile.getStringList(sides).forEach(line -> {
             int slot = count.getAndIncrement();
 
             if(line.toLowerCase().contains("<location>")) {

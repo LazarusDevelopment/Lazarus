@@ -2,9 +2,10 @@ package me.qiooip.lazarus.abilities.type;
 
 import lombok.Getter;
 import me.qiooip.lazarus.abilities.AbilityItem;
+import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_7;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.ServerUtils;
-import me.qiooip.lazarus.utils.nms.packet.PacketPlayOutEntityEquipmentWrapper_1_7;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +28,7 @@ public class InvisibilityAbility extends AbilityItem {
     private final Set<UUID> offline;
 
     public InvisibilityAbility(ConfigFile config) {
-        super("Invisibility", "INVISIBILITY", config);
+        super(AbilityType.INVISIBILITY, "INVISIBILITY", config);
 
         this.players = new HashSet<>();
         this.offline = new HashSet<>();
@@ -58,7 +59,7 @@ public class InvisibilityAbility extends AbilityItem {
         Set<PacketPlayOutEntityEquipment> packets = new HashSet<>();
 
         for (int slot = 1; slot < 5; slot++) {
-            PacketPlayOutEntityEquipment equipment = PacketPlayOutEntityEquipmentWrapper_1_7.createEquipmentPacket(player, slot, remove);
+            PacketPlayOutEntityEquipment equipment = AbilitiesReflection_1_7.createEquipmentPacket(player, slot, remove);
             packets.add(equipment);
         }
 

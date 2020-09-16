@@ -49,9 +49,9 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
         this.clientVersion = NmsUtils.getInstance().getClientVersion(cplayer);
 
         this.profiles = new GameProfile[80];
-
         this.teamNames = new String[60];
-        this.contents = new String[60];
+
+        this.contents = new String[80];
 
         if(this.clientVersion >= 47) {
             IntStream.rangeClosed(1, 80).forEach(i -> this.setupTabEntry(cplayer, i));
@@ -66,6 +66,7 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
     @Override
     public void set(int index, String line) {
         line = Color.translate(line);
+
         if(this.contents[index - 1] != null && this.contents[index - 1].equals(line)) return;
 
         if(this.clientVersion >= 47) {
@@ -73,6 +74,8 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
             this.updateDisplayName(this.profiles[index - 1], line);
 
         } else {
+            if(index > 60) return;
+
             Team team = this.getTeam(this.teamNames[index-1]);
 
             String prefix;
@@ -100,7 +103,7 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
 
         profile.getProperties().removeAll("textures");
         profile.getProperties().put("textures", new Property("textures",
-        TabManager.VALUE, TabManager.SIGNATURE));
+            TabManager.VALUE, TabManager.SIGNATURE));
 
         this.createPlayerInfo(profile);
     }

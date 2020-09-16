@@ -1,4 +1,4 @@
-package me.qiooip.lazarus.utils.nms.packet;
+package me.qiooip.lazarus.abilities.reflection;
 
 import me.qiooip.lazarus.utils.ReflectionUtils;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -10,19 +10,19 @@ import org.bukkit.entity.Player;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 
-public class PacketPlayOutEntityEquipmentWrapper_1_8 {
+public class AbilitiesReflection_1_8 {
 
-    private static MethodHandle ENTITYID_GETTER;
+    private static MethodHandle ENTITY_ID_GETTER;
     private static MethodHandle SLOT_GETTER;
-    private static MethodHandle ITEMSTACK_GETTER;
+    private static MethodHandle ITEM_STACK_GETTER;
 
     static {
         try {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-            ENTITYID_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "a"));
+            ENTITY_ID_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "a"));
             SLOT_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "b"));
-            ITEMSTACK_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "c"));
+            ITEM_STACK_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "c"));
 
         } catch(Throwable t) {
             t.printStackTrace();
@@ -32,12 +32,11 @@ public class PacketPlayOutEntityEquipmentWrapper_1_8 {
     public static PacketPlayOutEntityEquipment createEquipmentPacket(Player player, int slot, boolean remove) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
-        return new PacketPlayOutEntityEquipment(player.getEntityId(), slot,
-                remove ? null : entityPlayer.inventory.armor[slot - 1]);
+        return new PacketPlayOutEntityEquipment(player.getEntityId(), slot, remove ? null : entityPlayer.inventory.armor[slot - 1]);
     }
 
     public static int getEntityId(PacketPlayOutEntityEquipment packet) throws Throwable {
-        return (int) ENTITYID_GETTER.invokeExact(packet);
+        return (int) ENTITY_ID_GETTER.invokeExact(packet);
     }
 
     public static int getSlot(PacketPlayOutEntityEquipment packet) throws Throwable {
@@ -45,6 +44,6 @@ public class PacketPlayOutEntityEquipmentWrapper_1_8 {
     }
 
     public static ItemStack getItemStack(PacketPlayOutEntityEquipment packet) throws Throwable {
-        return (ItemStack) ITEMSTACK_GETTER.invokeExact(packet);
+        return (ItemStack) ITEM_STACK_GETTER.invokeExact(packet);
     }
 }
