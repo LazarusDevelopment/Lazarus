@@ -1,6 +1,8 @@
 package me.qiooip.lazarus.utils.nms;
 
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.abilities.AbilitiesManager;
+import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_7;
 import me.qiooip.lazarus.games.loot.LootData;
@@ -14,6 +16,7 @@ import me.qiooip.lazarus.tab.nms.PlayerTab_1_7;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import me.qiooip.lazarus.utils.nms.packet.PacketPlayOutEntityEquipmentWrapper_1_7;
 import net.minecraft.server.v1_7_R4.BlockCocoa;
 import net.minecraft.server.v1_7_R4.Blocks;
 import net.minecraft.server.v1_7_R4.EntityLightning;
@@ -28,6 +31,7 @@ import net.minecraft.server.v1_7_R4.NBTTagCompound;
 import net.minecraft.server.v1_7_R4.NetworkManager;
 import net.minecraft.server.v1_7_R4.PacketPlayInBlockDig;
 import net.minecraft.server.v1_7_R4.PacketPlayInBlockPlace;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityWeather;
 import net.minecraft.server.v1_7_R4.PlayerConnection;
@@ -38,6 +42,7 @@ import net.minecraft.server.v1_7_R4.TileEntitySkull;
 import net.minecraft.util.io.netty.channel.Channel;
 import net.minecraft.util.io.netty.channel.ChannelDuplexHandler;
 import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
+import net.minecraft.util.io.netty.channel.ChannelPromise;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -430,6 +435,17 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         ChannelDuplexHandler handler = new ChannelDuplexHandler() {
 
             @Override
+            public void write(ChannelHandlerContext context, Object packet, ChannelPromise promise) throws Exception {
+                if(packet instanceof PacketPlayOutEntityEquipment) {
+                    packet = handlePlayOutEntityEquipmentPacket(player, (PacketPlayOutEntityEquipment) packet);
+                }
+
+                if(packet != null) {
+                    super.write(context, packet, promise);
+                }
+            }
+
+            @Override
             public void channelRead(ChannelHandlerContext context, Object packet) throws Exception {
                 if(packet instanceof PacketPlayInBlockDig) {
                     if(handlePlayInBlockDigPacket(player, (PacketPlayInBlockDig) packet)) return;
@@ -458,6 +474,31 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         if(channel.pipeline().get(LISTENER_NAME) != null) {
             channel.pipeline().remove(LISTENER_NAME);
         }
+    }
+
+    private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {
+        if(AbilitiesManager.getInstance().isEnabled("INVISIBILITY")) {
+            InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getEnabledAbilities().get("INVISIBILITY");
+
+            try {
+                int slot = PacketPlayOutEntityEquipmentWrapper_1_7.getSlot(equipmentPacket);
+                net.minecraft.server.v1_7_R4.ItemStack itemStack = PacketPlayOutEntityEquipmentWrapper_1_7.getItemStack(equipmentPacket);
+
+                // Make sure we only cancel the armor packets
+                if(itemStack != null && slot != 0) {
+                    int entityId = PacketPlayOutEntityEquipmentWrapper_1_7.getEntityId(equipmentPacket);
+                    net.minecraft.server.v1_7_R4.Entity sender = ((CraftPlayer) player).getHandle().world.getEntity(entityId);
+
+                    if(sender instanceof EntityPlayer && ability.getPlayers().contains(sender.getUniqueID())) {
+                        return null;
+                    }
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+
+        return equipmentPacket;
     }
 
     private boolean handlePlayInBlockDigPacket(Player player, PacketPlayInBlockDig digPacket) {

@@ -5,12 +5,14 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
-public abstract class AbilityItem {
+public abstract class AbilityItem implements Listener {
 
     private final String name;
     private final String configSection;
@@ -24,6 +26,8 @@ public abstract class AbilityItem {
         this.configSection = configSection;
 
         this.loadAbilityData(config);
+
+        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void loadAbilityData(ConfigFile config) {

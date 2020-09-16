@@ -24,6 +24,22 @@ COCAINE:
       - ""
       - ""
 
+INVISIBILITY:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "351:0"
+    NAME: "&7Invisibility"
+    LORE:
+      - ""
+      - ""
+      - ""
+      - ""
+
 POCKET_BARD:
   # Should we enable this ability item?
   ENABLED: true

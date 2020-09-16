@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.commands.manager;
 
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.abilities.commands.AbilityCommand;
 import me.qiooip.lazarus.commands.BottleCommand;
 import me.qiooip.lazarus.commands.CoordsCommand;
 import me.qiooip.lazarus.commands.FillBottleCommand;
@@ -101,6 +102,7 @@ public class CommandManager implements ManagerEnabler {
         this.commandMap = NmsUtils.getInstance().getCommandMap();
         this.commands = new ArrayList<>();
 
+        this.commands.add(new AbilityCommand());
         this.commands.add(new ChatControlCommand());
         this.commands.add(new CopyInventoryCommand());
         this.commands.add(new CrowbarCommand());
