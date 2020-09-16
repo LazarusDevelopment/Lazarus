@@ -16,10 +16,10 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -44,6 +44,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -78,6 +79,15 @@ public class DynamicEventHandler extends Handler implements Listener {
         } catch(NoSuchFieldException e) {
             new DefaultSpigotListener();
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerItemDamage(PlayerItemDamageEvent event) {
+        if(!Config.REDUCED_DURABILITY_LOSS_ENABLED) return;
+        if(!Config.REDUCED_DURABILITY_LOSS_MATERIALS.contains(event.getItem().getType())) return;
+        if(ThreadLocalRandom.current().nextInt(100) > Config.REDUCED_DURABILITY_LOSS_PERCENTAGE) return;
+
+        event.setCancelled(true);
     }
 
     @EventHandler

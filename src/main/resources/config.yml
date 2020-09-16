@@ -117,6 +117,39 @@ DISABLED_FACTION_SUBCOMMANDS:
   - "subcmd2"
 
 #=========================================================#
+#                  Durability configuration               #
+#=========================================================#
+
+# Should reducted durability loss be enabled?
+REDUCED_DURABILITY_LOSS:
+  ENABLED: true
+  REDUCED_PERCENTAGE: 30
+
+# What materials should have reduced durability loss?
+REDUCED_DURABILITY_MATERIALS:
+  - "298:0"
+  - "299:0"
+  - "300:0"
+  - "301:0"
+  - "302:0"
+  - "303:0"
+  - "304:0"
+  - "305:0"
+  - "306:0"
+  - "307:0"
+  - "308:0"
+  - "309:0"
+  - "310:0"
+  - "311:0"
+  - "312:0"
+  - "313:0"
+  - "314:0"
+  - "314:0"
+  - "315:0"
+  - "316:0"
+  - "317:0"
+
+#=========================================================#
 #               Selection wand configuration              #
 #=========================================================#
 

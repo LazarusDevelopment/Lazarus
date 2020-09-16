@@ -72,6 +72,10 @@ public class Config {
     public static Set<String> DISABLED_LAZARUS_COMMANDS;
     public static Set<String> DISABLED_FACTION_SUBCOMMANDS;
 
+    public static boolean REDUCED_DURABILITY_LOSS_ENABLED;
+    public static int REDUCED_DURABILITY_LOSS_PERCENTAGE;
+    public static Set<Material> REDUCED_DURABILITY_LOSS_MATERIALS;
+
     public static int FACTIONS_AUTO_SAVE;
     public static boolean SHOW_FACTION_INFO_ON_JOIN;
 
@@ -510,6 +514,12 @@ public class Config {
 
         DISABLED_FACTION_SUBCOMMANDS = config.getStringList("DISABLED_FACTION_SUBCOMMANDS")
             .stream().map(String::toLowerCase).collect(Collectors.toSet());
+
+        REDUCED_DURABILITY_LOSS_ENABLED = config.getBoolean("REDUCED_DURABILITY_LOSS.ENABLED");
+        REDUCED_DURABILITY_LOSS_PERCENTAGE = config.getInt("REDUCED_DURABILITY_LOSS.REDUCED_PERCENTAGE");
+        REDUCED_DURABILITY_LOSS_MATERIALS = EnumSet.copyOf(config.getStringList("REDUCED_DURABILITY_MATERIALS").stream()
+                .map(ItemUtils::parseItem).filter(Objects::nonNull)
+                .map(ItemStack::getType).collect(Collectors.toList()));;
 
         FACTIONS_AUTO_SAVE = config.getInt("FACTIONS_AUTO_SAVE");
         SHOW_FACTION_INFO_ON_JOIN = config.getBoolean("SHOW_FACTION_INFO_ON_JOIN");
