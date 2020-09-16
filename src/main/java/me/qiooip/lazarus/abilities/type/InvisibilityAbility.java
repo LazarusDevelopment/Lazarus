@@ -9,7 +9,7 @@ import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -47,7 +47,6 @@ public class InvisibilityAbility extends AbilityItem {
     }
 
     private void showPlayer(Player player) {
-        if(!this.players.contains(player.getUniqueId())) return;
         this.players.remove(player.getUniqueId());
 
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
@@ -72,12 +71,6 @@ public class InvisibilityAbility extends AbilityItem {
         }
 
         player.updateInventory();
-    }
-
-    private void removePlayer(Player player, Player target) {
-        for (int slot = 1; slot < 5; slot++) {
-            ServerUtils.sendPacket(target, PacketPlayOutEntityEquipmentWrapper_1_7.createEquipmentPacket(player.getEntityId(), slot, null));
-        }
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -112,11 +105,10 @@ public class InvisibilityAbility extends AbilityItem {
     }
 
     @EventHandler
-    public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
-        for(Player player : event.getPlayer().getWorld().getPlayers()) {
-            if(!this.players.contains(player.getUniqueId())) return;
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        if(!this.players.contains(player.getUniqueId())) return;
 
-            this.removePlayer(event.getPlayer(), player);
-        }
+        this.showPlayer(player);
     }
 }

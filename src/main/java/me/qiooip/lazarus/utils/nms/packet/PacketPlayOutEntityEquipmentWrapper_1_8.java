@@ -16,10 +16,6 @@ public class PacketPlayOutEntityEquipmentWrapper_1_8 {
     private static MethodHandle SLOT_GETTER;
     private static MethodHandle ITEMSTACK_GETTER;
 
-    private static MethodHandle ENTITYID_SETTER;
-    private static MethodHandle SLOT_SETTER;
-    private static MethodHandle ITEMSTACK_SETTER;
-
     static {
         try {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -28,42 +24,16 @@ public class PacketPlayOutEntityEquipmentWrapper_1_8 {
             SLOT_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "b"));
             ITEMSTACK_GETTER = lookup.unreflectGetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "c"));
 
-            ENTITYID_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "a"));
-            SLOT_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "b"));
-            ITEMSTACK_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityEquipment.class, "c"));
-
         } catch(Throwable t) {
             t.printStackTrace();
         }
     }
 
-    public static PacketPlayOutEntityEquipment createEquipmentPacket(int entityId, int slot, ItemStack itemStack) {
-        PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
-
-        try {
-            ENTITYID_SETTER.invokeExact(packet, entityId);
-            SLOT_SETTER.invokeExact(packet, slot);
-            ITEMSTACK_SETTER.invokeExact(packet, itemStack);
-        } catch(Throwable t) {
-            t.printStackTrace();
-        }
-
-        return packet;
-    }
-    
     public static PacketPlayOutEntityEquipment createEquipmentPacket(Player player, int slot, boolean remove) {
-        PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        
-        try {
-            ENTITYID_SETTER.invokeExact(packet, player.getEntityId());
-            SLOT_SETTER.invokeExact(packet, slot);
-            ITEMSTACK_SETTER.invokeExact(packet, remove ? null : entityPlayer.inventory.armor[slot - 1]);
-        } catch(Throwable t) {
-            t.printStackTrace();
-        }
 
-        return packet;
+        return new PacketPlayOutEntityEquipment(player.getEntityId(), slot,
+                remove ? null : entityPlayer.inventory.armor[slot - 1]);
     }
 
     public static int getEntityId(PacketPlayOutEntityEquipment packet) throws Throwable {
