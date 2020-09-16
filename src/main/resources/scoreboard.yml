@@ -1,6 +1,7 @@
 #=========================================================#
 #                  Scoreboard configuration               #
 #=========================================================#
+# You can disable any placeholder just by leaving a blank string (e.g - STAFFMODE_PLACEHOLDER: "")
 
 SCOREBOARD_TITLE: "&d&lHCF &8(&cMap I&8)"
 

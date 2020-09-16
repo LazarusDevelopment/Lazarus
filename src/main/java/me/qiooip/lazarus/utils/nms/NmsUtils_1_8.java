@@ -496,15 +496,15 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
             InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getEnabledAbilities().get("INVISIBILITY");
 
             try {
-                int slot = PacketPlayOutEntityEquipmentWrapper_1_8.getSlot(equipmentPacket);
-                net.minecraft.server.v1_8_R3.ItemStack itemStack = PacketPlayOutEntityEquipmentWrapper_1_8.getItemStack(equipmentPacket);
+                int entityId = PacketPlayOutEntityEquipmentWrapper_1_8.getEntityId(equipmentPacket);
+                net.minecraft.server.v1_8_R3.Entity sender = ((CraftPlayer) player).getHandle().world.a(entityId);
 
-                // Make sure we only cancel the armor packets
-                if(itemStack != null && slot != 0) {
-                    int entityId = PacketPlayOutEntityEquipmentWrapper_1_8.getEntityId(equipmentPacket);
-                    net.minecraft.server.v1_8_R3.Entity sender = ((CraftPlayer) player).getHandle().world.a(entityId);
+                if(sender instanceof EntityPlayer && ability.getPlayers().contains(sender.getUniqueID())) {
+                    int slot = PacketPlayOutEntityEquipmentWrapper_1_8.getSlot(equipmentPacket);
+                    net.minecraft.server.v1_8_R3.ItemStack itemStack = PacketPlayOutEntityEquipmentWrapper_1_8.getItemStack(equipmentPacket);
 
-                    if(sender instanceof EntityPlayer && ability.getPlayers().contains(sender.getUniqueID())) {
+                    // Make sure we only cancel the armor packets
+                    if(itemStack != null && slot != 0) {
                         return null;
                     }
                 }

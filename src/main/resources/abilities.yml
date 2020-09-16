@@ -33,12 +33,11 @@ INVISIBILITY:
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "351:0"
-    NAME: "&7Invisibility"
+    NAME: "&b&lInvisibility"
     LORE:
-      - ""
-      - ""
-      - ""
-      - ""
+      - "&7Right click the item to give"
+      - "&7yourself and your armor invisibility."
+      - "&7If hit you will become visible"
 
 POCKET_BARD:
   # Should we enable this ability item?
