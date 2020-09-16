@@ -327,7 +327,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         StaffModeItem staffItem = this.staffModeItems.get(item);
 
         if(!StringUtils.isNullOrEmpty(staffItem.getCommand()) && staffItem.getItemType().fireOnEntityInteract()) {
-            player.chat(staffItem.getCommand(player));
+            player.chat(staffItem.getCommand(rightClicked));
         }
 
         StaffModeItem replacement = this.staffModeItemsByType.get(staffItem.getReplacementItemType());
