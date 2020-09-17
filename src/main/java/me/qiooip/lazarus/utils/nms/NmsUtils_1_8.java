@@ -411,7 +411,12 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     @Override
     public void damageItemInHand(Player player) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        entityPlayer.inventory.getItemInHand().damage(1, entityPlayer);
+
+        net.minecraft.server.v1_8_R3.ItemStack itemInHand = entityPlayer.inventory.getItemInHand();
+
+        if(itemInHand != null) {
+            itemInHand.damage(1, entityPlayer);
+        }
     }
 
     @Override
