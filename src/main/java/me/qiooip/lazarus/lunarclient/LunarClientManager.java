@@ -3,12 +3,15 @@ package me.qiooip.lazarus.lunarclient;
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import com.lunarclient.bukkitapi.event.LCPlayerRegisterEvent;
 import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
+import com.lunarclient.bukkitapi.nethandler.client.LCPacketServerRule;
+import com.lunarclient.bukkitapi.nethandler.client.obj.ServerRule;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.lunarclient.cooldown.CooldownManager;
 import me.qiooip.lazarus.lunarclient.waypoint.WaypointManager;
 import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +31,8 @@ public class LunarClientManager implements Listener {
 
     private final Set<UUID> players;
 
+    private final LCPacketServerRule legacyEnchanting;
+
     public LunarClientManager() {
         instance = this;
 
@@ -40,6 +45,8 @@ public class LunarClientManager implements Listener {
         if(Config.LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED) {
             this.waypointManager = new WaypointManager();
         }
+
+        this.legacyEnchanting = new LCPacketServerRule(ServerRule.LEGACY_ENCHANTING, true);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
@@ -61,8 +68,8 @@ public class LunarClientManager implements Listener {
         Player player = event.getPlayer();
         this.players.add(player.getUniqueId());
 
-        if(Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
-            Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(player).updateRelation(player);
+        if(!NmsUtils.getInstance().isSpigot18()) {
+            LunarClientAPI.getInstance().sendPacket(player, this.legacyEnchanting);
         }
     }
 

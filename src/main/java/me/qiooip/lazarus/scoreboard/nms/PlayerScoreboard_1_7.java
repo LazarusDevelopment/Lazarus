@@ -281,14 +281,14 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
         synchronized(this) {
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
-            players.forEach(online -> {
+            for (Player online : players) {
                 List<String> nametag = null;
 
-                if(Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
+                if (Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
                     nametag = new ArrayList<>();
 
                     PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(online);
-                    if(faction != null) {
+                    if (faction != null) {
                         String tag = Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
                                 .replace("<faction>", faction.getName(this.player))
                                 .replace("<dtr>", faction.getDtrString());
@@ -296,44 +296,44 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
                     }
                 }
 
-                if(Lazarus.getInstance().getStaffModeManager().isInStaffMode(online)) {
+                if (Lazarus.getInstance().getStaffModeManager().isInStaffMode(online)) {
                     this.addAndUpdate(online, nametag, this.staff);
-                    return;
-                } else if(this.player == online) {
+                    continue;
+                } else if (this.player == online) {
                     this.addAndUpdate(online, nametag, this.members);
-                    return;
-                } else if(playerFaction == null) {
-                    if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+                    continue;
+                } else if (playerFaction == null) {
+                    if (this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
                         this.addAndUpdate(online, nametag, this.invis);
-                    } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
+                    } else if (TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
                         this.addAndUpdate(online, nametag, this.archers);
-                    } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
+                    } else if (Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
                         this.addAndUpdate(online, nametag, this.sotw);
                     } else {
                         this.addAndUpdate(online, nametag, this.enemies);
                     }
-                    return;
+                    continue;
                 }
 
                 PlayerFaction targetFaction = FactionsManager.getInstance().getPlayerFaction(online);
                 boolean isMemberOrAlly = playerFaction == targetFaction || playerFaction.isAlly(targetFaction);
 
-                if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
+                if (this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
                     this.addAndUpdate(online, nametag, this.invis);
-                } else if(playerFaction.isFocusing(online.getUniqueId())) {
+                } else if (playerFaction.isFocusing(online.getUniqueId())) {
                     this.addAndUpdate(online, nametag, this.focused);
-                } else if(playerFaction == targetFaction) {
+                } else if (playerFaction == targetFaction) {
                     this.addAndUpdate(online, nametag, this.members);
-                } else if(playerFaction.isAlly(targetFaction)) {
+                } else if (playerFaction.isAlly(targetFaction)) {
                     this.addAndUpdate(online, nametag, this.allies);
-                } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
+                } else if (TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
                     this.addAndUpdate(online, nametag, this.archers);
-                } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
+                } else if (Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
                     this.addAndUpdate(online, nametag, this.sotw);
                 } else {
                     this.addAndUpdate(online, nametag, this.enemies);
                 }
-            });
+            }
         }
     }
 
