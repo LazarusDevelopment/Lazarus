@@ -17,8 +17,6 @@ import java.util.List;
 
 public class AbilityCommand extends BaseCommand {
 
-    // TODO: language poruke
-
     public AbilityCommand() {
         super("ability", Collections.singletonList("abilities"), "lazarus.ability");
     }
