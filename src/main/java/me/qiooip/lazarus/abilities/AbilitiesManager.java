@@ -3,6 +3,8 @@ package me.qiooip.lazarus.abilities;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.type.CocaineAbility;
+import me.qiooip.lazarus.abilities.type.ExoticBoneAbility;
+import me.qiooip.lazarus.abilities.type.FakePearlAbility;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
 import me.qiooip.lazarus.abilities.type.PocketBardAbility;
 import me.qiooip.lazarus.abilities.type.SwitcherAbility;
@@ -50,6 +52,8 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         ConfigFile abilitiesFile = Lazarus.getInstance().getAbilitiesFile();
 
         this.loadAbilityItem(new CocaineAbility(abilitiesFile));
+        this.loadAbilityItem(new ExoticBoneAbility(abilitiesFile));
+        this.loadAbilityItem(new FakePearlAbility(abilitiesFile));
         this.loadAbilityItem(new InvisibilityAbility(abilitiesFile));
         this.loadAbilityItem(new PocketBardAbility(abilitiesFile));
         this.loadAbilityItem(new SwitcherAbility(abilitiesFile));
@@ -78,7 +82,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         return Objects.hash(itemMeta.getDisplayName(), itemMeta.getLore());
     }
 
-    public int getItemInHandHash(ItemStack item) {
+    public int getItemHash(ItemStack item) {
         if(!item.hasItemMeta()) {
             return -1;
         }
@@ -89,6 +93,10 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         }
 
         return this.calculateItemHash(itemMeta);
+    }
+
+    public boolean isAbilityItem(ItemStack item) {
+        return this.abilityItems.containsKey(this.getItemHash(item));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

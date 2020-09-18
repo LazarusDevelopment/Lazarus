@@ -10,11 +10,21 @@ import java.util.TreeMap;
 @AllArgsConstructor
 public enum AbilityType {
 
+    AGGRESIVE_PEARL("AggresivePearl"),
+    ANTI_TRAP_STAR("AntiTrapStar"),
     COCAINE("Cocaine"),
     EXOTIC_BONE("ExoticBone"),
+    FAKE_PEARL("FakePearl"),
+    GUARDIAN_ANGLE("GuardianAngle"),
     INVISIBILITY("Invisibility"),
     POCKET_BARD("PocketBard"),
-    SWITCHER("Switcher");
+    POTION_COUNTER("PotionCounter"),
+    PRE_PEARL("PrePearl"),
+    ROCKET("Rocket"),
+    SCRAMBLER("Scrambler"),
+    SWITCHER("Switcher"),
+    TANK_INGOT("TankIngot"),
+    WEB_GUN("WebGun");
 
     private final String name;
     private static final Map<String, AbilityType> BY_NAME;

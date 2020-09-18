@@ -519,7 +519,7 @@ public class Config {
         REDUCED_DURABILITY_LOSS_PERCENTAGE = config.getInt("REDUCED_DURABILITY_LOSS.REDUCED_PERCENTAGE");
         REDUCED_DURABILITY_LOSS_MATERIALS = EnumSet.copyOf(config.getStringList("REDUCED_DURABILITY_MATERIALS").stream()
                 .map(ItemUtils::parseItem).filter(Objects::nonNull)
-                .map(ItemStack::getType).collect(Collectors.toList()));;
+                .map(ItemStack::getType).collect(Collectors.toList()));
 
         FACTIONS_AUTO_SAVE = config.getInt("FACTIONS_AUTO_SAVE");
         SHOW_FACTION_INFO_ON_JOIN = config.getBoolean("SHOW_FACTION_INFO_ON_JOIN");

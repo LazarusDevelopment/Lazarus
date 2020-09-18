@@ -54,10 +54,12 @@ public class InvisibilityAbility extends AbilityItem {
         this.players.add(player.getUniqueId());
     }
 
-    private void showPlayer(Player player) {
+    private void showPlayer(Player player, boolean forced) {
         this.players.remove(player.getUniqueId());
 
-        player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        if(forced) {
+            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        }
 
         NmsUtils.getInstance().updateArmor(player, false);
     }
@@ -69,7 +71,7 @@ public class InvisibilityAbility extends AbilityItem {
 
         if(!this.players.contains(target.getUniqueId())) return;
 
-        this.showPlayer(target);
+        this.showPlayer(target, true);
         // TODO: message
     }
 
@@ -78,7 +80,7 @@ public class InvisibilityAbility extends AbilityItem {
         Player player = event.getPlayer();
         if(!this.players.contains(player.getUniqueId())) return;
 
-        this.showPlayer(player);
+        this.showPlayer(player, true);
 
         this.offline.add(player.getUniqueId());
     }
@@ -98,19 +100,17 @@ public class InvisibilityAbility extends AbilityItem {
         Player player = event.getEntity();
         if(!this.players.contains(player.getUniqueId())) return;
 
-        this.showPlayer(player);
+        this.showPlayer(player, true);
     }
 
     @EventHandler
     public void onPotionEffectExpire(PotionEffectExpireEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
+        if(ServerUtils.getEffect(event).getType().getId() != 14) return;
 
+        Player player = (Player) event.getEntity();
         if(!this.players.contains(player.getUniqueId())) return;
 
-        PotionEffect effect = NmsUtils.getInstance().getPotionEffect(player, ServerUtils.getEffect(event).getType());
-        if(effect == null || ServerUtils.getEffect(event).getType().getId() != 14) return;
-
-        this.showPlayer(player);
+        this.showPlayer(player, false);
     }
 }

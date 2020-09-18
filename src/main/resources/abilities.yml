@@ -17,7 +17,7 @@ COCAINE:
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "353:0"
-    NAME: "&bCocaine"
+    NAME: "&b&lCocaine"
     LORE:
       - ""
       - ""
@@ -42,6 +42,22 @@ EXOTIC_BONE:
       - "&7Hit a player 3 times in a row and"
       - "&7they wont be able to place or break"
       - "&7any blocks for total of 15 seconds."
+
+FAKE_PEARL:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Should we put players on enderpearl cooldown?
+  ENDERPEARL_COOLDOWN: true
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "368:0"
+    NAME: "&d&lFake Pearl"
+    LORE:
+      - "&7If thrown, the enderpearl will"
+      - "&7not teleport you anywhere!"
 
 INVISIBILITY:
   # Should we enable this ability item?
@@ -68,8 +84,8 @@ POCKET_BARD:
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
-    MATERIAL_ID: "378:0"
-    NAME: "&6Pocket bard"
+    MATERIAL_ID: "377:0"
+    NAME: "&6&lPocket bard"
     LORE:
       - ""
       - ""
@@ -85,7 +101,7 @@ SWITCHER:
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "332:0"
-    NAME: "&aSwitcher ball"
+    NAME: "&b6lSwitcher ball"
     LORE:
       - ""
       - ""

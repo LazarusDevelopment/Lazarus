@@ -49,6 +49,14 @@ COMMANDS:
 
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
+ABILITIES:
+  ABILITY_COMMAND:
+    USAGE: "&cUsage: /ability <player> <ability> [amount]"
+    NOT_FOUND: "&eAbility &c<name> &enot found!"
+    NOT_ENABLED: "&eAbility &c<name> &eis not enabled!"
+    GIVE_ABILITY: "&eYou gave &b<amount>x <ability> &eto &c<player>&e."
+    INVENTORY_FULL: "&c<player>'s &einventory is full."
+
 BLOCKS:
   PLACEMENT_DISABLED: "&eYou are not allowed to place &c<block>&e!"
 
