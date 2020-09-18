@@ -82,6 +82,7 @@ public class KothManager implements Listener, ManagerEnabler {
 
             if(koth.getFaction() == null) {
                 iterator.remove();
+                continue;
             }
 
             koth.setupKothColor();
