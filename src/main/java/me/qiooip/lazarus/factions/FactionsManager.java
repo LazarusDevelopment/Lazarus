@@ -34,6 +34,7 @@ import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.Tasks;
@@ -102,7 +103,7 @@ public class FactionsManager implements Listener {
     }
 
     public void disable() {
-        this.saveFactions(true);
+        this.saveFactions(true, true);
         this.savePlayers(true);
 
         this.factionNames.clear();
@@ -127,27 +128,21 @@ public class FactionsManager implements Listener {
 
         for(Faction faction : this.factions.values()) {
             this.factionNames.put(faction.getName(), faction.getId());
-
-            if(faction instanceof RoadFaction) {
-                ((RoadFaction) faction).setupDisplayName();
-            }
-
-            if(faction instanceof SpawnFaction) {
-                SpawnFaction spawnFaction = (SpawnFaction) faction;
-
-                spawnFaction.setSafezone(true);
-                spawnFaction.setDeathban(false);
-            }
+            this.additionalFactionSetup(faction);
         }
 
         Lazarus.getInstance().log("- &7Loaded &a" + this.factions.size() + " &7factions.");
     }
 
-    public void saveFactions(boolean log) {
+    public void saveFactions(boolean log, boolean onDisable) {
         if(this.factions == null) return;
 
+        if(onDisable) {
+            this.factions.values().forEach(this::stripFactionColor);
+        }
+
         FileUtils.writeString(this.factionsFile, Lazarus.getInstance().getGson()
-        .toJson(this.factions, GsonUtils.FACTION_TYPE));
+            .toJson(this.factions, GsonUtils.FACTION_TYPE));
 
         if(log) {
             Lazarus.getInstance().log("- &7Saved &a" + this.factions.size() + " &7factions.");
@@ -180,6 +175,31 @@ public class FactionsManager implements Listener {
 
         if(log) {
             Lazarus.getInstance().log("- &7Saved &a" + this.players.size() + " &7players.");
+        }
+    }
+
+    protected void additionalFactionSetup(Faction faction) {
+        if(faction instanceof RoadFaction) {
+            ((RoadFaction) faction).setupDisplayName();
+        }
+
+        if(faction instanceof SystemFaction) {
+            SystemFaction systemFaction = (SystemFaction) faction;
+            systemFaction.setColor(Color.translate(systemFaction.getColor()));
+        }
+
+        if(faction instanceof SpawnFaction) {
+            SpawnFaction spawnFaction = (SpawnFaction) faction;
+
+            spawnFaction.setSafezone(true);
+            spawnFaction.setDeathban(false);
+        }
+    }
+
+    protected void stripFactionColor(Faction faction) {
+        if(faction instanceof SystemFaction) {
+            SystemFaction systemFaction = (SystemFaction) faction;
+            systemFaction.setColor(systemFaction.getColor().replace('§', '&'));
         }
     }
 
@@ -419,7 +439,7 @@ public class FactionsManager implements Listener {
         this.saveTask = Tasks.asyncTimer(() -> {
             Lazarus.getInstance().log("&3===&b=============================================&3===");
 
-            this.saveFactions(true);
+            this.saveFactions(true, false);
             this.savePlayers(true);
             ClaimManager.getInstance().saveClaims(true);
 
@@ -457,7 +477,7 @@ public class FactionsManager implements Listener {
             iterator.remove();
         }
 
-        this.saveFactions(false);
+        this.saveFactions(false, false);
         Lazarus.getInstance().log("- &cDeleted &e" + (factionsSize - this.factions.size()) + " &cplayer factions.");
     }
 

@@ -19,7 +19,7 @@ public class SaveCommand extends SubCommand {
     public void execute(CommandSender sender, String[] args) {
         Lazarus.getInstance().log("&3===&b=============================================&3===");
 
-        FactionsManager.getInstance().saveFactions(true);
+        FactionsManager.getInstance().saveFactions(true, false);
         FactionsManager.getInstance().savePlayers(true);
         ClaimManager.getInstance().saveClaims(true);
 

@@ -5,6 +5,7 @@ import com.google.common.collect.Iterables;
 import lombok.Getter;
 import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.ManagerEnabler;
@@ -36,6 +37,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -334,6 +336,16 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
         if(replacement != null) {
             player.getInventory().setItem(replacement.getSlot(), replacement.getItem());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        if(Config.STAFF_MODE_ON_JOIN_ENABLED && player.hasPermission("lazarus.staffmode.onjoin")) {
+            this.enableStaffMode(player);
+            player.sendMessage(Language.PREFIX + Language.STAFF_MODE_ENABLED);
         }
     }
 

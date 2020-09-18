@@ -38,7 +38,7 @@ public abstract class AbilityItem implements Listener {
         ConfigurationSection section = config.getConfigurationSection(this.configSection);
 
         if(section == null) {
-            Lazarus.getInstance().log("&cCould not load configuration for '&4" + this.type.getName() + "&c'");
+            Lazarus.getInstance().log("&7- &cCould not load configuration for '&4" + this.type.getName() + "&c'");
             return;
         }
 
@@ -70,5 +70,5 @@ public abstract class AbilityItem implements Listener {
 
     protected void loadAdditionalData(ConfigurationSection section) { }
 
-    protected abstract void onItemClick(Player player);
+    protected void onItemClick(Player player) { }
 }

@@ -24,9 +24,6 @@ public class ExoticBoneAbility extends AbilityItem {
         this.hits = section.getInt("HITS");
     }
 
-    @Override
-    protected void onItemClick(Player player) { }
-
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if(!(event.getEntity() instanceof Player)) return;

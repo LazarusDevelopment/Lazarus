@@ -20,6 +20,7 @@ import me.qiooip.lazarus.scoreboard.nms.PlayerScoreboard_1_8;
 import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.nms.PlayerTab_1_8;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import net.minecraft.server.v1_8_R3.BlockCocoa;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
@@ -297,7 +298,8 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
 
     @Override
     public ItemStack createMobSpawnerItemStack(EntityType spawnerType, String name) {
-        ItemStack spawner = new ItemStack(Material.MOB_SPAWNER, 1);
+        int durability = ItemUtils.getSpawnerDurability(spawnerType);
+        ItemStack spawner = new ItemStack(Material.MOB_SPAWNER, 1, (short) durability);
 
         BlockStateMeta blockStateMeta = (BlockStateMeta) spawner.getItemMeta();
 
@@ -326,7 +328,13 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     @Override
     public void addPotionEffect(Player player, PotionEffect effect) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        entityPlayer.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+        MobEffect mobEffect = new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier());
+
+        if(Thread.currentThread() == this.getMainThread()) {
+            entityPlayer.addEffect(mobEffect);
+        } else {
+            Tasks.sync(() -> entityPlayer.addEffect(mobEffect));
+        }
     }
 
     @Override

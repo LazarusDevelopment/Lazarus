@@ -17,8 +17,6 @@ import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
-import me.qiooip.lazarus.factions.type.RoadFaction;
-import me.qiooip.lazarus.factions.type.SpawnFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.GsonUtils;
@@ -53,16 +51,7 @@ public class MongoFactionsManager extends FactionsManager {
                 super.factions.put(faction.getId(), faction);
                 super.factionNames.put(faction.getName(), faction.getId());
 
-                if(faction instanceof RoadFaction) {
-                    ((RoadFaction) faction).setupDisplayName();
-                }
-
-                if(faction instanceof SpawnFaction) {
-                    SpawnFaction spawnFaction = (SpawnFaction) faction;
-
-                    spawnFaction.setSafezone(true);
-                    spawnFaction.setDeathban(false);
-                }
+                super.additionalFactionSetup(faction);
             }
         }
 
@@ -70,8 +59,12 @@ public class MongoFactionsManager extends FactionsManager {
     }
 
     @Override
-    public void saveFactions(boolean log) {
+    public void saveFactions(boolean log, boolean onDisable) {
         if(super.factions == null || super.factions.isEmpty()) return;
+
+        if(onDisable) {
+            super.factions.values().forEach(this::stripFactionColor);
+        }
 
         ReplaceOptions options = new ReplaceOptions().upsert(true);
         List<WriteModel<Document>> toWrite = new ArrayList<>();
@@ -143,7 +136,7 @@ public class MongoFactionsManager extends FactionsManager {
         }
 
         this.getFactionsRepo().drop();
-        this.saveFactions(false);
+        this.saveFactions(false, false);
 
         Lazarus.getInstance().log("- &cDeleted &e" + (factionsSize - super.factions.size()) + " &cplayer factions.");
     }

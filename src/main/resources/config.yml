@@ -120,9 +120,10 @@ DISABLED_FACTION_SUBCOMMANDS:
 #                  Durability configuration               #
 #=========================================================#
 
-# Should reducted durability loss be enabled?
 REDUCED_DURABILITY_LOSS:
+  # Should reduced durability loss be enabled?
   ENABLED: true
+  # Reduced durability percentage
   REDUCED_PERCENTAGE: 30
 
 # What materials should have reduced durability loss?
@@ -1018,6 +1019,10 @@ SOTW_TIMER:
   SPAWN_MOBS_FROM_SPAWNERS_ONLY: true
   # Should we hide players in safezones
   HIDE_PLAYERS: true
+
+STAFF_MODE:
+  # Should we enable staffmode on join?
+  STAFF_MODE_ON_JOIN_ENABLED: false
 
 # Staff mode items configuration
 STAFF_MODE_ITEMS:

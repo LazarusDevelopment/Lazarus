@@ -10,7 +10,7 @@ import java.util.TreeMap;
 @AllArgsConstructor
 public enum AbilityType {
 
-    AGGRESIVE_PEARL("AggresivePearl"),
+    AGGRESSIVE_PEARL("AggressivePearl"),
     ANTI_TRAP_STAR("AntiTrapStar"),
     COCAINE("Cocaine"),
     EXOTIC_BONE("ExoticBone"),

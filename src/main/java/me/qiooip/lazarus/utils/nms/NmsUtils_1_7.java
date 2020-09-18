@@ -303,7 +303,13 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     @Override
     public void addPotionEffect(Player player, PotionEffect effect) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        entityPlayer.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier()));
+        MobEffect mobEffect = new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier());
+
+        if(Thread.currentThread() == this.getMainThread()) {
+            entityPlayer.addEffect(mobEffect);
+        } else {
+            Tasks.sync(() -> entityPlayer.addEffect(mobEffect));
+        }
     }
 
     @Override

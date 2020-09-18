@@ -324,6 +324,8 @@ public class Config {
     public static boolean SOTW_SPAWN_MOBS_FROM_SPAWNERS_ONLY;
     public static boolean SOTW_HIDE_PLAYERS;
 
+    public static boolean STAFF_MODE_ON_JOIN_ENABLED;
+
     public static String STATS_INVENTORY_NAME;
     public static int STATS_INVENTORY_SIZE;
 
@@ -517,9 +519,14 @@ public class Config {
 
         REDUCED_DURABILITY_LOSS_ENABLED = config.getBoolean("REDUCED_DURABILITY_LOSS.ENABLED");
         REDUCED_DURABILITY_LOSS_PERCENTAGE = config.getInt("REDUCED_DURABILITY_LOSS.REDUCED_PERCENTAGE");
-        REDUCED_DURABILITY_LOSS_MATERIALS = EnumSet.copyOf(config.getStringList("REDUCED_DURABILITY_MATERIALS").stream()
-                .map(ItemUtils::parseItem).filter(Objects::nonNull)
-                .map(ItemStack::getType).collect(Collectors.toList()));
+
+        List<Material> reducedDurabilityItemList = config.getStringList("REDUCED_DURABILITY_MATERIALS").stream()
+            .map(ItemUtils::parseItem).filter(Objects::nonNull)
+            .map(ItemStack::getType).collect(Collectors.toList());
+
+        REDUCED_DURABILITY_LOSS_MATERIALS = reducedDurabilityItemList.isEmpty()
+            ? EnumSet.noneOf(Material.class)
+            : EnumSet.copyOf(reducedDurabilityItemList);
 
         FACTIONS_AUTO_SAVE = config.getInt("FACTIONS_AUTO_SAVE");
         SHOW_FACTION_INFO_ON_JOIN = config.getBoolean("SHOW_FACTION_INFO_ON_JOIN");
@@ -786,6 +793,8 @@ public class Config {
         SOTW_DEFAULT_TIME = config.getInt("SOTW_TIMER.DEFAULT_TIME");
         SOTW_SPAWN_MOBS_FROM_SPAWNERS_ONLY = config.getBoolean("SOTW_TIMER.SPAWN_MOBS_FROM_SPAWNERS_ONLY");
         SOTW_HIDE_PLAYERS = config.getBoolean("SOTW_TIMER.HIDE_PLAYERS");
+
+        STAFF_MODE_ON_JOIN_ENABLED = config.getBoolean("STAFF_MODE.STAFF_MODE_ON_JOIN_ENABLED");
 
         STATS_INVENTORY_NAME = config.getString("STATS_COMMAND.INVENTORY_NAME");
         STATS_INVENTORY_SIZE = config.getInt("STATS_COMMAND.INVENTORY_SIZE");
