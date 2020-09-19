@@ -11,6 +11,7 @@ import java.util.TreeMap;
 public enum AbilityType {
 
     AGGRESSIVE_PEARL("AggressivePearl"),
+    ANTI_REDSTONE("AntiRedstone"),
     ANTI_TRAP_STAR("AntiTrapStar"),
     COCAINE("Cocaine"),
     EXOTIC_BONE("ExoticBone"),
