@@ -61,6 +61,8 @@ public abstract class NmsUtils {
 
     public abstract Set<Material> getKitmapClickables();
 
+    public abstract Set<Material> getExoticBoneClickables();
+
     public abstract void registerCombatLogger();
 
     public abstract void registerEnderDragon();

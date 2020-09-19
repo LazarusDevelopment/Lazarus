@@ -5,20 +5,29 @@ import com.google.common.collect.Table;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 
-public class ExoticBoneAbility extends AbilityItem {
+public class AntiRedstoneAbility extends AbilityItem {
 
     private int duration;
     private int hits;
 
+    private final Set<Material> clickables;
+    private final Set<Material> physical;
+
     private final Table<UUID, UUID, Integer> playerHits;
 
-    public ExoticBoneAbility(ConfigFile config) {
+    public AntiRedstoneAbility(ConfigFile config) {
         super(AbilityType.EXOTIC_BONE, "EXOTIC_BONE", config);
+
+        this.clickables = EnumSet.of(Material.LEVER, Material.STONE_BUTTON, Material.WOOD_BUTTON);
+        this.physical = EnumSet.of(Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE);
 
         this.playerHits = HashBasedTable.create();
     }
@@ -47,27 +56,20 @@ public class ExoticBoneAbility extends AbilityItem {
         return false;
     }
 
-//    @EventHandler(ignoreCancelled = true)
-//    public void onBlockBreak(BlockBreakEvent event) {
-//        if(true) return; TODO: provjera jel na tom timeru
-//
-//        event.setCancelled(true);
-//    }
-//
-//    @EventHandler(ignoreCancelled = true)
-//    public void onBlockPlace(BlockPlaceEvent event) {
-//        if(true) return; TODO: provjera jel na tom timeru
-//
-//        event.setCancelled(true);
-//    }
-//
 //    @EventHandler
 //    public void onPlayerInteract(PlayerInteractEvent event) {
 //        if(true) return; TODO: provjera jel na tom timeru
 //        if(event.useInteractedBlock() == Event.Result.DENY || !event.hasBlock()) return;
-//        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-//        if(!NmsUtils.getInstance().getExoticBoneClickables().contains(event.getClickedBlock().getType())) return;
 //
-//        event.setCancelled(true);
+//        Block block = event.getClickedBlock();
+//
+//        if(event.getAction() == Action.RIGHT_CLICK_BLOCK && this.clickables.contains(block.getType())) {
+//            event.setCancelled(true);
+//            return;
+//        }
+//
+//        if(event.getAction() == Action.PHYSICAL && this.physical.contains(block.getType())) {
+//            event.setCancelled(true);
+//        }
 //    }
 }

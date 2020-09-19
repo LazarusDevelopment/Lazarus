@@ -8,6 +8,26 @@ GLOBAL_COOLDOWN:
   # Global abilities cooldown duration
   DURATION: 10
 
+ANTI_REDSTONE:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Duration in seconds
+  DURATION: 15
+  # Hits required
+  HITS: 3
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "351:1"
+    NAME: "&4&lAnti Redstone"
+    LORE:
+      - "&7Hit a player 3 times in a row"
+      - "&7and they wont be able to use"
+      - "&7pressure plates, buttons and"
+      - "&7levers for total of 15 seconds."
+
 COCAINE:
   # Should we enable this ability item?
   ENABLED: true
@@ -59,6 +79,26 @@ FAKE_PEARL:
       - "&7If thrown, the enderpearl will"
       - "&7not teleport you anywhere!"
 
+GUARDIAN_ANGEL:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Health required for activation
+  HEALTH: 4
+  # If the players health goes below the specified health
+  # within specified duration length the ability will work
+  # Duration in seconds
+  DURATION: 30
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "347:0"
+    NAME: "&e&lGuardian Angel"
+    LORE:
+      - "&7If used, you will be fully"
+      - "&7healed if you reach 2 hearts!"
+
 INVISIBILITY:
   # Should we enable this ability item?
   ENABLED: true
@@ -84,13 +124,28 @@ POCKET_BARD:
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
-    MATERIAL_ID: "377:0"
+    MATERIAL_ID: "351:14"
     NAME: "&6&lPocket bard"
     LORE:
       - ""
       - ""
       - ""
       - ""
+
+POTION_COUNTER:
+  # Should we enable this ability item?
+  ENABLED: true
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "280:0"
+    NAME: "&c&lPotion counter"
+    LORE:
+      - "&7Upon hitting a player with this item"
+      - "&7you will receive the amount of"
+      - "&7healing potions in your chat!"
 
 SWITCHER:
   # Should we enable this ability item?

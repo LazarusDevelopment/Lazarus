@@ -71,4 +71,6 @@ public abstract class AbilityItem implements Listener {
     protected void loadAdditionalData(ConfigurationSection section) { }
 
     protected void onItemClick(Player player) { }
+
+    protected boolean onPlayerItemHit(Player damager, Player target) { return true; }
 }

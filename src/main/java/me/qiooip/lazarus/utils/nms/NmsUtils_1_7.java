@@ -95,6 +95,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     private final Set<Material> clickableItems;
     private final Set<Material> kitmapClickables;
+    private final Set<Material> exoticBoneClickables;
 
     public NmsUtils_1_7() {
         this.fetchBukkitExecutor();
@@ -110,6 +111,10 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         this.kitmapClickables = EnumSet.of(Material.LEVER, Material.WOOD_BUTTON, Material.STONE_BUTTON,
             Material.WOOD_PLATE, Material.STONE_PLATE, Material.IRON_PLATE, Material.GOLD_PLATE,
             Material.WORKBENCH, Material.FURNACE, Material.BURNING_FURNACE, Material.FENCE_GATE);
+
+        this.exoticBoneClickables = EnumSet.of(Material.CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
+                Material.DROPPER, Material.DISPENSER, Material.TRAP_DOOR, Material.WORKBENCH,
+                Material.ENDER_CHEST, Material.WOODEN_DOOR, Material.FENCE_GATE);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
         Bukkit.getOnlinePlayers().forEach(this::injectPacketInterceptor);
@@ -165,6 +170,11 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     @Override
     public Set<Material> getKitmapClickables() {
         return this.kitmapClickables;
+    }
+
+    @Override
+    public Set<Material> getExoticBoneClickables() {
+        return this.exoticBoneClickables;
     }
 
     @Override
