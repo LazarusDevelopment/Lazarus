@@ -58,7 +58,7 @@ public class AntiRedstoneAbility extends AbilityItem {
 
 //    @EventHandler
 //    public void onPlayerInteract(PlayerInteractEvent event) {
-//        if(true) return; TODO: provjera jel na tom timeru
+//        if(true) return; TODO: provjera jel na tom timeru i message
 //        if(event.useInteractedBlock() == Event.Result.DENY || !event.hasBlock()) return;
 //
 //        Block block = event.getClickedBlock();

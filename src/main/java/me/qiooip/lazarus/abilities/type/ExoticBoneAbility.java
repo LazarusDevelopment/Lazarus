@@ -49,21 +49,21 @@ public class ExoticBoneAbility extends AbilityItem {
 
 //    @EventHandler(ignoreCancelled = true)
 //    public void onBlockBreak(BlockBreakEvent event) {
-//        if(true) return; TODO: provjera jel na tom timeru
+//        if(true) return; TODO: provjera jel na tom timeru i message
 //
 //        event.setCancelled(true);
 //    }
 //
 //    @EventHandler(ignoreCancelled = true)
 //    public void onBlockPlace(BlockPlaceEvent event) {
-//        if(true) return; TODO: provjera jel na tom timeru
+//        if(true) return; TODO: provjera jel na tom timeru i message
 //
 //        event.setCancelled(true);
 //    }
 //
 //    @EventHandler
 //    public void onPlayerInteract(PlayerInteractEvent event) {
-//        if(true) return; TODO: provjera jel na tom timeru
+//        if(true) return; TODO: provjera jel na tom timeru i message
 //        if(event.useInteractedBlock() == Event.Result.DENY || !event.hasBlock()) return;
 //        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 //        if(!NmsUtils.getInstance().getExoticBoneClickables().contains(event.getClickedBlock().getType())) return;

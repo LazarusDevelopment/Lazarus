@@ -16,6 +16,7 @@ public enum AbilityType {
     COCAINE("Cocaine"),
     EXOTIC_BONE("ExoticBone"),
     FAKE_PEARL("FakePearl"),
+    FAST_PEARL("FastPearl"),
     GUARDIAN_ANGLE("GuardianAngle"),
     HEALER("Healer"),
     INVISIBILITY("Invisibility"),
