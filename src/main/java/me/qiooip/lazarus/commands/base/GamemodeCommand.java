@@ -2,6 +2,7 @@ package me.qiooip.lazarus.commands.base;
 
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -66,6 +67,12 @@ public class GamemodeCommand extends BaseCommand {
             case "2":
             case "a":
             case "adventure": return "ADVENTURE";
+            case "3":
+            case "spectator": {
+                if(NmsUtils.getInstance().isSpigot18()) {
+                    return "SPECTATOR";
+                }
+            }
             default: return null;
         }
     }

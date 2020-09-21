@@ -93,7 +93,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addFakeGlow() {
-        this.itemMeta.addEnchant(ItemUtils.FAKE_GLOW, 1, true);
+        this.itemMeta.addEnchant(ItemUtils.FAKE_GLOW, 2, true);
         return this;
     }
 

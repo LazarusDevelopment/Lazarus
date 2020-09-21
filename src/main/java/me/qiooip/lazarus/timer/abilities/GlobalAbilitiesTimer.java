@@ -14,9 +14,13 @@ public class GlobalAbilitiesTimer extends PlayerTimer implements ScoreboardTimer
     public GlobalAbilitiesTimer(ScheduledExecutorService executor) {
         super(executor, "GlobalAbilitiesTimer", Config.ABILITIES_GLOBAL_COOLDOWN_DURATION);
 
-        // TODO: change expiry message
-        this.setExpiryMessage(Language.PREFIX + Language.NORMAL_APPLE_COOLDOWN_EXPIRED);
+        this.setExpiryMessage(Language.PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_EXPIRED);
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
+    }
+
+    @Override
+    public String getTimeLeft(Player player) {
+        return super.getTimeLeft(player) + 's';
     }
 
     @Override

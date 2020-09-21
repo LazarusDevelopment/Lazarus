@@ -3,7 +3,6 @@ package me.qiooip.lazarus.userdata;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.handlers.event.LazarusKickEvent;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
@@ -13,15 +12,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static me.qiooip.lazarus.handlers.event.LazarusKickEvent.KickType.*;
 
 public class UserdataManager implements Listener {
 
@@ -120,18 +117,9 @@ public class UserdataManager implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
         this.loadUserdata(event.getUniqueId(), event.getName());
-    }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
-        if(this.getUserdata(player) == null) {
-            LazarusKickEvent kickEvent = new LazarusKickEvent(player, REBOOT, Language.USERDATA_FAILED_TO_LOAD);
-
-            if(!kickEvent.isCancelled()) {
-                player.kickPlayer(Language.USERDATA_FAILED_TO_LOAD);
-            }
+        if(this.getUserdata(event.getUniqueId()) == null) {
+            event.disallow(Result.KICK_OTHER, Language.USERDATA_FAILED_TO_LOAD);
         }
     }
 

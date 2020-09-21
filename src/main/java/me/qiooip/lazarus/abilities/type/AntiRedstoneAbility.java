@@ -24,7 +24,7 @@ public class AntiRedstoneAbility extends AbilityItem {
     private final Table<UUID, UUID, Integer> playerHits;
 
     public AntiRedstoneAbility(ConfigFile config) {
-        super(AbilityType.EXOTIC_BONE, "EXOTIC_BONE", config);
+        super(AbilityType.ANTI_REDSTONE, "ANTI_REDSTONE", config);
 
         this.clickables = EnumSet.of(Material.LEVER, Material.STONE_BUTTON, Material.WOOD_BUTTON);
         this.physical = EnumSet.of(Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE);

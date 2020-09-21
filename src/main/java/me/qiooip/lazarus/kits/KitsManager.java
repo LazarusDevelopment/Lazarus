@@ -278,7 +278,8 @@ public class KitsManager implements Listener, ManagerEnabler {
         player.sendMessage(Language.KIT_PREFIX + Language.KITS_EQUIPPED.replace("<kit>", kit.getName()));
 
 		sender.sendMessage(Language.KIT_PREFIX + Language.KITS_APPLIED_OTHERS
-        .replace("<kit>", kit.getName()).replace("<player>", player.getName()));
+        	.replace("<kit>", kit.getName())
+			.replace("<player>", player.getName()));
 	}
 
 	private void setKitmapSignFormat(String kit, String color, SignChangeEvent event) {

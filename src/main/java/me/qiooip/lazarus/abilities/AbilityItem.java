@@ -21,6 +21,7 @@ public abstract class AbilityItem implements Listener {
     private final AbilityType type;
     private final String configSection;
 
+    private String displayName;
     private ItemStack item;
     private int cooldown;
     private boolean enabled;
@@ -62,6 +63,7 @@ public abstract class AbilityItem implements Listener {
         }
 
         this.item = builder.build();
+        this.displayName = Color.translate(section.getString("DISPLAY_NAME"));
         this.cooldown = section.getInt("COOLDOWN");
         this.enabled = section.getBoolean("ENABLED");
 
@@ -72,5 +74,5 @@ public abstract class AbilityItem implements Listener {
 
     protected void onItemClick(Player player) { }
 
-    protected boolean onPlayerItemHit(Player damager, Player target) { return true; }
+    protected boolean onPlayerItemHit(Player damager, Player target) { return false; }
 }

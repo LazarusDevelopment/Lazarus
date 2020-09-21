@@ -1,6 +1,7 @@
 PREFIX: ""
 FACTION_PREFIX: ""
 KIT_PREFIX: ""
+ABILITIES_PREFIX: "&8[&b&lAbility&8] "
 CONQUEST_PREFIX: "&8[&3&lConquest&8] "
 DTC_PREFIX: "&8[&c&lDTC&8] "
 KING_PREFIX: "&8[&5&lKing&8] "
@@ -35,6 +36,7 @@ HARD_RESET_COMMAND_USAGE:
   - "&c&m                                                                                "
 
 USERDATA_FAILED_TO_LOAD: "&cFailed to load your data. Please join again!"
+PLAYER_ALREADY_ONLINE: "&cPlayer with same username is already online!"
 
 COMMANDS:
   FOR_PLAYERS_ONLY: "&eThis command is for &cplayer &euse only!"
@@ -50,6 +52,13 @@ COMMANDS:
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
 ABILITIES:
+  ABILITY_ACTIVATED: "&7You activated <ability>&7. Cooldown: &c<cooldown>"
+  GLOBAL_COOLDOWN:
+    ACTIVE: "&7You are on &cglobal abilities &7cooldown for &b<time>&7."
+    EXPIRED: "&7Global &cability cooldown &7has expired!"
+  ABILITY_COOLDOWN:
+    ACTIVE: "&7You are on <ability> &7cooldown for &b<time>&7."
+    EXPIRED: "&7Your <ability> &7cooldown has expired!"
   ABILITY_COMMAND:
     USAGE: "&cUsage: /ability <player> <ability> [amount]"
     NOT_FOUND: "&eAbility &c<name> &enot found!"

@@ -22,7 +22,6 @@ import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
@@ -41,13 +40,13 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -88,18 +87,6 @@ public class DynamicEventHandler extends Handler implements Listener {
         if(ThreadLocalRandom.current().nextInt(100) > Config.REDUCED_DURABILITY_LOSS_PERCENTAGE) return;
 
         event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onFullServerJoin(PlayerLoginEvent event) {
-        if(event.getResult() != Result.KICK_FULL) return;
-
-        if(!event.getPlayer().hasPermission("lazarus.joinfullserver")) {
-            event.disallow(Result.KICK_FULL, Language.JOIN_FULL_SERVER_MESSAGE);
-            return;
-        }
-
-        event.allow();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -334,6 +321,25 @@ public class DynamicEventHandler extends Handler implements Listener {
     }
 
     @EventHandler
+    public void onFullServerJoin(PlayerLoginEvent event) {
+        if(event.getResult() != PlayerLoginEvent.Result.KICK_FULL) return;
+
+        if(!event.getPlayer().hasPermission("lazarus.joinfullserver")) {
+            event.disallow(PlayerLoginEvent.Result.KICK_FULL, Language.JOIN_FULL_SERVER_MESSAGE);
+            return;
+        }
+
+        event.allow();
+    }
+
+    @EventHandler
+    public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
+        if(Bukkit.getPlayer(event.getName()) != null) {
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Language.PLAYER_ALREADY_ONLINE);
+        }
+    }
+
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
         Player player = event.getPlayer();
@@ -344,10 +350,6 @@ public class DynamicEventHandler extends Handler implements Listener {
             Language.JOIN_WELCOME_MESSAGE.forEach(line -> player.sendMessage(line
                 .replace("<player>", player.getName())
                 .replace("<rankPrefix>", rankPrefix)));
-        }
-
-        if(!player.isOp() && player.getGameMode() == GameMode.CREATIVE) {
-            player.setGameMode(GameMode.SURVIVAL);
         }
 
         if(Language.STAFF_JOIN_MESSAGE.isEmpty()) return;

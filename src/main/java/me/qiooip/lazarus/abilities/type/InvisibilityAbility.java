@@ -69,38 +69,38 @@ public class InvisibilityAbility extends AbilityItem {
         if(!(event.getEntity() instanceof Player)) return;
         Player target = (Player) event.getEntity();
 
-        if(!this.players.contains(target.getUniqueId())) return;
-
-        this.showPlayer(target, true);
-        // TODO: message
+        if(this.players.contains(target.getUniqueId())) {
+            this.showPlayer(target, true);
+            // TODO: message
+        }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if(!this.players.contains(player.getUniqueId())) return;
 
-        this.showPlayer(player, true);
-
-        this.offline.add(player.getUniqueId());
+        if(this.players.contains(player.getUniqueId())) {
+            this.showPlayer(player, true);
+            this.offline.add(player.getUniqueId());
+        }
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if(!this.offline.contains(player.getUniqueId())) return;
 
-        this.hidePlayer(player);
-
-        this.offline.remove(player.getUniqueId());
+        if(this.offline.remove(player.getUniqueId())) {
+            this.hidePlayer(player);
+        }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        if(!this.players.contains(player.getUniqueId())) return;
 
-        this.showPlayer(player, true);
+        if(this.players.contains(player.getUniqueId())) {
+            this.showPlayer(player, true);
+        }
     }
 
     @EventHandler
@@ -109,8 +109,9 @@ public class InvisibilityAbility extends AbilityItem {
         if(ServerUtils.getEffect(event).getType().getId() != 14) return;
 
         Player player = (Player) event.getEntity();
-        if(!this.players.contains(player.getUniqueId())) return;
 
-        this.showPlayer(player, false);
+        if(this.players.contains(player.getUniqueId())) {
+            this.showPlayer(player, false);
+        }
     }
 }

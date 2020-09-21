@@ -21,7 +21,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class TabUpdater implements Runnable {
@@ -120,7 +119,9 @@ public class TabUpdater implements Runnable {
     public void clearFactionPlayerList(PlayerTab tab) {
         if(!this.playerListEnabled || tab == null) return;
 
-        IntStream.rangeClosed(this.playerListStart, this.playerListStart + this.numberOfPlayers + 1).forEach(i -> tab.set(i, ""));
+        for(int i = this.playerListStart; i <= this.playerListStart + this.numberOfPlayers + 1; i++) {
+            tab.set(i, "");
+        }
     }
 
     private void updateFactionInfo(PlayerTab tab, PlayerFaction faction) {

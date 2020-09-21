@@ -4,6 +4,8 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
+import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.cooldown.RankReviveTimer;
 import me.qiooip.lazarus.timer.custom.CustomTimer;
@@ -56,6 +58,9 @@ public class TimerManager {
     private final GAppleTimer gAppleTimer;
     private final PvpClassWarmupTimer pvpClassWarmupTimer;
 
+    private final GlobalAbilitiesTimer globalAbilitiesTimer;
+    private final AbilitiesTimer abilitiesTimer;
+
     private final FactionFreezeTimer factionFreezeTimer;
     private final CooldownTimer cooldownTimer;
     private final RankReviveTimer rankReviveTimer;
@@ -82,6 +87,9 @@ public class TimerManager {
         this.scoreboardTimers.add(this.stuckTimer = new StuckTimer(this.executor));
         this.scoreboardTimers.add(this.teleportTimer = new TeleportTimer(this.executor));
         this.scoreboardTimers.add(this.logoutTimer = new LogoutTimer(this.executor));
+
+        this.globalAbilitiesTimer = new GlobalAbilitiesTimer(this.executor);
+        this.abilitiesTimer = new AbilitiesTimer(this.executor);
 
         this.pvpClassWarmupTimer = new PvpClassWarmupTimer(this.executor);
         this.appleTimer = new AppleTimer(this.executor);

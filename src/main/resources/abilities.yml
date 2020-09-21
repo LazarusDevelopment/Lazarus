@@ -11,6 +11,8 @@ GLOBAL_COOLDOWN:
 ANTI_REDSTONE:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&c&lAnti redstone"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Duration in seconds
@@ -31,6 +33,8 @@ ANTI_REDSTONE:
 COCAINE:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&b&lCocaine"
   # Ability item cooldown in seconds
   COOLDOWN: 45
   # Item used for this ability
@@ -47,6 +51,8 @@ COCAINE:
 EXOTIC_BONE:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&8&lExotic bone"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Duration in seconds
@@ -66,6 +72,8 @@ EXOTIC_BONE:
 FAKE_PEARL:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&3&lFake pearl"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Should we put players on enderpearl cooldown?
@@ -82,6 +90,8 @@ FAKE_PEARL:
 GUARDIAN_ANGEL:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&b&lGuardian angel"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Health required for activation
@@ -102,6 +112,8 @@ GUARDIAN_ANGEL:
 INVISIBILITY:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&b&lInvisibility"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Duration in seconds
@@ -119,6 +131,8 @@ INVISIBILITY:
 POCKET_BARD:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lPocket bard"
   # Ability item cooldown in seconds
   COOLDOWN: 45
   # Item used for this ability
@@ -135,6 +149,8 @@ POCKET_BARD:
 POTION_COUNTER:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&d&lPotion counter"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Item used for this ability
@@ -150,6 +166,8 @@ POTION_COUNTER:
 SWITCHER:
   # Should we enable this ability item?
   ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&5&lSwitcher"
   # Ability item cooldown in seconds
   COOLDOWN: 45
   # Item used for this ability

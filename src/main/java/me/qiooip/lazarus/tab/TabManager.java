@@ -69,7 +69,10 @@ public class TabManager implements Listener {
 
     public void removeTab(Player player) {
         PlayerTab playerTab = this.tabs.remove(player.getUniqueId());
-        if(playerTab != null) playerTab.unregister();
+
+        if(playerTab != null) {
+            playerTab.unregister();
+        }
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 

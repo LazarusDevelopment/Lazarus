@@ -11,6 +11,7 @@ public class Language {
     public static String PREFIX;
     public static String FACTION_PREFIX;
     public static String KIT_PREFIX;
+    public static String ABILITIES_PREFIX;
     public static String CONQUEST_PREFIX;
     public static String DTC_PREFIX;
     public static String KING_PREFIX;
@@ -29,6 +30,7 @@ public class Language {
     public static List<String> HARD_RESET_COMMAND_USAGE;
 
     public static String USERDATA_FAILED_TO_LOAD;
+    public static String PLAYER_ALREADY_ONLINE;
 
     public static String COMMANDS_FOR_PLAYERS_ONLY;
     public static String COMMANDS_FOR_CONSOLE_ONLY;
@@ -41,6 +43,13 @@ public class Language {
     public static String COMMANDS_COOLDOWN;
 
     public static String PLUGIN_RELOAD_MESSAGE;
+
+    public static String ABILITIES_ABILITY_ACTIVATED;
+
+    public static String ABILITIES_GLOBAL_COOLDOWN_ACTIVE;
+    public static String ABILITIES_ABILITY_COOLDOWN_ACTIVE;
+    public static String ABILITIES_GLOBAL_COOLDOWN_EXPIRED;
+    public static String ABILITIES_ABILITY_COOLDOWN_EXPIRED;
 
     public static String ABILITIES_ABILITY_COMMAND_USAGE;
     public static String ABILITIES_ABILITY_COMMAND_NOT_FOUND;
@@ -1314,6 +1323,7 @@ public class Language {
         PREFIX = language.getString("PREFIX");
         FACTION_PREFIX = language.getString("FACTION_PREFIX");
         KIT_PREFIX = language.getString("KIT_PREFIX");
+        ABILITIES_PREFIX = language.getString("ABILITIES_PREFIX");
         CONQUEST_PREFIX = language.getString("CONQUEST_PREFIX");
         DTC_PREFIX = language.getString("DTC_PREFIX");
         KING_PREFIX = language.getString("KING_PREFIX");
@@ -1332,6 +1342,7 @@ public class Language {
         HARD_RESET_COMMAND_USAGE = language.getStringList("HARD_RESET_COMMAND_USAGE");
 
         USERDATA_FAILED_TO_LOAD = language.getString("USERDATA_FAILED_TO_LOAD");
+        PLAYER_ALREADY_ONLINE = language.getString("PLAYER_ALREADY_ONLINE");
 
         COMMANDS_FOR_PLAYERS_ONLY = language.getString("COMMANDS.FOR_PLAYERS_ONLY");
         COMMANDS_FOR_CONSOLE_ONLY = language.getString("COMMANDS.FOR_CONSOLE_ONLY");
@@ -1344,6 +1355,13 @@ public class Language {
         COMMANDS_COOLDOWN = language.getString("COMMANDS.COOLDOWN");
 
         PLUGIN_RELOAD_MESSAGE = language.getString("PLUGIN_RELOAD_MESSAGE");
+
+        ABILITIES_ABILITY_ACTIVATED = language.getString("ABILITIES.ABILITY_ACTIVATED");
+
+        ABILITIES_GLOBAL_COOLDOWN_ACTIVE = language.getString("ABILITIES.GLOBAL_COOLDOWN.ACTIVE");
+        ABILITIES_ABILITY_COOLDOWN_ACTIVE = language.getString("ABILITIES.ABILITY_COOLDOWN.ACTIVE");
+        ABILITIES_GLOBAL_COOLDOWN_EXPIRED = language.getString("ABILITIES.GLOBAL_COOLDOWN.EXPIRED");
+        ABILITIES_ABILITY_COOLDOWN_EXPIRED = language.getString("ABILITIES.ABILITY_COOLDOWN.EXPIRED");
 
         ABILITIES_ABILITY_COMMAND_USAGE = language.getString("ABILITIES.ABILITY_COMMAND.USAGE");
         ABILITIES_ABILITY_COMMAND_NOT_FOUND = language.getString("ABILITIES.ABILITY_COMMAND.NOT_FOUND");

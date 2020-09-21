@@ -12,7 +12,12 @@ import me.qiooip.lazarus.abilities.type.PocketBardAbility;
 import me.qiooip.lazarus.abilities.type.PotionCounterAbility;
 import me.qiooip.lazarus.abilities.type.SwitcherAbility;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
+import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.utils.ManagerEnabler;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -88,40 +93,92 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.useInteractedBlock() == Event.Result.DENY && event.useItemInHand() == Event.Result.DENY) return;
-        if (!event.hasItem() || !event.getItem().hasItemMeta()) return;
+        if(event.useInteractedBlock() == Event.Result.DENY && event.useItemInHand() == Event.Result.DENY) return;
+        if(!event.hasItem() || !event.getItem().hasItemMeta()) return;
 
         ItemMeta itemMeta = event.getItem().getItemMeta();
-        if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
+        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
 
         int hash = this.calculateItemHash(itemMeta);
 
         AbilityItem ability = this.abilityItems.get(hash);
-        if (ability == null) return;
+        if(ability == null) return;
 
         Player player = event.getPlayer();
+        GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
+
+        if(globalTimer.isActive(player.getUniqueId())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_ACTIVE
+                .replace("<time>", globalTimer.getTimeLeft(player)));
+            return;
+        }
+
+        AbilitiesTimer abilityTimer = TimerManager.getInstance().getAbilitiesTimer();
+
+        if(abilityTimer.isActive(player, ability.getType())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_COOLDOWN_ACTIVE
+                .replace("<ability>", ability.getDisplayName())
+                .replace("<time>", abilityTimer.getDynamicTimeLeft(player, ability.getType())));
+            return;
+        }
 
         ability.onItemClick(player);
+
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_ACTIVATED
+            .replace("<ability>", ability.getDisplayName())
+            .replace("<cooldown>", StringUtils.formatMillis(ability.getCooldown() * 1000)));
+
         ItemUtils.removeOneItem(player);
+        globalTimer.activate(player);
+
+        abilityTimer.activate(player, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
+            + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
+        if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
         Player damager = (Player) event.getDamager();
 
         ItemStack item = damager.getItemInHand();
-        if (item == null || !item.hasItemMeta()) return;
+        if(item == null || !item.hasItemMeta()) return;
 
         ItemMeta itemMeta = item.getItemMeta();
-        if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
+        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
 
         int hash = this.calculateItemHash(itemMeta);
 
         AbilityItem ability = this.abilityItems.get(hash);
-        if (ability == null || !ability.onPlayerItemHit(damager, (Player) event.getEntity())) return;
+        if(ability == null) return;
+
+        GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
+
+        if(globalTimer.isActive(damager.getUniqueId())) {
+            damager.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_ACTIVE
+                .replace("<time>", globalTimer.getTimeLeft(damager)));
+            return;
+        }
+
+        AbilitiesTimer abilityTimer = TimerManager.getInstance().getAbilitiesTimer();
+
+        if(abilityTimer.isActive(damager, ability.getType())) {
+            damager.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_COOLDOWN_ACTIVE
+                .replace("<ability>", ability.getDisplayName())
+                .replace("<time>", abilityTimer.getDynamicTimeLeft(damager, ability.getType())));
+            return;
+        }
+
+        if(!ability.onPlayerItemHit(damager, (Player) event.getEntity())) return;
+
+        damager.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_ACTIVATED
+            .replace("<ability>", ability.getDisplayName())
+            .replace("<cooldown>", StringUtils.formatMillis(ability.getCooldown() * 1000)));
 
         ItemUtils.removeOneItem(damager);
+        globalTimer.activate(damager);
+
+        abilityTimer.activate(damager, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
+            + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
     }
 }
 
