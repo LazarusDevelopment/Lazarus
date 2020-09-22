@@ -59,7 +59,11 @@ public class CombatLoggerHandler extends Handler implements Listener {
         if(player.getHealth() == 0.0) return;
         if(this.kickAll) return;
 
-        if(player.hasPermission("lazarus.combatlogger.bypass") || player.hasMetadata("Logout")) return;
+        if(player.hasPermission("lazarus.combatlogger.bypass") || player.hasMetadata("logout")) {
+            player.removeMetadata("logout", Lazarus.getInstance());
+            return;
+        }
+
         if(TimerManager.getInstance().getPvpProtTimer().isActive(player)) return;
         if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(player)) return;
         if(Lazarus.getInstance().getStaffModeManager().isInStaffModeOrVanished(player)) return;

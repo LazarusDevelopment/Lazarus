@@ -36,6 +36,8 @@ public class FoundOreHandler extends Handler implements Listener {
         AtomicInteger count = new AtomicInteger();
         this.countDiamonds(block, count);
 
+        block.removeMetadata("foundOre", Lazarus.getInstance());
+
         Bukkit.getOnlinePlayers().forEach(online -> {
             if(!online.hasPermission("lazarus.foundore.receive") || (event.getPlayer() != online && !Lazarus
             .getInstance().getUserdataManager().getUserdata(online).getSettings().isFoundOre())) return;

@@ -118,7 +118,7 @@ public class CustomTimer extends Timer {
 
     @Getter
     @AllArgsConstructor
-    private static class CustomTimerData {
+    public static class CustomTimerData {
 
         @Setter private String name;
         private final String placeholder;

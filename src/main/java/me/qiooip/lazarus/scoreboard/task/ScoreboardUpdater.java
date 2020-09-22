@@ -18,6 +18,7 @@ import me.qiooip.lazarus.handlers.staff.RebootHandler;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
 import me.qiooip.lazarus.timer.scoreboard.SotwTimer;
@@ -35,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -219,11 +221,31 @@ public class ScoreboardUpdater extends BukkitRunnable {
                             CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
                             if(timer.isActive(player, "BARDBUFF")) {
-                                scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARDBUFF") + "s");
+                                scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARDBUFF") + 's');
                             }
                         } else if(pvpClass instanceof Miner && !Config.KITMAP_MODE_ENABLED) {
                             scoreboard.add(Config.MINER_DIAMOND_COUNT_PLACEHOLDER,
                                 player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + "");
+                        }
+                    }
+                }
+
+                GlobalAbilitiesTimer globalAbilitiesTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
+                boolean globalTimerActive = globalAbilitiesTimer.isActive(player);
+
+                Map<String, String> activeAbilities = TimerManager.getInstance().getAbilitiesTimer().getActiveAbilities(player);
+
+                if(globalTimerActive || !activeAbilities.isEmpty()) {
+                    scoreboard.addLine(ChatColor.DARK_GRAY);
+                    scoreboard.add(Config.ABILITIES_TITLE_PLACEHOLDER, "");
+
+                    if(globalTimerActive) {
+                        scoreboard.add(Config.ABILITIES_GLOBAL_COOLDOWN_PLACEHOLDER, globalAbilitiesTimer.getTimeLeft(player));
+                    }
+
+                    if(!activeAbilities.isEmpty()) {
+                        for(Entry<String, String> abilityPlaceholders : activeAbilities.entrySet()) {
+                            scoreboard.add(abilityPlaceholders.getKey(), abilityPlaceholders.getValue());
                         }
                     }
                 }

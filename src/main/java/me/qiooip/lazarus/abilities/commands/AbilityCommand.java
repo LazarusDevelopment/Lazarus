@@ -78,7 +78,7 @@ public class AbilityCommand extends BaseCommand {
         List<String> completions = new ArrayList<>();
 
         for(AbilityType timerName : AbilitiesManager.getInstance().getEnabledAbilities().keySet()) {
-            if(!timerName.getName().startsWith(args[1].toUpperCase())) continue;
+            if(!timerName.getName().toUpperCase().startsWith(args[1].toUpperCase())) continue;
 
             completions.add(timerName.getName().toUpperCase());
         }

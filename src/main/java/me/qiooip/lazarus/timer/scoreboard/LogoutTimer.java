@@ -25,7 +25,7 @@ public class LogoutTimer extends PlayerTimer implements ScoreboardTimer {
     @Override
     public void activate(Player player) {
         super.activate(player, () -> Tasks.sync(() -> {
-            player.setMetadata("Logout", new FixedMetadataValue(Lazarus.getInstance(), true));
+            player.setMetadata("logout", new FixedMetadataValue(Lazarus.getInstance(), true));
 
             LazarusKickEvent event = new LazarusKickEvent(player, KickType.LOGOUT, Language.LOGOUT_KICK_MESSAGE);
 

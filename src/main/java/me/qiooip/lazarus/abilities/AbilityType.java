@@ -10,27 +10,29 @@ import java.util.TreeMap;
 @AllArgsConstructor
 public enum AbilityType {
 
-    AGGRESSIVE_PEARL("AggressivePearl"),
-    ANTI_REDSTONE("AntiRedstone"),
-    ANTI_TRAP_STAR("AntiTrapStar"),
-    COCAINE("Cocaine"),
-    EXOTIC_BONE("ExoticBone"),
-    FAKE_PEARL("FakePearl"),
-    FAST_PEARL("FastPearl"),
-    GUARDIAN_ANGLE("GuardianAngle"),
-    HEALER("Healer"),
-    INVISIBILITY("Invisibility"),
-    POCKET_BARD("PocketBard"),
-    POTION_COUNTER("PotionCounter"),
-    PRE_PEARL("PrePearl"),
-    RAGE("Rage"),
-    ROCKET("Rocket"),
-    SCRAMBLER("Scrambler"),
-    SWITCHER("Switcher"),
-    TANK_INGOT("TankIngot"),
-    WEB_GUN("WebGun");
+    AGGRESSIVE_PEARL("AggressivePearl", "&a&lAggressive Pearl"),
+    ANTI_REDSTONE("AntiRedstone", "&a&lAnti Redstone"),
+    ANTI_TRAP_STAR("AntiTrapStar", "&a&lAnti Trap Star"),
+    COCAINE("Cocaine", "&a&lCocaine"),
+    EXOTIC_BONE("ExoticBone", "&a&lExotic Bone"),
+    FAKE_PEARL("FakePearl", "&a&lFake Pearl"),
+    FAST_PEARL("FastPearl", "&a&lFast Pearl"),
+    GUARDIAN_ANGLE("GuardianAngle", "&a&lGuardian Angel"),
+    HEALER("Healer", "&a&lHealer"),
+    INVISIBILITY("Invisibility", "&a&lInvisibility"),
+    POCKET_BARD("PocketBard", "&a&lPocket Bard"),
+    POTION_COUNTER("PotionCounter", "&a&lPotion Counter"),
+    PRE_PEARL("PrePearl", "&a&lPre-Pearl"),
+    RAGE("Rage", "&a&lRage"),
+    ROCKET("Rocket", "&a&lRocket"),
+    SCRAMBLER("Scrambler", "&a&lScrambler"),
+    SWITCHER("Switcher", "&a&lSwitcher"),
+    TANK_INGOT("TankIngot", "&a&lTank Ingot"),
+    WEB_GUN("WebGun", "&a&lWeb Gun");
 
     private final String name;
+    private final String displayName;
+
     private static final Map<String, AbilityType> BY_NAME;
 
     public static AbilityType getByName(String name) {

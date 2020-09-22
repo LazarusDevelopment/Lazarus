@@ -1,5 +1,7 @@
 package me.qiooip.lazarus.abilities;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.type.AntiRedstoneAbility;
@@ -26,6 +28,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -40,12 +43,12 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     @Getter
     private static AbilitiesManager instance;
 
-    private final Map<Integer, AbilityItem> abilityItems;
+    private final Table<Integer, AbilityEventType, AbilityItem> abilityItems;
     private final Map<AbilityType, AbilityItem> enabledAbilities;
 
     public AbilitiesManager() {
         instance = this;
-        this.abilityItems = new HashMap<>();
+        this.abilityItems = HashBasedTable.create();
         this.enabledAbilities = new HashMap<>();
 
         this.setupAbilityItems();
@@ -61,29 +64,29 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     public void setupAbilityItems() {
         ConfigFile config = Lazarus.getInstance().getAbilitiesFile();
 
-        this.loadAbility(new AntiRedstoneAbility(config));
-        this.loadAbility(new CocaineAbility(config));
-        this.loadAbility(new ExoticBoneAbility(config));
-        this.loadAbility(new FakePearlAbility(config));
-        this.loadAbility(new GuardianAngelAbility(config));
-        this.loadAbility(new InvisibilityAbility(config));
-        this.loadAbility(new PocketBardAbility(config));
-        this.loadAbility(new PotionCounterAbility(config));
-        this.loadAbility(new SwitcherAbility(config));
+        this.loadAbility(new AntiRedstoneAbility(config), AbilityEventType.ENTITY_DAMAGE);
+        this.loadAbility(new CocaineAbility(config), AbilityEventType.PLAYER_INTERACT);
+        this.loadAbility(new ExoticBoneAbility(config), AbilityEventType.ENTITY_DAMAGE);
+        this.loadAbility(new FakePearlAbility(config), AbilityEventType.PROJECTILE_LAUNCH);
+        this.loadAbility(new GuardianAngelAbility(config), AbilityEventType.PLAYER_INTERACT);
+        this.loadAbility(new InvisibilityAbility(config), AbilityEventType.PLAYER_INTERACT);
+        this.loadAbility(new PocketBardAbility(config), AbilityEventType.PLAYER_INTERACT);
+        this.loadAbility(new PotionCounterAbility(config), AbilityEventType.ENTITY_DAMAGE);
+        this.loadAbility(new SwitcherAbility(config), AbilityEventType.PLAYER_INTERACT);
     }
 
     public AbilityItem getAbilityItemByType(AbilityType type) {
         return this.enabledAbilities.get(type);
     }
 
-    private void loadAbility(AbilityItem abilityItem) {
+    private void loadAbility(AbilityItem abilityItem, AbilityEventType eventType) {
         if (!abilityItem.isEnabled()) {
             return;
         }
 
         Integer itemHash = this.calculateItemHash(abilityItem.getItem().getItemMeta());
 
-        this.abilityItems.put(itemHash, abilityItem);
+        this.abilityItems.put(itemHash, eventType, abilityItem);
         this.enabledAbilities.put(abilityItem.getType(), abilityItem);
     }
 
@@ -101,7 +104,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
         int hash = this.calculateItemHash(itemMeta);
 
-        AbilityItem ability = this.abilityItems.get(hash);
+        AbilityItem ability = this.abilityItems.get(hash, AbilityEventType.PLAYER_INTERACT);
         if(ability == null) return;
 
         Player player = event.getPlayer();
@@ -135,7 +138,58 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
             + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if(!(event.getEntity().getShooter() instanceof Player)) return;
+
+        Player player = (Player) event.getEntity().getShooter();
+
+        ItemStack itemInHand = player.getItemInHand();
+        if(itemInHand == null || !itemInHand.hasItemMeta()) return;
+
+        ItemMeta itemMeta = itemInHand.getItemMeta();
+        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
+
+        int hash = this.calculateItemHash(itemMeta);
+
+        AbilityItem ability = this.abilityItems.get(hash, AbilityEventType.PROJECTILE_LAUNCH);
+        if(ability == null) return;
+
+        GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
+
+        if(globalTimer.isActive(player.getUniqueId())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_ACTIVE
+                .replace("<time>", globalTimer.getTimeLeft(player)));
+
+            event.setCancelled(true);
+            return;
+        }
+
+        AbilitiesTimer abilityTimer = TimerManager.getInstance().getAbilitiesTimer();
+
+        if(abilityTimer.isActive(player, ability.getType())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_COOLDOWN_ACTIVE
+                .replace("<ability>", ability.getDisplayName())
+                .replace("<time>", abilityTimer.getDynamicTimeLeft(player, ability.getType())));
+
+            event.setCancelled(true);
+            return;
+        }
+
+        ability.onProjectileClick(player, event.getEntity());
+
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_ACTIVATED
+            .replace("<ability>", ability.getDisplayName())
+            .replace("<cooldown>", StringUtils.formatMillis(ability.getCooldown() * 1000)));
+
+        ItemUtils.removeOneItem(player);
+        globalTimer.activate(player);
+
+        abilityTimer.activate(player, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
+            + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
         Player damager = (Player) event.getDamager();
@@ -148,7 +202,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
         int hash = this.calculateItemHash(itemMeta);
 
-        AbilityItem ability = this.abilityItems.get(hash);
+        AbilityItem ability = this.abilityItems.get(hash, AbilityEventType.ENTITY_DAMAGE);
         if(ability == null) return;
 
         GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
@@ -179,6 +233,10 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
         abilityTimer.activate(damager, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
             + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+    }
+
+    private enum AbilityEventType {
+        PROJECTILE_LAUNCH, PLAYER_INTERACT, ENTITY_DAMAGE
     }
 }
 

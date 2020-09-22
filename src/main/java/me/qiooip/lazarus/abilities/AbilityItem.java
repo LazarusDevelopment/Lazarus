@@ -9,9 +9,11 @@ import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,9 +65,19 @@ public abstract class AbilityItem implements Listener {
         }
 
         this.item = builder.build();
-        this.displayName = Color.translate(section.getString("DISPLAY_NAME"));
         this.cooldown = section.getInt("COOLDOWN");
         this.enabled = section.getBoolean("ENABLED");
+
+        this.displayName = Color.translate(section.getString("DISPLAY_NAME"));
+
+        try {
+            Field displayNameField = this.type.getClass().getDeclaredField("displayName");
+            displayNameField.setAccessible(true);
+
+            displayNameField.set(this.type, this.displayName);
+        } catch(ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
 
         this.loadAdditionalData(section);
     }
@@ -73,6 +85,8 @@ public abstract class AbilityItem implements Listener {
     protected void loadAdditionalData(ConfigurationSection section) { }
 
     protected void onItemClick(Player player) { }
+
+    protected void onProjectileClick(Player player, Projectile projectile) { }
 
     protected boolean onPlayerItemHit(Player damager, Player target) { return false; }
 }
