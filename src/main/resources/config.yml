@@ -176,7 +176,7 @@ COOLDOWNS:
 
 NAMETAGS:
   ENABLED: true
-  FACTION: "&6[<faction> &7| <dtr>&6]"
+  FACTION: "&6[<faction> &7\u2503 <dtr>&6]"
 
 #=========================================================#
 #                  Commands configuration                 #
