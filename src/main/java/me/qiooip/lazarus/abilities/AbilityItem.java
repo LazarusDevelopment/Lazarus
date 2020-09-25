@@ -82,6 +82,8 @@ public abstract class AbilityItem implements Listener {
         this.loadAdditionalData(section);
     }
 
+    protected void disable() { }
+
     protected void loadAdditionalData(ConfigurationSection section) { }
 
     protected void onItemClick(Player player) { }

@@ -36,6 +36,12 @@ public class InvisibilityAbility extends AbilityItem {
     }
 
     @Override
+    protected void disable() {
+        this.players.clear();
+        this.offline.clear();
+    }
+
+    @Override
     protected void loadAdditionalData(ConfigurationSection section) {
         this.duration = section.getInt("DURATION");
     }

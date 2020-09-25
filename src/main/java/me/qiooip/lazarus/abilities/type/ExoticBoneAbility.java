@@ -24,6 +24,11 @@ public class ExoticBoneAbility extends AbilityItem {
     }
 
     @Override
+    protected void disable() {
+        this.playerHits.clear();
+    }
+
+    @Override
     protected void loadAdditionalData(ConfigurationSection section) {
         this.duration = section.getInt("DURATION");
         this.hits = section.getInt("HITS");

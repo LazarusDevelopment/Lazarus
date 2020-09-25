@@ -57,6 +57,10 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     }
 
     public void disable() {
+        for(AbilityItem ability : this.enabledAbilities.values()) {
+            ability.disable();
+        }
+
         this.abilityItems.clear();
         this.enabledAbilities.clear();
     }
