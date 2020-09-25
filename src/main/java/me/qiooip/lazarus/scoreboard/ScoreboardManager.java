@@ -11,9 +11,9 @@ import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.scoreboard.task.ScoreboardUpdater;
+import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -63,7 +63,9 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         this.scoreboards.put(player.getUniqueId(), playerScoreboard);
 
         playerScoreboard.updateTabRelations(Bukkit.getOnlinePlayers());
-        this.scoreboards.values().forEach(other -> other.updateRelation(player));
+        for(PlayerScoreboard other : this.scoreboards.values()) {
+            other.updateRelation(player);
+        }
     }
 
     public void removeScoreboard(Player player) {
@@ -95,11 +97,15 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
     }
 
     public void updateAllRelations(Player player) {
-        this.scoreboards.values().forEach(scoreboard -> scoreboard.updateRelation(player));
+        for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
+            scoreboard.updateRelation(player);
+        }
     }
 
     public void updateAllTabRelations() {
-        this.scoreboards.values().forEach(sb -> sb.updateTabRelations(Bukkit.getOnlinePlayers()));
+        for(PlayerScoreboard sb : this.scoreboards.values()) {
+            sb.updateTabRelations(Bukkit.getOnlinePlayers());
+        }
     }
 
     private void fixInvisibilityForPlayer(PotionEffectEvent event) {
@@ -107,7 +113,9 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         if(ServerUtils.getEffect(event).getType().getId() != 14) return;
 
         Player player = (Player) event.getEntity();
-        this.scoreboards.values().forEach(scoreboard -> scoreboard.updateRelation(player));
+        for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
+            scoreboard.updateRelation(player);
+        }
     }
 
     private void updateFactionPlayer(FactionPlayer fplayer, PlayerFaction faction) {
@@ -119,10 +127,10 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
 
             this.getPlayerScoreboard(player).updateTabRelations(players);
 
-            players.forEach(online -> {
+            for(Player online : players) {
                 PlayerScoreboard playerScoreboard = this.getPlayerScoreboard(online);
                 if(playerScoreboard != null) playerScoreboard.updateRelation(player);
-            });
+            }
         });
     }
 
@@ -160,7 +168,9 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         List<Player> players = faction.getOnlinePlayers();
         players.addAll(targetFaction.getOnlinePlayers());
 
-        players.forEach(player -> this.getPlayerScoreboard(player).updateTabRelations(players));
+        for(Player player : players) {
+            this.getPlayerScoreboard(player).updateTabRelations(players);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -170,9 +180,13 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         PlayerFaction faction = (PlayerFaction) event.getFaction();
 
         List<Player> players = faction.getOnlinePlayers();
-        faction.getAlliesAsFactions().forEach(ally -> players.addAll(ally.getOnlinePlayers()));
+        for(PlayerFaction ally : faction.getAlliesAsFactions()) {
+            players.addAll(ally.getOnlinePlayers());
+        }
 
-        players.forEach(player -> this.getPlayerScoreboard(player).updateTabRelations(players));
+        for(Player player : players) {
+            this.getPlayerScoreboard(player).updateTabRelations(players);
+        }
     }
 
     @EventHandler

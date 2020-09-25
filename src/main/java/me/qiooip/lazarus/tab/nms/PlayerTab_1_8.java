@@ -1,11 +1,10 @@
 package me.qiooip.lazarus.tab.nms;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import me.qiooip.lazarus.scoreboard.base.ScoreboardBase_1_8;
 import me.qiooip.lazarus.tab.PlayerTab;
-import me.qiooip.lazarus.tab.TabManager;
+import me.qiooip.lazarus.tab.reflection.TabReflection_1_8;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
@@ -20,7 +19,6 @@ import org.bukkit.scoreboard.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
 
@@ -54,12 +52,17 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
         this.contents = new String[80];
 
         if(this.clientVersion >= 47) {
-            IntStream.rangeClosed(1, 80).forEach(i -> this.setupTabEntry(cplayer, i));
+            for(int i = 1; i <= 80; i++) {
+                this.setupTabEntry(i);
+            }
         } else {
             this.removePlayersFromTab(cplayer);
 
-            IntStream.rangeClosed(1, 20).forEach(y -> IntStream.range(0, 3)
-            .forEach(x -> this.setupTabEntry_1_7(cplayer, (x * 20) + y)));
+            for(int y = 1; y <= 20; y++) {
+                for(int x = 0; x < 3; x++) {
+                    this.setupTabEntry_1_7((x * 20) + y);
+                }
+            }
         }
     }
 
@@ -67,16 +70,16 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
     public void set(int index, String line) {
         line = Color.translate(line);
 
-        if(this.contents[index - 1] != null && this.contents[index - 1].equals(line)) return;
+        int reduced = index - 1;
+
+        if(this.contents[reduced] != null && this.contents[reduced].equals(line)) return;
 
         if(this.clientVersion >= 47) {
-
-            this.updateDisplayName(this.profiles[index - 1], line);
-
+            this.updateDisplayName(this.profiles[reduced], line);
         } else {
             if(index > 60) return;
 
-            Team team = this.getTeam(this.teamNames[index-1]);
+            Team team = this.getTeam(this.teamNames[reduced]);
 
             String prefix;
             String suffix;
@@ -94,21 +97,20 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
             this.updateTeam(team.getName(), prefix, suffix.length() > 16 ? suffix.substring(0, 16) : suffix);
         }
 
-        this.contents[index - 1] = line;
+        this.contents[reduced] = line;
     }
 
-    private void setupTabEntry(CraftPlayer cplayer, int index) {
+    private void setupTabEntry(int index) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), this.getTeamName(index));
         this.profiles[index-1] = profile;
 
         profile.getProperties().removeAll("textures");
-        profile.getProperties().put("textures", new Property("textures",
-            TabManager.VALUE, TabManager.SIGNATURE));
+        profile.getProperties().put("textures", TabReflection_1_8.BLANK_SKIN);
 
         this.createPlayerInfo(profile);
     }
 
-    private void setupTabEntry_1_7(CraftPlayer cplayer, int index) {
+    private void setupTabEntry_1_7(int index) {
         String teamName = this.getTeamName(index);
         this.teamNames[index-1] = teamName;
 
@@ -134,14 +136,18 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
     private void removePlayersFromTab(CraftPlayer cplayer) {
         List<PacketPlayOutPlayerInfo> delayedPackets = new ArrayList<>();
 
-        Bukkit.getOnlinePlayers().forEach(online -> {
-            cplayer.getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(
-                EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) online).getHandle()));
+        for(Player online : Bukkit.getOnlinePlayers()) {
+            NmsUtils.getInstance().sendPacket(cplayer, new PacketPlayOutPlayerInfo(
+                    EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) online).getHandle()));
 
             delayedPackets.add(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER,
-                ((CraftPlayer) online).getHandle()));
-        });
+                    ((CraftPlayer) online).getHandle()));
+        }
 
-        Tasks.asyncLater(() -> delayedPackets.forEach(cplayer.getHandle().playerConnection::sendPacket), 5L);
+        Tasks.asyncLater(() -> {
+            for(PacketPlayOutPlayerInfo delayedPacket : delayedPackets) {
+                NmsUtils.getInstance().sendPacket(cplayer, delayedPacket);
+            }
+        }, 5L);
     }
 }

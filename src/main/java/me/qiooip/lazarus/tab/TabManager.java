@@ -34,7 +34,7 @@ public class TabManager implements Listener {
         this.updater = new TabUpdater(this);
         this.tabs = new ConcurrentHashMap<>();
 
-        Bukkit.getOnlinePlayers().forEach(online -> this.loadTab(online));
+        Bukkit.getOnlinePlayers().forEach(this::loadTab);
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
@@ -53,18 +53,20 @@ public class TabManager implements Listener {
         PlayerTab tab = NmsUtils.getInstance().getNewPlayerTab(player);
 
         this.tabs.put(player.getUniqueId(), tab);
-        this.updater.initialSet(player, tab);
+        this.updater.initialSet(tab);
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         if(faction == null) return;
 
-        Tasks.async(() -> faction.getOnlinePlayers().forEach(online -> {
-            PlayerTab onlineTab = this.getTab(online);
+        Tasks.async(() -> {
+            for(Player online : faction.getOnlinePlayers()) {
+                PlayerTab onlineTab = this.getTab(online);
 
-            if(onlineTab != null) {
-                this.updater.updateFactionPlayerList(onlineTab, faction);
+                if(onlineTab != null) {
+                    this.updater.updateFactionPlayerList(onlineTab, faction);
+                }
             }
-        }));
+        });
     }
 
     public void removeTab(Player player) {
@@ -77,8 +79,9 @@ public class TabManager implements Listener {
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
         if(faction != null) {
-            faction.getOnlinePlayers().forEach(online ->
-                this.updater.updateFactionPlayerList(this.getTab(online), faction));
+            for(Player online : faction.getOnlinePlayers()) {
+                this.updater.updateFactionPlayerList(this.getTab(online), faction);
+            }
         }
     }
 
@@ -87,8 +90,9 @@ public class TabManager implements Listener {
     }
 
     public void updateFactionPlayerList(PlayerFaction faction) {
-        faction.getOnlinePlayers().forEach(online ->
-            this.updater.updateFactionPlayerList(this.getTab(online), faction));
+        for(Player online : faction.getOnlinePlayers()) {
+            this.updater.updateFactionPlayerList(this.getTab(online), faction);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

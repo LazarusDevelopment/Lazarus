@@ -137,8 +137,8 @@ public class TabUpdater implements Runnable {
         tab.set(this.factionInfoStart + 1, this.factionInfo[1][1] + (faction.getHome() == null ? "None" : faction.getHomeString()));
     }
 
-    public void initialSet(Player player, PlayerTab tab) {
-        this.initialSet.forEach((slot, value) -> tab.set(slot, value));
+    public void initialSet(PlayerTab tab) {
+        this.initialSet.forEach(tab::set);
     }
 
     private void loadInitialSet() {

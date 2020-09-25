@@ -26,7 +26,6 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.IntStream;
 
 public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerScoreboard {
 
@@ -61,7 +60,9 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
         this.lastEntries = new HashSet<>();
 
         this.entryCache = new ScoreboardInput[15];
-        IntStream.range(0, 15).forEach(i -> this.entryCache[i] = EMPTY_INPUT);
+        for(int i = 0; i < 15; i++) {
+            this.entryCache[i] = EMPTY_INPUT;
+        }
 
         this.setupTeams();
 
@@ -76,8 +77,13 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
     @Override
     public void unregister() {
         synchronized(this.scoreboard) {
-            this.scoreboard.getObjectives().forEach(Objective::unregister);
-            this.scoreboard.getTeams().forEach(Team::unregister);
+            for(Objective objective : this.scoreboard.getObjectives()) {
+                objective.unregister();
+            }
+
+            for(Team team : this.scoreboard.getTeams()) {
+                team.unregister();
+            }
         }
 
         for(Object entry : this.nmsScoreboard.getPlayers().toArray()) {
@@ -165,11 +171,11 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
             }
         }
 
-        this.lastEntries.forEach(entry -> {
+        for(String entry : this.lastEntries) {
             if(!addedEntries.contains(entry)) {
                 this.resetScore(entry);
             }
-        });
+        }
 
         this.lastEntries = addedEntries;
         this.update.set(false);
@@ -284,45 +290,45 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
         synchronized(this) {
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
-            players.forEach(online -> {
+            for(Player online : players) {
                 if(Lazarus.getInstance().getStaffModeManager().isInStaffMode(online)) {
-                    staff.addEntry(online.getName());
-                    return;
-                } else if(player == online) {
-                    members.addEntry(online.getName());
-                    return;
+                    this.staff.addEntry(online.getName());
+                    continue;
+                } else if(this.player == online) {
+                    this.members.addEntry(online.getName());
+                    continue;
                 } else if(playerFaction == null) {
                     if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-                        invis.addEntry(online.getName());
+                        this.invis.addEntry(online.getName());
                     } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
-                        archers.addEntry(online.getName());
+                        this.archers.addEntry(online.getName());
                     } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
-                        sotw.addEntry(online.getName());
+                        this.sotw.addEntry(online.getName());
                     } else {
-                        enemies.addEntry(online.getName());
+                        this.enemies.addEntry(online.getName());
                     }
-                    return;
+                    continue;
                 }
 
                 PlayerFaction targetFaction = FactionsManager.getInstance().getPlayerFaction(online);
                 boolean isMemberOrAlly = playerFaction == targetFaction || playerFaction.isAlly(targetFaction);
 
                 if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
-                    invis.addEntry(online.getName());
+                    this.invis.addEntry(online.getName());
                 } else if(playerFaction.isFocusing(online.getUniqueId())) {
-                    focused.addEntry(online.getName());
+                    this.focused.addEntry(online.getName());
                 } else if(playerFaction == targetFaction) {
-                    members.addEntry(online.getName());
+                    this.members.addEntry(online.getName());
                 } else if(playerFaction.isAlly(targetFaction)) {
-                    allies.addEntry(online.getName());
+                    this.allies.addEntry(online.getName());
                 } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
-                    archers.addEntry(online.getName());
+                    this.archers.addEntry(online.getName());
                 } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
-                    sotw.addEntry(online.getName());
+                    this.sotw.addEntry(online.getName());
                 } else {
-                    enemies.addEntry(online.getName());
+                    this.enemies.addEntry(online.getName());
                 }
-            });
+            }
         }
     }
 }
