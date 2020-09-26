@@ -25,7 +25,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -175,9 +174,11 @@ public class CrowbarHandler extends Handler implements Listener {
 	private void updateCrowbarMeta(ItemStack item, int spawners, int portals) {
 		ItemBuilder builder = new ItemBuilder(item).setName(Config.CROWBAR_NAME);
 
-		List<String> lore = Config.CROWBAR_LORE.stream().map(line -> line.replace("<scount>", String
-		.valueOf(spawners)).replace("<pcount>", String.valueOf(portals))).collect(Collectors.toList());
+		builder.setLore(Config.CROWBAR_LORE.stream().map(line -> line
+			.replace("<scount>", String.valueOf(spawners))
+			.replace("<pcount>", String.valueOf(portals)))
+			.collect(Collectors.toList()));
 
-		builder.setLore(lore);
+		item.setItemMeta(builder.getItemMeta());
 	}
 }

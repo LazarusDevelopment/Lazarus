@@ -385,7 +385,7 @@ public class Config {
     public static boolean SCOREBOARD_FOOTER_ENABLED;
     public static String SCOREBOARD_FOOTER_PLACEHOLDER;
 
-    public static String FACTION_PLACEHOLDER;
+    public static String CLAIM_PLACEHOLDER;
     public static String COMBAT_TAG_PLACEHOLDER;
     public static String ENDERPEARL_PLACEHOLDER;
     public static String PVP_PROTECTION_PLACEHOLDER;
@@ -856,7 +856,7 @@ public class Config {
         SCOREBOARD_FOOTER_ENABLED = scoreboard.getBoolean("SCOREBOARD_FOOTER.ENABLED");
         SCOREBOARD_FOOTER_PLACEHOLDER = scoreboard.getString("SCOREBOARD_FOOTER.PLACEHOLDER");
 
-        FACTION_PLACEHOLDER = scoreboard.getString("FACTION_PLACEHOLDER");
+        CLAIM_PLACEHOLDER = scoreboard.getString("CLAIM_PLACEHOLDER");
         COMBAT_TAG_PLACEHOLDER = scoreboard.getString("COMBAT_TAG_PLACEHOLDER");
         ENDERPEARL_PLACEHOLDER = scoreboard.getString("ENDERPEARL_PLACEHOLDER");
         PVP_PROTECTION_PLACEHOLDER = scoreboard.getString("PVP_PROTECTION_PLACEHOLDER");

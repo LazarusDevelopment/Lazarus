@@ -16,6 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -50,7 +51,7 @@ public class Archer extends PvpClass implements Listener {
 
     private ClickableItem getClickableItem(ItemStack item) {
         return this.clickables.stream().filter(clickable -> clickable.getItem().getType() == item.getType()
-        && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+            && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
     }
 
     private void archerTagPlayer(Player tagger, Player player) {
@@ -66,7 +67,7 @@ public class Archer extends PvpClass implements Listener {
             .replace("<seconds>", String.valueOf(Config.ARCHER_TAG_DURATION)));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if(event.useInteractedBlock() == Result.DENY && event.useItemInHand() == Result.DENY) return;
 
@@ -85,15 +86,15 @@ public class Archer extends PvpClass implements Listener {
 
         if(timer.isActive(player, cooldown)) {
             player.sendMessage(Language.PREFIX + Language.ARCHER_CLICKABLE_COOLDOWN
-            .replace("<effect>", potionName)
-            .replace("<seconds>", timer.getTimeLeft(player, cooldown)));
+                .replace("<effect>", potionName)
+                .replace("<seconds>", timer.getTimeLeft(player, cooldown)));
             return;
         }
 
         this.applyClickableEffect(player, clickable, true);
 
         timer.activate(player, cooldown, clickable.getCooldown(), Language.PREFIX
-        + Language.ARCHER_COOLDOWN_EXPIRED.replace("<effect>", potionName));
+            + Language.ARCHER_COOLDOWN_EXPIRED.replace("<effect>", potionName));
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -132,6 +133,6 @@ public class Archer extends PvpClass implements Listener {
         TimerManager.getInstance().getArcherTagTimer().cancel(event.getPlayer());
 
         Lazarus.getInstance().getScoreboardManager().getScoreboards()
-        .values().forEach(sb -> sb.updateRelation(event.getPlayer()));
+            .values().forEach(sb -> sb.updateRelation(event.getPlayer()));
     }
 }

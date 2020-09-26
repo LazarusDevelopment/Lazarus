@@ -9,8 +9,8 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
-import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -18,6 +18,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -101,7 +102,7 @@ public class Rogue extends PvpClass implements Listener {
 
     private ClickableItem getClickableItem(ItemStack item) {
         return this.clickables.stream().filter(clickable -> clickable.getItem().getType() == item.getType()
-        && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+            && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -112,7 +113,7 @@ public class Rogue extends PvpClass implements Listener {
         if(type.name().startsWith("CHAINMAIL_")) ItemUtils.updateInventory(player);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if(event.useInteractedBlock() == Result.DENY && event.useItemInHand() == Result.DENY) return;
 
@@ -131,15 +132,15 @@ public class Rogue extends PvpClass implements Listener {
 
         if(timer.isActive(player, cooldown)) {
             player.sendMessage(Language.PREFIX + Language.ROGUE_CLICKABLE_COOLDOWN
-            .replace("<effect>", potionName)
-            .replace("<seconds>", timer.getTimeLeft(player, cooldown)));
+                .replace("<effect>", potionName)
+                .replace("<seconds>", timer.getTimeLeft(player, cooldown)));
             return;
         }
 
         this.applyClickableEffect(player, clickable, false);
 
         timer.activate(player, cooldown, clickable.getCooldown(), Language.PREFIX
-        + Language.ROGUE_COOLDOWN_EXPIRED.replace("<effect>", potionName));
+            + Language.ROGUE_COOLDOWN_EXPIRED.replace("<effect>", potionName));
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -164,11 +165,12 @@ public class Rogue extends PvpClass implements Listener {
 
             event.setDamage(Config.ROGUE_BACKSTAB_DAMAGE * 2);
             event.setDamage(DamageModifier.ARMOR, 0);
+
             damager.playSound(damager.getLocation(), Sound.ITEM_BREAK, 10, 10);
             ItemUtils.removeOneItem(damager);
 
             timer.activate(damager, "BACKSTAB", Config.ROGUE_BACKSTAB_COOLDOWN,
-            Language.PREFIX + Language.ROGUE_BACKSTAB_COOLDOWN_EXPIRED);
+                Language.PREFIX + Language.ROGUE_BACKSTAB_COOLDOWN_EXPIRED);
 
             if(Config.ROGUE_BACKSTAB_EFFECTS_ENABLED) this.backstabEffects.forEach(damager::addPotionEffect);
         }
