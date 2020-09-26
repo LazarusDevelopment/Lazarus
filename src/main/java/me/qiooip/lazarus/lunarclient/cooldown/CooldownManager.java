@@ -3,7 +3,7 @@ package me.qiooip.lazarus.lunarclient.cooldown;
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.lunarclient.LunarClientManager;
-import me.qiooip.lazarus.utils.ItemUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
