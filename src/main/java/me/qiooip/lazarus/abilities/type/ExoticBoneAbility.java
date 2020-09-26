@@ -65,7 +65,7 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
             int hitsNeeded = this.playerHits.get(damager.getUniqueId(), target.getUniqueId()) - 1;
 
             if(hitsNeeded == 0) {
-                // TODO: timer i message
+                this.activateAbilityOnTarget(damager, target);
                 this.playerHits.remove(damager.getUniqueId(), target.getUniqueId());
                 return true;
             }
@@ -80,9 +80,9 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
 
     private void activateAbilityOnTarget(Player damager, Player target) {
         TimerManager.getInstance().getCooldownTimer().activate(target, this.cooldownName, this.duration,
-        Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_EXPIRED);
+        Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_TARGET_EXPIRED);
 
-        target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_ACTIVATED
+        target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_TARGET_ACTIVATED
             .replace("<player>", damager.getName())
             .replace("<abilityName>", this.displayName)
             .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000, true, true)));
@@ -98,7 +98,7 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
         event.setCancelled(true);
-        player.sendMessage(Language.ABILITIES_PREFIX); // TODO
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -109,7 +109,7 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
         event.setCancelled(true);
-        player.sendMessage(Language.ABILITIES_PREFIX); // TODO
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT);
     }
 
     @EventHandler
@@ -124,6 +124,6 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
         event.setCancelled(true);
-        player.sendMessage(Language.ABILITIES_PREFIX); // TODO
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT);
     }
 }

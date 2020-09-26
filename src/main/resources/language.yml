@@ -66,7 +66,8 @@ ABILITIES:
     INVENTORY_FULL: "&c<player>'s &einventory is full."
   ANTI_REDSTONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with redstone for &c<duration>&7!"
-    TARGET_EXPIRED: "&7You can from now one interact with &credstone&7."
+    TARGET_EXPIRED: "&7You can from now on interact with &credstone&7."
+    CANNOT_USE: "&eYou cannot interact with this while on &canti redstone &eability!"
     ACTIVATED:
       - "&7&m                                                                                "
       - "&7You activated <abilityName> &7on &c<target>&7. He won't be able to interact with redstone for &c<duration>&7."
@@ -79,6 +80,16 @@ ABILITIES:
       - "&7&m                                                                                "
       - "&7You activated <abilityName>&7. You received effects:"
       - "<effects>"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  EXOTIC_BONE_ABILITY:
+    TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with blocks for &c<duration>&7!"
+    TARGET_EXPIRED: "&7You can from now on interact with blocks."
+    CANNOT_INTRERACT: "&eYou cannot interact with blocks while on &cexotic bone &eability!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName> &7on &c<target>&7. He won't be able to place or break blocks for &c<duration>&7."
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "

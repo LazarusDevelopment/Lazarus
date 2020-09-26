@@ -17,9 +17,10 @@ public enum AbilityType {
     EXOTIC_BONE("ExoticBone", "&a&lExotic Bone"),
     FAKE_PEARL("FakePearl", "&a&lFake Pearl"),
     FAST_PEARL("FastPearl", "&a&lFast Pearl"), // Duplo manji enderpearl cooldown
-    GUARDIAN_ANGLE("GuardianAngle", "&a&lGuardian Angel"), // Kad dode do 1 srca unutar 30 sekundi nakon aktivacije, heala ga i da mu neke efekte
+    GUARDIAN_ANGLE("GuardianAngle", "&a&lGuardian Angel"),
     HEALER("Healer", "&a&lHealer"), // Udari svog faction membera i heala ga i da mu neke efekte
     INVISIBILITY("Invisibility", "&a&lInvisibility"),
+    LUCKY_INGOT("LuckyIngot", "&a&lLucky Ingot"),
     POCKET_BARD("PocketBard", "&a&lPocket Bard"),
     POTION_COUNTER("PotionCounter", "&a&lPotion Counter"),
     PRE_PEARL("PrePearl", "&a&lPre-Pearl"), // Kad right clickas tu perlu, treba onaj big explosion particle playat i saveat tu lokaciju i onda nakon 10 sec tpat ga na tu lokaciju

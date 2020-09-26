@@ -15,7 +15,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -32,9 +35,13 @@ public abstract class AbilityItem {
     private boolean overrideActivationMessage;
     protected List<String> activationMessage;
 
+    private final Map<UUID, Long> messageDelays;
+
     public AbilityItem(AbilityType type, String configSection, ConfigFile config) {
         this.type = type;
         this.configSection = configSection;
+
+        this.messageDelays = new HashMap<>();
 
         this.loadAbilityData(config);
         this.loadActivationMessage();
@@ -87,6 +94,14 @@ public abstract class AbilityItem {
 
     protected void disable() { }
 
+    protected void sendDelayedMessage(Player player, String message) {
+        if(this.messageDelays.containsKey(player.getUniqueId()) && (this.messageDelays
+                .get(player.getUniqueId()) - System.currentTimeMillis() > 0)) return;
+
+        player.sendMessage(message);
+        this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 3000L);
+    }
+
     private void loadActivationMessage() {
         ConfigFile language = Lazarus.getInstance().getLanguage();
         String messagePath = "ABILITIES." + this.configSection + "_ABILITY.ACTIVATED";
@@ -108,9 +123,7 @@ public abstract class AbilityItem {
         this.overrideActivationMessage = true;
     }
 
-    protected void loadAdditionalData(ConfigurationSection abilitySection) {
-
-    }
+    protected void loadAdditionalData(ConfigurationSection abilitySection) { }
 
     protected boolean onProjectileClick(Player player, Projectile projectile) {
         return false;
