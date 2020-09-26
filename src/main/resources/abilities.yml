@@ -51,10 +51,9 @@ COCAINE:
     MATERIAL_ID: "353:0"
     NAME: "&b&lCocaine"
     LORE:
-      - ""
-      - ""
-      - ""
-      - ""
+      - "&7Right click the item to give"
+      - "&7yourself speed 4 for 10 seconds"
+      - "&7and confusion for 5 seconds!"
 
 EXOTIC_BONE:
   # Should we enable this ability item?

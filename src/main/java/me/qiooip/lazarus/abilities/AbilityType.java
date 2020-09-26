@@ -17,7 +17,7 @@ public enum AbilityType {
     EXOTIC_BONE("ExoticBone", "&a&lExotic Bone"),
     FAKE_PEARL("FakePearl", "&a&lFake Pearl"),
     FAST_PEARL("FastPearl", "&a&lFast Pearl"), // Duplo manji enderpearl cooldown
-    GUARDIAN_ANGLE("GuardianAngle", "&a&lGuardian Angel"),
+    GUARDIAN_ANGEL("GuardianAngel", "&a&lGuardian Angel"),
     HEALER("Healer", "&a&lHealer"), // Udari svog faction membera i heala ga i da mu neke efekte
     INVISIBILITY("Invisibility", "&a&lInvisibility"),
     LUCKY_INGOT("LuckyIngot", "&a&lLucky Ingot"),

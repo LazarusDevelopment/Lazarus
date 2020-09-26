@@ -22,7 +22,7 @@ public class GuardianAngelAbility extends AbilityItem implements Listener {
     private final String cooldownName;
 
     public GuardianAngelAbility(ConfigFile config) {
-        super(AbilityType.GUARDIAN_ANGLE, "GUARDIAN_ANGEL", config);
+        super(AbilityType.GUARDIAN_ANGEL, "GUARDIAN_ANGEL", config);
 
         this.cooldownName = "GuardianAngel";
         this.overrideActivationMessage();
