@@ -73,6 +73,15 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  GUARDIAN_ANGEL_ABILITY:
+    HEALED: "&cYou reached critical &4health amount&c. You were fully &ahealed&c."
+    EXPIRED: "&cYou are no longer being protected by the &bguardian angel&c!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. If you go below &c<amount> &7hearths you will be fully healed."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   INVISIBILITY_ABILITY:
     BECOME_VISIBLE_ON_DAMAGE: "&cYou become &avisible &cbecause you were &4damaged&c!"
     ACTIVATED:

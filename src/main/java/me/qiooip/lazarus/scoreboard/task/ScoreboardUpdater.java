@@ -246,7 +246,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                         scoreboard.add(Config.ABILITIES_GLOBAL_COOLDOWN_PLACEHOLDER, globalAbilitiesTimer.getTimeLeft(player));
                     }
 
-                    if(!activeAbilities.isEmpty()) {
+                    if(activeAbilities != null) {
                         for(Entry<String, String> abilityPlaceholders : activeAbilities.entrySet()) {
                             scoreboard.add(abilityPlaceholders.getKey(), abilityPlaceholders.getValue());
                         }
