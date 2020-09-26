@@ -25,6 +25,11 @@ public class CocaineAbility extends AbilityItem {
     }
 
     @Override
+    protected void disable() {
+        this.effects.clear();
+    }
+
+    @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
         this.effects = AbilityUtils.loadEffects(abilitySection);
     }

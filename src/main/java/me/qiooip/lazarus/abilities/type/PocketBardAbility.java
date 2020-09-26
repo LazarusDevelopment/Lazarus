@@ -28,6 +28,11 @@ public class PocketBardAbility extends AbilityItem {
     }
 
     @Override
+    protected void disable() {
+        this.effects.clear();
+    }
+
+    @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
         this.distance = abilitySection.getInt("DISTANCE");
         this.effects = AbilityUtils.loadEffects(abilitySection);
