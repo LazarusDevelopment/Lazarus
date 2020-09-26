@@ -63,6 +63,7 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         this.scoreboards.put(player.getUniqueId(), playerScoreboard);
 
         playerScoreboard.updateTabRelations(Bukkit.getOnlinePlayers());
+
         for(PlayerScoreboard other : this.scoreboards.values()) {
             other.updateRelation(player);
         }
@@ -103,8 +104,10 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
     }
 
     public void updateAllTabRelations() {
+        Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
+
         for(PlayerScoreboard sb : this.scoreboards.values()) {
-            sb.updateTabRelations(Bukkit.getOnlinePlayers());
+            sb.updateTabRelations(onlinePlayers);
         }
     }
 

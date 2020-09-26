@@ -84,8 +84,8 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         return null;
     }
 
-    public PotionEffect getPotionEffect(Player player, PotionEffect effect) {
-        return restorers.remove(player.getUniqueId(), effect.getType());
+    public PotionEffect getPotionEffect(Player player, PotionEffectType effectType) {
+        return restorers.remove(player.getUniqueId(), effectType);
     }
 
     public void addPotionEffect(Player player, PotionEffect toAdd) {
@@ -215,7 +215,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(!(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
 
-        PotionEffect effect = this.getPotionEffect(player, ServerUtils.getEffect(event));
+        PotionEffect effect = this.getPotionEffect(player, ServerUtils.getEffect(event).getType());
         if(effect == null) return;
 
         Tasks.sync(() -> {

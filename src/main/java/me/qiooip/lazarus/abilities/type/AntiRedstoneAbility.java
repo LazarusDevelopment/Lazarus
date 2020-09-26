@@ -42,8 +42,8 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
 
         this.clickables = EnumSet.of(Material.LEVER, Material.STONE_BUTTON, Material.WOOD_BUTTON);
         this.physical = EnumSet.of(Material.GOLD_PLATE, Material.IRON_PLATE, Material.STONE_PLATE, Material.WOOD_PLATE);
-
         this.playerHits = HashBasedTable.create();
+
         this.overrideActivationMessage();
     }
 
@@ -75,17 +75,8 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
             int hitsNeeded = this.playerHits.get(damager.getUniqueId(), target.getUniqueId()) - 1;
 
             if(hitsNeeded == 0) {
-                TimerManager.getInstance().getCooldownTimer().activate(target, this.cooldownName, this.duration,
-                    Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_EXPIRED);
-
-                target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_ACTIVATED
-                    .replace("<player>", damager.getName())
-                    .replace("<abilityName>", this.displayName)
-                    .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000, true, true)));
-
+                this.activateAbilityOnTarget(damager, target);
                 this.playerHits.remove(damager.getUniqueId(), target.getUniqueId());
-
-                this.sendActivationMessage(damager, target);
                 return true;
             }
 
@@ -95,6 +86,18 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
 
         this.playerHits.put(damager.getUniqueId(), target.getUniqueId(), --this.hits);
         return false;
+    }
+
+    private void activateAbilityOnTarget(Player damager, Player target) {
+        TimerManager.getInstance().getCooldownTimer().activate(target, this.cooldownName, this.duration,
+            Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_EXPIRED);
+
+        target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_ACTIVATED
+            .replace("<player>", damager.getName())
+            .replace("<abilityName>", this.displayName)
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000, true, true)));
+
+        this.sendActivationMessage(damager, target);
     }
 
     @EventHandler
