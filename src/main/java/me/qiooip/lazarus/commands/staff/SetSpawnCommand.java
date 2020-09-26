@@ -4,8 +4,10 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.handlers.event.SpawnSetEvent;
 import me.qiooip.lazarus.utils.LocationUtils;
 import me.qiooip.lazarus.utils.StringUtils;
+import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,16 +51,20 @@ public class SetSpawnCommand extends BaseCommand {
             return;
         }
 
-        Config.WORLD_SPAWNS.put(environment, player.getLocation());
+        Location location = player.getLocation();
 
-        int x = player.getLocation().getBlockX();
-        int y = player.getLocation().getBlockY();
-        int z = player.getLocation().getBlockZ();
+        Config.WORLD_SPAWNS.put(environment, location);
+
+        new SpawnSetEvent(player, environment, location);
+
+        int x = location.getBlockX();
+        int y = location.getBlockY();
+        int z = location.getBlockZ();
 
         player.sendMessage(Language.PREFIX + Language.SET_SPAWN_SPAWN_SET.replace("<world>", StringUtils.capitalize(world.toLowerCase()))
         .replace("<x>", String.valueOf(x)).replace("<y>", String.valueOf(y)).replace("<z>", String.valueOf(z)));
 
-        Lazarus.getInstance().getUtilitiesFile().set(world + "_SPAWN", LocationUtils.locationToString(player.getLocation()));
+        Lazarus.getInstance().getUtilitiesFile().set(world + "_SPAWN", LocationUtils.locationToString(location));
         Lazarus.getInstance().getUtilitiesFile().save();
     }
 }

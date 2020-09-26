@@ -6,6 +6,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.FactionRelationChangeEvent;
+import me.qiooip.lazarus.factions.event.FactionRenameEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
@@ -71,7 +72,10 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
 
     public void removeScoreboard(Player player) {
         PlayerScoreboard scoreboard = this.scoreboards.remove(player.getUniqueId());
-        if(scoreboard != null) scoreboard.unregister();
+
+        if(scoreboard != null) {
+            scoreboard.unregister();
+        }
     }
 
     public void toggleStaffScoreboard(Player player) {
@@ -98,16 +102,26 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
     }
 
     public void updateAllRelations(Player player) {
+        this.updateAllRelations(player, false);
+    }
+
+    public void updateAllRelations(Player player, boolean lunarOnly) {
         for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
-            scoreboard.updateRelation(player);
+            scoreboard.updateRelation(player, lunarOnly);
         }
     }
 
     public void updateAllTabRelations() {
-        Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
+        this.updateAllTabRelations(false);
+    }
 
+    public void updateAllTabRelations(boolean lunarOnly) {
+        this.updateAllTabRelations(Bukkit.getOnlinePlayers(), lunarOnly);
+    }
+
+    public void updateAllTabRelations(Collection<? extends Player> players, boolean lunarOnly) {
         for(PlayerScoreboard sb : this.scoreboards.values()) {
-            sb.updateTabRelations(onlinePlayers);
+            sb.updateTabRelations(players, lunarOnly);
         }
     }
 
@@ -116,6 +130,7 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         if(ServerUtils.getEffect(event).getType().getId() != 14) return;
 
         Player player = (Player) event.getEntity();
+
         for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
             scoreboard.updateRelation(player);
         }
@@ -125,16 +140,18 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         Player player = fplayer.getPlayer();
         if(player == null) return;
 
-        Tasks.async(() -> {
-            Collection<Player> players = faction.getOnlinePlayers();
+        Collection<Player> players = faction.getOnlinePlayers();
+        this.getPlayerScoreboard(player).updateTabRelations(players);
 
-            this.getPlayerScoreboard(player).updateTabRelations(players);
+        for(Player online : players) {
+            PlayerScoreboard playerScoreboard = this.getPlayerScoreboard(online);
 
-            for(Player online : players) {
-                PlayerScoreboard playerScoreboard = this.getPlayerScoreboard(online);
-                if(playerScoreboard != null) playerScoreboard.updateRelation(player);
+            if(playerScoreboard != null) {
+                playerScoreboard.updateRelation(player);
             }
-        });
+        }
+
+        this.updateAllRelations(player, true);
     }
 
     @EventHandler
@@ -160,7 +177,16 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
         if(event.getReason() == LeaveReason.DISBAND) return;
+
         this.updateFactionPlayer(event.getFactionPlayer(), event.getFaction());
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onFactionRename(FactionRenameEvent event) {
+        if(!(event.getFaction() instanceof PlayerFaction)) return;
+
+        PlayerFaction faction = (PlayerFaction) event.getFaction();
+        this.updateAllTabRelations(faction.getOnlinePlayers(), true);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -181,8 +207,8 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         if(!(event.getFaction() instanceof PlayerFaction)) return;
 
         PlayerFaction faction = (PlayerFaction) event.getFaction();
-
         List<Player> players = faction.getOnlinePlayers();
+
         for(PlayerFaction ally : faction.getAlliesAsFactions()) {
             players.addAll(ally.getOnlinePlayers());
         }
@@ -190,6 +216,8 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         for(Player player : players) {
             this.getPlayerScoreboard(player).updateTabRelations(players);
         }
+
+        this.updateAllTabRelations(players, true);
     }
 
     @EventHandler

@@ -71,6 +71,7 @@ import me.qiooip.lazarus.handlers.timer.SotwHandler;
 import me.qiooip.lazarus.integration.vault.Economy_Lazarus;
 import me.qiooip.lazarus.kits.KitsManager;
 import me.qiooip.lazarus.kits.commands.KitCommandExecutor;
+import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.selection.SelectionManager;
 import me.qiooip.lazarus.staffmode.StaffModeManager;
@@ -128,6 +129,7 @@ public class Lazarus extends JavaPlugin {
     private GlassManager glassManager;
     private InventoryRestoreManager inventoryRestoreManager;
     private KitsManager kitsManager;
+    private LunarClientManager lunarClientManager;
     private PvpClassManager pvpClassManager;
     private SelectionManager selectionManager;
     private SignShopManager signShopManager;
@@ -279,6 +281,10 @@ public class Lazarus extends JavaPlugin {
         this.staffModeManager.disable();
         this.vanishManager.disable();
         this.abilitiesManager.disable();
+
+        if(this.lunarClientManager != null) {
+            this.lunarClientManager.disable();
+        }
     }
 
     private void disableGameManagers() {
@@ -353,6 +359,10 @@ public class Lazarus extends JavaPlugin {
 
         if(Config.TAB_ENABLED) {
             this.tabManager = new TabManager();
+        }
+
+        if(Config.LUNAR_CLIENT_API_ENABLED && Bukkit.getPluginManager().isPluginEnabled("LunarClient-API")) {
+            this.lunarClientManager = new LunarClientManager();
         }
     }
 

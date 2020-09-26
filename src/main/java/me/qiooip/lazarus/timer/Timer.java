@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.timer;
 
 import lombok.Setter;
+import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -15,6 +16,7 @@ public abstract class Timer {
 
     @Setter protected FormatType format;
     @Setter protected String expiryMessage;
+    @Setter protected CooldownType lunarCooldownType;
 
     protected Timer(ScheduledExecutorService executor, String name, int delay, boolean persistable) {
         this.name = name;

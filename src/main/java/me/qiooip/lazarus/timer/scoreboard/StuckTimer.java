@@ -3,6 +3,7 @@ package me.qiooip.lazarus.timer.scoreboard;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
+import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.utils.LocationUtils;
@@ -20,6 +21,7 @@ public class StuckTimer extends PlayerTimer implements ScoreboardTimer {
 
         this.setExpiryMessage(Language.FACTION_PREFIX + Language.FACTIONS_STUCK_TELEPORTED);
         this.setFormat(FormatType.MILLIS_TO_MINUTES);
+        this.setLunarCooldownType(CooldownType.STUCK);
     }
 
     public void activate(Player player, Location location) {

@@ -9,6 +9,8 @@ import me.qiooip.lazarus.factions.event.FactionCreateEvent;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.Placeholder;
+import me.qiooip.lazarus.games.conquest.event.ConquestStartEvent;
+import me.qiooip.lazarus.games.conquest.event.ConquestStopEvent;
 import me.qiooip.lazarus.games.conquest.listener.ConquestEventListener;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.utils.FileUtils;
@@ -89,6 +91,8 @@ public class ConquestManager implements Listener, ManagerEnabler {
         LootData loot = Lazarus.getInstance().getLootManager().getLootByName("Conquest");
         this.runningConquest = new RunningConquest(this.conquest, loot, Config.CONQUEST_CAP_TIME);
 
+        new ConquestStartEvent(this.runningConquest);
+
         Language.CONQUEST_START_STARTED.forEach(line -> Messages.sendMessage(
             Placeholder.ConquestReplacer.parse(this.conquest, line)));
     }
@@ -102,6 +106,8 @@ public class ConquestManager implements Listener, ManagerEnabler {
 
         this.runningConquest.cancel();
         this.runningConquest = null;
+
+        new ConquestStopEvent();
     }
 
     private void checkCapzone(Player player, Location from, Location to) {

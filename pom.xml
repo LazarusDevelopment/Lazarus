@@ -23,10 +23,14 @@
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com</url>
         </repository>
+
+        <repository>
+            <id>moonsworth-mvn</id>
+            <url>https://maven.moonsworth.com/repository/lunarclient-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
-
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-8</artifactId>
@@ -197,6 +201,13 @@
             <groupId>us.myles</groupId>
             <artifactId>viaversion</artifactId>
             <version>2.2.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lunarclient</groupId>
+            <artifactId>bukkitapi</artifactId>
+            <version>1.0-20200729.212152-7</version>
             <scope>provided</scope>
         </dependency>
 

@@ -3,6 +3,8 @@ package me.qiooip.lazarus.scoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+
 public interface PlayerScoreboard  {
 
     void unregister();
@@ -18,6 +20,17 @@ public interface PlayerScoreboard  {
     boolean isEmpty();
     void setUpdate(boolean value);
 
-    void updateTabRelations(Iterable<? extends Player> players);
-    void updateRelation(Player player);
+    void updateTabRelations(Iterable<? extends Player> players, boolean lunarOnly);
+
+    default void updateTabRelations(Iterable<? extends Player> players) {
+        this.updateTabRelations(players, false);
+    }
+
+    default void updateRelation(Player player, boolean lunarOnly) {
+        this.updateTabRelations(Collections.singletonList(player), lunarOnly);
+    }
+
+    default void updateRelation(Player player) {
+        this.updateTabRelations(Collections.singletonList(player), false);
+    }
 }

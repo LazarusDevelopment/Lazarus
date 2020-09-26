@@ -3,6 +3,9 @@ package me.qiooip.lazarus.handlers.staff;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.handlers.event.freeze.FreezePlayerEvent;
+import me.qiooip.lazarus.handlers.event.freeze.FreezeType;
+import me.qiooip.lazarus.handlers.event.freeze.UnfreezePlayerEvent;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
@@ -55,6 +58,9 @@ public class FreezeHandler extends Handler implements Listener {
     }
 
     private void freezePlayer(CommandSender sender, Player target) {
+        FreezePlayerEvent event = new FreezePlayerEvent(sender, target, FreezeType.PLAYER);
+        if(event.isCancelled()) return;
+
         this.frozen.put(target.getUniqueId(), new FrozenTask(target));
 
         target.setWalkSpeed(0F);
@@ -71,6 +77,9 @@ public class FreezeHandler extends Handler implements Listener {
 
     private void unfreezePlayer(CommandSender sender, Player target) {
         if(this.freezeAll) return;
+
+        UnfreezePlayerEvent event = new UnfreezePlayerEvent(sender, target, FreezeType.PLAYER);
+        if(event.isCancelled()) return;
 
         this.frozen.remove(target.getUniqueId()).cancel();
 
@@ -97,6 +106,9 @@ public class FreezeHandler extends Handler implements Listener {
     private void freezeAllPlayer(Player player) {
         if(player.hasPermission("lazarus.staff")) return;
 
+        FreezePlayerEvent event = new FreezePlayerEvent(Bukkit.getConsoleSender(), player, FreezeType.SERVER);
+        if(event.isCancelled()) return;
+
         this.frozen.put(player.getUniqueId(), null);
 
         player.setWalkSpeed(0F);
@@ -117,6 +129,9 @@ public class FreezeHandler extends Handler implements Listener {
     private void unfreezeAll(CommandSender sender) {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(!this.isFrozen(player)) return;
+
+            UnfreezePlayerEvent event = new UnfreezePlayerEvent(Bukkit.getConsoleSender(), player, FreezeType.SERVER);
+            if(event.isCancelled()) return;
 
             this.frozen.remove(player.getUniqueId());
             player.setWalkSpeed(0.2F);
