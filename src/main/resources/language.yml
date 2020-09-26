@@ -64,6 +64,15 @@ ABILITIES:
     NOT_ENABLED: "&eAbility &c<name> &eis not enabled!"
     GIVE_ABILITY: "&eYou gave &b<amount>x <ability> &eto &c<player>&e."
     INVENTORY_FULL: "&c<player>'s &einventory is full."
+  ANTI_REDSTONE_ABILITY:
+    TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with redstone for &c<duration>&7!"
+    TARGET_EXPIRED: "&7You can from now one interact with &credstone&7."
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName> &7on &c<target>&7. He won't be able to interact with redstone for &c<duration>&7."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   COCAINE_ABILITY:
     EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
     ACTIVATED:
