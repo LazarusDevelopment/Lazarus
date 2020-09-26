@@ -13,6 +13,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -117,6 +118,12 @@ public abstract class AbilityItem {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+    }
+
+    public void addEffects(Player player, List<PotionEffect> effects) {
+        for(PotionEffect effect : effects) {
+            Lazarus.getInstance().getPvpClassManager().addPotionEffect(player, effect);
+        }
     }
 
     protected void overrideActivationMessage() {

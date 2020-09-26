@@ -36,7 +36,7 @@ COCAINE:
   # What name should we display in chat?
   DISPLAY_NAME: "&b&lCocaine"
   # Ability item cooldown in seconds
-  COOLDOWN: 45
+  COOLDOWN: 120
   # Effects this ability should give
   EFFECTS:
     SPEED:
@@ -133,13 +133,48 @@ INVISIBILITY:
       - "&7yourself and your armor invisibility."
       - "&7If hit, you will become visible!"
 
+LUCKY_INGOT:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&e&lLucky Ingot"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # What should the the percentage for the positive effects
+  POSITIVE_EFFECT_PERCENTAGE: 60
+  # Positive effects this ability should give
+  POSITIVE_EFFECTS:
+    INCREASE_DAMAGE:
+      DURATION: 8
+      LEVEL: 2
+    DAMAGE_RESISTANCE:
+      DURATION: 8
+      LEVEL: 1
+  # Negative effects this ability should give
+  NEGATIVE_EFFECTS:
+    WEAKNESS:
+      DURATION: 5
+      LEVEL: 2
+    SLOW_DIGGING:
+      DURATION: 5
+      LEVEL: 2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "266:0"
+    NAME: "&e&lLucky Ingot"
+    LORE:
+        - "&7When using this ability, you either"
+        - "&7get strength and resistance or"
+        - "&7weakness and mining fatigue!"
+
 POCKET_BARD:
   # Should we enable this ability item?
   ENABLED: true
   # What name should we display in chat?
   DISPLAY_NAME: "&6&lPocket bard"
   # Ability item cooldown in seconds
-  COOLDOWN: 45
+  COOLDOWN: 120
   # Distance member must be in to apply
   DISTANCE: 25
   # Effects this ability should give
@@ -187,7 +222,7 @@ SWITCHER:
   # What name should we display in chat?
   DISPLAY_NAME: "&5&lSwitcher"
   # Ability item cooldown in seconds
-  COOLDOWN: 45
+  COOLDOWN: 120
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
@@ -198,3 +233,31 @@ SWITCHER:
       - ""
       - ""
       - ""
+
+TANK_INGOT:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&b&lTank Ingot"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Distance enemies must be in to apply
+  DISTANCE: 10
+  # For how long should we extend the original duration of effects per player in seconds
+  PER_PLAYER: 2
+  # What should be the maximum duration of the effect in seconds
+  MAXIMUM_DURATION: 15
+  # Effects this ability should give
+  EFFECTS:
+    DAMAGE_RESISTANCE:
+      DURATION: 5
+      LEVEL: 3
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "265:0"
+    NAME: "&b&lTank Ingot"
+    LORE:
+      - "&7Use this ability in order"
+      - "&7to give yourself defensive"
+      - "&7effects to help you survive!"

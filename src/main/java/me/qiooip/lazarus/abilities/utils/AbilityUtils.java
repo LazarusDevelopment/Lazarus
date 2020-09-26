@@ -12,8 +12,12 @@ import java.util.StringJoiner;
 public class AbilityUtils {
 
     public static List<PotionEffect> loadEffects(ConfigurationSection abilitySection) {
+        return loadEffects(abilitySection, "EFFECTS");
+    }
+
+    public static List<PotionEffect> loadEffects(ConfigurationSection abilitySection, String section) {
         List<PotionEffect> effects = new ArrayList<>();
-        ConfigurationSection effectSection = abilitySection.getConfigurationSection("EFFECTS");
+        ConfigurationSection effectSection = abilitySection.getConfigurationSection(section);
 
         effectSection.getKeys(false).forEach(effect -> {
             if(PotionEffectType.getByName(effect) == null) return;

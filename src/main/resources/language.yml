@@ -110,11 +110,20 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  LUCKY_INGOT_ABILITY:
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. You received effects:"
+      - "<effects>"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   POCKET_BARD_ABILITY:
     EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
     ACTIVATED:
       - "&7&m                                                                                "
-      - "&7You activated <abilityName>&7. &7You have given this effects to &a<amount> &7teammates:"
+      - "&7You activated <abilityName>&7. &7You have given the following effects to &a<amount> &7teammates:"
       - "<effects>"
       - ""
       - "&cCooldown&7: &e<cooldown>"
@@ -123,6 +132,15 @@ ABILITIES:
     ACTIVATED:
       - "&7&m                                                                                "
       - "&7You activated <abilityName>&7. Player &b<target> &7has &c<amount> &7health potions in his inventory!"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  TANK_INGOT_ABILITY:
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. &7You have given the following effects based on &a<amount> &enemies:"
+      - "<effects>"
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "

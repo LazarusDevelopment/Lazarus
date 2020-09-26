@@ -10,9 +10,11 @@ import me.qiooip.lazarus.abilities.type.ExoticBoneAbility;
 import me.qiooip.lazarus.abilities.type.FakePearlAbility;
 import me.qiooip.lazarus.abilities.type.GuardianAngelAbility;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
+import me.qiooip.lazarus.abilities.type.LuckyIngotAbility;
 import me.qiooip.lazarus.abilities.type.PocketBardAbility;
 import me.qiooip.lazarus.abilities.type.PotionCounterAbility;
 import me.qiooip.lazarus.abilities.type.SwitcherAbility;
+import me.qiooip.lazarus.abilities.type.TankIngotAbility;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
@@ -74,9 +76,11 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbility(new FakePearlAbility(config), AbilityEventType.PROJECTILE_LAUNCH);
         this.loadAbility(new GuardianAngelAbility(config), AbilityEventType.PLAYER_INTERACT);
         this.loadAbility(new InvisibilityAbility(config), AbilityEventType.PLAYER_INTERACT);
+        this.loadAbility(new LuckyIngotAbility(config), AbilityEventType.PLAYER_INTERACT);
         this.loadAbility(new PocketBardAbility(config), AbilityEventType.PLAYER_INTERACT);
         this.loadAbility(new PotionCounterAbility(config), AbilityEventType.ENTITY_DAMAGE);
         this.loadAbility(new SwitcherAbility(config), AbilityEventType.PROJECTILE_LAUNCH);
+        this.loadAbility(new TankIngotAbility(config), AbilityEventType.PLAYER_INTERACT);
 
         this.enabledAbilities.values().stream()
             .filter(ability -> ability instanceof Listener).map(Listener.class::cast)

@@ -1,6 +1,5 @@
 package me.qiooip.lazarus.abilities.type;
 
-import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.utils.AbilityUtils;
@@ -43,7 +42,7 @@ public class CocaineAbility extends AbilityItem {
 
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
-        this.effects.forEach(effect -> Lazarus.getInstance().getPvpClassManager().addPotionEffect(player, effect));
+        this.addEffects(player, this.effects);
         this.sendActivationMessage(player);
 
         event.setCancelled(true);

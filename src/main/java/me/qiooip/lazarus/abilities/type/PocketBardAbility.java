@@ -55,7 +55,7 @@ public class PocketBardAbility extends AbilityItem {
         for(Player member : playerFaction.getOnlinePlayers()) {
             if(player.getWorld() != member.getWorld() || player.getLocation().distance(member.getLocation()) > this.distance) continue;
 
-            this.effects.forEach(effect -> Lazarus.getInstance().getPvpClassManager().addPotionEffect(member, effect));
+            this.addEffects(member, this.effects);
 
             if(member != player) {
                 amountOfTeammates++;

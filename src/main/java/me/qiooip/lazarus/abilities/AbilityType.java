@@ -28,7 +28,7 @@ public enum AbilityType {
     ROCKET("Rocket", "&a&lRocket"), // Jednostavno ga boosta u zrak
     SCRAMBLER("Scrambler", "&a&lScrambler"), // Randomizea hotbar
     SWITCHER("Switcher", "&a&lSwitcher"),
-    TANK_INGOT("TankIngot", "&a&lTank Ingot"), // Igrac dobija neke efekte ovisno o ljudima ono njega npr 3 igraca = 6 sekundi res3
+    TANK_INGOT("TankIngot", "&a&lTank Ingot"),
     WEB_GUN("WebGun", "&a&lWeb Gun"); // 2x2 cobweb koji se makne nakon 10 sekundi
 
     private final String name;
