@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -84,9 +85,15 @@ public class AbilitiesTimer extends PlayerTimer {
     }
 
     public Map<String, String> getActiveAbilities(Player player) {
+        Set<Entry<AbilityType, ScheduledFuture<?>>> cooldowns = this.cooldowns.row(player.getUniqueId()).entrySet();
+
+        if(cooldowns.isEmpty()) {
+            return null;
+        }
+
         Map<String, String> abilityPlaceholders = new HashMap<>();
 
-        for(Entry<AbilityType, ScheduledFuture<?>> entries : this.cooldowns.row(player.getUniqueId()).entrySet()) {
+        for(Entry<AbilityType, ScheduledFuture<?>> entries : cooldowns) {
             long remaining = entries.getValue().getDelay(TimeUnit.MILLISECONDS);
 
             if(remaining < 60_000L) {

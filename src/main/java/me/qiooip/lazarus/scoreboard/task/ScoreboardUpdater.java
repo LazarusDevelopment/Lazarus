@@ -214,6 +214,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                             warmupTimer.getScoreboardEntry(player, pvpClass.getName()));
 
                     } else if(pvpClass.isActive(player)) {
+                        scoreboard.addLine(ChatColor.DARK_GRAY);
                         scoreboard.add(Config.PVPCLASS_ACTIVE_PLACEHOLDER, pvpClass.getDisplayName());
 
                         if(pvpClass instanceof Bard) {
@@ -237,8 +238,8 @@ public class ScoreboardUpdater extends BukkitRunnable {
 
                 Map<String, String> activeAbilities = TimerManager.getInstance().getAbilitiesTimer().getActiveAbilities(player);
 
-                if(globalTimerActive || !activeAbilities.isEmpty()) {
-                    scoreboard.addLine(ChatColor.DARK_GRAY);
+                if(globalTimerActive || activeAbilities != null) {
+                    scoreboard.addLine(ChatColor.BLUE);
                     scoreboard.add(Config.ABILITIES_TITLE_PLACEHOLDER, "");
 
                     if(globalTimerActive) {

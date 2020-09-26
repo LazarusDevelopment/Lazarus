@@ -5,8 +5,10 @@ import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PotionCounterAbility extends AbilityItem {
@@ -16,15 +18,22 @@ public class PotionCounterAbility extends AbilityItem {
     public PotionCounterAbility(ConfigFile config) {
         super(AbilityType.POTION_COUNTER, "POTION_COUNTER", config);
 
+        this.overrideActivationMessage();
         this.splashPotion = new ItemBuilder(Material.POTION).setDurability(16421).build();
     }
 
+    public void sendActivationMessage(Player player, Player target, int potionAmount) {
+        this.activationMessage.forEach(line -> player.sendMessage(line
+            .replace("<abilityName>", this.displayName)
+            .replace("<target>", target.getName())
+            .replace("<amount>", String.valueOf(potionAmount))
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+    }
+
     @Override
-    protected boolean onPlayerItemHit(Player damager, Player target) {
-        int amount = ItemUtils.getItemAmount(target, this.splashPotion.getData());
-
-        // TODO: message
-
+    protected boolean onPlayerItemHit(Player damager, Player target, EntityDamageByEntityEvent event) {
+        int potionAmount = ItemUtils.getItemAmount(target, this.splashPotion.getData());
+        this.sendActivationMessage(damager, target, potionAmount);
         return true;
     }
 }

@@ -6,9 +6,11 @@ import me.qiooip.lazarus.config.ConfigFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
-public class GuardianAngelAbility extends AbilityItem {
+public class GuardianAngelAbility extends AbilityItem implements Listener {
 
     private int health;
     private int duration;
@@ -18,14 +20,15 @@ public class GuardianAngelAbility extends AbilityItem {
     }
 
     @Override
-    protected void loadAdditionalData(ConfigurationSection section) {
-        this.health = section.getInt("HEALTH");
-        this.duration = section.getInt("DURATION");
+    protected void loadAdditionalData(ConfigurationSection abilitySection) {
+        this.health = abilitySection.getInt("HEALTH");
+        this.duration = abilitySection.getInt("DURATION");
     }
 
     @Override
-    protected void onItemClick(Player player) {
+    protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         // TODO: aktivirat timer i message
+        return true;
     }
 
     @EventHandler(ignoreCancelled = true)

@@ -183,7 +183,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
     @Override
     public void addLine(ChatColor color) {
-        if(!Config.SCOREBOARD_LINE_AFTER_EVERY_SECTION || this.entries.size() >= this.maxSize) return;
+        if(!Config.SCOREBOARD_LINE_AFTER_EVERY_SECTION || this.entries.isEmpty() || this.entries.size() >= this.maxSize) return;
 
         this.entries.addLast(new ScoreboardInput(SB_LINE, color.toString() + SB_LINE, "---------"));
         this.lastLine.set(true);
@@ -199,7 +199,14 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
         if(value.isEmpty() || this.entries.size() >= this.maxSize) return false;
 
         value = Color.translate(value);
-        if(!time.isEmpty()) time = Color.translate(time);
+
+        if(!time.isEmpty()) {
+            time = Color.translate(time);
+
+            if(time.length() > 16) {
+                time = time.substring(0, 16);
+            }
+        }
 
         if(value.length() <= 16) {
             this.entries.addLast(new ScoreboardInput("", value, time));

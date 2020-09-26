@@ -19,7 +19,6 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
 import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.utils.ManagerEnabler;
-import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,13 +26,14 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,7 +49,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     public AbilitiesManager() {
         instance = this;
         this.abilityItems = HashBasedTable.create();
-        this.enabledAbilities = new HashMap<>();
+        this.enabledAbilities = new EnumMap<>(AbilityType.class);
 
         this.setupAbilityItems();
 
@@ -76,7 +76,11 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbility(new InvisibilityAbility(config), AbilityEventType.PLAYER_INTERACT);
         this.loadAbility(new PocketBardAbility(config), AbilityEventType.PLAYER_INTERACT);
         this.loadAbility(new PotionCounterAbility(config), AbilityEventType.ENTITY_DAMAGE);
-        this.loadAbility(new SwitcherAbility(config), AbilityEventType.PLAYER_INTERACT);
+        this.loadAbility(new SwitcherAbility(config), AbilityEventType.PROJECTILE_LAUNCH);
+
+        this.enabledAbilities.values().stream()
+            .filter(ability -> ability instanceof Listener).map(Listener.class::cast)
+            .forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, Lazarus.getInstance()));
     }
 
     public AbilityItem getAbilityItemByType(AbilityType type) {
@@ -84,7 +88,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     }
 
     private void loadAbility(AbilityItem abilityItem, AbilityEventType eventType) {
-        if (!abilityItem.isEnabled()) {
+        if(!abilityItem.isEnabled()) {
             return;
         }
 
@@ -96,50 +100,6 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
     private int calculateItemHash(ItemMeta itemMeta) {
         return Objects.hash(itemMeta.getDisplayName(), itemMeta.getLore());
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if(event.useInteractedBlock() == Event.Result.DENY && event.useItemInHand() == Event.Result.DENY) return;
-        if(!event.hasItem() || !event.getItem().hasItemMeta()) return;
-
-        ItemMeta itemMeta = event.getItem().getItemMeta();
-        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
-
-        int hash = this.calculateItemHash(itemMeta);
-
-        AbilityItem ability = this.abilityItems.get(hash, AbilityEventType.PLAYER_INTERACT);
-        if(ability == null) return;
-
-        Player player = event.getPlayer();
-        GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
-
-        if(globalTimer.isActive(player.getUniqueId())) {
-            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_ACTIVE
-                .replace("<time>", globalTimer.getTimeLeft(player)));
-            return;
-        }
-
-        AbilitiesTimer abilityTimer = TimerManager.getInstance().getAbilitiesTimer();
-
-        if(abilityTimer.isActive(player, ability.getType())) {
-            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_COOLDOWN_ACTIVE
-                .replace("<ability>", ability.getDisplayName())
-                .replace("<time>", abilityTimer.getDynamicTimeLeft(player, ability.getType())));
-            return;
-        }
-
-        ability.onItemClick(player);
-
-        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_ACTIVATED
-            .replace("<ability>", ability.getDisplayName())
-            .replace("<cooldown>", StringUtils.formatMillis(ability.getCooldown() * 1000)));
-
-        ItemUtils.removeOneItem(player);
-        globalTimer.activate(player);
-
-        abilityTimer.activate(player, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
-            + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -180,17 +140,58 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
             return;
         }
 
-        ability.onProjectileClick(player, event.getEntity());
+        if(ability.onProjectileClick(player, event.getEntity())) {
+            ability.sendActivationMessage(player);
 
-        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_ACTIVATED
-            .replace("<ability>", ability.getDisplayName())
-            .replace("<cooldown>", StringUtils.formatMillis(ability.getCooldown() * 1000)));
+            ItemUtils.removeOneItem(player);
+            globalTimer.activate(player);
 
-        ItemUtils.removeOneItem(player);
-        globalTimer.activate(player);
+            abilityTimer.activate(player, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
+               + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+        }
+    }
 
-        abilityTimer.activate(player, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
-            + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if(event.useInteractedBlock() == Event.Result.DENY && event.useItemInHand() == Event.Result.DENY) return;
+        if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if(!event.hasItem() || !event.getItem().hasItemMeta()) return;
+
+        ItemMeta itemMeta = event.getItem().getItemMeta();
+        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
+
+        int hash = this.calculateItemHash(itemMeta);
+
+        AbilityItem ability = this.abilityItems.get(hash, AbilityEventType.PLAYER_INTERACT);
+        if(ability == null) return;
+
+        Player player = event.getPlayer();
+        GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
+
+        if(globalTimer.isActive(player.getUniqueId())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_ACTIVE
+                .replace("<time>", globalTimer.getTimeLeft(player)));
+            return;
+        }
+
+        AbilitiesTimer abilityTimer = TimerManager.getInstance().getAbilitiesTimer();
+
+        if(abilityTimer.isActive(player, ability.getType())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_COOLDOWN_ACTIVE
+                .replace("<ability>", ability.getDisplayName())
+                .replace("<time>", abilityTimer.getDynamicTimeLeft(player, ability.getType())));
+            return;
+        }
+
+        if(ability.onItemClick(player, event)) {
+            ability.sendActivationMessage(player);
+
+            ItemUtils.removeOneItem(player);
+            globalTimer.activate(player);
+
+            abilityTimer.activate(player, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
+               + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -226,17 +227,15 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
             return;
         }
 
-        if(!ability.onPlayerItemHit(damager, (Player) event.getEntity())) return;
+        if(ability.onPlayerItemHit(damager, (Player) event.getEntity(), event)) {
+            ability.sendActivationMessage(damager);
 
-        damager.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ABILITY_ACTIVATED
-            .replace("<ability>", ability.getDisplayName())
-            .replace("<cooldown>", StringUtils.formatMillis(ability.getCooldown() * 1000)));
+            ItemUtils.removeOneItem(damager);
+            globalTimer.activate(damager);
 
-        ItemUtils.removeOneItem(damager);
-        globalTimer.activate(damager);
-
-        abilityTimer.activate(damager, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
-            + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+            abilityTimer.activate(damager, ability.getType(), ability.getCooldown(), Language.ABILITIES_PREFIX
+               + Language.ABILITIES_ABILITY_COOLDOWN_EXPIRED.replace("<ability>", ability.getDisplayName()));
+        }
     }
 
     private enum AbilityEventType {

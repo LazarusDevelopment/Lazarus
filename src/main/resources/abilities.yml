@@ -37,6 +37,14 @@ COCAINE:
   DISPLAY_NAME: "&b&lCocaine"
   # Ability item cooldown in seconds
   COOLDOWN: 45
+  # Effects this ability should give
+  EFFECTS:
+    SPEED:
+      DURATION: 10
+      LEVEL: 4
+    CONFUSION:
+      DURATION: 5
+      LEVEL: 3
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
@@ -133,6 +141,19 @@ POCKET_BARD:
   DISPLAY_NAME: "&6&lPocket bard"
   # Ability item cooldown in seconds
   COOLDOWN: 45
+  # Distance member must be in to apply
+  DISTANCE: 25
+  # Effects this ability should give
+  EFFECTS:
+    SPEED:
+      DURATION: 5
+      LEVEL: 3
+    DAMAGE_RESISTANCE:
+      DURATION: 5
+      LEVEL: 3
+    FIRE_RESISTANCE:
+      DURATION: 20
+      LEVEL: 1
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true

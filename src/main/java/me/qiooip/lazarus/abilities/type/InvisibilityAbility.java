@@ -4,14 +4,17 @@ import lombok.Getter;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionEffectExpireEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -21,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class InvisibilityAbility extends AbilityItem {
+public class InvisibilityAbility extends AbilityItem implements Listener {
 
     @Getter private final Set<UUID> players;
     private final Set<UUID> offline;
@@ -42,13 +45,16 @@ public class InvisibilityAbility extends AbilityItem {
     }
 
     @Override
-    protected void loadAdditionalData(ConfigurationSection section) {
-        this.duration = section.getInt("DURATION");
+    protected void loadAdditionalData(ConfigurationSection abilitySection) {
+        this.duration = abilitySection.getInt("DURATION");
     }
 
     @Override
-    protected void onItemClick(Player player) {
+    protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         this.hidePlayer(player);
+
+        event.setCancelled(true);
+        return true;
     }
 
     private void hidePlayer(Player player) {
@@ -77,7 +83,7 @@ public class InvisibilityAbility extends AbilityItem {
 
         if(this.players.contains(target.getUniqueId())) {
             this.showPlayer(target, true);
-            // TODO: message
+            target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_INVISIBILITY_BECOME_VISIBLE_ON_DAMAGE);
         }
     }
 

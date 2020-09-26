@@ -7,18 +7,20 @@ import me.qiooip.lazarus.config.ConfigFile;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class FakePearlAbility extends AbilityItem {
+public class FakePearlAbility extends AbilityItem implements Listener {
 
     public FakePearlAbility(ConfigFile config) {
         super(AbilityType.FAKE_PEARL, "FAKE_PEARL", config);
     }
 
     @Override
-    protected void onProjectileClick(Player player, Projectile projectile) {
+    protected boolean onProjectileClick(Player player, Projectile projectile) {
         projectile.setMetadata("fakePearl", new FixedMetadataValue(Lazarus.getInstance(), true));
+        return true;
     }
 
     @EventHandler

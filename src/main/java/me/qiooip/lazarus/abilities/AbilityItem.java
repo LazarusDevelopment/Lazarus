@@ -6,11 +6,12 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
-import org.bukkit.Bukkit;
+import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
@@ -18,23 +19,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public abstract class AbilityItem implements Listener {
+public abstract class AbilityItem {
 
-    private final AbilityType type;
-    private final String configSection;
+    protected final AbilityType type;
+    protected final String configSection;
 
-    private String displayName;
-    private ItemStack item;
-    private int cooldown;
-    private boolean enabled;
+    protected String displayName;
+    protected int cooldown;
+    protected boolean enabled;
+    protected ItemStack item;
+
+    private boolean overrideActivationMessage;
+    protected List<String> activationMessage;
 
     public AbilityItem(AbilityType type, String configSection, ConfigFile config) {
         this.type = type;
         this.configSection = configSection;
 
         this.loadAbilityData(config);
-
-        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
+        this.loadActivationMessage();
     }
 
     public void loadAbilityData(ConfigFile config) {
@@ -84,11 +87,40 @@ public abstract class AbilityItem implements Listener {
 
     protected void disable() { }
 
-    protected void loadAdditionalData(ConfigurationSection section) { }
+    private void loadActivationMessage() {
+        ConfigFile language = Lazarus.getInstance().getLanguage();
+        String messagePath = "ABILITIES." + this.configSection + "_ABILITY.ACTIVATED";
 
-    protected void onItemClick(Player player) { }
+        this.activationMessage = language.getStringList(messagePath);
+    }
 
-    protected void onProjectileClick(Player player, Projectile projectile) { }
+    public void sendActivationMessage(Player player) {
+        if(this.overrideActivationMessage) {
+            return;
+        }
 
-    protected boolean onPlayerItemHit(Player damager, Player target) { return false; }
+        this.activationMessage.forEach(line -> player.sendMessage(line
+            .replace("<abilityName>", this.displayName)
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+    }
+
+    protected void overrideActivationMessage() {
+        this.overrideActivationMessage = true;
+    }
+
+    protected void loadAdditionalData(ConfigurationSection abilitySection) {
+
+    }
+
+    protected boolean onProjectileClick(Player player, Projectile projectile) {
+        return false;
+    }
+
+    protected boolean onItemClick(Player player, PlayerInteractEvent event) {
+        return false;
+    }
+
+    protected boolean onPlayerItemHit(Player damager, Player target, EntityDamageByEntityEvent event) {
+        return false;
+    }
 }

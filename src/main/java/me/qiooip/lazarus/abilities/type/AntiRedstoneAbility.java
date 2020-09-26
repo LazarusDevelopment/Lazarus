@@ -8,12 +8,14 @@ import me.qiooip.lazarus.config.ConfigFile;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class AntiRedstoneAbility extends AbilityItem {
+public class AntiRedstoneAbility extends AbilityItem implements Listener {
 
     private int duration;
     private int hits;
@@ -41,13 +43,13 @@ public class AntiRedstoneAbility extends AbilityItem {
     }
 
     @Override
-    protected void loadAdditionalData(ConfigurationSection section) {
-        this.duration = section.getInt("DURATION");
-        this.hits = section.getInt("HITS");
+    protected void loadAdditionalData(ConfigurationSection abilitySection) {
+        this.duration = abilitySection.getInt("DURATION");
+        this.hits = abilitySection.getInt("HITS");
     }
 
     @Override
-    protected boolean onPlayerItemHit(Player damager, Player target) {
+    protected boolean onPlayerItemHit(Player damager, Player target, EntityDamageByEntityEvent event) {
         if(this.playerHits.contains(damager.getUniqueId(), target.getUniqueId())) {
             int hitsNeeded = this.playerHits.get(damager.getUniqueId(), target.getUniqueId()) - 1;
             if(hitsNeeded == 0) {

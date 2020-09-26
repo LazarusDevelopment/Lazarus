@@ -52,7 +52,6 @@ COMMANDS:
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
 ABILITIES:
-  ABILITY_ACTIVATED: "&7You activated <ability>&7. Cooldown: &c<cooldown>"
   GLOBAL_COOLDOWN:
     ACTIVE: "&7You are on &cglobal abilities &7cooldown for &b<time>&7."
     EXPIRED: "&7Global &cability cooldown &7has expired!"
@@ -65,6 +64,39 @@ ABILITIES:
     NOT_ENABLED: "&eAbility &c<name> &eis not enabled!"
     GIVE_ABILITY: "&eYou gave &b<amount>x <ability> &eto &c<player>&e."
     INVENTORY_FULL: "&c<player>'s &einventory is full."
+  COCAINE_ABILITY:
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. You received effects:"
+      - "<effects>"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  INVISIBILITY_ABILITY:
+    BECOME_VISIBLE_ON_DAMAGE: "&cYou become &avisible &cbecause you were &4damaged&c!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. You and your armor will stay invisible until ability expires or you are damaged."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  POCKET_BARD_ABILITY:
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. &7You have given this effects to &a<amount> &7teammates:"
+      - "<effects>"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  POTION_COUNTER_ABILITY:
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Player &b<target> &7has &c<amount> &7health potions in his inventory!"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
 
 BLOCKS:
   PLACEMENT_DISABLED: "&eYou are not allowed to place &c<block>&e!"
