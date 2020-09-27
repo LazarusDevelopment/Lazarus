@@ -77,13 +77,18 @@ public class TankIngotAbility extends AbilityItem {
             amountOfEnemies++;
         }
 
-        List<PotionEffect> fixedEffects = new ArrayList<>();
-        for(PotionEffect effect : this.effects) {
-            int duration = Math.min(this.maximum * 20, effect.getDuration() + (this.duration * amountOfEnemies * 20));
-            fixedEffects.add(new PotionEffect(effect.getType(), duration, effect.getAmplifier()));
+        if(amountOfEnemies > 0) {
+            List<PotionEffect> fixedEffects = new ArrayList<>();
+            for(PotionEffect effect : this.effects) {
+                int duration = Math.min(this.maximum * 20, effect.getDuration() + (this.duration * amountOfEnemies * 20));
+                fixedEffects.add(new PotionEffect(effect.getType(), duration, effect.getAmplifier()));
+            }
+
+            this.addEffects(player, fixedEffects);
+        } else {
+            this.addEffects(player, this.effects);
         }
 
-        this.addEffects(player, fixedEffects);
         this.sendActivationMessage(player, amountOfEnemies);
 
         event.setCancelled(true);

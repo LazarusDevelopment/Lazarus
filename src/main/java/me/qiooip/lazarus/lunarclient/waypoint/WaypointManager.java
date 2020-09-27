@@ -201,9 +201,9 @@ public class WaypointManager implements Listener {
 
     private void updateConquestWaypoints() {
         this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_RED, true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_BLUE,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_GREEN,true);
-        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_YELLOW,true);
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_BLUE, true);
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_GREEN, true);
+        this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_YELLOW, true);
     }
 
     private void registerPlayerWaypoints(Player player) {
