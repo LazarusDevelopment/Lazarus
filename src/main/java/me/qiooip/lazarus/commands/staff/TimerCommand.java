@@ -46,12 +46,16 @@ public class TimerCommand extends BaseCommand {
         if(timer.isActive(target)) timer.cancel(target);
         if(duration > 0) timer.activate(target, duration);
 
-        sender.sendMessage(Language.PREFIX + Language.TIMER_CHANGED_SENDER.replace("<player>", target
-        .getName()).replace("<timer>", args[1].toLowerCase()).replace("<time>", args[2].toLowerCase()));
+        sender.sendMessage(Language.PREFIX + Language.TIMER_CHANGED_SENDER
+            .replace("<player>", target.getName())
+            .replace("<timer>", args[1].toLowerCase())
+            .replace("<time>", args[2].toLowerCase()));
 
         if(!Language.TIMER_CHANGED.isEmpty()) {
-            target.sendMessage(Language.PREFIX + Language.TIMER_CHANGED.replace("<timer>", args[1].toLowerCase())
-            .replace("<time>", args[2].toLowerCase()).replace("<sender>", sender.getName()));
+            target.sendMessage(Language.PREFIX + Language.TIMER_CHANGED
+                .replace("<timer>", args[1].toLowerCase())
+                .replace("<time>", args[2].toLowerCase())
+                .replace("<sender>", sender.getName()));
         }
     }
 

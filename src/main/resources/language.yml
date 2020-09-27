@@ -64,6 +64,12 @@ ABILITIES:
     NOT_ENABLED: "&eAbility &c<name> &eis not enabled!"
     GIVE_ABILITY: "&eYou gave &b<amount>x <ability> &eto &c<player>&e."
     INVENTORY_FULL: "&c<player>'s &einventory is full."
+  ABILITY_TIMER_COMMAND:
+    USAGE: "&cUsage: /abilitytimer <player> <timer> <time>"
+    NOT_FOUND: "&eAbility &c<name> &enot found!"
+    NOT_ENABLED: "&eAbility &c<name> &eis not enabled!"
+    CHANGED: "&7Your <abilityName> &7timer has been set to &c<time> &7by &c<sender>&7."
+    CHANGED_SENDER: "&7You set &c<player>'s <abilityName> &7timer to &c<time>&7."
   ANTI_REDSTONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with redstone for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with &credstone&7."

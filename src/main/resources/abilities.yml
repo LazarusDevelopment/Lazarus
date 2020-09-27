@@ -243,11 +243,13 @@ SWITCHER:
   COOLDOWN: 120
   # Should Switcher switch you with team mate?
   SWITCH_WITH_TEAMMATES: false
+  # Should Switcher switch you with allies?
+  SWITCH_WITH_ALLIES: false
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "332:0"
-    NAME: "&b6lSwitcher ball"
+    NAME: "&5&lSwitcher ball"
     LORE:
       - "&7Upon hitting a player you"
       - "&7will change place with him!"
