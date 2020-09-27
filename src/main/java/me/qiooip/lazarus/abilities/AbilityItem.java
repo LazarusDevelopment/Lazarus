@@ -32,6 +32,7 @@ public abstract class AbilityItem {
     protected int cooldown;
     protected boolean enabled;
     protected ItemStack item;
+    protected boolean removeOneItem;
 
     private boolean overrideActivationMessage;
     protected List<String> activationMessage;
@@ -42,6 +43,7 @@ public abstract class AbilityItem {
         this.type = type;
         this.configSection = configSection;
 
+        this.removeOneItem = true;
         this.messageDelays = new HashMap<>();
 
         this.loadAbilityData(config);
@@ -93,7 +95,9 @@ public abstract class AbilityItem {
         this.loadAdditionalData(section);
     }
 
-    protected void disable() { }
+    protected void disable() {
+
+    }
 
     protected void sendDelayedMessage(Player player, String message) {
         if(this.messageDelays.containsKey(player.getUniqueId()) && (this.messageDelays
@@ -130,7 +134,15 @@ public abstract class AbilityItem {
         this.overrideActivationMessage = true;
     }
 
-    protected void loadAdditionalData(ConfigurationSection abilitySection) { }
+    public void removeOneItem(Player player) {
+        if(this.removeOneItem) {
+            ItemUtils.removeOneItem(player);
+        }
+    }
+
+    protected void loadAdditionalData(ConfigurationSection abilitySection) {
+
+    }
 
     protected boolean onProjectileClick(Player player, Projectile projectile) {
         return false;

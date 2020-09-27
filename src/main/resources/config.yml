@@ -175,7 +175,9 @@ COOLDOWNS:
     MATERIAL_ID: "30:0"
 
 NAMETAGS:
+  # Should we enable Lunar Client name tags?
   ENABLED: true
+  # Lunar Client name tags format
   FACTION: "&6[<faction> &7\u2503 <dtr>&6]"
 
 #=========================================================#

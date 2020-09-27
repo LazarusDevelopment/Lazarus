@@ -28,7 +28,7 @@ ANTI_REDSTONE:
       - "&7Hit a player 3 times in a row"
       - "&7and they wont be able to use"
       - "&7pressure plates, buttons and"
-      - "&7levers for total of 15 seconds."
+      - "&7levers for total of 15 seconds!"
 
 COCAINE:
   # Should we enable this ability item?
@@ -74,7 +74,7 @@ EXOTIC_BONE:
     LORE:
       - "&7Hit a player 3 times in a row and"
       - "&7they wont be able to place or break"
-      - "&7any blocks for total of 15 seconds."
+      - "&7any blocks for total of 15 seconds!"
 
 FAKE_PEARL:
   # Should we enable this ability item?
@@ -91,6 +91,25 @@ FAKE_PEARL:
     LORE:
       - "&7If thrown, the enderpearl will"
       - "&7not teleport you anywhere!"
+
+FAST_PEARL:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lFast pearl"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Reduced enderpearl cooldown
+  ENDERPEARL_COOLDOWN: 8
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "368:0"
+    NAME: "&d&lFast Pearl"
+    LORE:
+      - "&7If thrown, this enderpearl "
+      - "&7will reduce original enderpearl"
+      - "&7cooldown to 8 seconds!"
 
 GUARDIAN_ANGEL:
   # Should we enable this ability item?
@@ -182,9 +201,9 @@ POCKET_BARD:
     SPEED:
       DURATION: 5
       LEVEL: 3
-    DAMAGE_RESISTANCE:
+    INCREASE_DAMAGE:
       DURATION: 5
-      LEVEL: 3
+      LEVEL: 2
     FIRE_RESISTANCE:
       DURATION: 20
       LEVEL: 1
@@ -194,10 +213,9 @@ POCKET_BARD:
     MATERIAL_ID: "351:14"
     NAME: "&6&lPocket bard"
     LORE:
-      - ""
-      - ""
-      - ""
-      - ""
+      - "&7When used your team mates in radius"
+      - "&7of 25 blocks will receive speed,"
+      - "&7strength and fire resistance!"
 
 POTION_COUNTER:
   # Should we enable this ability item?
@@ -223,16 +241,16 @@ SWITCHER:
   DISPLAY_NAME: "&5&lSwitcher"
   # Ability item cooldown in seconds
   COOLDOWN: 120
+  # Should Switcher switch you with team mate?
+  SWITCH_WITH_TEAMMATES: false
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "332:0"
     NAME: "&b6lSwitcher ball"
     LORE:
-      - ""
-      - ""
-      - ""
-      - ""
+      - "&7Upon hitting a player you"
+      - "&7will change place with him!"
 
 TANK_INGOT:
   # Should we enable this ability item?

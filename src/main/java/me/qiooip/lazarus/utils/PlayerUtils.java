@@ -3,21 +3,20 @@ package me.qiooip.lazarus.utils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import me.qiooip.lazarus.Lazarus;
-import me.qiooip.lazarus.config.Config;
-import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class PlayerUtils {
 
-    public static void refundEnderpearl(Player player) {
-        if(Config.ENDER_PEARL_REFUND_ENDER_PEARL_ON_CANCEL) {
-            player.getInventory().addItem(new ItemBuilder(Material.ENDER_PEARL).build());
-        }
+    public static FixedMetadataValue TRUE_METADATA_VALUE;
+
+    public static void setupMetadataValue() {
+        TRUE_METADATA_VALUE = new FixedMetadataValue(Lazarus.getInstance(), true);
     }
 
     public static Player getAttacker(EntityDamageByEntityEvent event) {

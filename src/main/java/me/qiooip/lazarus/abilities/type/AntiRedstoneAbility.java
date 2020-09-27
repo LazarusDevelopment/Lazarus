@@ -119,7 +119,7 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
 
         if(event.getAction() == Action.PHYSICAL && this.physical.contains(block.getType())) {
             event.setCancelled(true);
-            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_CANNOT_USE);
+            this.sendDelayedMessage(player, Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_CANNOT_USE);
         }
     }
 }

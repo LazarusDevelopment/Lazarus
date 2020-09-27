@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -13,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,7 +22,7 @@ public class FoundOreHandler extends Handler implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         if(!Config.FOUND_ORE_ENABLED || event.getBlock().getType() != Material.DIAMOND_ORE) return;
-        event.getBlock().setMetadata("foundOre", new FixedMetadataValue(Lazarus.getInstance(), true));
+        event.getBlock().setMetadata("foundOre", PlayerUtils.TRUE_METADATA_VALUE);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -55,7 +55,7 @@ public class FoundOreHandler extends Handler implements Listener {
             if(newBlock.getType() != Material.DIAMOND_ORE || newBlock.hasMetadata("foundOre")) continue;
 
             count.getAndIncrement();
-            newBlock.setMetadata("foundOre", new FixedMetadataValue(Lazarus.getInstance(), true));
+            newBlock.setMetadata("foundOre", PlayerUtils.TRUE_METADATA_VALUE);
             this.countDiamonds(newBlock, count);
         }
     }

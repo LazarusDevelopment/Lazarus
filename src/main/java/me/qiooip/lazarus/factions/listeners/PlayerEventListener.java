@@ -94,8 +94,7 @@ public class PlayerEventListener implements Listener {
 
     private void refundEnderpearl(Player player, String refundMessage) {
         TimerManager.getInstance().getEnderPearlTimer().cancel(player);
-        PlayerUtils.refundEnderpearl(player);
-
+        player.setMetadata("enderpearlRefund", PlayerUtils.TRUE_METADATA_VALUE);
         player.sendMessage(refundMessage);
     }
 
@@ -119,7 +118,7 @@ public class PlayerEventListener implements Listener {
 
             if(factionAt instanceof SystemFaction && !((SystemFaction) factionAt).isEnderpearls()) {
                 this.refundEnderpearl(player, Language.FACTION_PREFIX + Language.FACTIONS_ENDERPEARL_USAGE_DENIED
-                .replace("<faction>", factionAt.getDisplayName(player)));
+                    .replace("<faction>", factionAt.getDisplayName(player)));
 
                 event.setCancelled(true);
                 return;

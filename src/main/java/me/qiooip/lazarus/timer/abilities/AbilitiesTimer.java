@@ -63,7 +63,7 @@ public class AbilitiesTimer extends PlayerTimer {
     }
 
     private void cancel(UUID uuid, AbilityType abilityType) {
-        if(!this.isActive(uuid)) return;
+        if(!this.isActive(uuid, abilityType)) return;
 
         this.cooldowns.remove(uuid, abilityType).cancel(true);
     }

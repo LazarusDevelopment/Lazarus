@@ -88,8 +88,9 @@ public class CustomSpigotListener implements Listener {
 
         if(cancel) {
             event.setCancelled(true);
+
             TimerManager.getInstance().getEnderPearlTimer().cancel(player);
-            PlayerUtils.refundEnderpearl(player);
+            player.setMetadata("enderpearlRefund", PlayerUtils.TRUE_METADATA_VALUE);
 
             player.sendMessage(Language.PREFIX + Language.ENDERPEARL_GLITCH_DENY);
             return;

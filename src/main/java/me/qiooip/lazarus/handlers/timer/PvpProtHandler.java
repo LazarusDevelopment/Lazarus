@@ -230,7 +230,7 @@ public class PvpProtHandler extends Handler implements Listener {
 
         if(event.getCause() == TeleportCause.ENDER_PEARL) {
             TimerManager.getInstance().getEnderPearlTimer().cancel(event.getPlayer());
-            PlayerUtils.refundEnderpearl(event.getPlayer());
+            event.getPlayer().setMetadata("enderpearlRefund", PlayerUtils.TRUE_METADATA_VALUE);
         }
 
         event.getPlayer().sendMessage(Language.PREFIX + Language.PVP_PROT_DENY_TELEPORT);

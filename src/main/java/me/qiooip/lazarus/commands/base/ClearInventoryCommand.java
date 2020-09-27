@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class ClearInventoryCommand extends BaseCommand {
 
     public ClearInventoryCommand() {
-        super("clearinventory", Arrays.asList("ci", "clear", "clearinv"), "lazarus.clearinventory");
+        super("clearinventory", Arrays.asList("ci", "clearinv"), "lazarus.clearinventory");
     }
 
     @Override

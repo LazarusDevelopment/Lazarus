@@ -63,10 +63,9 @@ public class TankIngotAbility extends AbilityItem {
         int amountOfEnemies = 0;
 
         for(Entity nearby : player.getNearbyEntities(this.distance, this.distance, this.distance)) {
-            if(!(nearby instanceof Player)) continue;
+            if(!(nearby instanceof Player) || player == nearby) continue;
 
             Player enemy = (Player) nearby;
-            if(player == enemy) continue;
             if(Lazarus.getInstance().getStaffModeManager().isInStaffModeOrVanished(enemy)) continue;
             if(ClaimManager.getInstance().getFactionAt(enemy).isSafezone()) continue;
             if(TimerManager.getInstance().getPvpProtTimer().isActive(enemy)) continue;
@@ -79,6 +78,7 @@ public class TankIngotAbility extends AbilityItem {
 
         if(amountOfEnemies > 0) {
             List<PotionEffect> fixedEffects = new ArrayList<>();
+
             for(PotionEffect effect : this.effects) {
                 int duration = Math.min(this.maximum * 20, effect.getDuration() + (this.duration * amountOfEnemies * 20));
                 fixedEffects.add(new PotionEffect(effect.getType(), duration, effect.getAmplifier()));
