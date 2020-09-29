@@ -18,8 +18,8 @@ public class PotionCounterAbility extends AbilityItem {
     public PotionCounterAbility(ConfigFile config) {
         super(AbilityType.POTION_COUNTER, "POTION_COUNTER", config);
 
-        this.overrideActivationMessage();
         this.splashPotion = new ItemBuilder(Material.POTION).setDurability(16421).build();
+        this.overrideActivationMessage();
     }
 
     public void sendActivationMessage(Player player, Player target, int potionAmount) {

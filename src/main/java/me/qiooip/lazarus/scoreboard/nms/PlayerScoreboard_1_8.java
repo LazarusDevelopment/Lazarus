@@ -22,7 +22,6 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -280,11 +279,6 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
         } else {
             this.updateAllTabRelations(players, lunarOnly);
         }
-    }
-
-    @Override
-    public void updateRelation(Player player) {
-        this.updateTabRelations(Collections.singletonList(player));
     }
 
     private void updateAllTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {

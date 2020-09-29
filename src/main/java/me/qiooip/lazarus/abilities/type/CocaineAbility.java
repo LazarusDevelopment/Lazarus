@@ -33,17 +33,17 @@ public class CocaineAbility extends AbilityItem {
         this.effects = AbilityUtils.loadEffects(abilitySection);
     }
 
-    public void sendActivationMessage(Player player) {
+    public void sendActivationMessage(Player player, List<PotionEffect> effects) {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
-            .replace("<effects>", AbilityUtils.getEffectList(this.effects, Language.ABILITIES_COCAINE_EFFECT_FORMAT))
+            .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_COCAINE_EFFECT_FORMAT))
             .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
     }
 
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         this.addEffects(player, this.effects);
-        this.sendActivationMessage(player);
+        this.sendActivationMessage(player, this.effects);
 
         event.setCancelled(true);
         return true;

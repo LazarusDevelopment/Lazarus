@@ -48,11 +48,11 @@ public class TankIngotAbility extends AbilityItem {
         this.effects = AbilityUtils.loadEffects(abilitySection);
     }
 
-    public void sendActivationMessage(Player player, int enemies) {
+    public void sendActivationMessage(Player player, int enemies, List<PotionEffect> effects) {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<amount>", String.valueOf(enemies))
-            .replace("<effects>", AbilityUtils.getEffectList(this.effects, Language.ABILITIES_TANK_INGOT_EFFECT_FORMAT))
+            .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_TANK_INGOT_EFFECT_FORMAT))
             .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
     }
 
@@ -76,20 +76,21 @@ public class TankIngotAbility extends AbilityItem {
             amountOfEnemies++;
         }
 
+        List<PotionEffect> finalEffects;
+
         if(amountOfEnemies > 0) {
-            List<PotionEffect> fixedEffects = new ArrayList<>();
+            finalEffects = new ArrayList<>();
 
             for(PotionEffect effect : this.effects) {
                 int duration = Math.min(this.maximum * 20, effect.getDuration() + (this.duration * amountOfEnemies * 20));
-                fixedEffects.add(new PotionEffect(effect.getType(), duration, effect.getAmplifier()));
+                finalEffects.add(new PotionEffect(effect.getType(), duration, effect.getAmplifier()));
             }
-
-            this.addEffects(player, fixedEffects);
         } else {
-            this.addEffects(player, this.effects);
+            finalEffects = this.effects;
         }
 
-        this.sendActivationMessage(player, amountOfEnemies);
+        this.addEffects(player, finalEffects);
+        this.sendActivationMessage(player, amountOfEnemies, finalEffects);
 
         event.setCancelled(true);
         return true;

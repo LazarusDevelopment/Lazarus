@@ -1,6 +1,5 @@
 package me.qiooip.lazarus.abilities.type;
 
-import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.utils.AbilityUtils;

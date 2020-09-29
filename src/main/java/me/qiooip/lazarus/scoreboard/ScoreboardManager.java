@@ -140,18 +140,20 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         Player player = fplayer.getPlayer();
         if(player == null) return;
 
-        Collection<Player> players = faction.getOnlinePlayers();
-        this.getPlayerScoreboard(player).updateTabRelations(players);
+        Tasks.async(() -> {
+            Collection<Player> players = faction.getOnlinePlayers();
+            this.getPlayerScoreboard(player).updateTabRelations(players);
 
-        for(Player online : players) {
-            PlayerScoreboard playerScoreboard = this.getPlayerScoreboard(online);
+            for(Player online : players) {
+                PlayerScoreboard playerScoreboard = this.getPlayerScoreboard(online);
 
-            if(playerScoreboard != null) {
-                playerScoreboard.updateRelation(player);
+                if(playerScoreboard != null) {
+                    playerScoreboard.updateRelation(player);
+                }
             }
-        }
 
-        this.updateAllRelations(player, true);
+            this.updateAllRelations(player, true);
+        });
     }
 
     @EventHandler

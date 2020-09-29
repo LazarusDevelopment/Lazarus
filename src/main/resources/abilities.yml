@@ -59,7 +59,7 @@ EXOTIC_BONE:
   # Should we enable this ability item?
   ENABLED: true
   # What name should we display in chat?
-  DISPLAY_NAME: "&8&lExotic bone"
+  DISPLAY_NAME: "&b&lExotic bone"
   # Ability item cooldown in seconds
   COOLDOWN: 120
   # Duration in seconds
@@ -70,7 +70,7 @@ EXOTIC_BONE:
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "352:0"
-    NAME: "&5&lExotic Bone"
+    NAME: "&b&lExotic Bone"
     LORE:
       - "&7Hit a player 3 times in a row and"
       - "&7they wont be able to place or break"
@@ -241,6 +241,8 @@ SWITCHER:
   DISPLAY_NAME: "&5&lSwitcher"
   # Ability item cooldown in seconds
   COOLDOWN: 120
+  # Maximum distance for switcher to work
+  MAX_DISTANCE: 16
   # Should Switcher switch you with team mate?
   SWITCH_WITH_TEAMMATES: false
   # Should Switcher switch you with allies?

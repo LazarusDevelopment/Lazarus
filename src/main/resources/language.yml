@@ -92,10 +92,24 @@ ABILITIES:
   EXOTIC_BONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with blocks for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with blocks."
-    CANNOT_INTRERACT: "&eYou cannot interact with blocks while on &cexotic bone &eability!"
+    CANNOT_INTERACT: "&eYou cannot interact with blocks while on &cexotic bone &eability!"
     ACTIVATED:
       - "&7&m                                                                                "
       - "&7You activated <abilityName> &7on &c<target>&7. He won't be able to place or break blocks for &c<duration>&7."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  FAKE_PEARL_ABILITY:
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Upon landing your enderpearl won't teleport you."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  FAST_PEARL_ABILITY:
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Your enderpearl timer was reduced to &b<duration>&7."
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
@@ -141,11 +155,28 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  SWITCHER_ABILITY:
+    SWITCH_DENIED:
+      DISTANCE_TOO_FAR: "&cPlayer is too far away. Cancelling switch!"
+      SAFEZONE: "&cYou are not allowed to switch while in &asafezone&c!"
+      SAFEZONE_TARGET: "&cYou are not allowed to switch with players that are in &asafezone&c!"
+      PVP_TIMER: "&cYou are not allowed to switch when your &bpvp timer &cis active!"
+      PVP_TIMER_TARGET: "&cYou are not allowed to switch with player who has active &bpvp timer&c!"
+      SOTW: "&cYou are not allowed to switch when your &bsotw protection &cis active!"
+      SOTW_TARGET: "&cYou are not allowed to switch with player who has active &bsotw protection&c!"
+      TEAMMATES: "&cYou are not allowed to switch place with &bteammates&c!"
+      ALLIES: "&cYou are not allowed to switch place with &ballies&c!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. &7Max distance: &c<maxDistance> blocks"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   TANK_INGOT_ABILITY:
     EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
     ACTIVATED:
       - "&7&m                                                                                "
-      - "&7You activated <abilityName>&7. &7You have given the following effects based on &a<amount> &enemies:"
+      - "&7You activated <abilityName>&7. &7You have given the following effects based on &a<amount> &7enemies:"
       - "<effects>"
       - ""
       - "&cCooldown&7: &e<cooldown>"

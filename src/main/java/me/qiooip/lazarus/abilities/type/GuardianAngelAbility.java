@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class GuardianAngelAbility extends AbilityItem implements Listener {
 
-    private int health;
+    private int healthThreshold;
     private int duration;
 
     private final String cooldownName;
@@ -30,7 +30,7 @@ public class GuardianAngelAbility extends AbilityItem implements Listener {
 
     @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
-        this.health = abilitySection.getInt("HEALTH");
+        this.healthThreshold = abilitySection.getInt("HEALTH");
         this.duration = abilitySection.getInt("DURATION");
     }
 
@@ -46,7 +46,7 @@ public class GuardianAngelAbility extends AbilityItem implements Listener {
         TimerManager.getInstance().getCooldownTimer().activate(player, this.cooldownName, this.duration,
             Language.ABILITIES_PREFIX + Language.ABILITIES_GUARDIAN_ANGEL_EXPIRED);
 
-        this.sendActivationMessage(player, this.health);
+        this.sendActivationMessage(player, this.healthThreshold);
         return true;
     }
 
@@ -59,7 +59,7 @@ public class GuardianAngelAbility extends AbilityItem implements Listener {
         CooldownTimer cooldownTimer = TimerManager.getInstance().getCooldownTimer();
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
-        if(player.getHealth() > this.health) return;
+        if(player.getHealth() > this.healthThreshold) return;
 
         player.setHealth(player.getMaxHealth());
         cooldownTimer.cancel(player, this.cooldownName);

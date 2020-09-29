@@ -6,6 +6,7 @@ import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.PlayerUtils;
+import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -25,11 +26,20 @@ public class FastPearlAbility extends AbilityItem implements Listener {
 
         this.metadataName = "fastPearl";
         this.removeOneItem = false;
+
+        this.overrideActivationMessage();
     }
 
     @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
         this.reducedDuration = abilitySection.getInt("ENDERPEARL_COOLDOWN");
+    }
+
+    public void sendActivationMessage(Player player, int duration) {
+        this.activationMessage.forEach(line -> player.sendMessage(line
+            .replace("<abilityName>", this.displayName)
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000, true, true))
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
     }
 
     @Override
@@ -39,6 +49,7 @@ public class FastPearlAbility extends AbilityItem implements Listener {
         }
 
         player.setMetadata(this.metadataName, PlayerUtils.TRUE_METADATA_VALUE);
+        this.sendActivationMessage(player, this.reducedDuration);
         return true;
     }
 
