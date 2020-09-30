@@ -234,6 +234,72 @@ POTION_COUNTER:
       - "&7you will receive the amount of"
       - "&7healing potions in your chat!"
 
+RAGE:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&3&lRage"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # When are we going to apply effects after use in seconds
+  APPLY_AFTER: 5
+  # For how long should we extend the original duration of effects per hit in seconds
+  PER_HIT: 1
+  # What should be the maximum duration of the effect in seconds
+  MAXIMUM_DURATION: 15
+  # Effects this ability should give
+  EFFECTS:
+    INCREASE_DAMAGE:
+      DURATION: 3
+      LEVEL: 2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "399:0"
+    NAME: "&3&lRage"
+    LORE:
+      - "&7If used, for each hit within"
+      - "&75 seconds after activation you"
+      - "&7will receive strength for 1 second!"
+
+ROCKET:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lRocket"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Boost values for the rocket
+  VECTOR:
+    X: 0.1
+    Y: 1.2
+    Z: 0.1
+    MULTIPLY: 1.2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "401:0"
+    NAME: "&6&lRocket"
+    LORE:
+      - "&7If used, you will be launched"
+      - "&7in air and you wont take fall damage!"
+
+SCRAMBLER:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&e&lScrambler"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Boost values for the rocket
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "344:0"
+    NAME: "&e&lScrambler egg"
+    LORE:
+      - "&7Upon hitting a player his"
+      - "&7hotbar will be randomized!"
+
 SWITCHER:
   # Should we enable this ability item?
   ENABLED: true

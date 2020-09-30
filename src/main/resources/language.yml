@@ -155,6 +155,33 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  RAGE_ABILITY:
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    APPLY_EFFECTS:
+      - "&7&m                                                                                "
+      - "&7You received effects:"
+      - "<effects>"
+      - "&7&m                                                                                "
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. You will receive strength effect based on how many times someone hits you within &b<duration>&7!"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  ROCKET_ABILITY:
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. You have been boosted into air and you wont take fall damage."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  SCRAMBLER_ABILITY:
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Hit player will have his hotbar randomized."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   SWITCHER_ABILITY:
     SWITCH_DENIED:
       DISTANCE_TOO_FAR: "&cPlayer is too far away. Cancelling switch!"

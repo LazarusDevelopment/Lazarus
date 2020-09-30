@@ -84,6 +84,7 @@ import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.Datastore;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.ManagerEnabler;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.gson.FactionTypeAdapter;
 import me.qiooip.lazarus.utils.gson.LocationTypeAdapter;
 import me.qiooip.lazarus.utils.gson.LootTypeAdapter;
@@ -315,6 +316,7 @@ public class Lazarus extends JavaPlugin {
     private void beforeInit() {
         ChatHandler.setup();
         ItemUtils.setupItemStackMaps();
+        PlayerUtils.setupMetadataValue();
 
         this.registerGson();
         this.registerVaultSupport();
