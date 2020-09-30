@@ -176,6 +176,15 @@ ABILITIES:
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
   SCRAMBLER_ABILITY:
+    SCRAMBLE_DENIED:
+      SAFEZONE: "&cYou are not allowed to scramble inventory while in &asafezone&c!"
+      SAFEZONE_TARGET: "&cYou are not allowed to scramble inventory of players that are in &asafezone&c!"
+      PVP_TIMER: "&cYou are not allowed to scramble inventory when your &bpvp timer &cis active!"
+      PVP_TIMER_TARGET: "&cYou are not allowed to scramble inventory of players with active &bpvp timer&c!"
+      SOTW: "&cYou are not allowed to scramble inventory when your &bsotw protection &cis active!"
+      SOTW_TARGET: "&cYou are not allowed to scramble inventory of players with active &bsotw protection&c!"
+      TEAMMATES: "&cYou are not allowed to scramble &bteammates &cinventory!"
+      ALLIES: "&cYou are not allowed to scramble &ballies &cinventory!"
     ACTIVATED:
       - "&7&m                                                                                "
       - "&7You activated <abilityName>&7. Hit player will have his hotbar randomized."

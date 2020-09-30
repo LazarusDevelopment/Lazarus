@@ -7,6 +7,7 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
 import org.apache.commons.lang.time.DurationFormatUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -67,9 +68,8 @@ public class RageAbility extends AbilityItem implements Listener {
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         this.playerHits.put(player.getUniqueId(), 0);
 
-        // TODO: napraviti mozda neki consumer ili nesto da mozemo pozvat kad expirea tih 5 sekundi
-        // ili imas neku bolju ideju? uglavnom treba pozvati ovu applyEffect funkciju umjesto slanja poruke
-        TimerManager.getInstance().getCooldownTimer().activate(player, this.cooldownName, this.applyAfter, "");
+        TimerManager.getInstance().getCooldownTimer().activate(player, this.cooldownName,
+            this.applyAfter, null, () -> this.applyEffect(player.getUniqueId()));
 
         this.sendActivationMessage(player, this.applyAfter);
 
@@ -87,7 +87,10 @@ public class RageAbility extends AbilityItem implements Listener {
         this.playerHits.put(target.getUniqueId(), this.playerHits.get(target.getUniqueId()) + 1);
     }
 
-    private void applyEffect(Player player) {
+    private void applyEffect(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        if(player == null) return;
+
         int hits = this.playerHits.get(player.getUniqueId());
         List<PotionEffect> finalEffects;
 

@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class ShowCommand extends SubCommand {
 
     public ShowCommand() {
-        super("show", Arrays.asList("who", "i"));
+        super("show", Arrays.asList("who", "i", "info"));
 
         this.setExecuteAsync(true);
     }

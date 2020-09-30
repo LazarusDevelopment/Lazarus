@@ -85,30 +85,20 @@ public class SwitcherAbility extends AbilityItem implements Listener {
 
         event.setCancelled(true);
 
-        Player player = (Player) event.getEntity();
+        Player target = (Player) event.getEntity();
         Player shooter = (Player) projectile.getShooter();
 
-        if(!this.isSwitchAllowed(shooter, player)) return;
-
-        PlayerFaction damagerFaction = FactionsManager.getInstance().getPlayerFaction(shooter);
-        PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
-
-        if(damagerFaction != null) {
-            if(!this.switchWithTeammates && damagerFaction == playerFaction) {
-                shooter.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_SWITCHER_SWITCH_DENIED_TEAMMATES);
-                return;
-            }
-
-            if(!this.switchWithAllies && damagerFaction.isAlly(playerFaction)) {
-                shooter.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_SWITCHER_SWITCH_DENIED_ALLIES);
-                return;
-            }
+        if(this.isSwitchAllowed(shooter, target)) {
+            this.switchPositions(shooter, target);
+            target.damage(0, shooter);
         }
+    }
 
+    private void switchPositions(Player shooter, Player target) {
         Location shooterLocation = shooter.getLocation();
 
-        shooter.teleport(player.getLocation());
-        player.teleport(shooterLocation);
+        shooter.teleport(target.getLocation());
+        target.teleport(shooterLocation);
     }
 
     private boolean isSwitchAllowed(Player shooter, Player target) {
@@ -151,14 +141,22 @@ public class SwitcherAbility extends AbilityItem implements Listener {
             return false;
         }
 
+        PlayerFaction damagerFaction = FactionsManager.getInstance().getPlayerFaction(shooter);
+
+        if(damagerFaction != null) {
+            PlayerFaction targetFaction = FactionsManager.getInstance().getPlayerFaction(target);
+
+            if(!this.switchWithTeammates && damagerFaction == targetFaction) {
+                shooter.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_SWITCHER_SWITCH_DENIED_TEAMMATES);
+                return false;
+            }
+
+            if(!this.switchWithAllies && damagerFaction.isAlly(targetFaction)) {
+                shooter.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_SWITCHER_SWITCH_DENIED_ALLIES);
+                return false;
+            }
+        }
+
         return true;
-    }
-
-    private void handleAbilityRefund(Player player, String message) {
-        TimerManager.getInstance().getGlobalAbilitiesTimer().cancel(player);
-        TimerManager.getInstance().getAbilitiesTimer().cancel(player, this.type);
-
-        player.getInventory().addItem(this.getItem());
-        player.sendMessage(message);
     }
 }

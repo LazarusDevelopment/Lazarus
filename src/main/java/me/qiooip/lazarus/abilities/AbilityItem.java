@@ -3,6 +3,7 @@ package me.qiooip.lazarus.abilities;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
@@ -104,7 +105,7 @@ public abstract class AbilityItem {
                 .get(player.getUniqueId()) - System.currentTimeMillis() > 0)) return;
 
         player.sendMessage(message);
-        this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 3000L);
+        this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 1000L);
     }
 
     private void loadActivationMessage() {
@@ -124,10 +125,18 @@ public abstract class AbilityItem {
             .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
     }
 
-    public void addEffects(Player player, List<PotionEffect> effects) {
+    protected void addEffects(Player player, List<PotionEffect> effects) {
         for(PotionEffect effect : effects) {
             Lazarus.getInstance().getPvpClassManager().addPotionEffect(player, effect);
         }
+    }
+
+    protected void handleAbilityRefund(Player player, String message) {
+        TimerManager.getInstance().getGlobalAbilitiesTimer().cancel(player);
+        TimerManager.getInstance().getAbilitiesTimer().cancel(player, this.type);
+
+        player.getInventory().addItem(this.getItem());
+        player.sendMessage(message);
     }
 
     protected void overrideActivationMessage() {

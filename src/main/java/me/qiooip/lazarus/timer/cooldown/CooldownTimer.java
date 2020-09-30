@@ -5,6 +5,7 @@ import com.google.common.collect.Table;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
+import me.qiooip.lazarus.utils.Tasks.Callable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -31,12 +32,20 @@ public class CooldownTimer extends PlayerTimer {
     }
 
     public void activate(Player player, String cooldown, int delay, String message) {
-        this.activate(player.getUniqueId(), cooldown, delay, message);
+        this.activate(player.getUniqueId(), cooldown, delay, message, null);
     }
 
     private void activate(UUID uuid, String cooldown, int delay, String message) {
+        this.activate(uuid, cooldown, delay, message, null);
+    }
+
+    public void activate(Player player, String cooldown, int delay, String message, Callable callable) {
+        this.activate(player.getUniqueId(), cooldown, delay, message, callable);
+    }
+
+    private void activate(UUID uuid, String cooldown, int delay, String message, Callable callable) {
         if(delay <= 0 || this.isActive(uuid, cooldown)) return;
-        this.cooldowns.put(uuid, cooldown, this.scheduleExpiry(uuid, cooldown, delay, message));
+        this.cooldowns.put(uuid, cooldown, this.scheduleExpiry(uuid, cooldown, delay, message, callable));
     }
 
     public void cancel(Player player, String cooldown) {
@@ -70,9 +79,15 @@ public class CooldownTimer extends PlayerTimer {
     }
 
     private ScheduledFuture<?> scheduleExpiry(UUID uuid, String cooldown, int delay, String message) {
+        return this.scheduleExpiry(uuid, cooldown, delay, message, null);
+    }
+
+    private ScheduledFuture<?> scheduleExpiry(UUID uuid, String cooldown, int delay, String message, Callable callable) {
         return this.executor.schedule(() -> {
             try {
                 this.cooldowns.remove(uuid, cooldown);
+                if(callable != null) callable.call();
+
                 if(message == null) return;
 
                 Player player = Bukkit.getPlayer(uuid);
