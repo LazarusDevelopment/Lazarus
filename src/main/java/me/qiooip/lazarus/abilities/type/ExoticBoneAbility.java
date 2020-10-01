@@ -80,7 +80,7 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
 
     private void activateAbilityOnTarget(Player damager, Player target) {
         TimerManager.getInstance().getCooldownTimer().activate(target, this.cooldownName, this.duration,
-        Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_TARGET_EXPIRED);
+            Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_TARGET_EXPIRED);
 
         target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_TARGET_ACTIVATED
             .replace("<player>", damager.getName())
@@ -98,7 +98,9 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
         event.setCancelled(true);
-        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT);
+
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT
+            .replace("<time>", cooldownTimer.getDynamicTimeLeft(player, this.cooldownName)));
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -109,7 +111,9 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
         event.setCancelled(true);
-        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT);
+
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT
+            .replace("<time>", cooldownTimer.getDynamicTimeLeft(player, this.cooldownName)));
     }
 
     @EventHandler
@@ -124,6 +128,8 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
         event.setCancelled(true);
-        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT);
+
+        player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_CANNOT_INTERACT
+            .replace("<time>", cooldownTimer.getDynamicTimeLeft(player, this.cooldownName)));
     }
 }

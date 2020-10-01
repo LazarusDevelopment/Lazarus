@@ -78,6 +78,16 @@ public class CooldownTimer extends PlayerTimer {
         return StringUtils.formatTime(this.getCooldown(player, cooldown), this.format);
     }
 
+    public String getDynamicTimeLeft(Player player, String cooldown) {
+        long remaining = this.getCooldown(player, cooldown);
+
+        if(remaining < 3_600_000L) {
+            return StringUtils.formatTime(remaining, FormatType.MILLIS_TO_MINUTES);
+        } else {
+            return StringUtils.formatTime(remaining, FormatType.MILLIS_TO_HOURS);
+        }
+    }
+
     private ScheduledFuture<?> scheduleExpiry(UUID uuid, String cooldown, int delay, String message) {
         return this.scheduleExpiry(uuid, cooldown, delay, message, null);
     }

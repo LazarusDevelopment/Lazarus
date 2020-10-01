@@ -112,14 +112,18 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
         Block block = event.getClickedBlock();
 
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK && this.clickables.contains(block.getType())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_CANNOT_USE
+                .replace("<time>", cooldownTimer.getDynamicTimeLeft(player, this.cooldownName)));
+
             event.setCancelled(true);
-            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_CANNOT_USE);
             return;
         }
 
         if(event.getAction() == Action.PHYSICAL && this.physical.contains(block.getType())) {
+            this.sendDelayedMessage(player, Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_CANNOT_USE
+                .replace("<time>", cooldownTimer.getDynamicTimeLeft(player, this.cooldownName)));
+
             event.setCancelled(true);
-            this.sendDelayedMessage(player, Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_CANNOT_USE);
         }
     }
 }

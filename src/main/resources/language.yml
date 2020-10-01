@@ -73,7 +73,7 @@ ABILITIES:
   ANTI_REDSTONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with redstone for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with &credstone&7."
-    CANNOT_USE: "&eYou cannot interact with this while on &canti redstone &eability!"
+    CANNOT_USE: "&eYou cannot interact with &credstone &efor &c<time>&e!"
     ACTIVATED:
       - "&7&m                                                                                "
       - "&7You activated <abilityName> &7on &c<target>&7. He won't be able to interact with redstone for &c<duration>&7."
@@ -92,7 +92,7 @@ ABILITIES:
   EXOTIC_BONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with blocks for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with blocks."
-    CANNOT_INTERACT: "&eYou cannot interact with blocks while on &cexotic bone &eability!"
+    CANNOT_INTERACT: "&eYou cannot interact with &cblocks &efor &c<time>&e!"
     ACTIVATED:
       - "&7&m                                                                                "
       - "&7You activated <abilityName> &7on &c<target>&7. He won't be able to place or break blocks for &c<duration>&7."

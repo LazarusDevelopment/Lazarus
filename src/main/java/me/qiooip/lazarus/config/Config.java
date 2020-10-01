@@ -508,9 +508,13 @@ public class Config {
         DENY_SPAWNER_PLACE_IN_END = config.getBoolean("DENY_SPAWNER_PLACE.IN_END");
         DENY_SPAWNER_PLACE_IN_NETHER = config.getBoolean("DENY_SPAWNER_PLACE.IN_END");
 
-        DISABLED_BLOCK_PLACEMENT = EnumSet.copyOf(config.getStringList("DISABLED_BLOCK_PLACEMENT").stream()
+        List<Material> disabledBlockPlacementList = config.getStringList("DISABLED_BLOCK_PLACEMENT").stream()
             .map(ItemUtils::parseItem).filter(Objects::nonNull)
-            .map(ItemStack::getType).collect(Collectors.toList()));
+            .map(ItemStack::getType).collect(Collectors.toList());
+
+        DISABLED_BLOCK_PLACEMENT = disabledBlockPlacementList.isEmpty()
+            ? EnumSet.noneOf(Material.class)
+            : EnumSet.copyOf(disabledBlockPlacementList);
 
         DEFAULT_CHAT_DELAY = config.getInt("DEFAULT_CHAT_DELAY");
 
