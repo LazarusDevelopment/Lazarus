@@ -212,7 +212,7 @@ ABILITIES:
     EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
     ACTIVATED:
       - "&7&m                                                                                "
-      - "&7You activated <abilityName>&7. &7You have given the following effects based on &a<amount> &7enemies:"
+      - "&7You activated <abilityName>&7. &7You were given the following effects based on &a<amount> &7enemies:"
       - "<effects>"
       - ""
       - "&cCooldown&7: &e<cooldown>"
