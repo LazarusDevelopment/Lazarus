@@ -114,7 +114,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                 Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
 
                 if(Config.KITMAP_MODE_ENABLED) {
-                    if(scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getName(player))) {
+                    if(scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player))) {
                         scoreboard.addEmptyLine(ChatColor.DARK_RED);
                     }
 
@@ -128,7 +128,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
 
                     scoreboard.addLine(ChatColor.DARK_PURPLE);
                 } else {
-                    scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getName(player));
+                    scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
                 }
 
                 TimerManager.getInstance().getCustomTimer().handleScoreboardUpdate(scoreboard);
