@@ -2,7 +2,6 @@ package me.qiooip.lazarus.lunarclient.cooldown;
 
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import me.qiooip.lazarus.Lazarus;
-import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -44,14 +43,14 @@ public class CooldownManager {
     }
 
     public void addCooldown(UUID uuid, CooldownType type, long duration) {
-        if(!LunarClientManager.getInstance().getPlayers().contains(uuid)) return;
+        if(!Lazarus.getInstance().getLunarClientManager().getPlayers().contains(uuid)) return;
         if(!this.cooldowns.containsKey(type)) return;
 
         LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), this.cooldowns.get(type).createCooldown(duration));
     }
 
     public void removeCooldown(UUID uuid, CooldownType type) {
-        if(!LunarClientManager.getInstance().getPlayers().contains(uuid)) return;
+        if(!Lazarus.getInstance().getLunarClientManager().getPlayers().contains(uuid)) return;
         if(!this.cooldowns.containsKey(type)) return;
 
         LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), this.cooldowns.get(type).createCooldown(0L));

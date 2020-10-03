@@ -1,7 +1,7 @@
 package me.qiooip.lazarus.timer.type;
 
+import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
-import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import me.qiooip.lazarus.timer.Timer;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.StringUtils;
@@ -73,7 +73,7 @@ public class PlayerTimer extends Timer {
         if(delay <= 0 || this.isActive(uuid)) return;
 
         if(this.isLunarClientAPI()) {
-            LunarClientManager.getInstance().getCooldownManager().addCooldown(uuid, this.lunarCooldownType, delay);
+            Lazarus.getInstance().getLunarClientManager().getCooldownManager().addCooldown(uuid, this.lunarCooldownType, delay);
         }
 
         this.players.put(uuid, this.scheduleExpiry(uuid, delay));
@@ -95,7 +95,7 @@ public class PlayerTimer extends Timer {
         if(delay <= 0 || this.isActive(uuid)) return;
 
         if(this.isLunarClientAPI()) {
-            LunarClientManager.getInstance().getCooldownManager().addCooldown(uuid, this.lunarCooldownType, delay);
+            Lazarus.getInstance().getLunarClientManager().getCooldownManager().addCooldown(uuid, this.lunarCooldownType, delay);
         }
 
         this.players.put(uuid, this.scheduleExpiry(uuid, delay, callable));
@@ -109,7 +109,7 @@ public class PlayerTimer extends Timer {
         if(!this.isActive(uuid)) return;
 
         if(this.isLunarClientAPI()) {
-            LunarClientManager.getInstance().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
+            Lazarus.getInstance().getLunarClientManager().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
         }
 
         this.players.remove(uuid).cancel(true);
@@ -160,7 +160,7 @@ public class PlayerTimer extends Timer {
                 this.sendMessage(uuid);
 
                 if(this.isLunarClientAPI()) {
-                    LunarClientManager.getInstance().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
+                    Lazarus.getInstance().getLunarClientManager().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
                 }
             } catch(Throwable t) {
                 t.printStackTrace();
@@ -176,7 +176,7 @@ public class PlayerTimer extends Timer {
                 this.sendMessage(uuid);
 
                 if(this.isLunarClientAPI()) {
-                    LunarClientManager.getInstance().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
+                    Lazarus.getInstance().getLunarClientManager().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
                 }
             } catch(Throwable t) {
                 t.printStackTrace();

@@ -48,16 +48,19 @@ public class PocketBardAbility extends AbilityItem {
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
-
         int amountOfTeammates = 0;
 
-        for(Player member : playerFaction.getOnlinePlayers()) {
-            if(player.getWorld() != member.getWorld() || player.getLocation().distance(member.getLocation()) > this.distance) continue;
+        if(playerFaction == null) {
+            this.addEffects(player, this.effects);
+        } else {
+            for(Player member : playerFaction.getOnlinePlayers()) {
+                if(player.getWorld() != member.getWorld() || player.getLocation().distance(member.getLocation()) > this.distance) continue;
 
-            this.addEffects(member, this.effects);
+                this.addEffects(member, this.effects);
 
-            if(member != player) {
-                amountOfTeammates++;
+                if(member != player) {
+                    amountOfTeammates++;
+                }
             }
         }
 

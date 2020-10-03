@@ -24,8 +24,6 @@ import java.util.UUID;
 @Getter
 public class LunarClientManager implements Listener {
 
-    @Getter private static LunarClientManager instance;
-
     private CooldownManager cooldownManager;
     private WaypointManager waypointManager;
 
@@ -34,8 +32,6 @@ public class LunarClientManager implements Listener {
     private final LCPacketServerRule legacyEnchanting;
 
     public LunarClientManager() {
-        instance = this;
-
         this.players = new HashSet<>();
 
         if(Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED) {

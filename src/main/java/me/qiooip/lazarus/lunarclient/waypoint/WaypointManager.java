@@ -223,7 +223,7 @@ public class WaypointManager implements Listener {
             LCWaypoint waypoint = this.waypoints.get(PlayerWaypointType.KOTH)
                 .createWaypoint(data.getCuboid().getCenterWithMinY(), name);
 
-            for(UUID uuid : LunarClientManager.getInstance().getPlayers()) {
+            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
                 this.addWaypoint(Bukkit.getPlayer(uuid), waypoint);
             }
 
@@ -231,7 +231,7 @@ public class WaypointManager implements Listener {
         } else if(this.kothWaypoints.containsKey(name)) {
             LCWaypoint waypoint = this.kothWaypoints.remove(name);
 
-            for(UUID uuid : LunarClientManager.getInstance().getPlayers()) {
+            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
                 this.removeWaypoint(Bukkit.getPlayer(uuid), waypoint);
             }
         }
@@ -288,7 +288,7 @@ public class WaypointManager implements Listener {
     private void updateGlobalWaypoints(PlayerWaypointType type, boolean update) {
         if(update) {
             if(this.globalWaypoints.containsKey(type)) {
-                for(UUID uuid : LunarClientManager.getInstance().getPlayers()) {
+                for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
                     this.removeWaypoint(Bukkit.getPlayer(uuid), this.globalWaypoints.get(type));
                 }
             }
@@ -337,7 +337,7 @@ public class WaypointManager implements Listener {
         }
 
         if(update) {
-            for(UUID uuid : LunarClientManager.getInstance().getPlayers()) {
+            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
                 for(PlayerWaypointType pwt : this.globalWaypoints.keySet()) {
                     this.updateWaypoint(Bukkit.getPlayer(uuid), pwt);
                 }
