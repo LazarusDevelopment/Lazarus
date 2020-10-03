@@ -91,7 +91,7 @@ public class GlassManager implements Listener, ManagerEnabler {
 
             this.lock.lock();
 
-            try{
+            try {
                 this.glassCache.put(player.getUniqueId(), info.getLocation(), info);
             } finally {
                 this.lock.unlock();

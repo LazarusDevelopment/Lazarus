@@ -117,7 +117,8 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
                 Material.ENDER_CHEST, Material.WOODEN_DOOR, Material.FENCE_GATE);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
-        Bukkit.getOnlinePlayers().forEach(this::injectPacketInterceptor);
+
+        Tasks.asyncLater(() -> Bukkit.getOnlinePlayers().forEach(this::injectPacketInterceptor), 20L);
     }
 
     @Override
@@ -486,6 +487,12 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
                 channel.pipeline().addBefore(HANDLER_NAME, LISTENER_NAME, handler);
             } catch(NoSuchElementException ignored) { }
         }
+
+        InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
+
+        if(ability != null) {
+            ability.hidePlayers(player);
+        }
     }
 
     @Override
@@ -502,12 +509,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     @Override
     public void updateArmor(Player player, boolean remove) {
-        Set<PacketPlayOutEntityEquipment> packets = new HashSet<>();
-
-        for (int slot = 1; slot < 5; slot++) {
-            PacketPlayOutEntityEquipment equipment = AbilitiesReflection_1_7.createEquipmentPacket(player, slot, remove);
-            packets.add(equipment);
-        }
+        Set<PacketPlayOutEntityEquipment> packets = this.getEquipmentPackets(player, remove);
 
         for(Player other : player.getWorld().getPlayers()) {
             if(other == player) continue;
@@ -518,6 +520,26 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         }
 
         player.updateInventory();
+    }
+
+    @Override
+    public void updateArmorFor(Player player, Player target, boolean remove) {
+        Set<PacketPlayOutEntityEquipment> packets = this.getEquipmentPackets(target, remove);
+
+        for(PacketPlayOutEntityEquipment packet : packets) {
+            this.sendPacket(player, packet);
+        }
+    }
+
+    private Set<PacketPlayOutEntityEquipment> getEquipmentPackets(Player player, boolean remove) {
+        Set<PacketPlayOutEntityEquipment> packets = new HashSet<>();
+
+        for (int slot = 1; slot < 5; slot++) {
+            PacketPlayOutEntityEquipment equipment = AbilitiesReflection_1_7.createEquipmentPacket(player, slot, remove);
+            packets.add(equipment);
+        }
+
+        return packets;
     }
 
     @Override
@@ -640,7 +662,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Tasks.asyncLater(() -> this.injectPacketInterceptor(event.getPlayer()), 20L);
+        this.bukkitExecutor.execute(() -> this.injectPacketInterceptor(event.getPlayer()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

@@ -117,5 +117,7 @@ public abstract class NmsUtils {
 
     public abstract void updateArmor(Player player, boolean remove);
 
+    public abstract void updateArmorFor(Player player, Player target, boolean remove);
+
     public abstract void sendPacket(Player player, Object packet);
 }

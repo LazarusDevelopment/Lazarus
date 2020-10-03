@@ -8,6 +8,7 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -65,6 +66,15 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
         NmsUtils.getInstance().updateArmor(player, true);
 
         this.players.add(player.getUniqueId());
+    }
+
+    public void hidePlayers(Player player) {
+        for(UUID uuid : this.players) {
+            Player online = Bukkit.getPlayer(uuid);
+            if(!player.getWorld().getPlayers().contains(online)) continue;
+
+            NmsUtils.getInstance().updateArmorFor(player, online, true);
+        }
     }
 
     private void showPlayer(Player player, boolean forced) {
