@@ -30,7 +30,6 @@ import me.qiooip.lazarus.games.koth.event.KothStartEvent;
 import me.qiooip.lazarus.games.koth.event.KothStopEvent;
 import me.qiooip.lazarus.handlers.event.ExitSetEvent;
 import me.qiooip.lazarus.handlers.event.SpawnSetEvent;
-import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import me.qiooip.lazarus.utils.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -217,6 +216,8 @@ public class WaypointManager implements Listener {
     }
 
     private void updateKoTHWaypoint(KothData data, boolean add) {
+        if(!this.waypoints.containsKey(PlayerWaypointType.KOTH)) return;
+
         String name = data.getName();
 
         if(add) {
@@ -243,6 +244,8 @@ public class WaypointManager implements Listener {
         if(lcWaypoint != null) {
             this.removeWaypoint(player, lcWaypoint);
         }
+
+        if(!this.waypoints.containsKey(type)) return;
 
         LCWaypoint waypoint = null;
         LunarClientWaypoint typeWaypoint = this.waypoints.get(type);
@@ -286,6 +289,8 @@ public class WaypointManager implements Listener {
     }
 
     private void updateGlobalWaypoints(PlayerWaypointType type, boolean update) {
+        if(!this.waypoints.containsKey(type)) return;
+
         if(update) {
             if(this.globalWaypoints.containsKey(type)) {
                 for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
