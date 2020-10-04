@@ -201,7 +201,15 @@ public class PlayerFaction extends Faction {
     }
 
     private ChatColor getDtrColor() {
-        return this.getDtr() <= 0 ? ChatColor.RED : ChatColor.GREEN;
+        double dtr = this.getDtr();
+
+        if(dtr < 0.0D) {
+            return ChatColor.RED;
+        } else if(dtr < 1.01D) {
+            return ChatColor.YELLOW;
+        } else {
+            return ChatColor.GREEN;
+        }
     }
 
     public void addBalance(int amount) {
