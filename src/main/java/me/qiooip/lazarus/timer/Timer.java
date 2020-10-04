@@ -1,11 +1,13 @@
 package me.qiooip.lazarus.timer;
 
+import lombok.Getter;
 import lombok.Setter;
 import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 
 import java.util.concurrent.ScheduledExecutorService;
 
+@Getter
 public abstract class Timer {
 
     protected final String name;

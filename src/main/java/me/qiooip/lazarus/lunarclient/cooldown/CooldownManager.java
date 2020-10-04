@@ -2,16 +2,23 @@ package me.qiooip.lazarus.lunarclient.cooldown;
 
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.timer.Timer;
+import me.qiooip.lazarus.timer.event.TimerActivateEvent;
+import me.qiooip.lazarus.timer.event.TimerCancelEvent;
+import me.qiooip.lazarus.timer.event.TimerExpireEvent;
+import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class CooldownManager {
+public class CooldownManager implements Listener {
 
     private final Map<CooldownType, LunarClientCooldown> cooldowns;
 
@@ -19,6 +26,8 @@ public class CooldownManager {
         this.cooldowns = new HashMap<>();
 
         this.setupCooldowns();
+
+        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void disable() {
@@ -54,5 +63,33 @@ public class CooldownManager {
         if(!this.cooldowns.containsKey(type)) return;
 
         LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), this.cooldowns.get(type).createCooldown(0L));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onTimerActivate(TimerActivateEvent event) {
+        CooldownType type = this.getCooldown(event.getTimer());
+        if(type == null) return;
+
+        this.addCooldown(event.getUuid(), type, event.getDelay());
+    }
+
+    @EventHandler
+    public void onTimerCancel(TimerCancelEvent event) {
+        CooldownType type = this.getCooldown(event.getTimer());
+        if(type == null) return;
+
+        this.removeCooldown(event.getUuid(), type);
+    }
+
+    @EventHandler
+    public void onTimerExpire(TimerExpireEvent event) {
+        CooldownType type = this.getCooldown(event.getTimer());
+        if(type == null) return;
+
+        this.removeCooldown(event.getUuid(), type);
+    }
+
+    private CooldownType getCooldown(Timer timer) {
+        return !(timer instanceof PlayerTimer) ? null : timer.getLunarCooldownType();
     }
 }

@@ -1,9 +1,10 @@
 package me.qiooip.lazarus.timer.type;
 
-import me.qiooip.lazarus.Lazarus;
-import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.timer.Timer;
 import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.timer.event.TimerActivateEvent;
+import me.qiooip.lazarus.timer.event.TimerCancelEvent;
+import me.qiooip.lazarus.timer.event.TimerExpireEvent;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 import me.qiooip.lazarus.utils.Tasks.Callable;
@@ -72,9 +73,8 @@ public class PlayerTimer extends Timer {
     public void activate(UUID uuid, int delay) {
         if(delay <= 0 || this.isActive(uuid)) return;
 
-        if(this.isLunarClientAPI()) {
-            Lazarus.getInstance().getLunarClientManager().getCooldownManager().addCooldown(uuid, this.lunarCooldownType, delay);
-        }
+        TimerActivateEvent event = new TimerActivateEvent(uuid, this, delay);
+        if(event.isCancelled()) return;
 
         this.players.put(uuid, this.scheduleExpiry(uuid, delay));
     }
@@ -94,9 +94,8 @@ public class PlayerTimer extends Timer {
     public void activate(UUID uuid, int delay, Callable callable) {
         if(delay <= 0 || this.isActive(uuid)) return;
 
-        if(this.isLunarClientAPI()) {
-            Lazarus.getInstance().getLunarClientManager().getCooldownManager().addCooldown(uuid, this.lunarCooldownType, delay);
-        }
+        TimerActivateEvent event = new TimerActivateEvent(uuid, this, delay);
+        if(event.isCancelled()) return;
 
         this.players.put(uuid, this.scheduleExpiry(uuid, delay, callable));
     }
@@ -108,9 +107,7 @@ public class PlayerTimer extends Timer {
     public void cancel(UUID uuid) {
         if(!this.isActive(uuid)) return;
 
-        if(this.isLunarClientAPI()) {
-            Lazarus.getInstance().getLunarClientManager().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
-        }
+        new TimerCancelEvent(uuid, this);
 
         this.players.remove(uuid).cancel(true);
     }
@@ -156,12 +153,10 @@ public class PlayerTimer extends Timer {
     private ScheduledFuture<?> scheduleExpiry(UUID uuid, int delay) {
         return this.executor.schedule(() -> {
             try {
+                new TimerExpireEvent(uuid, this);
+
                 this.players.remove(uuid);
                 this.sendMessage(uuid);
-
-                if(this.isLunarClientAPI()) {
-                    Lazarus.getInstance().getLunarClientManager().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
-                }
             } catch(Throwable t) {
                 t.printStackTrace();
             }
@@ -171,20 +166,14 @@ public class PlayerTimer extends Timer {
     private ScheduledFuture<?> scheduleExpiry(UUID uuid, int delay, Callable callable) {
         return this.executor.schedule(() -> {
             try {
+                new TimerExpireEvent(uuid, this);
+
                 this.players.remove(uuid);
                 callable.call();
                 this.sendMessage(uuid);
-
-                if(this.isLunarClientAPI()) {
-                    Lazarus.getInstance().getLunarClientManager().getCooldownManager().removeCooldown(uuid, this.lunarCooldownType);
-                }
             } catch(Throwable t) {
                 t.printStackTrace();
             }
         }, delay, TimeUnit.SECONDS);
-    }
-
-    public boolean isLunarClientAPI() {
-        return Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED && this.lunarCooldownType != null;
     }
 }

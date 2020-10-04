@@ -2,6 +2,9 @@ package me.qiooip.lazarus.timer.type;
 
 import me.qiooip.lazarus.timer.Timer;
 import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.timer.event.TimerActivateEvent;
+import me.qiooip.lazarus.timer.event.TimerCancelEvent;
+import me.qiooip.lazarus.timer.event.TimerExpireEvent;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
@@ -53,16 +56,26 @@ public class SystemTimer extends Timer {
 
     public void activate(int delay) {
         if(delay <= 0) return;
+
+        TimerActivateEvent event = new TimerActivateEvent(null, this, delay);
+        if(event.isCancelled()) return;
+
         this.timer = this.scheduleExpiry(delay);
     }
 
     public void activate(int delay, Callable callable) {
         if(delay <= 0) return;
+
+        TimerActivateEvent event = new TimerActivateEvent(null, this, delay);
+        if(event.isCancelled()) return;
+
         this.timer =  this.scheduleExpiry(delay, callable);
     }
 
     public void cancel() {
         if(!this.isActive()) return;
+
+        new TimerCancelEvent(null, this);
 
         this.timer.cancel(true);
         this.timer = null;
@@ -93,6 +106,8 @@ public class SystemTimer extends Timer {
     private ScheduledFuture<?> scheduleExpiry(int delay) {
         return this.executor.schedule(() -> {
             try {
+                new TimerExpireEvent(null, this);
+
                 this.timer = null;
                 if(this.expiryMessage != null) Messages.sendMessage(this.expiryMessage);
             } catch(Throwable t) {
@@ -104,6 +119,8 @@ public class SystemTimer extends Timer {
     private ScheduledFuture<?> scheduleExpiry(int delay, Callable callable) {
         return this.executor.schedule(() -> {
             try {
+                new TimerExpireEvent(null, this);
+
                 this.timer = null;
                 callable.call();
             } catch(Throwable t) {
