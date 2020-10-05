@@ -4,5 +4,5 @@ Advanced HCF core
 
 ### What is this repository for? ###
 
-* HCF core
-* 0.0.1-SNAPSHOT
+* Lazarus HCF Core
+* MC-Market link: https://www.mc-market.org/resources/11362/
