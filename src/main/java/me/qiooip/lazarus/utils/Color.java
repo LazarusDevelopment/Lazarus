@@ -8,7 +8,6 @@ public class Color {
         return ChatColor.translateAlternateColorCodes('&', line);
     }
 
-
     public static String strip(String line) {
         return ChatColor.stripColor(line);
     }

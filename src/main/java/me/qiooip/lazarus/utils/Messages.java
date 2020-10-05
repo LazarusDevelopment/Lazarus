@@ -18,7 +18,7 @@ public class Messages {
         if(messages.isEmpty()) return;
 
         messages.forEach(message -> Bukkit.getConsoleSender().sendMessage(message));
-        Bukkit.getOnlinePlayers().forEach(player -> messages.forEach(message -> player.sendMessage(message)));
+        Bukkit.getOnlinePlayers().forEach(player -> messages.forEach(player::sendMessage));
     }
 
     public static void sendMessageWithoutPlayer(Player player, String message) {
@@ -45,7 +45,7 @@ public class Messages {
         messages.forEach(message -> Bukkit.getConsoleSender().sendMessage(message));
 
         Bukkit.getOnlinePlayers().stream().filter(player -> player.hasPermission(permission))
-        .forEach(player -> messages.forEach(message -> player.sendMessage(message)));
+        .forEach(player -> messages.forEach(player::sendMessage));
     }
 
     public static void sendMessageWithoutPlayer(Player player, String message, String permission) {

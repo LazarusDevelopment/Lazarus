@@ -29,7 +29,7 @@ public class ItemUtils {
     public static Enchantment FAKE_GLOW;
 
     public static void updateInventory(Player player) {
-        Tasks.sync(() -> player.updateInventory());
+        Tasks.sync(player::updateInventory);
     }
 
     public static void removeOneItem(Player player) {

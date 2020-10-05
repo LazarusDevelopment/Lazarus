@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.lunarclient.cooldown;
 
 import com.lunarclient.bukkitapi.LunarClientAPI;
+import com.lunarclient.bukkitapi.object.LCCooldown;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.timer.Timer;
 import me.qiooip.lazarus.timer.event.TimerActivateEvent;
@@ -51,18 +52,22 @@ public class CooldownManager implements Listener {
         });
     }
 
-    public void addCooldown(UUID uuid, CooldownType type, long duration) {
+    private void addCooldown(UUID uuid, CooldownType type, long duration) {
         if(!Lazarus.getInstance().getLunarClientManager().getPlayers().contains(uuid)) return;
         if(!this.cooldowns.containsKey(type)) return;
 
-        LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), this.cooldowns.get(type).createCooldown(duration));
+        this.sendCooldown(uuid, this.cooldowns.get(type).createCooldown(duration));
     }
 
-    public void removeCooldown(UUID uuid, CooldownType type) {
+    private void removeCooldown(UUID uuid, CooldownType type) {
         if(!Lazarus.getInstance().getLunarClientManager().getPlayers().contains(uuid)) return;
         if(!this.cooldowns.containsKey(type)) return;
 
-        LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), this.cooldowns.get(type).createCooldown(0L));
+        this.sendCooldown(uuid, this.cooldowns.get(type).createCooldown(0L));
+    }
+
+    private void sendCooldown(UUID uuid, LCCooldown cooldown) {
+        LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), cooldown);
     }
 
     @EventHandler(ignoreCancelled = true)

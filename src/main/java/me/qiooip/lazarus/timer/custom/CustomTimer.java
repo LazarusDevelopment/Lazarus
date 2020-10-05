@@ -31,7 +31,7 @@ public class CustomTimer extends Timer {
 
     @Override
     public void disable() {
-        this.customTimers.forEach(timer -> timer.cancel());
+        this.customTimers.forEach(CustomTimerData::cancel);
         this.customTimers.clear();
     }
 

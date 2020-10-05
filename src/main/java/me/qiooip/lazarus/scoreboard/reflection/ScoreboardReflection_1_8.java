@@ -1,5 +1,6 @@
 package me.qiooip.lazarus.scoreboard.reflection;
 
+import me.qiooip.lazarus.utils.ReflectionUtils;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardScore;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardScore.EnumScoreboardAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
@@ -22,11 +23,11 @@ public class ScoreboardReflection_1_8 {
             try {
                 MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-                NAME_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "a"));
-                DISPLAY_NAME_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "b"));
-                PREFIX_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "c"));
-                SUFFIX_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "d"));
-                ACTION_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "h"));
+                NAME_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "a"));
+                DISPLAY_NAME_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "b"));
+                PREFIX_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "c"));
+                SUFFIX_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "d"));
+                ACTION_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardTeam.class, "h"));
             } catch(Throwable t) {
                 t.printStackTrace();
             }
@@ -60,10 +61,10 @@ public class ScoreboardReflection_1_8 {
             try {
                 MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-                ENTRY_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "a"));
-                OBJECTIVE_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "b"));
-                VALUE_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "c"));
-                ACTION_SETTER = lookup.unreflectSetter(setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "d"));
+                ENTRY_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "a"));
+                OBJECTIVE_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "b"));
+                VALUE_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "c"));
+                ACTION_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutScoreboardScore.class, "d"));
             } catch(Throwable t) {
                 t.printStackTrace();
             }
@@ -83,12 +84,5 @@ public class ScoreboardReflection_1_8 {
 
             return packet;
         }
-    }
-
-    private static Field setAccessibleAndGet(Class<?> clazz, String fieldName) throws NoSuchFieldException {
-        Field field = clazz.getDeclaredField(fieldName);
-        field.setAccessible(true);
-
-        return field;
     }
 }

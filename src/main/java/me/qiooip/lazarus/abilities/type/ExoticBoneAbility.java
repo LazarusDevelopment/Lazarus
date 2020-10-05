@@ -48,7 +48,7 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
     @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
         this.duration = abilitySection.getInt("DURATION");
-        this.hits = abilitySection.getInt("HITS");
+        this.hits = abilitySection.getInt("HITS") - 1;
     }
 
     public void sendActivationMessage(Player player, Player target) {
@@ -61,20 +61,23 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
 
     @Override
     protected boolean onPlayerItemHit(Player damager, Player target, EntityDamageByEntityEvent event) {
-        if(this.playerHits.contains(damager.getUniqueId(), target.getUniqueId())) {
-            int hitsNeeded = this.playerHits.get(damager.getUniqueId(), target.getUniqueId()) - 1;
+        UUID damagerUUID = damager.getUniqueId();
+        UUID targetUUID = target.getUniqueId();
+
+        if(this.playerHits.contains(damagerUUID, targetUUID)) {
+            int hitsNeeded = this.playerHits.get(damagerUUID, targetUUID) - 1;
 
             if(hitsNeeded == 0) {
                 this.activateAbilityOnTarget(damager, target);
-                this.playerHits.remove(damager.getUniqueId(), target.getUniqueId());
+                this.playerHits.remove(damagerUUID, targetUUID);
                 return true;
             }
 
-            this.playerHits.put(damager.getUniqueId(), target.getUniqueId(), hitsNeeded);
+            this.playerHits.put(damagerUUID, targetUUID, hitsNeeded);
             return false;
         }
 
-        this.playerHits.put(damager.getUniqueId(), target.getUniqueId(), --this.hits);
+        this.playerHits.put(damagerUUID, targetUUID, this.hits);
         return false;
     }
 

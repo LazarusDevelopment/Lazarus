@@ -10,7 +10,6 @@ import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -151,10 +150,6 @@ public abstract class AbilityItem {
 
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
 
-    }
-
-    protected boolean onProjectileClick(Player player, Projectile projectile) {
-        return false;
     }
 
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
