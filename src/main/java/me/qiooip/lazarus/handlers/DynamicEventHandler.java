@@ -274,7 +274,7 @@ public class DynamicEventHandler extends Handler implements Listener {
         userdata.addLastDeath(event.getDeathMessage());
         userdata.addDeath();
 
-        if(player.getKiller() != null) {
+        if(player.getKiller() != null && player.getKiller().isOnline()) {
             Lazarus.getInstance().getUserdataManager().getUserdata(player.getKiller()).addKill();
         }
 

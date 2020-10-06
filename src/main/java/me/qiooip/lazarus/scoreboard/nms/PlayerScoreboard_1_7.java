@@ -185,7 +185,8 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
     @Override
     public void addLine(ChatColor color) {
-        if(!Config.SCOREBOARD_LINE_AFTER_EVERY_SECTION || this.entries.isEmpty() || this.entries.size() >= this.maxSize) return;
+        if(!Config.SCOREBOARD_LINE_AFTER_EVERY_SECTION || this.entries.isEmpty()
+            || this.lastLine.get() || this.entries.size() >= this.maxSize) return;
 
         this.entries.addLast(new ScoreboardInput(SB_LINE, color.toString() + SB_LINE, "---------"));
         this.lastLine.set(true);

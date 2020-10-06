@@ -168,7 +168,7 @@ public class DeathMessageHandler extends Handler implements Listener {
 
         return Language.DEATHMESSAGE_KILLER_NAME_FORMAT
             .replace("<killer>", killer.getName())
-            .replace("<kills>", String.valueOf(data.getKills() + 1));
+            .replace("<kills>", data == null ? "?" : String.valueOf(data.getKills() + 1));
     }
 
     private String getEntityAttackDeathMessage(Player player, EntityDamageByEntityEvent damageEvent) {

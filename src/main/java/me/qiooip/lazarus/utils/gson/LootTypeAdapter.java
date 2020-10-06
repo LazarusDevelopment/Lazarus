@@ -54,7 +54,7 @@ public class LootTypeAdapter implements JsonSerializer<List<LootData>>, JsonDese
             items = InventoryUtils.itemStackArrayFromBase64(element.getAsJsonObject().get("items").getAsString());
 
             inventory = Bukkit.createInventory(null, Config.LOOT_INVENTORY_SIZE,
-            Config.LOOT_INVENTORY_NAME.replace("<event>", loot.getName()));
+                Config.LOOT_INVENTORY_NAME.replace("<event>", loot.getName()));
 
             inventory.setContents(items);
 
