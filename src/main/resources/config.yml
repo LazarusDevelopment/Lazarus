@@ -108,7 +108,7 @@ CHAT_FORMAT:
 #=========================================================#
 
 # Should we enable lunar client API?
-LUNAR_CLIENT_API_ENABLED: true
+LUNAR_CLIENT_API_ENABLED: false
 
 # Should we enable forced waypoints?
 FORCED_WAYPOINTS_ENABLED: true
