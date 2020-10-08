@@ -302,7 +302,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
                     nametag = new ArrayList<>();
 
                     PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(online);
-                    if (faction != null) {
+                    if(faction != null) {
                         String tag = Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
                                 .replace("<faction>", faction.getName(this.player))
                                 .replace("<dtr>", faction.getDtrString());
