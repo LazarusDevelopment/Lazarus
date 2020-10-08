@@ -222,9 +222,12 @@ public class Lazarus extends JavaPlugin {
         this.log("");
 
         this.beforeInit();
-        this.setupDatastore();
+
+        if(!this.checkLunarClientAPI()) return;
 
         try {
+            this.setupDatastore();
+            
             this.setupManagers();
             this.setupHandlers();
         } catch(Exception e) {
@@ -331,6 +334,19 @@ public class Lazarus extends JavaPlugin {
             this.log("&4===&c=============================================&4===");
             this.log("");
         }
+    }
+    
+    private boolean checkLunarClientAPI() {
+        if(Config.LUNAR_CLIENT_API_ENABLED && !Bukkit.getPluginManager().isPluginEnabled("LunarClient-API")) {
+            this.log("&4===&c=============================================&4===");
+            this.log("       &cLunar client support is enabled, but");
+            this.log("            &cLunarClient-API is missing!");
+            this.log("&4===&c=============================================&4===");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return false;
+        }
+        
+        return true;
     }
 
     private void setupDatastore() {
