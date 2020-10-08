@@ -140,7 +140,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
             player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_GLOBAL_COOLDOWN_ACTIVE
                 .replace("<time>", globalTimer.getTimeLeft(player)));
 
-            event.setUseItemInHand(Result.DENY);
+            event.setCancelled(true);
             return;
         }
 
@@ -151,7 +151,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
                 .replace("<ability>", ability.getDisplayName())
                 .replace("<time>", abilityTimer.getDynamicTimeLeft(player, ability.getType())));
 
-            event.setUseItemInHand(Result.DENY);
+            event.setCancelled(true);
             return;
         }
 

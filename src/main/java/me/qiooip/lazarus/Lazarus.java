@@ -223,7 +223,7 @@ public class Lazarus extends JavaPlugin {
 
         this.beforeInit();
 
-        if(!this.checkLunarClientAPI()) return;
+        if(!this.checkLunarClient()) return;
 
         try {
             this.setupDatastore();
@@ -336,7 +336,7 @@ public class Lazarus extends JavaPlugin {
         }
     }
     
-    private boolean checkLunarClientAPI() {
+    private boolean checkLunarClient() {
         if(Config.LUNAR_CLIENT_API_ENABLED && !Bukkit.getPluginManager().isPluginEnabled("LunarClient-API")) {
             this.log("&4===&c=============================================&4===");
             this.log("       &cLunar client support is enabled, but");
