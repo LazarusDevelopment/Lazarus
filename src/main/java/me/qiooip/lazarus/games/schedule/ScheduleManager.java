@@ -71,7 +71,7 @@ public class ScheduleManager implements ManagerEnabler {
         if(this.schedules == null) return;
 
         FileUtils.writeString(this.scheduleFile, Lazarus.getInstance().getGson()
-        .toJson(this.schedules, GsonUtils.SCHEDULE_TYPE));
+            .toJson(this.schedules, GsonUtils.SCHEDULE_TYPE));
     }
 
     private void startScheduleTask() {

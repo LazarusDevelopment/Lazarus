@@ -42,7 +42,6 @@ public class LootTypeAdapter implements JsonSerializer<List<LootData>>, JsonDese
     @Override
     public List<LootData> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonArray array = json.getAsJsonArray();
-
         List<LootData> lootList = new ArrayList<>();
 
         LootData loot;

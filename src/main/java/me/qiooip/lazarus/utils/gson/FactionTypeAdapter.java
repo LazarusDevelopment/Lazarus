@@ -39,7 +39,6 @@ public class FactionTypeAdapter implements JsonSerializer<Map<UUID, Faction>>, J
     @Override
     public Map<UUID, Faction> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonArray array = json.getAsJsonArray();
-
         Map<UUID, Faction> factionMap = new HashMap<>();
 
         Faction faction;
@@ -47,7 +46,6 @@ public class FactionTypeAdapter implements JsonSerializer<Map<UUID, Faction>>, J
 
         for(JsonElement element : array) {
             clazz = GsonUtils.getFactionClass(element.getAsJsonObject().get("type").getAsString());
-
             faction = context.deserialize(element.getAsJsonObject().get("data"), clazz);
 
             factionMap.put(faction.getId(), faction);

@@ -61,7 +61,7 @@ public class MountainManager implements ManagerEnabler {
         if(this.mountains == null) return;
 
         FileUtils.writeString(this.mountainsFile, Lazarus.getInstance().getGson()
-        .toJson(this.mountains, GsonUtils.MOUNTAIN_TYPE));
+            .toJson(this.mountains, GsonUtils.MOUNTAIN_TYPE));
     }
 
     public MountainData getMountain(int id) {
@@ -70,8 +70,11 @@ public class MountainManager implements ManagerEnabler {
 
     public int createMountain(MountainType type, UUID factionId, Cuboid cuboid) {
         int id = this.mountains.size() + 1;
-        this.mountains.add(new MountainData(id, type, factionId, cuboid));
 
+        MountainData mountainData = new MountainData(id, type, factionId, cuboid);
+        this.mountains.add(mountainData);
+
+        Bukkit.getPluginManager().registerEvents(mountainData, Lazarus.getInstance());
         return id;
     }
 

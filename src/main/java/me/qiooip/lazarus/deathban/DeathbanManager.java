@@ -80,7 +80,7 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         if(this.deathbans == null) return;
 
         FileUtils.writeString(this.deathbansFile, Lazarus.getInstance().getGson()
-        .toJson(this.deathbans, GsonUtils.DEATHBAN_TYPE));
+            .toJson(this.deathbans, GsonUtils.DEATHBAN_TYPE));
 
         if(disable) Lazarus.getInstance().log("- &7Saved &a" + this.deathbans.size() + " &7deathbans.");
     }

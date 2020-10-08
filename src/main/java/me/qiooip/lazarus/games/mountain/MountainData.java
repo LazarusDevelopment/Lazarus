@@ -8,7 +8,6 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.games.Cuboid;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,8 +30,8 @@ import java.util.UUID;
 public class MountainData implements Listener {
 
     @Setter private int id;
-    private final UUID factionId;
     private final MountainType type;
+    private final UUID factionId;
     private final Cuboid cuboid;
 
     private Map<Location, Material> materials;
@@ -44,7 +43,6 @@ public class MountainData implements Listener {
         this.cuboid = cuboid;
 
         this.cacheMaterials();
-        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public Faction getFaction() {

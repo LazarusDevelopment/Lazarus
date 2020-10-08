@@ -97,7 +97,7 @@ public class KothManager implements Listener, ManagerEnabler {
         if(this.koths == null) return;
 
         FileUtils.writeString(this.kothsFile, Lazarus.getInstance().getGson()
-        .toJson(this.koths, GsonUtils.KOTH_TYPE));
+            .toJson(this.koths, GsonUtils.KOTH_TYPE));
     }
 
     public KothData getKoth(String name) {

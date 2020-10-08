@@ -65,7 +65,7 @@ public class LootManager implements Listener, ManagerEnabler {
         if(this.loots == null) return;
 
         FileUtils.writeString(this.lootFile, Lazarus.getInstance().getGson()
-        .toJson(this.loots, GsonUtils.LOOT_TYPE));
+            .toJson(this.loots, GsonUtils.LOOT_TYPE));
     }
 
     private void setupDefaultLoot() {

@@ -111,7 +111,7 @@ public class ClaimManager implements Listener {
         if(this.claims == null) return;
 
         FileUtils.writeString(this.claimsFile, Lazarus.getInstance().getGson()
-        .toJson(this.claims, GsonUtils.CLAIM_TYPE));
+            .toJson(this.claims, GsonUtils.CLAIM_TYPE));
 
         if(log) {
             Lazarus.getInstance().log("- &7Saved &a" + this.claims.size() + " &7claims.");

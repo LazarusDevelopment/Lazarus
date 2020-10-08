@@ -56,7 +56,7 @@ public class DtcManager implements Listener, ManagerEnabler {
         if(this.dtcData == null) return;
 
         FileUtils.writeString(this.dtcFile, Lazarus.getInstance().getGson()
-        .toJson(this.dtcData, DtcData.class));
+            .toJson(this.dtcData, DtcData.class));
     }
 
     public void startDtc(CommandSender sender, int breaks) {

@@ -171,7 +171,7 @@ public class FactionsManager implements Listener {
         if(this.players == null) return;
 
         FileUtils.writeString(this.playersFile, Lazarus.getInstance().getGson()
-        .toJson(this.players, GsonUtils.PLAYER_TYPE));
+            .toJson(this.players, GsonUtils.PLAYER_TYPE));
 
         if(log) {
             Lazarus.getInstance().log("- &7Saved &a" + this.players.size() + " &7players.");

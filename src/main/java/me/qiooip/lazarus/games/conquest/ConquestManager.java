@@ -72,7 +72,7 @@ public class ConquestManager implements Listener, ManagerEnabler {
         if(this.conquest == null) return;
 
         FileUtils.writeString(this.conquestFile, Lazarus.getInstance().getGson()
-        .toJson(this.conquest, ConquestData.class));
+            .toJson(this.conquest, ConquestData.class));
     }
 
     public boolean isActive() {

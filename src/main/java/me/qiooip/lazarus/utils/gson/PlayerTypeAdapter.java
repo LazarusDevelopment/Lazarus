@@ -28,7 +28,6 @@ public class PlayerTypeAdapter implements JsonSerializer<Map<UUID, FactionPlayer
     @Override
     public Map<UUID, FactionPlayer> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonArray array = json.getAsJsonArray();
-
         Map<UUID, FactionPlayer> playerMap = new HashMap<>();
 
         FactionPlayer fplayer;
