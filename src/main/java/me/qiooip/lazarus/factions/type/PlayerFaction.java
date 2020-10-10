@@ -10,6 +10,7 @@ import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.enums.Role;
 import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
+import me.qiooip.lazarus.factions.event.FactionPlayerUnfocusedEvent;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
@@ -263,6 +264,9 @@ public class PlayerFaction extends Faction {
     }
 
     public void unfocusPlayer(OfflinePlayer offlinePlayer) {
+        FactionPlayerUnfocusedEvent event = new FactionPlayerUnfocusedEvent(this, this.focused);
+        if(event.isCancelled()) return;
+
         this.focused = null;
         if(!offlinePlayer.isOnline()) return;
 

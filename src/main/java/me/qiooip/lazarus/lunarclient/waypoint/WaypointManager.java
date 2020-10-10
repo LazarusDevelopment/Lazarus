@@ -14,6 +14,7 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
+import me.qiooip.lazarus.factions.event.FactionPlayerUnfocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionSetHomeEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
@@ -117,8 +118,15 @@ public class WaypointManager implements Listener {
         this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onFactionPlayerFocused(FactionPlayerFocusedEvent event) {
+        for(Player player : event.getFaction().getOnlinePlayers()) {
+            this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onFactionPlayerUnfocused(FactionPlayerUnfocusedEvent event) {
         for(Player player : event.getFaction().getOnlinePlayers()) {
             this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
         }
