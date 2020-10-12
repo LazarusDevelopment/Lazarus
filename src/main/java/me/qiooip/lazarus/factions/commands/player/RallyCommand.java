@@ -4,8 +4,11 @@ import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
+import me.qiooip.lazarus.factions.event.FactionRallyEvent;
+import me.qiooip.lazarus.factions.event.FactionRallyEvent.RallyEventType;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.utils.StringUtils;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,14 +31,18 @@ public class RallyCommand extends SubCommand {
             return;
         }
 
-        faction.setRallyLocation(player.getLocation());
+        Location playerLocation = player.getLocation();
+
+        faction.setRallyLocation(playerLocation);
 
         String location = Config.FACTION_RALLY_INCLUDE_Y_COORDINATE
-            ? StringUtils.getLocationNameWithWorld(player.getLocation())
-            : StringUtils.getLocationNameWithWorldWithoutY(player.getLocation());
+            ? StringUtils.getLocationNameWithWorld(playerLocation)
+            : StringUtils.getLocationNameWithWorldWithoutY(playerLocation);
 
         faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_RALLY_SET
             .replace("<player>", player.getName())
             .replace("<location>", location));
+
+        new FactionRallyEvent(player.getUniqueId(), playerLocation, faction, RallyEventType.ADD);
     }
 }

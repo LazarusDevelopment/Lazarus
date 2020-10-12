@@ -15,6 +15,7 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionPlayerUnfocusedEvent;
+import me.qiooip.lazarus.factions.event.FactionRallyEvent;
 import me.qiooip.lazarus.factions.event.FactionSetHomeEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
@@ -104,18 +105,18 @@ public class WaypointManager implements Listener {
         PlayerFaction faction = (PlayerFaction) event.getFaction();
 
         for(Player player : faction.getOnlinePlayers()) {
-            this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
+            this.updatePlayerFactionChange(player);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
-        this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
+        this.updatePlayerFactionChange(event.getFactionPlayer().getPlayer());
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
-        this.updateWaypoint(event.getFactionPlayer().getPlayer(), PlayerWaypointType.FACTION_HOME);
+        this.updatePlayerFactionChange(event.getFactionPlayer().getPlayer());
     }
 
     @EventHandler
@@ -136,6 +137,13 @@ public class WaypointManager implements Listener {
     public void onFactionSetHome(FactionSetHomeEvent event) {
         for(Player player : event.getFaction().getOnlinePlayers()) {
             this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
+        }
+    }
+
+    @EventHandler
+    public void onFactionRally(FactionRallyEvent event) {
+        for(Player player : event.getFaction().getOnlinePlayers()) {
+            this.updateWaypoint(player, PlayerWaypointType.FACTION_RALLY);
         }
     }
 
@@ -206,6 +214,12 @@ public class WaypointManager implements Listener {
         }
     }
 
+    private void updatePlayerFactionChange(Player player) {
+        this.updateWaypoint(player, PlayerWaypointType.FACTION_RALLY);
+        this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
+        this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
+    }
+
     private void updateConquestWaypoints() {
         this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_RED, true);
         this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_BLUE, true);
@@ -268,6 +282,13 @@ public class WaypointManager implements Listener {
             case CONQUEST_GREEN:
             case CONQUEST_YELLOW: {
                 waypoint = this.globalWaypoints.get(type);
+                break;
+            }
+            case FACTION_RALLY: {
+                if(faction != null && faction.getRallyLocation() != null) {
+                    waypoint = typeWaypoint.createWaypoint(faction.getRallyLocation());
+                }
+
                 break;
             }
             case FACTION_HOME: {

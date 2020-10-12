@@ -140,6 +140,9 @@ FORCED_WAYPOINTS:
   END_EXIT:
     NAME: "&f&lEnd Exit"
     COLOR: "#FFFFFF"
+  FACTION_RALLY:
+    NAME: "&d&lFaction Rally"
+    COLOR: "#FF33FF"
   FACTION_HOME:
     NAME: "&b&lFaction Home"
     COLOR: "#CC0000"
