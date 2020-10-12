@@ -11,6 +11,7 @@ import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -67,7 +68,10 @@ public class CooldownManager implements Listener {
     }
 
     private void sendCooldown(UUID uuid, LCCooldown cooldown) {
-        LunarClientAPI.getInstance().sendCooldown(Bukkit.getPlayer(uuid), cooldown);
+        Player player = Bukkit.getPlayer(uuid);
+        if(player == null) return;
+
+        LunarClientAPI.getInstance().sendCooldown(player, cooldown);
     }
 
     @EventHandler(ignoreCancelled = true)
