@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
@@ -163,6 +164,14 @@ public class VanishManager implements Listener, ManagerEnabler {
 
     public int vanishedAmount() {
         return this.vanished.size();
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEntityTarget(EntityTargetEvent event) {
+        if(!(event.getTarget() instanceof Player)) return;
+        if(!this.isVanished((Player) event.getTarget())) return;
+
+        event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
