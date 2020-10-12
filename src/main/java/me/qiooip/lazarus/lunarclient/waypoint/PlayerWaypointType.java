@@ -18,6 +18,7 @@ public enum PlayerWaypointType {
     KOTH,
     DTC,
     END_EXIT,
+    FACTION_RALLY,
     FACTION_HOME,
     FOCUSED_FACTION_HOME;
 

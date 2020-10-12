@@ -6,6 +6,7 @@ import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.Faction;
+import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.RunningConquest;
@@ -26,6 +27,7 @@ import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.timer.type.SystemTimer;
 import me.qiooip.lazarus.userdata.Userdata;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -149,7 +151,7 @@ public class ScoreboardUpdater extends BukkitRunnable {
                     int count = 1;
 
                     for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
-                        scoreboard.add("&7" + count + ". " + Config.CONQUEST_FACTION_FORMAT
+                        scoreboard.add(ChatColor.GRAY.toString() + count + ". " + Config.CONQUEST_FACTION_FORMAT
                         .replace("<faction>", entry.getKey().getName()),  entry.getValue() + "");
 
                         if(++count == 4) break;
@@ -203,18 +205,33 @@ public class ScoreboardUpdater extends BukkitRunnable {
                     }
                 }
 
+                PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
+
+                if(playerFaction != null && playerFaction.getRallyLocation() != null) {
+                    scoreboard.addLine(ChatColor.DARK_GRAY);
+                    scoreboard.add(Config.FACTION_RALLY_TITLE_PLACEHOLDER, "");
+
+                    scoreboard.add(Config.FACTION_RALLY_WORLD_PLACEHOLDER,
+                        StringUtils.getWorldName(playerFaction.getRallyLocation()));
+
+                    scoreboard.add(Config.FACTION_RALLY_LOCATION_PLACEHOLDER, Config.FACTION_RALLY_INCLUDE_Y_COORDINATE
+                        ? StringUtils.getLocationName(playerFaction.getRallyLocation())
+                        : StringUtils.getLocationNameWithoutY(playerFaction.getRallyLocation()));
+                }
+
                 PvpClass pvpClass = this.instance.getPvpClassManager().getWarmupOrActivePvpClass(player);
 
                 if(pvpClass != null) {
                     PvpClassWarmupTimer warmupTimer = TimerManager.getInstance().getPvpClassWarmupTimer();
 
                     if(warmupTimer.isActive(player, pvpClass.getName())) {
+                        scoreboard.addLine(ChatColor.BLUE);
 
                         scoreboard.add(warmupTimer.getPlaceholder(),
                             warmupTimer.getScoreboardEntry(player, pvpClass.getName()));
 
                     } else if(pvpClass.isActive(player)) {
-                        scoreboard.addLine(ChatColor.DARK_GRAY);
+                        scoreboard.addLine(ChatColor.BLUE);
                         scoreboard.add(Config.PVPCLASS_ACTIVE_PLACEHOLDER, pvpClass.getDisplayName());
 
                         if(pvpClass instanceof Bard) {

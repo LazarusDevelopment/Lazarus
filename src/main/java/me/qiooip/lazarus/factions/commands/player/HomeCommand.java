@@ -67,12 +67,13 @@ public class HomeCommand extends SubCommand {
             return;
         }
 
-        int delay = isEnemyTerritory ? Config.HOME_WARMUP_ENEMY_TERRITORY
-        : Config.HOME_WARMUPS.get(player.getWorld().getEnvironment());
+        int delay = isEnemyTerritory
+            ? Config.HOME_WARMUP_ENEMY_TERRITORY
+            : Config.HOME_WARMUPS.get(player.getWorld().getEnvironment());
 
         timer.activate(player, delay, faction.getHome());
 
         player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_HOME_TASK_STARTED
-        .replace("<seconds>", String.valueOf(delay)));
+            .replace("<seconds>", String.valueOf(delay)));
     }
 }

@@ -62,6 +62,7 @@ public class PlayerFaction extends Faction {
     private transient List<UUID> allyInvitations;
 
     private transient UUID focused;
+    private transient Location rallyLocation;
 
     private transient long renameCooldown;
     private transient long openChangeCooldown;

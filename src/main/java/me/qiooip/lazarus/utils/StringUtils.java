@@ -368,8 +368,7 @@ public class StringUtils {
         String secondsDisplay = secondsModulo < 10 ? "0" + secondsModulo : "" + secondsModulo;
 
         if(minutes < 60) {
-            return "00:" + (minutes < 10 ? "0" + minutes : "" + minutes) +
-            ":" + secondsDisplay;
+            return "00:" + (minutes < 10 ? "0" + minutes : "" + minutes) + ":" + secondsDisplay;
         }
 
         int minutesModulo = minutes % 60;

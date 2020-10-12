@@ -134,6 +134,9 @@ public class Config {
     public static int FACTION_TOP_KOTH_CAP;
     public static int FACTION_TOP_CONQUEST_CAP;
 
+    public static int FACTION_RALLY_EXPIRE_AFTER;
+    public static boolean FACTION_RALLY_INCLUDE_Y_COORDINATE;
+
     public static int FACTION_STUCK_WARMUP;
     public static int FACTION_STUCK_ALLOWED_MOVEMENT_RADIUS;
 
@@ -393,6 +396,9 @@ public class Config {
     public static String SCOREBOARD_FOOTER_PLACEHOLDER;
 
     public static String CLAIM_PLACEHOLDER;
+    public static String FACTION_RALLY_TITLE_PLACEHOLDER;
+    public static String FACTION_RALLY_WORLD_PLACEHOLDER;
+    public static String FACTION_RALLY_LOCATION_PLACEHOLDER;
     public static String COMBAT_TAG_PLACEHOLDER;
     public static String ENDERPEARL_PLACEHOLDER;
     public static String PVP_PROTECTION_PLACEHOLDER;
@@ -603,6 +609,9 @@ public class Config {
         FACTION_TOP_DEATH = config.getInt("FACTION_TOP.DEATH");
         FACTION_TOP_KOTH_CAP = config.getInt("FACTION_TOP.KOTH_CAP");
         FACTION_TOP_CONQUEST_CAP = config.getInt("FACTION_TOP.CONQUEST_CAP");
+
+        FACTION_RALLY_EXPIRE_AFTER = config.getInt("FACTION_RALLY.EXPIRE_AFTER");
+        FACTION_RALLY_INCLUDE_Y_COORDINATE = config.getBoolean("FACTION_RALLY.INCLUDE_Y_COORDINATE");
 
         WILDERNESS_NAME = config.getString("SYSTEM_FACTION_NAMES.WILDERNESS");
         WARZONE_NAME = config.getString("SYSTEM_FACTION_NAMES.WARZONE");
@@ -875,6 +884,9 @@ public class Config {
         SCOREBOARD_FOOTER_PLACEHOLDER = scoreboard.getString("SCOREBOARD_FOOTER.PLACEHOLDER");
 
         CLAIM_PLACEHOLDER = scoreboard.getString("CLAIM_PLACEHOLDER");
+        FACTION_RALLY_TITLE_PLACEHOLDER = scoreboard.getString("FACTION_RALLY.TITLE_PLACEHOLDER");
+        FACTION_RALLY_WORLD_PLACEHOLDER = scoreboard.getString("FACTION_RALLY.WORLD_PLACEHOLDER");
+        FACTION_RALLY_LOCATION_PLACEHOLDER = scoreboard.getString("FACTION_RALLY.LOCATION_PLACEHOLDER");
         COMBAT_TAG_PLACEHOLDER = scoreboard.getString("COMBAT_TAG_PLACEHOLDER");
         ENDERPEARL_PLACEHOLDER = scoreboard.getString("ENDERPEARL_PLACEHOLDER");
         PVP_PROTECTION_PLACEHOLDER = scoreboard.getString("PVP_PROTECTION_PLACEHOLDER");

@@ -194,14 +194,8 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     public boolean add(String value, String time) {
         if(value.isEmpty() || this.entries.size() >= this.maxSize) return false;
 
-        value = Color.translate(value);
-
-        if(!time.isEmpty()) {
-            time = Color.translate(time);
-
-            if(time.length() > 16) {
-                time = time.substring(0, 16);
-            }
+        if(time.length() > 16) {
+            time = time.substring(0, 16);
         }
 
         if(value.length() <= 16) {

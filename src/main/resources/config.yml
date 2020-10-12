@@ -363,6 +363,12 @@ FACTION_TOP:
   # Points per conquest cap
   CONQUEST_CAP: 100
 
+FACTION_RALLY:
+  # Rally location expiration in seconds
+  EXPIRE_AFTER: 600
+  # Should we include Y coordinate on scoreboard?
+  INCLUDE_Y_COORDINATE: true
+
 # Should we disable home teleport from enemy territory?
 DENY_HOME_TELEPORT_FROM_ENEMY_TERRITORY: true
 

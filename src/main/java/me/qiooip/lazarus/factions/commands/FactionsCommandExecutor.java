@@ -57,6 +57,8 @@ import me.qiooip.lazarus.factions.commands.player.LivesWithdrawCommand;
 import me.qiooip.lazarus.factions.commands.player.MapCommand;
 import me.qiooip.lazarus.factions.commands.player.OpenCommand;
 import me.qiooip.lazarus.factions.commands.player.PromoteCommand;
+import me.qiooip.lazarus.factions.commands.player.RallyCommand;
+import me.qiooip.lazarus.factions.commands.player.RemoveRallyCommand;
 import me.qiooip.lazarus.factions.commands.player.RenameCommand;
 import me.qiooip.lazarus.factions.commands.player.SetHomeCommand;
 import me.qiooip.lazarus.factions.commands.player.ShowCommand;
@@ -133,6 +135,8 @@ public class FactionsCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new MapCommand());
         this.addSubCommand(new OpenCommand());
         this.addSubCommand(new PromoteCommand());
+        this.addSubCommand(new RallyCommand());
+        this.addSubCommand(new RemoveRallyCommand());
         this.addSubCommand(new RenameCommand());
         this.addSubCommand(new SetHomeCommand());
         this.addSubCommand(new ShowCommand());

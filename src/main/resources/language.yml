@@ -567,6 +567,11 @@ FACTIONS:
     PROMOTED: "&c<player> &ehas been promoted to &c<role>&e."
     MAX_PROMOTE: "&ePlayer is already &chighest &erole."
     CANNOT_PROMOTE_SELF: "&eYou cannot &cpromote &eyourself."
+  RALLY_COMMAND:
+    RALLY_SET: "&c<player> &ehas set rally location at &b<location>&e."
+  REMOVE_RALLY_COMMAND:
+    RALLY_NOT_SET: "&cRally &elocation is not set!"
+    RALLY_REMOVED: "&c<player> &ehas removed rally location."
   REMOVE_CLAIM_COMMAND:
     NO_CLAIM: "&eLand at your location is &cnot claimed&e!"
     REMOVED_SENDER: "&eYou have removed <faction>'s &eclaim at &c<location>&e."
