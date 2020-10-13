@@ -13,6 +13,8 @@ import me.qiooip.lazarus.factions.event.FactionClaimChangeEvent.ClaimChangeReaso
 import me.qiooip.lazarus.factions.event.FactionCreateEvent;
 import me.qiooip.lazarus.factions.event.FactionCreateEvent.FactionType;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
+import me.qiooip.lazarus.factions.event.FactionRallyEvent;
+import me.qiooip.lazarus.factions.event.FactionRallyEvent.RallyEventType;
 import me.qiooip.lazarus.factions.event.FactionRelationChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionRenameEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
@@ -33,6 +35,7 @@ import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.timer.cooldown.FactionRallyTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
@@ -537,6 +540,18 @@ public class FactionsManager implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onFactionDisband(FactionDisbandEvent event) {
         TimerManager.getInstance().getFactionFreezeTimer().cancel(event.getFaction().getId());
+        TimerManager.getInstance().getFactionRallyTimer().cancel(event.getFaction().getId());
+    }
+
+    @EventHandler
+    public void onFactionRally(FactionRallyEvent event) {
+        FactionRallyTimer timer = TimerManager.getInstance().getFactionRallyTimer();
+
+        if(event.getType() == RallyEventType.ADD) {
+            timer.activate(event.getFaction());
+        } else {
+            timer.cancel(event.getFaction());
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

@@ -292,6 +292,7 @@ FACTIONS:
   DENY_DAMAGE_ALLIES: "&eYou cannot damage <player>&e."
   ENDERPEARLS_DISABLED: "&eEnderpearls are disabled in <faction>'s &eterritory!"
   NO_LONGER_FROZEN: "&eYour &cfaction &eis no longer &afrozen&e."
+  RALLY_EXPIRED: "&cRally &elocation display has expired."
   PVP_CLASS_LIMIT:
     DENY_EQUIP: "&eYou cannot equip &b<pvpClass> class &ebecause your faction &cexceeded limit&e!"
     CLASS_DEACTIVATED: "&eYou &b<pvpClass> class &ewas &cdeactivated &ebecause you joined faction that &cexceeded limit&e!"

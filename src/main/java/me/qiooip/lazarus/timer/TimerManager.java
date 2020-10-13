@@ -7,6 +7,7 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
 import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.timer.cooldown.FactionRallyTimer;
 import me.qiooip.lazarus.timer.cooldown.RankReviveTimer;
 import me.qiooip.lazarus.timer.custom.CustomTimer;
 import me.qiooip.lazarus.timer.scoreboard.AppleTimer;
@@ -62,6 +63,7 @@ public class TimerManager {
     private final AbilitiesTimer abilitiesTimer;
 
     private final FactionFreezeTimer factionFreezeTimer;
+    private final FactionRallyTimer factionRallyTimer;
     private final CooldownTimer cooldownTimer;
     private final RankReviveTimer rankReviveTimer;
     private final CustomTimer customTimer;
@@ -99,6 +101,7 @@ public class TimerManager {
         if(Config.NORMAL_GOLDEN_APPLE_ON_SCOREBOARD) this.scoreboardTimers.add(this.appleTimer);
 
         this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
+        this.factionRallyTimer = new FactionRallyTimer(this.executor);
         this.cooldownTimer = new CooldownTimer(this.executor);
         this.rankReviveTimer = new RankReviveTimer(this.executor);
         this.customTimer = new CustomTimer(this.executor);
@@ -121,6 +124,7 @@ public class TimerManager {
         this.pvpClassWarmupTimer.disable();
 
         this.factionFreezeTimer.disable();
+        this.factionRallyTimer.disable();
         this.cooldownTimer.disable();
         this.rankReviveTimer.disable();
         this.customTimer.disable();
