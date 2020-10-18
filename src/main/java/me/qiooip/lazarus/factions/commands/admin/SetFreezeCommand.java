@@ -5,7 +5,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
-import me.qiooip.lazarus.timer.scoreboard.FactionFreezeTimer;
+import me.qiooip.lazarus.timer.cooldown.FactionFreezeTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.command.CommandSender;

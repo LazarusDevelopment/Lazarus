@@ -83,6 +83,8 @@ FAKE_PEARL:
   DISPLAY_NAME: "&3&lFake pearl"
   # Ability item cooldown in seconds
   COOLDOWN: 120
+  # Should we enable enderpearl timer when pre pearl is used?
+  ACTIVATE_ENDERPEARL_TIMER: false
   # Item used for this ability
   ITEM:
     ENCHANTED_GLOW: true
@@ -233,6 +235,27 @@ POTION_COUNTER:
       - "&7Upon hitting a player with this item"
       - "&7you will receive the amount of"
       - "&7healing potions in your chat!"
+
+PRE_PEARL:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&5&lPre Pearl"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # How long until player is teleported to pre pearl location?
+  TELEPORT_AFTER: 10
+  # Should we enable enderpearl timer when pre pearl is used?
+  ACTIVATE_ENDERPEARL_TIMER: false
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "368:0"
+    NAME: "&5&lPre Pearl"
+    LORE:
+      - "&7When used, pre pearl will save"
+      - "&7your current location and it will"
+      - "&7teleport you there after 10 seconds!"
 
 RAGE:
   # Should we enable this ability item?

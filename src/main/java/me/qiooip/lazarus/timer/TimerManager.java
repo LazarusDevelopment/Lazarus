@@ -15,7 +15,7 @@ import me.qiooip.lazarus.timer.scoreboard.ArcherTagTimer;
 import me.qiooip.lazarus.timer.scoreboard.CombatTagTimer;
 import me.qiooip.lazarus.timer.scoreboard.EnderPearlTimer;
 import me.qiooip.lazarus.timer.scoreboard.EotwTimer;
-import me.qiooip.lazarus.timer.scoreboard.FactionFreezeTimer;
+import me.qiooip.lazarus.timer.cooldown.FactionFreezeTimer;
 import me.qiooip.lazarus.timer.scoreboard.GAppleTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.timer.scoreboard.KeySaleTimer;

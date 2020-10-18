@@ -58,6 +58,15 @@ public class PlayerTimer extends Timer {
         this.players.forEach((uuid, future) -> section.set(uuid.toString(), future.getDelay(TimeUnit.MILLISECONDS)));
     }
 
+    public void reactivate(Player player) {
+        this.reactivate(player.getUniqueId());
+    }
+
+    public void reactivate(UUID uuid) {
+        this.cancel(uuid);
+        this.activate(uuid);
+    }
+
     public void activate(Player player) {
         this.activate(player.getUniqueId());
     }

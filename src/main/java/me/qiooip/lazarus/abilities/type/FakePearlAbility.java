@@ -3,9 +3,14 @@ package me.qiooip.lazarus.abilities.type;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.timer.scoreboard.EnderPearlTimer;
 import me.qiooip.lazarus.utils.PlayerUtils;
+import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -18,6 +23,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class FakePearlAbility extends AbilityItem implements Listener {
 
     private final String metadataName;
+    private boolean activateEnderpearlTimer;
 
     public FakePearlAbility(ConfigFile config) {
         super(AbilityType.FAKE_PEARL, "FAKE_PEARL", config);
@@ -27,9 +33,21 @@ public class FakePearlAbility extends AbilityItem implements Listener {
     }
 
     @Override
+    protected void loadAdditionalData(ConfigurationSection abilitySection) {
+        this.activateEnderpearlTimer = abilitySection.getBoolean("ACTIVATE_ENDERPEARL_TIMER");
+    }
+
+    @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         if(player.getGameMode() == GameMode.CREATIVE) {
             return false;
+        }
+
+        if(Config.ENDER_PEARL_COOLDOWN_ENABLED && this.activateEnderpearlTimer) {
+            EnderPearlTimer enderPearlTimer = TimerManager.getInstance().getEnderPearlTimer();
+
+            enderPearlTimer.cancel(player);
+            Tasks.sync(() -> enderPearlTimer.activate(player));
         }
 
         player.setMetadata(this.metadataName, PlayerUtils.TRUE_METADATA_VALUE);

@@ -1,4 +1,4 @@
-package me.qiooip.lazarus.timer.scoreboard;
+package me.qiooip.lazarus.timer.cooldown;
 
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
@@ -23,7 +23,6 @@ public class FactionFreezeTimer extends SystemTimer {
         super(executor, "FactionFreezeTimer", Config.FACTION_DTR_FREEZE_DURATION * 60, false);
 
         this.setExpiryMessage(Language.FACTIONS_NO_LONGER_FROZEN);
-        this.loadTimer();
     }
 
     @Override

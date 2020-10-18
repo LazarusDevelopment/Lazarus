@@ -247,7 +247,7 @@ public class Bard extends PvpClass {
         ItemUtils.removeOneItem(player);
 
         timer.activate(player, "BARDBUFF", clickableItem.getCooldown(),
-        Language.PREFIX + Language.BARD_CLICKABLE_COOLDOWN_EXPIRED);
+            Language.PREFIX + Language.BARD_CLICKABLE_COOLDOWN_EXPIRED);
 
         this.applyClickableEffect(player, faction, clickableItem);
     }

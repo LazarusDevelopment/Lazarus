@@ -89,14 +89,25 @@ public class CooldownTimer extends PlayerTimer {
     }
 
     private ScheduledFuture<?> scheduleExpiry(UUID uuid, String cooldown, int delay, String message) {
-        return this.scheduleExpiry(uuid, cooldown, delay, message, null);
+        return this.executor.schedule(() -> {
+            try {
+                this.cooldowns.remove(uuid, cooldown);
+
+                if(message == null) return;
+
+                Player player = Bukkit.getPlayer(uuid);
+                if(player != null) player.sendMessage(message);
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+        }, delay, TimeUnit.SECONDS);
     }
 
     private ScheduledFuture<?> scheduleExpiry(UUID uuid, String cooldown, int delay, String message, Callable callable) {
         return this.executor.schedule(() -> {
             try {
                 this.cooldowns.remove(uuid, cooldown);
-                if(callable != null) callable.call();
+                callable.call();
 
                 if(message == null) return;
 
