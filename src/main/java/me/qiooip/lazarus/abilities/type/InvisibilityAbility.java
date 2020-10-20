@@ -48,19 +48,19 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
 
     @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
-        this.duration = abilitySection.getInt("DURATION");
+        this.duration = abilitySection.getInt("DURATION") * 20;
     }
 
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
-        this.hidePlayer(player);
+        this.hidePlayer(player, this.duration);
 
         event.setCancelled(true);
         return true;
     }
 
-    private void hidePlayer(Player player) {
-        PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, this.duration * 20, 1);
+    public void hidePlayer(Player player, int duration) {
+        PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, duration, 1);
         Lazarus.getInstance().getPvpClassManager().addPotionEffect(player, effect);
 
         NmsUtils.getInstance().updateArmor(player, true);
@@ -120,7 +120,7 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
         Player player = event.getPlayer();
 
         if(this.offline.remove(player.getUniqueId())) {
-            this.hidePlayer(player);
+            this.hidePlayer(player, this.duration);
         }
     }
 

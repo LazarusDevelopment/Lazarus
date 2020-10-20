@@ -49,6 +49,7 @@ public class MobStackHandler extends Handler implements Listener {
 
         if(!Config.MOB_STACK_ENTITIES.contains(stackOn.getType().name()) || !Config.MOB_STACK_ENTITIES.contains(toStack.getType().name())) return;
         if(NmsUtils.getInstance().isCombatLogger(stackOn) || NmsUtils.getInstance().isCombatLogger(toStack)) return;
+        if(stackOn.hasMetadata("loggerBait") || toStack.hasMetadata("loggerBait")) return;
 
         LivingEntity livingStackOn = (LivingEntity) stackOn;
         LivingEntity livingToStack = (LivingEntity) toStack;

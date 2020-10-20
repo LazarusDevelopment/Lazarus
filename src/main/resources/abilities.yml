@@ -154,6 +154,26 @@ INVISIBILITY:
       - "&7yourself and your armor invisibility."
       - "&7If hit, you will become visible!"
 
+LOGGER_BAIT:
+  # Should we enable this ability item?
+  # NOTE: In order for this ability to work properly you must have the Invisiblity ability enabled
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lLogger bait"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Duration in seconds
+  DURATION: 45
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "383:51"
+    NAME: "&6&lLogger bait"
+    LORE:
+      - "&7Using the spawn egg will create a fake combat"
+      - "&7logger and you will be granted 45 seconds"
+      - "&7of invisiblity for yourself and your armor!"
+
 LUCKY_INGOT:
   # Should we enable this ability item?
   ENABLED: true

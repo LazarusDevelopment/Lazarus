@@ -20,6 +20,7 @@ public enum AbilityType {
     GUARDIAN_ANGEL("GuardianAngel", "&a&lGuardian Angel"),
     HEALER("Healer", "&a&lHealer"), // TODO: Udari svog faction membera i heala ga i da mu neke efekte
     INVISIBILITY("Invisibility", "&a&lInvisibility"),
+    LOGGER_BAIT("LoggerBait", "&a&lLogger Bait"),
     LUCKY_INGOT("LuckyIngot", "&a&lLucky Ingot"),
     POCKET_BARD("PocketBard", "&a&lPocket Bard"),
     POTION_COUNTER("PotionCounter", "&a&lPotion Counter"),

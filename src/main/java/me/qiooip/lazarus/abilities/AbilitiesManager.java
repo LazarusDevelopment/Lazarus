@@ -9,6 +9,7 @@ import me.qiooip.lazarus.abilities.type.FakePearlAbility;
 import me.qiooip.lazarus.abilities.type.FastPearlAbility;
 import me.qiooip.lazarus.abilities.type.GuardianAngelAbility;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
+import me.qiooip.lazarus.abilities.type.LoggerBaitAbility;
 import me.qiooip.lazarus.abilities.type.LuckyIngotAbility;
 import me.qiooip.lazarus.abilities.type.PocketBardAbility;
 import me.qiooip.lazarus.abilities.type.PotionCounterAbility;
@@ -81,6 +82,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbility(new FastPearlAbility(config));
         this.loadAbility(new GuardianAngelAbility(config));
         this.loadAbility(new InvisibilityAbility(config));
+        this.loadAbility(new LoggerBaitAbility(config));
         this.loadAbility(new LuckyIngotAbility(config));
         this.loadAbility(new PocketBardAbility(config));
         this.loadAbility(new PotionCounterAbility(config));
