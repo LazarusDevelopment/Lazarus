@@ -232,6 +232,14 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  SWITCH_STICK_ABILITY:
+    TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You will be turned for &c<amount> &7degrees!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Player &b<target> &7will be turned for &c<amount> &7degrees!"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   TANK_INGOT_ABILITY:
     EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
     ACTIVATED:

@@ -30,6 +30,7 @@ public enum AbilityType {
     SCRAMBLER("Scrambler", "&a&lScrambler"),
     STARVATION_FLESH("StarvationFlesh", "&a&lStarvationFlesh"),
     SWITCHER("Switcher", "&a&lSwitcher"),
+    SWITCH_STICK("SwitchStick", "&a&lSwitchStick"),
     TANK_INGOT("TankIngot", "&a&lTank Ingot"),
     WEB_GUN("WebGun", "&a&lWeb Gun");
 

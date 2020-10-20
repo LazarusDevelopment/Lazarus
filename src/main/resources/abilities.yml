@@ -388,6 +388,24 @@ SWITCHER:
       - "&7Upon hitting a player you"
       - "&7will change place with him!"
 
+SWITCH_STICK:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&c&lSwitch stick"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # How many degrees should the player be turned
+  DEGREES: 180
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "280:0"
+    NAME: "&c&lSwitch stick"
+    LORE:
+      - "&7Upon hitting a player with this item"
+      - "&7they will make a 180 degree turn!"
+
 TANK_INGOT:
   # Should we enable this ability item?
   ENABLED: true
