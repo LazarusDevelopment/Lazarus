@@ -26,6 +26,7 @@ public enum AbilityType {
     POTION_COUNTER("PotionCounter", "&a&lPotion Counter"),
     PRE_PEARL("PrePearl", "&a&lPre-Pearl"),
     RAGE("Rage", "&a&lRage"),
+    RAGE_BRICK("RageBrick", "&a&lRage Brick"),
     ROCKET("Rocket", "&a&lRocket"),
     SCRAMBLER("Scrambler", "&a&lScrambler"),
     SECOND_CHANCE("SecondChance", "&a&lSecondChance"),

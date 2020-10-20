@@ -305,6 +305,34 @@ RAGE:
       - "&75 seconds after activation you"
       - "&7will receive strength for 1 second!"
 
+RAGE_BRICK:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&4&lRage brick"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Distance enemies must be in to apply
+  DISTANCE: 10
+  # For how long should we extend the original duration of effects per player in seconds
+  PER_PLAYER: 3
+  # What should be the maximum duration of the effect in seconds
+  MAXIMUM_DURATION: 10
+  # Effects this ability should give
+  EFFECTS:
+    INCREASE_DAMAGE:
+      DURATION: 3
+      LEVEL: 2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "405:0"
+    NAME: "&4&lRage Brick"
+    LORE:
+      - "&7Use this ability in order"
+      - "&7to give yourself offensive"
+      - "&7effects to help you kill!"
+
 ROCKET:
   # Should we enable this ability item?
   ENABLED: true

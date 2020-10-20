@@ -15,6 +15,7 @@ import me.qiooip.lazarus.abilities.type.PocketBardAbility;
 import me.qiooip.lazarus.abilities.type.PotionCounterAbility;
 import me.qiooip.lazarus.abilities.type.PrePearlAbility;
 import me.qiooip.lazarus.abilities.type.RageAbility;
+import me.qiooip.lazarus.abilities.type.RageBrickAbility;
 import me.qiooip.lazarus.abilities.type.RocketAbility;
 import me.qiooip.lazarus.abilities.type.ScramblerAbility;
 import me.qiooip.lazarus.abilities.type.SecondChanceAbility;
@@ -90,6 +91,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbility(new PotionCounterAbility(config));
         this.loadAbility(new PrePearlAbility(config));
         this.loadAbility(new RageAbility(config));
+        this.loadAbility(new RageBrickAbility(config));
         this.loadAbility(new RocketAbility(config));
         this.loadAbility(new ScramblerAbility(config));
         this.loadAbility(new SecondChanceAbility(config));
