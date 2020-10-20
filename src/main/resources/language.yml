@@ -199,6 +199,15 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  STARVATION_FLESH_ABILITY:
+    TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. Your hunger has been set to &c<hunger> &7hunger bars!"
+    TARGET_EQUIPPED_CLASS: "&c<player> &7has an equipped class therefore you can't use this ability on them."
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName> &7on &c<target>&7. Their hunger has been set to &c<hunger> &7hunger bars."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   SWITCHER_ABILITY:
     SWITCH_DENIED:
       DISTANCE_TOO_FAR: "&cPlayer is too far away. Cancelling switch!"
@@ -222,6 +231,14 @@ ABILITIES:
       - "&7&m                                                                                "
       - "&7You activated <abilityName>&7. &7You were given the following effects based on &a<amount> &7enemies:"
       - "<effects>"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
+  WEB_GUN_ABILITY:
+    COBWEB_REMOVE: "&aWeb gun cobwebs have been removed."
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. &a<radius>&7x&a<radius> &7cobweb square will be created at eggs landing location!"
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "

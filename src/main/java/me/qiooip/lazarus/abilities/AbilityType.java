@@ -23,13 +23,14 @@ public enum AbilityType {
     LUCKY_INGOT("LuckyIngot", "&a&lLucky Ingot"),
     POCKET_BARD("PocketBard", "&a&lPocket Bard"),
     POTION_COUNTER("PotionCounter", "&a&lPotion Counter"),
-    PRE_PEARL("PrePearl", "&a&lPre-Pearl"), // TODO: Kad right clickas tu perlu, treba onaj big explosion particle playat i saveat tu lokaciju i onda nakon 10 sec tpat ga na tu lokaciju
+    PRE_PEARL("PrePearl", "&a&lPre-Pearl"),
     RAGE("Rage", "&a&lRage"),
     ROCKET("Rocket", "&a&lRocket"),
     SCRAMBLER("Scrambler", "&a&lScrambler"),
+    STARVATION_FLESH("StarvationFlesh", "&a&lStarvationFlesh"),
     SWITCHER("Switcher", "&a&lSwitcher"),
     TANK_INGOT("TankIngot", "&a&lTank Ingot"),
-    WEB_GUN("WebGun", "&a&lWeb Gun"); // TODO: 2x2 cobweb koji se makne nakon 10 sekundi
+    WEB_GUN("WebGun", "&a&lWeb Gun");
 
     private final String name;
     private final String displayName;

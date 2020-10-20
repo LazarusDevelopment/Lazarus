@@ -323,6 +323,29 @@ SCRAMBLER:
       - "&7Upon hitting a player his"
       - "&7hotbar will be randomized!"
 
+STARVATION_FLESH:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lStarvation flesh"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # What should we set players hunger to
+  HUNGER: 1
+  # Should the ability be allowed on players with equipped classes
+  CLASSES: false
+  # Hits required
+  HITS: 3
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "367:0"
+    NAME: "&6&lStarvation flesh"
+    LORE:
+      - "&7Upon hitting a player 3 times in a row with the"
+      - "&7starvation flesh, the player will lose 9.5"
+      - "&7hunger bars. This item will not work on classes!"
+
 SWITCHER:
   # Should we enable this ability item?
   ENABLED: true
@@ -372,3 +395,24 @@ TANK_INGOT:
       - "&7Use this ability in order"
       - "&7to give yourself defensive"
       - "&7effects to help you survive!"
+
+WEB_GUN:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lWeb Gun"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # After what duration should cobwebs disappear
+  DURATION: 10
+  # Cobweb radius
+  RADIUS: 2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "344:0"
+    NAME: "&6&lWeb Gun"
+    LORE:
+      - "&7Upon right clicking the web gun, an egg will be"
+      - "&7shot out of the gun and a 2x2 of cobwebs will"
+      - "&7spawn in for 10 seconds where ever the egg lands!"

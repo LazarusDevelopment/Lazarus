@@ -16,6 +16,7 @@ import me.qiooip.lazarus.abilities.type.PrePearlAbility;
 import me.qiooip.lazarus.abilities.type.RageAbility;
 import me.qiooip.lazarus.abilities.type.RocketAbility;
 import me.qiooip.lazarus.abilities.type.ScramblerAbility;
+import me.qiooip.lazarus.abilities.type.StarvationFleshAbility;
 import me.qiooip.lazarus.abilities.type.SwitcherAbility;
 import me.qiooip.lazarus.abilities.type.TankIngotAbility;
 import me.qiooip.lazarus.abilities.type.WebGunAbility;
@@ -87,6 +88,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbility(new RageAbility(config));
         this.loadAbility(new RocketAbility(config));
         this.loadAbility(new ScramblerAbility(config));
+        this.loadAbility(new StarvationFleshAbility(config));
         this.loadAbility(new SwitcherAbility(config));
         this.loadAbility(new TankIngotAbility(config));
         this.loadAbility(new WebGunAbility(config));
