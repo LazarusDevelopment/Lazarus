@@ -20,7 +20,6 @@ public enum AbilityType {
     FAKE_PEARL("FakePearl", "&a&lFake Pearl"),
     FAST_PEARL("FastPearl", "&a&lFast Pearl"),
     GUARDIAN_ANGEL("GuardianAngel", "&a&lGuardian Angel"),
-    HEALER("Healer", "&a&lHealer"), // TODO: Udari svog faction membera i heala ga i da mu neke efekte
     INVISIBILITY("Invisibility", "&a&lInvisibility"),
     KIT_SWAPPER("KitSwapper", "&a&lKit Swapper"), // TODO
     LOGGER_BAIT("LoggerBait", "&a&lLogger Bait"),

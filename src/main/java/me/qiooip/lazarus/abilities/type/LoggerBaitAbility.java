@@ -12,7 +12,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class LoggerBaitAbility extends AbilityItem implements Listener {
@@ -30,10 +29,7 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
 
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
-        // TODO: myb neke dodatne provjere jel uopce moze spawnat entity na toj lokaciji
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return false;
-
-        Location location = event.getClickedBlock().getLocation().clone();
+        Location location = player.getLocation().clone();
         location.setX(location.getBlockX() + 0.5D);
         location.setY(location.getWorld().getHighestBlockYAt(location));
         location.setZ(location.getBlockZ() + 0.5D);
@@ -44,7 +40,6 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
         skeleton.setCustomNameVisible(true);
         skeleton.setMetadata("loggerBait", PlayerUtils.TRUE_METADATA_VALUE);
 
-        // TODO: ako je invis ability disablean poslat poruku?
         InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager
             .getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
 
