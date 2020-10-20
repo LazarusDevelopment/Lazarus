@@ -135,6 +135,32 @@ GUARDIAN_ANGEL:
       - "&7If used, you will be fully"
       - "&7healed if you reach 2 hearts!"
 
+HEALER:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&b&lHealer"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # How much hearths should healer heal?
+  HEAL_AMOUNT: 4
+  # Effects this ability should give
+  EFFECTS:
+    SPEED:
+      DURATION: 10
+      LEVEL: 4
+    DAMAGE_RESISTANCE:
+      DURATION: 5
+      LEVEL: 1
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "280:0"
+    NAME: "&b&lHealer"
+    LORE:
+      - "&7Hit your team mate to heal him"
+      - "&7and give him potion effects!"
+
 INVISIBILITY:
   # Should we enable this ability item?
   ENABLED: true

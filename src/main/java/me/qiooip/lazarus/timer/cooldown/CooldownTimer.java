@@ -36,7 +36,8 @@ public class CooldownTimer extends PlayerTimer {
     }
 
     private void activate(UUID uuid, String cooldown, int delay, String message) {
-        this.activate(uuid, cooldown, delay, message, null);
+        if(delay <= 0 || this.isActive(uuid, cooldown)) return;
+        this.cooldowns.put(uuid, cooldown, this.scheduleExpiry(uuid, cooldown, delay, message));
     }
 
     public void activate(Player player, String cooldown, int delay, String message, Callable callable) {

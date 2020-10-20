@@ -122,6 +122,17 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  HEALER_ABILITY:
+    NOT_IN_FACTION: "&cYou can't use &bHealer ability &cwhile not in faction!"
+    NOT_TEAM_MATE: "&cPlayer &b<target> &cis not your team mate!"
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. &b<player> &7received &4<amount> \u2764 &7and effects:"
+      - "<effects>"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   INVISIBILITY_ABILITY:
     BECOME_VISIBLE_ON_DAMAGE: "&cYou become &avisible &cbecause you were &4damaged&c!"
     ACTIVATED:

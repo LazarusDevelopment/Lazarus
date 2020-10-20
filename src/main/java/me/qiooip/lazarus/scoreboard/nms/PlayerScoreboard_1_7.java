@@ -207,9 +207,12 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
         if(value.length() <= 16) {
             this.entries.addLast(new ScoreboardInput("", value, time));
+        } else if(value.length() <= 32) {
+            this.entries.addLast(new ScoreboardInput(value.substring(0,
+            value.length() - 16), value.substring(value.length() - 16), time));
         } else {
-            this.entries.addLast(new ScoreboardInput(value.substring(0, value
-            .length() - 16), value.substring(value.length() - 16), time));
+            this.entries.addLast(new ScoreboardInput(value.substring(0, 16),
+            value.substring(16, 32), time));
         }
 
         this.lastLine.set(false);

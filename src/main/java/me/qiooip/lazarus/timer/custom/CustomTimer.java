@@ -42,14 +42,14 @@ public class CustomTimer extends Timer {
             joiner.add(args[i]);
         }
 
-        String placeholder = joiner.toString();
+        String placeholder = Color.translate(joiner.toString());
 
         ScheduledFuture<?> timer = this.scheduleExpiry(args[1], duration);
         CustomTimerData customTimer = new CustomTimerData(args[1], placeholder + " ", timer);
 
         this.customTimers.add(customTimer);
 
-        String timerName = Color.translate(placeholder).replace(":", "");
+        String timerName = placeholder.replace(":", "");
 
         Messages.sendMessage(Language.PREFIX + Language.CUSTOM_TIMER_STARTED
             .replace("<timerName>", timerName)

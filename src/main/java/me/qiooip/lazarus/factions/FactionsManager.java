@@ -524,7 +524,7 @@ public class FactionsManager implements Listener {
 
             if(diff >= 0) {
                 event.getSender().sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_RENAME_COOLDOWN
-                .replace("<time>", DurationFormatUtils.formatDurationWords(diff, true, true)));
+                    .replace("<time>", DurationFormatUtils.formatDurationWords(diff, true, true)));
 
                 event.setCancelled(true);
                 return;
