@@ -12,14 +12,17 @@ public enum AbilityType {
 
     AGGRESSIVE_PEARL("AggressivePearl", "&a&lAggressive Pearl"), // TODO: Kad perla landa dat mu neke efekte (configurable)
     ANTI_REDSTONE("AntiRedstone", "&a&lAnti Redstone"),
+    ANTI_ABILITY_BALL("AntiAbilityBall", "&a&lAnti Ability Ball"), // TODO
     ANTI_TRAP_STAR("AntiTrapStar", "&a&lAnti Trap Star"), // TODO: Ako ga je igrac hito u zadnjih 10 sekundi, starta counter i nakon 5 sekundi ga tpa to dog igraca
     COCAINE("Cocaine", "&a&lCocaine"),
+    COMBO("Combo", "&a&lCombo"), // TODO
     EXOTIC_BONE("ExoticBone", "&a&lExotic Bone"),
     FAKE_PEARL("FakePearl", "&a&lFake Pearl"),
     FAST_PEARL("FastPearl", "&a&lFast Pearl"),
     GUARDIAN_ANGEL("GuardianAngel", "&a&lGuardian Angel"),
     HEALER("Healer", "&a&lHealer"), // TODO: Udari svog faction membera i heala ga i da mu neke efekte
     INVISIBILITY("Invisibility", "&a&lInvisibility"),
+    KIT_SWAPPER("KitSwapper", "&a&lKit Swapper"), // TODO
     LOGGER_BAIT("LoggerBait", "&a&lLogger Bait"),
     LUCKY_INGOT("LuckyIngot", "&a&lLucky Ingot"),
     POCKET_BARD("PocketBard", "&a&lPocket Bard"),
@@ -30,10 +33,13 @@ public enum AbilityType {
     ROCKET("Rocket", "&a&lRocket"),
     SCRAMBLER("Scrambler", "&a&lScrambler"),
     SECOND_CHANCE("SecondChance", "&a&lSecondChance"),
+    SPLEEF_BOW("SpleefBow", "&a&lSpleef Bow"), // TODO
     STARVATION_FLESH("StarvationFlesh", "&a&lStarvationFlesh"),
     SWITCHER("Switcher", "&a&lSwitcher"),
     SWITCH_STICK("SwitchStick", "&a&lSwitchStick"),
     TANK_INGOT("TankIngot", "&a&lTank Ingot"),
+    TIME_WARP("TimeWarp", "&a&lTimeWarp"), // TODO
+    VAMPIRE("Vampire", "&a&lVampire"), // TODO
     WEB_GUN("WebGun", "&a&lWeb Gun");
 
     private final String name;
