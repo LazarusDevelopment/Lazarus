@@ -85,11 +85,13 @@ public class WebGunAbility extends AbilityItem implements Listener {
 
     private void handleCobwebCreation(Projectile projectile) {
         double radius = this.radius / 2.0D;
-        int min = (int) Math.floor(radius), max = (int) Math.ceil(radius);
+
+        int min = (int) Math.floor(radius);
+        int max = (int) Math.ceil(radius);
 
         Set<Location> blocks = new HashSet<>();
-
         Location land = projectile.getLocation();
+
         for(int x = land.getBlockX() - min; x < land.getBlockX() + max; x++) {
             for(int z = land.getBlockZ() - min; z < land.getBlockZ() + max; z++) {
                 Location location = new Location(land.getWorld(), x, land.getBlockY(), z);
@@ -104,7 +106,7 @@ public class WebGunAbility extends AbilityItem implements Listener {
         String message = Language.ABILITIES_PREFIX + Language.ABILITIES_WEB_GUN_COBWEB_REMOVE;
 
         TimerManager.getInstance().getCooldownTimer().activate(shooter, this.cooldownName, this.duration,
-                message, () -> Tasks.sync(() -> blocks.forEach(location -> location.getBlock().setType(Material.AIR))));
+            message, () -> Tasks.sync(() -> blocks.forEach(location -> location.getBlock().setType(Material.AIR))));
 
         this.sendActivationMessage(shooter, this.radius);
     }

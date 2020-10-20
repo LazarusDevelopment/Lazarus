@@ -45,7 +45,9 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
         skeleton.setMetadata("loggerBait", PlayerUtils.TRUE_METADATA_VALUE);
 
         // TODO: ako je invis ability disablean poslat poruku?
-        InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
+        InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager
+            .getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
+
         if(ability != null) {
             ability.hidePlayer(player, this.duration);
         }
