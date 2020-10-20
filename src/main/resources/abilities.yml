@@ -343,6 +343,22 @@ SCRAMBLER:
       - "&7Upon hitting a player his"
       - "&7hotbar will be randomized!"
 
+SECOND_CHANCE:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&d&lSecond chance"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Boost values for the rocket
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "339:0"
+    NAME: "&d&lSecond chance"
+    LORE:
+      - "&7Upon right clicking the second chance"
+      - "&7your enderpearl cooldown will be removed!"
+
 STARVATION_FLESH:
   # Should we enable this ability item?
   ENABLED: true

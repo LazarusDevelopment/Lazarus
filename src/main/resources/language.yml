@@ -206,6 +206,14 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  SECOND_CHANCE_ABILITY:
+    NOT_ON_COOLDOWN: "&7You are not on enderpearl cooldown!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Your enderpearl cooldown has been removed."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   STARVATION_FLESH_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. Your hunger has been set to &c<hunger> &7hunger bars!"
     TARGET_EQUIPPED_CLASS: "&c<player> &7has an equipped class therefore you can't use this ability on them."

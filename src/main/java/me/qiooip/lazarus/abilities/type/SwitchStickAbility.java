@@ -38,6 +38,7 @@ public class SwitchStickAbility extends AbilityItem {
         location.setYaw(location.getYaw() + this.degrees);
 
         target.teleport(location);
+
         this.sendActivationMessage(damager, target, this.degrees);
         return true;
     }
