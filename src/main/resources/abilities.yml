@@ -55,6 +55,34 @@ COCAINE:
       - "&7yourself speed 4 for 10 seconds"
       - "&7and confusion for 5 seconds!"
 
+COMBO:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&6&lCombo"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # When are we going to apply effects after use in seconds
+  APPLY_AFTER: 10
+  # For how long should we extend the original duration of effects per hit in seconds
+  PER_HIT: 1
+  # What should be the maximum duration of the effect in seconds
+  MAXIMUM_DURATION: 12
+  # Effects this ability should give
+  EFFECTS:
+    INCREASE_DAMAGE:
+      DURATION: 1
+      LEVEL: 2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "349:3"
+    NAME: "&6&lCombo ability"
+    LORE:
+      - "&7If used, for each hit you do within"
+      - "&710 seconds after activation you"
+      - "&7will receive strength for 1 second!"
+
 EXOTIC_BONE:
   # Should we enable this ability item?
   ENABLED: true
@@ -299,7 +327,7 @@ RAGE:
   ITEM:
     ENCHANTED_GLOW: true
     MATERIAL_ID: "399:0"
-    NAME: "&3&lRage"
+    NAME: "&3&lRage ability"
     LORE:
       - "&7If used, for each hit within"
       - "&75 seconds after activation you"

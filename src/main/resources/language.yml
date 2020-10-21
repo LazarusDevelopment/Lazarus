@@ -89,6 +89,19 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  COMBO_ABILITY:
+    EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
+    APPLY_EFFECTS:
+      - "&7&m                                                                                "
+      - "&7You received effects:"
+      - "<effects>"
+      - "&7&m                                                                                "
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. You will receive strength effect based on how many times you hit someone within &b<duration>&7!"
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   EXOTIC_BONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with blocks for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with blocks."

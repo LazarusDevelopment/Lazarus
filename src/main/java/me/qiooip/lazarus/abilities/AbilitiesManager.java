@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.type.AntiRedstoneAbility;
 import me.qiooip.lazarus.abilities.type.CocaineAbility;
+import me.qiooip.lazarus.abilities.type.ComboAbility;
 import me.qiooip.lazarus.abilities.type.ExoticBoneAbility;
 import me.qiooip.lazarus.abilities.type.FakePearlAbility;
 import me.qiooip.lazarus.abilities.type.FastPearlAbility;
@@ -80,6 +81,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
         this.loadAbility(new AntiRedstoneAbility(config));
         this.loadAbility(new CocaineAbility(config));
+        this.loadAbility(new ComboAbility(config));
         this.loadAbility(new ExoticBoneAbility(config));
         this.loadAbility(new FakePearlAbility(config));
         this.loadAbility(new FastPearlAbility(config));
