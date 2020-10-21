@@ -6,7 +6,6 @@ import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.utils.PlayerUtils;
-import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -29,12 +28,7 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
 
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
-        Location location = player.getLocation().clone();
-        location.setX(location.getBlockX() + 0.5D);
-        location.setY(location.getWorld().getHighestBlockYAt(location));
-        location.setZ(location.getBlockZ() + 0.5D);
-
-        Skeleton skeleton = (Skeleton) player.getWorld().spawnEntity(location, EntityType.SKELETON);
+        Skeleton skeleton = (Skeleton) player.getWorld().spawnEntity(player.getLocation(), EntityType.SKELETON);
 
         skeleton.setCustomName(Config.COMBAT_LOGGER_NAME_FORMAT.replace("<player>", player.getName()));
         skeleton.setCustomNameVisible(true);
