@@ -8,6 +8,30 @@ GLOBAL_COOLDOWN:
   # Global abilities cooldown duration
   DURATION: 10
 
+AGGRESSIVE_PEARL:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&d&lAggressive pearl"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Effects this ability should give
+  EFFECTS:
+    SPEED:
+      DURATION: 5
+      LEVEL: 3
+    INCREASE_DAMAGE:
+      DURATION: 5
+      LEVEL: 2
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "368:0"
+    NAME: "&5&lAggressive pearl"
+    LORE:
+      - "&7If thrown, you will receive"
+      - "&7special potion effects!"
+
 ANTI_REDSTONE:
   # Should we enable this ability item?
   ENABLED: true
