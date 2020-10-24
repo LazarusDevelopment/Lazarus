@@ -11,7 +11,6 @@ import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -131,8 +130,6 @@ public class KillTheKingManager implements Listener, ManagerEnabler {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if(!this.isActive() || !event.getEntity().getUniqueId().equals(this.kingPlayer.getUniqueId())) return;
-
-        Location deathLocation = event.getEntity().getLocation();
 
         event.getDrops().clear();
         this.stopKillTheKing(true);

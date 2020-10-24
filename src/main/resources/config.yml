@@ -117,37 +117,37 @@ FORCED_WAYPOINTS_ENABLED: true
 # Waypoint beacon beam colors are in RGB hex format (https://www.rapidtables.com/web/color/RGB_Color.html)
 FORCED_WAYPOINTS:
   SPAWN:
-    NAME: "&a&lSpawn"
+    NAME: "&aSpawn"
     COLOR: "#00FF00"
   CONQUEST_RED:
-    NAME: "&c&lConquest Red"
+    NAME: "&cConquest Red"
     COLOR: "#FF0000"
   CONQUEST_BLUE:
-    NAME: "&b&lConquest Blue"
+    NAME: "&bConquest Blue"
     COLOR: "#0000FF"
   CONQUEST_GREEN:
-    NAME: "&a&lConquest Green"
+    NAME: "&aConquest Green"
     COLOR: "#00FF00"
   CONQUEST_YELLOW:
-    NAME: "&e&lConquest Yellow"
+    NAME: "&eConquest Yellow"
     COLOR: "#FFFF00"
   KOTH:
-    NAME: "&3&l<name> KoTH"
+    NAME: "&3<name> KoTH"
     COLOR: "#00FFFF"
   DTC:
-    NAME: "&4&lDTC"
+    NAME: "&4DTC"
     COLOR: "#202020"
   END_EXIT:
-    NAME: "&f&lEnd Exit"
+    NAME: "&fEnd Exit"
     COLOR: "#FFFFFF"
   FACTION_RALLY:
-    NAME: "&d&lFaction Rally"
+    NAME: "&dFaction Rally"
     COLOR: "#FF33FF"
   FACTION_HOME:
-    NAME: "&b&lFaction Home"
+    NAME: "&bFaction Home"
     COLOR: "#CC0000"
   FOCUSED_FACTION_HOME:
-    NAME: "&5&lFocused Faction Home"
+    NAME: "&5Focused Faction Home"
     COLOR: "#990000"
 
 # Should we enable staff modules

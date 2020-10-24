@@ -13,6 +13,7 @@ import me.qiooip.lazarus.utils.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -94,6 +95,7 @@ public class DtcManager implements Listener, ManagerEnabler {
     }
 
     private void handleWin(Player winner) {
+        winner.getWorld().playSound(this.dtcData.getLocation(), Sound.WITHER_DEATH, 1.0f, 1.0f);
         long duration = System.currentTimeMillis() - this.dtcData.getStartTime();
 
         Messages.sendMessage(Language.DTC_PREFIX + Language.DTC_DESTROYED
