@@ -66,6 +66,7 @@ public class Config {
     public static int DEFAULT_CHAT_DELAY;
 
     public static boolean CHAT_FORMAT_ENABLED;
+    public static boolean CHAT_FORMAT_USE_PLAYER_DISPLAY_NAME;
     public static String CHAT_FORMAT;
     public static String CHAT_FORMAT_WITH_FACTION;
 
@@ -525,6 +526,7 @@ public class Config {
         DEFAULT_CHAT_DELAY = config.getInt("DEFAULT_CHAT_DELAY");
 
         CHAT_FORMAT_ENABLED = config.getBoolean("CHAT_FORMAT.ENABLED");
+        CHAT_FORMAT_USE_PLAYER_DISPLAY_NAME = config.getBoolean("CHAT_FORMAT.USE_PLAYER_DISPLAY_NAME");
         CHAT_FORMAT = config.getString("CHAT_FORMAT.FORMAT");
         CHAT_FORMAT_WITH_FACTION = config.getString("CHAT_FORMAT.FORMAT_WITH_FACTION");
 

@@ -41,9 +41,7 @@ public class FactionMap {
     }
 
     public void showFactionMap(Player player) {
-        if(this.mapUsers.contains(player.getUniqueId())) {
-            this.mapUsers.remove(player.getUniqueId());
-
+        if(this.mapUsers.remove(player.getUniqueId())) {
             Lazarus.getInstance().getGlassManager().clearGlassVisuals(player, GlassType.CLAIM_MAP);
             player.sendMessage(Language.FACTIONS_MAP_DISABLED);
             return;

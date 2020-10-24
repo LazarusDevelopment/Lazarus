@@ -98,6 +98,8 @@ DEFAULT_CHAT_DELAY: 0
 CHAT_FORMAT:
   # Should we enable custom chat format?
   ENABLED: true
+  # Should we use player.getDisplayName() method?
+  USE_PLAYER_DISPLAY_NAME: false
   # Chat format when player has no faction
   FORMAT: "&6[&c*&6] <displayName>&7: "
   # Chat format when player is in faction

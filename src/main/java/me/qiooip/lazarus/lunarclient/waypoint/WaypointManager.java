@@ -333,7 +333,7 @@ public class WaypointManager implements Listener {
         switch(type) {
             case SPAWN: {
                 for(Location location : Config.WORLD_SPAWNS.values()) {
-                    if(location == null) return;
+                    if(location == null) continue;
                     this.addGlobalWaypoint(type, location);
                 }
             }

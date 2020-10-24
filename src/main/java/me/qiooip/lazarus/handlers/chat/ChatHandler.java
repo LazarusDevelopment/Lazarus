@@ -95,15 +95,17 @@ public class ChatHandler extends Handler implements Listener {
         return "";
     }
 
-    private String getChatMessage(Player player, PlayerFaction playerFaction, CommandSender recipient, String message) {
-        String displayName = Color.translate(instance.getTag(player) + instance.getPrefix(player)
-            + instance.getNameColor(player) +  player.getName() + instance.getSuffix(player));
-
-        if(player.hasPermission("lazarus.chat.color")) {
-            message = Color.translate(message);
+    private String getPlayerDisplayName(Player player) {
+        if(Config.CHAT_FORMAT_USE_PLAYER_DISPLAY_NAME) {
+            return player.getDisplayName();
         }
 
-        String chatColor = Color.translate(instance.getChatColor(player));
+        return Color.translate(instance.getTag(player) + instance.getPrefix(player)
+            + instance.getNameColor(player) +  player.getName() + instance.getSuffix(player));
+    }
+
+    private String getChatMessage(PlayerFaction playerFaction, CommandSender recipient,
+                                  String displayName, String chatColor, String message) {
 
         if(playerFaction == null) {
             return Config.CHAT_FORMAT.replace("<displayName>", displayName) + chatColor + message;
@@ -122,16 +124,23 @@ public class ChatHandler extends Handler implements Listener {
         Player player = event.getPlayer();
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
-        Bukkit.getConsoleSender().sendMessage(this.getChatMessage(player,
-            faction, Bukkit.getConsoleSender(), event.getMessage()));
+        String displayName = this.getPlayerDisplayName(player);
+        String chatColor = Color.translate(instance.getChatColor(player));
+
+        String message = player.hasPermission("lazarus.chat.color")
+            ? Color.translate(event.getMessage())
+            : event.getMessage();
+
+        Bukkit.getConsoleSender().sendMessage(this.getChatMessage(faction,
+            Bukkit.getConsoleSender(), displayName, chatColor, message));
 
         event.getRecipients().forEach(recipient -> {
             Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(recipient);
 
             if((player != recipient && !player.hasPermission("lazarus.staff") && !userdata
-            .getSettings().isPublicChat()) || userdata.isIgnoring(player)) return;
+                .getSettings().isPublicChat()) || userdata.isIgnoring(player)) return;
 
-            recipient.sendMessage(this.getChatMessage(player, faction, recipient, event.getMessage()));
+            recipient.sendMessage(this.getChatMessage(faction, recipient, displayName, chatColor, message));
         });
     }
 }

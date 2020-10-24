@@ -944,7 +944,7 @@ KOTH:
     - " &3&lKoTH Help"
     - "  &b/koth create <koth> &f- &7Create koth"
     - "  &b/koth remove <koth> &f- &7Delete koth"
-    - "  &b/koth area <koth> &f- &7Define koth faction area"
+    - "  &b/koth area <koth> &f- &7Define koth faction claim"
     - "  &b/koth start <koth> &f- &7Start koth"
     - "  &b/koth stop <koth> &f- &7Stop koth"
     - "  &b/koth end <koth> &f- &7End koth"
