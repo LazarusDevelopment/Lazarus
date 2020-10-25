@@ -6,7 +6,7 @@
 
     <groupId>me.qiooip</groupId>
     <artifactId>lazarus</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -165,6 +165,13 @@
         <dependency>
             <groupId>com.broustudio</groupId>
             <artifactId>Basic-API</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>me.TechsCode</groupId>
+            <artifactId>UltraPermissions</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>

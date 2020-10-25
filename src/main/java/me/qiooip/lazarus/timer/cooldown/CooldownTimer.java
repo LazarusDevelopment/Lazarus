@@ -32,7 +32,7 @@ public class CooldownTimer extends PlayerTimer {
     }
 
     public void activate(Player player, String cooldown, int delay, String message) {
-        this.activate(player.getUniqueId(), cooldown, delay, message, null);
+        this.activate(player.getUniqueId(), cooldown, delay, message);
     }
 
     private void activate(UUID uuid, String cooldown, int delay, String message) {

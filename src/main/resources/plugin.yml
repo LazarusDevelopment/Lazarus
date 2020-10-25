@@ -1,5 +1,5 @@
 name: Lazarus
-version: 1.0.4
+version: 1.0.5
 main: me.qiooip.lazarus.Lazarus
 author: qIooIp
 
@@ -21,7 +21,7 @@ softdepend:
 - PermissionsEx
 - PowerfulPerms
 - Spark
-- TeikoCore
+- UltraPermissions
 - Zoot
 - zPermissions
 - Vault

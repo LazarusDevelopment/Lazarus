@@ -32,7 +32,6 @@ public enum AbilityType {
     ROCKET("Rocket", "&a&lRocket"),
     SCRAMBLER("Scrambler", "&a&lScrambler"),
     SECOND_CHANCE("SecondChance", "&a&lSecondChance"),
-    SPLEEF_BOW("SpleefBow", "&a&lSpleef Bow"), // TODO
     STARVATION_FLESH("StarvationFlesh", "&a&lStarvationFlesh"),
     SWITCHER("Switcher", "&a&lSwitcher"),
     SWITCH_STICK("SwitchStick", "&a&lSwitchStick"),
