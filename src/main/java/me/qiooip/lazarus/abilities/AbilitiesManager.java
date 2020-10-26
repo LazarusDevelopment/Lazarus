@@ -3,6 +3,7 @@ package me.qiooip.lazarus.abilities;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.type.AggressivePearlAbility;
+import me.qiooip.lazarus.abilities.type.AntiAbilityBallAbility;
 import me.qiooip.lazarus.abilities.type.AntiRedstoneAbility;
 import me.qiooip.lazarus.abilities.type.CocaineAbility;
 import me.qiooip.lazarus.abilities.type.ComboAbility;
@@ -81,6 +82,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         ConfigFile config = Lazarus.getInstance().getAbilitiesFile();
 
         this.loadAbility(new AggressivePearlAbility(config));
+        this.loadAbility(new AntiAbilityBallAbility(config));
         this.loadAbility(new AntiRedstoneAbility(config));
         this.loadAbility(new CocaineAbility(config));
         this.loadAbility(new ComboAbility(config));

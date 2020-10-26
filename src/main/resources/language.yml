@@ -79,6 +79,14 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  ANTI_ABILITY_BALL_ABILITY:
+    TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to use abilities for &c<duration>&7!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Players in radius of &b<radius> blocks &7will be on global ability cooldown for &c<duration>&7."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   ANTI_REDSTONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with redstone for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with &credstone&7."
