@@ -199,6 +199,25 @@ DISABLED_FACTION_SUBCOMMANDS:
   - "subcmd2"
 
 #=========================================================#
+#                Rank announcer configuration             #
+#=========================================================#
+
+# Should we enable online donators announcement message?
+ONLINE_RANK_ANNOUNCER_ENABLED: true
+
+# Online donators announcer interval in seconds
+ONLINE_RANK_ANNOUNCER_INTERVAL: 600
+
+# Online donators permissions configuration
+ONLINE_RANK_ANNOUNCER:
+  1:
+    PERMISSION: "lazarus.rank.announce.supreme"
+    RANK_PREFIX: "&8(&5Supreme&8) &d"
+  2:
+    PERMISSION: "lazarus.rank.announce.ruby"
+    RANK_PREFIX: "&8(&4Ruby&8) &c"
+
+#=========================================================#
 #                  Durability configuration               #
 #=========================================================#
 

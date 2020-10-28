@@ -37,6 +37,7 @@ import me.qiooip.lazarus.handlers.logger.CombatLoggerHandler;
 import me.qiooip.lazarus.handlers.portal.EndPortalHandler;
 import me.qiooip.lazarus.handlers.portal.NetherPortalTrapHandler;
 import me.qiooip.lazarus.handlers.portal.PortalHandler;
+import me.qiooip.lazarus.handlers.rank.RankAnnouncerHandler;
 import me.qiooip.lazarus.handlers.rank.RankReviveHandler;
 import me.qiooip.lazarus.handlers.rank.ReclaimHandler;
 import me.qiooip.lazarus.handlers.salvage.SalvageHandler;
@@ -119,6 +120,7 @@ public class HandlerManager implements ManagerEnabler {
 
         if(Config.KITMAP_MODE_ENABLED) this.handlers.add(new KitmapHandler());
         if(Config.MOB_STACK_ENABLED) this.handlers.add(new MobStackHandler());
+        if(Config.ONLINE_RANK_ANNOUNCER_ENABLED) this.handlers.add(new RankAnnouncerHandler());
 
         this.handlers.stream().filter(handler -> handler instanceof Listener).forEach(handler ->
             Bukkit.getPluginManager().registerEvents((Listener) handler, Lazarus.getInstance()));

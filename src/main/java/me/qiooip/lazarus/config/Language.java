@@ -44,6 +44,9 @@ public class Language {
 
     public static String PLUGIN_RELOAD_MESSAGE;
 
+    public static String ONLINE_RANK_ANNOUNCER_MESSAGE;
+    public static String ONLINE_RANK_ANNOUNCER_DELIMITER;
+
     public static String ABILITIES_GLOBAL_COOLDOWN_ACTIVE;
     public static String ABILITIES_ABILITY_COOLDOWN_ACTIVE;
     public static String ABILITIES_GLOBAL_COOLDOWN_EXPIRED;
@@ -1424,6 +1427,9 @@ public class Language {
         COMMANDS_COOLDOWN = language.getString("COMMANDS.COOLDOWN");
 
         PLUGIN_RELOAD_MESSAGE = language.getString("PLUGIN_RELOAD_MESSAGE");
+
+        ONLINE_RANK_ANNOUNCER_MESSAGE = language.getString("ONLINE_RANK_ANNOUNCER.MESSAGE");
+        ONLINE_RANK_ANNOUNCER_DELIMITER = language.getString("ONLINE_RANK_ANNOUNCER.DELIMITER");
 
         ABILITIES_GLOBAL_COOLDOWN_ACTIVE = language.getString("ABILITIES.GLOBAL_COOLDOWN.ACTIVE");
         ABILITIES_ABILITY_COOLDOWN_ACTIVE = language.getString("ABILITIES.ABILITY_COOLDOWN.ACTIVE");

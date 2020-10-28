@@ -80,6 +80,9 @@ public class Config {
     public static Set<String> DISABLED_LAZARUS_COMMANDS;
     public static Set<String> DISABLED_FACTION_SUBCOMMANDS;
 
+    public static boolean ONLINE_RANK_ANNOUNCER_ENABLED;
+    public static int ONLINE_RANK_ANNOUNCER_INTERVAL;
+
     public static boolean REDUCED_DURABILITY_LOSS_ENABLED;
     public static int REDUCED_DURABILITY_LOSS_PERCENTAGE;
     public static Set<Material> REDUCED_DURABILITY_LOSS_MATERIALS;
@@ -542,6 +545,9 @@ public class Config {
 
         DISABLED_FACTION_SUBCOMMANDS = config.getStringList("DISABLED_FACTION_SUBCOMMANDS")
             .stream().map(String::toLowerCase).collect(Collectors.toSet());
+
+        ONLINE_RANK_ANNOUNCER_ENABLED = config.getBoolean("ONLINE_RANK_ANNOUNCER_ENABLED");
+        ONLINE_RANK_ANNOUNCER_INTERVAL = config.getInt("ONLINE_RANK_ANNOUNCER_INTERVAL");
 
         REDUCED_DURABILITY_LOSS_ENABLED = config.getBoolean("REDUCED_DURABILITY_LOSS.ENABLED");
         REDUCED_DURABILITY_LOSS_PERCENTAGE = config.getInt("REDUCED_DURABILITY_LOSS.REDUCED_PERCENTAGE");

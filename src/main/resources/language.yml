@@ -51,6 +51,10 @@ COMMANDS:
 
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
+ONLINE_RANK_ANNOUNCER:
+  MESSAGE: "&5Online donators&7: <donators>"
+  DELIMITER: "&7, "
+
 ABILITIES:
   GLOBAL_COOLDOWN:
     ACTIVE: "&7You are on &cglobal abilities &7cooldown for &b<time>&7."
