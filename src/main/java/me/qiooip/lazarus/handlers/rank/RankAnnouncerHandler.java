@@ -15,7 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 public class RankAnnouncerHandler extends Handler {
@@ -51,23 +53,24 @@ public class RankAnnouncerHandler extends Handler {
         });
     }
 
-    private void handlePlayerAnnouncementMessage(Player player, List<String> playerNames) {
+    private void handlePlayerAnnouncementMessage(Player player, Map<String, List<String>> playerNames) {
         this.rankAnnouncementData.forEach(data -> {
             if(player.isOp() || !player.hasPermission(data.getPermission())) return;
 
-            playerNames.add(data.getRankPrefix() + player.getName());
+            playerNames.get(data.getPermission()).add(data.getRankPrefix() + player.getName());
         });
     }
 
     private void sendRankAnnouncementMessage() {
-        List<String> playerNames = new ArrayList<>();
+        Map<String, List<String>> playerNames = new LinkedHashMap<>();
+        this.rankAnnouncementData.forEach(data -> playerNames.put(data.getPermission(), new ArrayList<>()));
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             this.handlePlayerAnnouncementMessage(player, playerNames);
         }
 
         StringJoiner joiner = new StringJoiner(Language.ONLINE_RANK_ANNOUNCER_DELIMITER);
-        playerNames.forEach(joiner::add);
+        playerNames.values().forEach(list -> list.forEach(joiner::add));
 
         if(joiner.length() != 0) {
             Messages.sendMessage(Language.ONLINE_RANK_ANNOUNCER_MESSAGE.replace("<donators>", joiner.toString()));
