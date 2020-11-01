@@ -11,10 +11,9 @@ import me.qiooip.lazarus.factions.event.FactionClaimChangeEvent.ClaimChangeReaso
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.PvpProtTimer;
-import me.qiooip.lazarus.timer.scoreboard.SotwTimer;
-import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
@@ -45,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class PvpProtHandler extends Handler implements Listener {
 
@@ -249,7 +247,7 @@ public class PvpProtHandler extends Handler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        if(Config.KITMAP_MODE_ENABLED) return;
+        if(Config.KITMAP_MODE_ENABLED && !Config.KITMAP_PVP_TIMER_ENABLED) return;
 
         Player player = event.getPlayer();
         TimerManager.getInstance().getPvpProtTimer().activate(player, event.getRespawnLocation());
@@ -271,13 +269,14 @@ public class PvpProtHandler extends Handler implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if(Config.KITMAP_MODE_ENABLED) return;
+        if(Config.KITMAP_MODE_ENABLED && !Config.KITMAP_PVP_TIMER_ENABLED) return;
+
         TimerManager.getInstance().getPvpProtTimer().cancel(event.getEntity());
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if(Config.KITMAP_MODE_ENABLED) return;
+        if(Config.KITMAP_MODE_ENABLED && !Config.KITMAP_PVP_TIMER_ENABLED) return;
 
         Player player = event.getPlayer();
         PvpProtTimer timer = TimerManager.getInstance().getPvpProtTimer();
@@ -292,19 +291,7 @@ public class PvpProtHandler extends Handler implements Listener {
             Location spawn = Config.WORLD_SPAWNS.get(Environment.NORMAL);
             player.teleport(spawn == null ? player.getWorld().getSpawnLocation() : spawn);
 
-            SotwTimer sotwTimer = TimerManager.getInstance().getSotwTimer();
-
-            if(!sotwTimer.isActive()) {
-                timer.activate(player, player.getLocation());
-                return;
-            }
-
-            int sotwTimeLeft = (int) sotwTimer.getCooldown(TimeUnit.SECONDS);
-
-            if(sotwTimeLeft < Config.PVP_PROTECTION_DURATION) {
-                timer.activate(player, Config.PVP_PROTECTION_DURATION - sotwTimeLeft, player.getLocation());
-            }
-
+            timer.activate(player, player.getLocation());
             return;
         }
 

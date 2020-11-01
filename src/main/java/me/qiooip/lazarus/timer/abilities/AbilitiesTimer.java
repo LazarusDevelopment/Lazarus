@@ -23,7 +23,7 @@ import java.util.function.Function;
 public class AbilitiesTimer extends PlayerTimer {
 
     private final Table<UUID, AbilityType, ScheduledFuture<?>> cooldowns;
-    private final Function<String, String> placeholderFunction;
+    private Function<String, String> placeholderFunction;
 
     public AbilitiesTimer(ScheduledExecutorService executor) {
         super(executor, "AbilitiesTimer", 0);
@@ -31,22 +31,31 @@ public class AbilitiesTimer extends PlayerTimer {
         this.cooldowns = HashBasedTable.create();
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
 
-        String abilityPlaceholder = Config.ABILITIES_ABILITY_COOLDOWN_PLACEHOLDER;
-        int indexOf = abilityPlaceholder.indexOf("<abilityName>");
-
-        if(indexOf == 0) {
-            String finalAbilityPlaceholder = abilityPlaceholder.replace("<abilityName>", "");
-            this.placeholderFunction = s -> s + finalAbilityPlaceholder;
-        } else {
-            String[] placeholderParts = abilityPlaceholder.split("<abilityName>");
-            this.placeholderFunction = s -> placeholderParts[0] + s + placeholderParts[1];
-        }
+        this.setupPlaceholderFunction();
     }
 
     @Override
     public void disable() {
         this.cooldowns.values().forEach(future -> future.cancel(true));
         this.cooldowns.clear();
+    }
+
+    private void setupPlaceholderFunction() {
+        String abilityPlaceholder = Config.ABILITIES_ABILITY_COOLDOWN_PLACEHOLDER;
+
+        if(abilityPlaceholder.isEmpty()) {
+            this.placeholderFunction = null;
+        } else {
+            int indexOf = abilityPlaceholder.indexOf("<abilityName>");
+
+            if(indexOf == 0) {
+                String finalAbilityPlaceholder = abilityPlaceholder.replace("<abilityName>", "");
+                this.placeholderFunction = s -> s + finalAbilityPlaceholder;
+            } else {
+                String[] placeholderParts = abilityPlaceholder.split("<abilityName>");
+                this.placeholderFunction = s -> placeholderParts[0] + s + placeholderParts[1];
+            }
+        }
     }
 
     public void activate(Player player, AbilityType abilityType, int delay, String message) {
@@ -85,6 +94,10 @@ public class AbilitiesTimer extends PlayerTimer {
     }
 
     public Map<String, String> getActiveAbilities(Player player) {
+        if(this.placeholderFunction == null) {
+            return null;
+        }
+
         Set<Entry<AbilityType, ScheduledFuture<?>>> cooldowns = this.cooldowns.row(player.getUniqueId()).entrySet();
 
         if(cooldowns.isEmpty()) {

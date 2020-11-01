@@ -626,6 +626,8 @@ KITMAP_MODE:
   DISABLE_DTR_LOSS: false
   # Should we disable item drop in safezone during kitmap mode?
   DISABLE_ITEM_DROP_IN_SAFEZONE: true
+  # Should we enable pvp protection in kitmap mode?
+  PVP_TIMER_ENABLED: false
   # Spawn teleport delay for normal players in seconds
   SPAWN_TELEPORT_DELAY: 10
 

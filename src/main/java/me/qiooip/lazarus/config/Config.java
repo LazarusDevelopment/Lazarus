@@ -212,6 +212,7 @@ public class Config {
     public static boolean KITMAP_MODE_DISABLE_DEATHBAN;
     public static boolean KITMAP_MODE_DISABLE_DTR_LOSS;
     public static boolean KITMAP_DISABLE_ITEM_DROP_IN_SAFEZONE;
+    public static boolean KITMAP_PVP_TIMER_ENABLED;
     public static int KITMAP_SPAWN_TELEPORT_DELAY;
 
     public static boolean KITMAP_CLEAR_ITEMS_ENABLED;
@@ -701,6 +702,7 @@ public class Config {
         KITMAP_MODE_DISABLE_DEATHBAN = config.getBoolean("KITMAP_MODE.DISABLE_DEATHBAN");
         KITMAP_MODE_DISABLE_DTR_LOSS = config.getBoolean("KITMAP_MODE.DISABLE_DTR_LOSS");
         KITMAP_DISABLE_ITEM_DROP_IN_SAFEZONE = config.getBoolean("KITMAP_MODE.DISABLE_ITEM_DROP_IN_SAFEZONE");
+        KITMAP_PVP_TIMER_ENABLED = config.getBoolean("KITMAP_MODE.PVP_TIMER_ENABLED");
         KITMAP_SPAWN_TELEPORT_DELAY = config.getInt("KITMAP_MODE.SPAWN_TELEPORT_DELAY");
 
         KITMAP_CLEAR_ITEMS_ENABLED = config.getBoolean("KITMAP_CLEAR_ITEMS.ENABLED");
