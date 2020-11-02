@@ -237,6 +237,10 @@ public class WaypointManager implements Listener {
         }
     }
 
+    private void addGlobalWaypoint(PlayerWaypointType type, Location location) {
+        this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(location));
+    }
+
     private void updateKoTHWaypoint(KothData data, boolean add) {
         if(!this.waypoints.containsKey(PlayerWaypointType.KOTH)) return;
 
@@ -260,7 +264,71 @@ public class WaypointManager implements Listener {
         }
     }
 
+    private void updateGlobalWaypoints(PlayerWaypointType type, boolean update) {
+        if(!this.waypoints.containsKey(type)) return;
+
+        if(update) {
+            if(this.globalWaypoints.containsKey(type)) {
+                for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
+                    this.removeWaypoint(Bukkit.getPlayer(uuid), this.globalWaypoints.get(type));
+                }
+            }
+
+            this.globalWaypoints.remove(type);
+        }
+
+        switch(type) {
+            case SPAWN: {
+                for(Location location : Config.WORLD_SPAWNS.values()) {
+                    if(location == null) continue;
+                    this.addGlobalWaypoint(type, location);
+                }
+            }
+            case CONQUEST_RED:
+            case CONQUEST_BLUE:
+            case CONQUEST_GREEN:
+            case CONQUEST_YELLOW: {
+                ConquestManager conquestManager = Lazarus.getInstance().getConquestManager();
+
+                if(conquestManager.isActive()) {
+                    RunningConquest runningConquest = conquestManager.getRunningConquest();
+
+                    this.addGlobalWaypoint(type, runningConquest.getCapzones().
+                    get(type.getConquestZone()).getCuboid().getCenterWithMinY());
+                }
+
+                break;
+            }
+            case DTC: {
+                DtcManager dtcManager = Lazarus.getInstance().getDtcManager();
+
+                if(dtcManager.isActive()) {
+                    this.addGlobalWaypoint(type, dtcManager.getDtcData().getLocation());
+                }
+
+                break;
+            }
+            case END_EXIT: {
+                Location endExit = Config.WORLD_EXITS.get(Environment.THE_END);
+
+                if(endExit != null) {
+                    this.addGlobalWaypoint(type, endExit);
+                }
+            }
+        }
+
+        if(update) {
+            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
+                for(PlayerWaypointType pwt : this.globalWaypoints.keySet()) {
+                    this.updateWaypoint(Bukkit.getPlayer(uuid), pwt);
+                }
+            }
+        }
+    }
+
     private void updateWaypoint(Player player, PlayerWaypointType type) {
+        if(player == null) return;
+
         LCWaypoint lcWaypoint = this.playerWaypoints.remove(player.getUniqueId(), type);
 
         if(lcWaypoint != null) {
@@ -317,77 +385,13 @@ public class WaypointManager implements Listener {
         }
     }
 
-    private void updateGlobalWaypoints(PlayerWaypointType type, boolean update) {
-        if(!this.waypoints.containsKey(type)) return;
-
-        if(update) {
-            if(this.globalWaypoints.containsKey(type)) {
-                for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
-                    this.removeWaypoint(Bukkit.getPlayer(uuid), this.globalWaypoints.get(type));
-                }
-            }
-
-            this.globalWaypoints.remove(type);
-        }
-
-        switch(type) {
-            case SPAWN: {
-                for(Location location : Config.WORLD_SPAWNS.values()) {
-                    if(location == null) continue;
-                    this.addGlobalWaypoint(type, location);
-                }
-            }
-            case CONQUEST_RED:
-            case CONQUEST_BLUE:
-            case CONQUEST_GREEN:
-            case CONQUEST_YELLOW: {
-                ConquestManager conquestManager = Lazarus.getInstance().getConquestManager();
-
-                if(conquestManager.isActive()) {
-                    RunningConquest runningConquest = conquestManager.getRunningConquest();
-
-                    this.addGlobalWaypoint(type, runningConquest.getCapzones().
-                            get(type.getConquestZone()).getCuboid().getCenterWithMinY());
-                }
-
-                break;
-            }
-            case DTC: {
-                DtcManager dtcManager = Lazarus.getInstance().getDtcManager();
-
-                if(dtcManager.isActive()) {
-                    this.addGlobalWaypoint(type, dtcManager.getDtcData().getLocation());
-                }
-
-                break;
-            }
-            case END_EXIT: {
-                Location endExit = Config.WORLD_EXITS.get(Environment.THE_END);
-
-                if(endExit != null) {
-                    this.addGlobalWaypoint(type, endExit);
-                }
-            }
-        }
-
-        if(update) {
-            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
-                for(PlayerWaypointType pwt : this.globalWaypoints.keySet()) {
-                    this.updateWaypoint(Bukkit.getPlayer(uuid), pwt);
-                }
-            }
-        }
-    }
-
-    private void addGlobalWaypoint(PlayerWaypointType type, Location location) {
-        this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(location));
-    }
-
     private void addWaypoint(Player player, LCWaypoint waypoint) {
+        if(player == null) return;
         LunarClientAPI.getInstance().sendWaypoint(player, waypoint);
     }
 
     private void removeWaypoint(Player player, LCWaypoint waypoint) {
+        if(player == null) return;
         LunarClientAPI.getInstance().removeWaypoint(player, waypoint);
     }
 }

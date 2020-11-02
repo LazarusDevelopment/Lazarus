@@ -49,6 +49,8 @@ public class ScoreboardBase_1_8 {
     }
 
     private void sendPacket(Packet<?> packet) {
+        if(this.player == null) return;
+
         ((CraftPlayer) this.player).getHandle().playerConnection.sendPacket(packet);
     }
 }

@@ -61,6 +61,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
         this.lastEntries = new HashSet<>();
 
         this.entryCache = new ScoreboardInput[15];
+
         for(int i = 0; i < 15; i++) {
             this.entryCache[i] = EMPTY_INPUT;
         }

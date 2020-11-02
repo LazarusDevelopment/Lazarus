@@ -60,7 +60,7 @@ public class LunarClientManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRegisterLCEvent(LCPlayerRegisterEvent event) {
+    public void onPlayerRegisterLC(LCPlayerRegisterEvent event) {
         Player player = event.getPlayer();
         this.players.add(player.getUniqueId());
 
@@ -71,8 +71,7 @@ public class LunarClientManager implements Listener {
 
     @EventHandler
     public void onPlayerUnregisterLC(LCPlayerUnregisterEvent event) {
-        Player player = event.getPlayer();
-        this.players.remove(player.getUniqueId());
+        this.players.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler

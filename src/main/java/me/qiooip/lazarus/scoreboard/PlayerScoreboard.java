@@ -26,11 +26,11 @@ public interface PlayerScoreboard  {
         this.updateTabRelations(players, false);
     }
 
-    default void updateRelation(Player player, boolean lunarOnly) {
-        this.updateTabRelations(Collections.singletonList(player), lunarOnly);
-    }
-
     default void updateRelation(Player player) {
         this.updateTabRelations(Collections.singletonList(player), false);
+    }
+
+    default void updateRelation(Player player, boolean lunarOnly) {
+        this.updateTabRelations(Collections.singletonList(player), lunarOnly);
     }
 }

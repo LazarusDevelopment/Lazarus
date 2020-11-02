@@ -124,8 +124,10 @@ public class ScoreboardUpdater extends BukkitRunnable {
                         scoreboard.add(Config.KITMAP_KILLSTREAK_PLACEHOLDER, userdata.getKillstreak() + "");
                     }
 
-                    scoreboard.addEmptyLine(ChatColor.DARK_RED);
-                    scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
+                    if(!Config.CLAIM_PLACEHOLDER.isEmpty()) {
+                        scoreboard.addEmptyLine(ChatColor.DARK_RED);
+                        scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
+                    }
 
                     scoreboard.addLine(ChatColor.DARK_PURPLE);
                 } else {
