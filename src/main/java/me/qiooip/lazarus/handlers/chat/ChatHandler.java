@@ -19,6 +19,7 @@ import me.qiooip.lazarus.integration.Chat_PermissionsEx;
 import me.qiooip.lazarus.integration.Chat_PowerfulPerms;
 import me.qiooip.lazarus.integration.Chat_Spark;
 import me.qiooip.lazarus.integration.Chat_UltraPermissions;
+import me.qiooip.lazarus.integration.Chat_Zoom;
 import me.qiooip.lazarus.integration.Chat_Zoot;
 import me.qiooip.lazarus.integration.Chat_mCore;
 import me.qiooip.lazarus.integration.Chat_zPermissions;
@@ -65,6 +66,8 @@ public class ChatHandler extends Handler implements Listener {
             instance = new Chat_Spark();
         } else if(Bukkit.getPluginManager().isPluginEnabled("UltraPermissions")) {
             instance = new Chat_UltraPermissions();
+        } else if(Bukkit.getPluginManager().isPluginEnabled("Zoom")) {
+            instance = new Chat_Zoom();
         } else if(Bukkit.getPluginManager().isPluginEnabled("Zoot")) {
             instance = new Chat_Zoot();
         } else if(Bukkit.getPluginManager().isPluginEnabled("zPermissions")) {

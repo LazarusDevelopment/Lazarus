@@ -184,8 +184,8 @@
         </dependency>
 
         <dependency>
-            <groupId>gg.ayako</groupId>
-            <artifactId>teiko-core</artifactId>
+            <groupId>club.frozed</groupId>
+            <artifactId>zoom</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
