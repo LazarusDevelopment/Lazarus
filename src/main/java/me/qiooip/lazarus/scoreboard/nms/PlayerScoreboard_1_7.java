@@ -74,7 +74,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
         this.maxSize = Config.SCOREBOARD_FOOTER_ENABLED ? 11 : 13;
 
-        player.setScoreboard(scoreboard);
+        player.setScoreboard(this.scoreboard);
     }
 
     @Override
@@ -288,7 +288,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
     }
 
     private void updateAllTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {
-        if(this.player == null) return;
+        if(this.player == null || this.scoreboard == null) return;
 
         synchronized(this) {
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);

@@ -40,9 +40,11 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class PvpProtHandler extends Handler implements Listener {
@@ -51,10 +53,15 @@ public class PvpProtHandler extends Handler implements Listener {
     private final List<ItemStack> pickupDenyItems;
     private final Map<UUID, Long> messageDelays;
 
+    private final Set<DamageCause> disabledDamageCauses;
+
     public PvpProtHandler() {
         this.disabledItems = new ArrayList<>();
         this.pickupDenyItems = new ArrayList<>();
         this.messageDelays = new HashMap<>();
+
+        this.disabledDamageCauses = EnumSet.of(DamageCause.DROWNING, DamageCause.SUFFOCATION,
+            DamageCause.POISON, DamageCause.FIRE, DamageCause.FIRE_TICK);
     }
 
     @Override
@@ -104,12 +111,12 @@ public class PvpProtHandler extends Handler implements Listener {
         if(!(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
+
         if(!TimerManager.getInstance().getPvpProtTimer().isActive(player)) return;
 
-        DamageCause cause = event.getCause();
-        if(cause != DamageCause.DROWNING && cause != DamageCause.SUFFOCATION && cause != DamageCause.POISON) return;
-
-        event.setCancelled(true);
+        if(this.disabledDamageCauses.contains(event.getCause())) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
