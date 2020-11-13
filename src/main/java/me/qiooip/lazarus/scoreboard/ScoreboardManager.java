@@ -5,6 +5,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
+import me.qiooip.lazarus.factions.event.FactionDtrChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionRelationChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionRenameEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
@@ -202,6 +203,11 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         for(Player player : players) {
             this.getPlayerScoreboard(player).updateTabRelations(players);
         }
+    }
+
+    @EventHandler
+    public void onFactionDtrChange(FactionDtrChangeEvent event) {
+        this.updateAllTabRelations(event.getFaction().getOnlinePlayers(), true);
     }
 
     @EventHandler(ignoreCancelled = true)

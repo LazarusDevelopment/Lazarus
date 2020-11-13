@@ -15,6 +15,8 @@ public enum PlayerWaypointType {
     CONQUEST_GREEN(ZoneType.GREEN),
     CONQUEST_YELLOW(ZoneType.YELLOW),
     SPAWN,
+    NETHER_SPAWN,
+    END_SPAWN,
     KOTH,
     DTC,
     END_EXIT,

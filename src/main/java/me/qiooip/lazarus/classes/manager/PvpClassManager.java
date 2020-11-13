@@ -59,7 +59,9 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(Config.MINER_ACTIVATED) this.pvpClasses.add(this.miner = new Miner(this));
         if(Config.ROGUE_ACTIVATED) this.pvpClasses.add(new Rogue(this));
 
-        this.pvpClasses.forEach(pvpClass -> Bukkit.getOnlinePlayers().forEach(pvpClass::checkEquipmentChange));
+        Bukkit.getOnlinePlayers().forEach(player -> this.pvpClasses
+            .forEach(pvpClass -> pvpClass.checkEquipmentChange(player)));
+
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 

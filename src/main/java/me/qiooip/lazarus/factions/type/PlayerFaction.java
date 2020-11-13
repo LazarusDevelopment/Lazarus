@@ -9,6 +9,7 @@ import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.enums.Role;
+import me.qiooip.lazarus.factions.event.FactionDtrChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionPlayerUnfocusedEvent;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
@@ -190,8 +191,11 @@ public class PlayerFaction extends Faction {
     public void setDtr(double amount) {
         this.lastDtrUpdate = System.currentTimeMillis();
 
+        double currentDtr = this.dtr;
         double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
+
         this.dtr = Math.round(newDtr * 100) / 100.0;
+        new FactionDtrChangeEvent(this, currentDtr, this.dtr);
     }
 
     public String getMaxDtrString() {

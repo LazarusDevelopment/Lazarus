@@ -149,7 +149,8 @@ public class WaypointManager implements Listener {
 
     @EventHandler
     public void onSpawnSet(SpawnSetEvent event) {
-        this.updateGlobalWaypoints(PlayerWaypointType.SPAWN, true);
+        PlayerWaypointType type = this.getTypeByEnvironment(event.getEnvironment());
+        this.updateGlobalWaypoints(type, true);
     }
 
     @EventHandler
@@ -237,6 +238,22 @@ public class WaypointManager implements Listener {
         }
     }
 
+    private Environment getEnvironmentByType(PlayerWaypointType type) {
+        switch(type) {
+            case NETHER_SPAWN: return Environment.NETHER;
+            case END_SPAWN: return Environment.THE_END;
+            default: return Environment.NORMAL;
+        }
+    }
+
+    private PlayerWaypointType getTypeByEnvironment(Environment environment) {
+        switch(environment) {
+            case NETHER: return PlayerWaypointType.NETHER_SPAWN;
+            case THE_END: return PlayerWaypointType.END_SPAWN;
+            default: return PlayerWaypointType.SPAWN;
+        }
+    }
+
     private void addGlobalWaypoint(PlayerWaypointType type, Location location) {
         this.globalWaypoints.put(type, this.waypoints.get(type).createWaypoint(location));
     }
@@ -278,11 +295,16 @@ public class WaypointManager implements Listener {
         }
 
         switch(type) {
-            case SPAWN: {
-                for(Location location : Config.WORLD_SPAWNS.values()) {
-                    if(location == null) continue;
-                    this.addGlobalWaypoint(type, location);
+            case SPAWN:
+            case NETHER_SPAWN:
+            case END_SPAWN: {
+                Location spawn = Config.WORLD_SPAWNS.get(this.getEnvironmentByType(type));
+
+                if(spawn != null) {
+                    this.addGlobalWaypoint(type, spawn);
                 }
+
+                break;
             }
             case CONQUEST_RED:
             case CONQUEST_BLUE:
@@ -343,6 +365,8 @@ public class WaypointManager implements Listener {
 
         switch(type) {
             case SPAWN:
+            case NETHER_SPAWN:
+            case END_SPAWN:
             case DTC:
             case END_EXIT:
             case CONQUEST_RED:

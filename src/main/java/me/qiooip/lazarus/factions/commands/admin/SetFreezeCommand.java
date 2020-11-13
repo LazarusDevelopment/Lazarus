@@ -40,9 +40,13 @@ public class SetFreezeCommand extends SubCommand {
         }
 
         FactionFreezeTimer timer = TimerManager.getInstance().getFactionFreezeTimer();
-
         timer.cancel(faction);
-        timer.activate(faction, duration);
+
+        if(duration == 0) {
+            faction.setLastDtrUpdate(System.currentTimeMillis());
+        } else {
+            timer.activate(faction, duration);
+        }
 
         String time = DurationFormatUtils.formatDurationWords(duration * 1000, true, true);
 

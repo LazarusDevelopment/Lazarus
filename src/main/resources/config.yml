@@ -121,6 +121,12 @@ FORCED_WAYPOINTS:
   SPAWN:
     NAME: "&aSpawn"
     COLOR: "#00FF00"
+  NETHER_SPAWN:
+    NAME: "&a&lNether Spawn"
+    COLOR: "#00FF00"
+  END_SPAWN:
+    NAME: "&a&lEnd Spawn"
+    COLOR: "#00FF00"
   CONQUEST_RED:
     NAME: "&cConquest Red"
     COLOR: "#FF0000"
