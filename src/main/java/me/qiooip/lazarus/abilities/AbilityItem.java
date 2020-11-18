@@ -51,7 +51,7 @@ public abstract class AbilityItem {
     }
 
     public void loadAbilityData(ConfigFile config) {
-        ConfigurationSection section = config.getConfigurationSection(this.configSection);
+        ConfigurationSection section = config.getSection(this.configSection);
 
         if(section == null) {
             Lazarus.getInstance().log("&7- &cCould not load configuration for '&4" + this.type.getName() + "&c'");

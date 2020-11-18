@@ -76,7 +76,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
     }
 
     private void loadStaffModeItems() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig().getConfigurationSection("STAFF_MODE_ITEMS");
+        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("STAFF_MODE_ITEMS");
 
         section.getKeys(false).forEach(item -> {
             StaffModeItem staffItem = new StaffModeItem();

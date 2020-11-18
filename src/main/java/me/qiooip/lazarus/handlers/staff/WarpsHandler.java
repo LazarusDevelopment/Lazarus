@@ -30,14 +30,14 @@ public class WarpsHandler extends Handler {
     }
 
     private void loadWarps() {
-        ConfigurationSection section = Lazarus.getInstance().getUtilitiesFile().getConfigurationSection("WARPS");
-        section.getKeys(false).forEach(warp -> this.addWarp(warp, LocationUtils.stringToLocation(section.getString(warp))));
+        ConfigurationSection section = Lazarus.getInstance().getUtilitiesFile().getSection("WARPS");
+        if(section == null) return;
 
-        Lazarus.getInstance().getUtilitiesFile().save();
+        section.getKeys(false).forEach(warp -> this.addWarp(warp, LocationUtils.stringToLocation(section.getString(warp))));
     }
 
     private void saveWarps() {
-        ConfigurationSection section = Lazarus.getInstance().getUtilitiesFile().getConfigurationSection("WARPS");
+        ConfigurationSection section = Lazarus.getInstance().getUtilitiesFile().createSection("WARPS");
         this.warps.forEach((name, location) -> section.set(name, LocationUtils.locationToString(location)));
 
         Lazarus.getInstance().getUtilitiesFile().save();

@@ -43,7 +43,7 @@ public class RankAnnouncerHandler extends Handler {
 
     private void loadRankAnnouncementData() {
         ConfigurationSection section = Lazarus.getInstance().getConfig()
-            .getConfigurationSection("ONLINE_RANK_ANNOUNCER");
+            .getSection("ONLINE_RANK_ANNOUNCER");
 
         section.getKeys(false).forEach(key -> {
             String permission = section.getString(key + ".PERMISSION");

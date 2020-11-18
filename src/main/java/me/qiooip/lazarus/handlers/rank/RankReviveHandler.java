@@ -33,7 +33,7 @@ public class RankReviveHandler extends Handler {
 
     private void loadRankReviveData() {
         ConfigurationSection section = Lazarus.getInstance().getConfig()
-        .getConfigurationSection("RANK_REVIVE_COMMAND");
+            .getSection("RANK_REVIVE_COMMAND");
 
         section.getKeys(false).forEach(key -> {
             RankReviveData rankRevive = new RankReviveData();

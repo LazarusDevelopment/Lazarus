@@ -34,7 +34,7 @@ public class EntityLimiterHandler extends Handler implements Listener {
 
     private void loadDisabledEntities() {
         ConfigurationSection section = Lazarus.getInstance().getLimitersFile()
-            .getConfigurationSection("ENTITY_LIMITER");
+            .getSection("ENTITY_LIMITER");
 
         List<EntityType> entityTypes = section.getKeys(false).stream()
             .filter(typeName -> !section.getBoolean(typeName))

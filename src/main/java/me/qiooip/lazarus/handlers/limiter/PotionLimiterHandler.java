@@ -44,7 +44,7 @@ public class PotionLimiterHandler extends Handler implements Listener {
         this.potionLimits.clear();
 
         ConfigurationSection section = Lazarus.getInstance().getLimitersFile()
-        .getConfigurationSection("POTION_LIMITER");
+            .getSection("POTION_LIMITER");
 
         section.getKeys(false).forEach(type -> {
             if(section.getInt(type + ".LEVEL") == -1) return;

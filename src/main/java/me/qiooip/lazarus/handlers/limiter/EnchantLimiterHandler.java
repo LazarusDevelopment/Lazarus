@@ -45,7 +45,7 @@ public class EnchantLimiterHandler extends Handler implements Listener {
         this.enchantLimits.clear();
 
         ConfigurationSection section = Lazarus.getInstance().getLimitersFile()
-            .getConfigurationSection("ENCHANTMENT_LIMITER");
+            .getSection("ENCHANTMENT_LIMITER");
 
         section.getKeys(false).forEach(enchantment -> {
             int level = section.getInt(enchantment);

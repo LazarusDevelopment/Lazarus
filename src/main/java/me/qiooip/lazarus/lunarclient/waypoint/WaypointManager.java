@@ -83,7 +83,7 @@ public class WaypointManager implements Listener {
     }
 
     private void setupWaypoints() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig().getConfigurationSection("FORCED_WAYPOINTS");
+        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("FORCED_WAYPOINTS");
 
         section.getKeys(false).forEach(waypointName -> {
             LunarClientWaypoint lunarClientWaypoint = new LunarClientWaypoint();

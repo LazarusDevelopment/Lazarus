@@ -32,11 +32,10 @@ public class TabUpdater implements Runnable {
 
     private final Map<Integer, Function<Player, String>> updates;
     private final Map<Integer, String> initialSet;
+    private final AtomicInteger counter;
 
     private ScheduledThreadPoolExecutor executor;
     private ScheduledFuture<?> updater;
-
-    private int counter;
 
     private int locationSlot;
     private Function<Player, String> locationFunction;
@@ -54,6 +53,7 @@ public class TabUpdater implements Runnable {
 
         this.updates = new HashMap<>();
         this.initialSet = new HashMap<>();
+        this.counter = new AtomicInteger();
 
         this.loadUpdates();
         this.loadInitialSet();
@@ -85,7 +85,7 @@ public class TabUpdater implements Runnable {
                 PlayerTab tab = this.manager.getTab(player);
                 if(tab == null) continue;
 
-                if(this.counter++ % 5 == 0) {
+                if(this.counter.getAndIncrement() % 5 == 0) {
                     this.updateFactionInfo(tab, FactionsManager.getInstance().getPlayerFaction(player));
 
                     for(Entry<Integer, Function<Player, String>> entry : this.updates.entrySet()) {

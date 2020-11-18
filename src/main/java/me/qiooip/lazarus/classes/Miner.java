@@ -52,7 +52,7 @@ public class Miner extends PvpClass {
 
     private void loadDiamondData() {
         ConfigurationSection section = Lazarus.getInstance().getClassesFile()
-        .getConfigurationSection("MINER_CLASS.POTION_EFFECT_REWARDS");
+            .getSection("MINER_CLASS.POTION_EFFECT_REWARDS");
 
         section.getKeys(false).forEach(diamondAmount -> {
             int diamonds = Integer.parseInt(diamondAmount);

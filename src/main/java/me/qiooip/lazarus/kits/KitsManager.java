@@ -75,7 +75,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 	
 	private void loadKits() {
 		this.kitsFile.getKeys(false).forEach(kitName -> {
-			ConfigurationSection section = this.kitsFile.getConfigurationSection(kitName);
+			ConfigurationSection section = this.kitsFile.getSection(kitName);
 
 			String kitType = section.getString("type");
 			KitData kit;

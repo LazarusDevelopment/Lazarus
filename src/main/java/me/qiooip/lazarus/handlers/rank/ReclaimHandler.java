@@ -33,7 +33,7 @@ public class ReclaimHandler extends Handler {
 
     private void loadReclaimData() {
         ConfigurationSection section = Lazarus.getInstance().getConfig()
-            .getConfigurationSection("RECLAIM_COMMAND");
+            .getSection("RECLAIM_COMMAND");
 
         section.getKeys(false).forEach(key -> {
             ReclaimData reclaim = new ReclaimData();

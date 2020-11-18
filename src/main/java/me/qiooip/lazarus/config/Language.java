@@ -1714,7 +1714,7 @@ public class Language {
 
         FACTIONS_HELP_PAGE_NOT_FOUND = language.getString("FACTIONS.HELP_COMMAND.PAGE_NOT_FOUND");
         FACTIONS_HELP_PAGES = new HashMap<>();
-        language.getConfigurationSection("FACTIONS.HELP_COMMAND.PAGES").getKeys(false).forEach(key ->
+        language.getSection("FACTIONS.HELP_COMMAND.PAGES").getKeys(false).forEach(key ->
         FACTIONS_HELP_PAGES.put(Integer.parseInt(key), language.getStringList("FACTIONS.HELP_COMMAND.PAGES." + key)));
 
         FACTIONS_HOME_CANNOT_TELEPORT_ALREADY_TELEPORTING = language.getString("FACTIONS.HOME_COMMAND.CANNOT_TELEPORT.ALREADY_TELEPORTING");

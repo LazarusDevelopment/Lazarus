@@ -33,8 +33,7 @@ public class KillstreakHandler extends Handler implements Listener {
     }
 
     private void loadKillstreakRewards() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig()
-        .getConfigurationSection("KITMAP_KILLSTREAK.KILLS");
+        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("KITMAP_KILLSTREAK.KILLS");
 
         section.getKeys(false).forEach(killCount -> {
             if(!StringUtils.isInteger(killCount)) return;

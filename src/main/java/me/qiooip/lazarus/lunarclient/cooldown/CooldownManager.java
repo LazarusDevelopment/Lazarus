@@ -37,7 +37,7 @@ public class CooldownManager implements Listener {
     }
 
     private void setupCooldowns() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig().getConfigurationSection("COOLDOWNS");
+        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("COOLDOWNS");
 
         section.getKeys(false).forEach(cooldown -> {
             LunarClientCooldown lunarClientCooldown = new LunarClientCooldown();

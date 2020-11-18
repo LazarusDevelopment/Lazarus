@@ -51,7 +51,7 @@ public class SettingsHandler extends Handler implements Listener {
 
     private void loadSettings() {
         ConfigurationSection section = Lazarus.getInstance().getConfig()
-        .getConfigurationSection("PLAYER_SETTINGS.SETTINGS");
+            .getSection("PLAYER_SETTINGS.SETTINGS");
 
         section.getKeys(false).forEach(item -> {
             PlayerSetting setting = new PlayerSetting();

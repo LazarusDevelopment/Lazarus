@@ -22,7 +22,7 @@ public class PvpClassUtils {
         List<PotionEffect> effects = new ArrayList<>();
 
         String sectionName = pvpClass.getName().toUpperCase() + "_CLASS." + value;
-        ConfigurationSection section = Lazarus.getInstance().getClassesFile().getConfigurationSection(sectionName);
+        ConfigurationSection section = Lazarus.getInstance().getClassesFile().getSection(sectionName);
 
         section.getKeys(false).forEach(potion -> {
             if(PotionEffectType.getByName(potion) == null) return;
@@ -38,7 +38,7 @@ public class PvpClassUtils {
         List<ClickableItem> clickables = new ArrayList<>();
 
         String sectionName = pvpClass.getName().toUpperCase() + "_CLASS.CLICKABLE_POTION_EFFECTS";
-        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getConfigurationSection(sectionName);
+        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getSection(sectionName);
 
         potionSection.getKeys(false).forEach(potion -> {
             if(PotionEffectType.getByName(potion) == null) return;
@@ -63,7 +63,7 @@ public class PvpClassUtils {
         List<BardClickableItem> bardItems = new ArrayList<>();
 
         String sectionName = "BARD_CLASS.CLICKABLE_ITEMS";
-        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getConfigurationSection(sectionName);
+        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getSection(sectionName);
 
         potionSection.getKeys(false).forEach(potion -> {
 
@@ -93,7 +93,7 @@ public class PvpClassUtils {
         List<BardHoldableItem> bardItems = new ArrayList<>();
 
         String sectionName = "BARD_CLASS.HOLDABLE_ITEMS";
-        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getConfigurationSection(sectionName);
+        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getSection(sectionName);
 
         potionSection.getKeys(false).forEach(potion -> {
 

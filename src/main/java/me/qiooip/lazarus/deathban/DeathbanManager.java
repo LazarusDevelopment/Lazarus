@@ -86,7 +86,7 @@ public class DeathbanManager implements Listener, ManagerEnabler {
     }
 
     private void loadDeathBanTimes() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig().getConfigurationSection("DEATHBAN.BAN_TIMES");
+        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("DEATHBAN.BAN_TIMES");
 
         section.getKeys(false).forEach(time -> this.deathBanTimes
         .add(new DeathBanTime(Integer.parseInt(time), section.getString(time))));

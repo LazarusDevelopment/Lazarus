@@ -57,7 +57,7 @@ public class StatsHandler extends Handler implements Listener {
 
     private void loadStatsItems() {
         ConfigurationSection section = Lazarus.getInstance().getConfig()
-        .getConfigurationSection("STATS_COMMAND.INVENTORY_ITEMS");
+            .getSection("STATS_COMMAND.INVENTORY_ITEMS");
 
         section.getKeys(false).forEach(item -> {
             StatsItem statsItem = new StatsItem();

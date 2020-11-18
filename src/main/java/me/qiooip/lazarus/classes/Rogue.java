@@ -65,7 +65,7 @@ public class Rogue extends PvpClass implements Listener {
         List<PotionEffect> effects = new ArrayList<>();
 
         ConfigurationSection section = Lazarus.getInstance().getClassesFile()
-        .getConfigurationSection("ROGUE_CLASS.BACKSTAB.EFFECTS");
+            .getSection("ROGUE_CLASS.BACKSTAB.EFFECTS");
 
         section.getKeys(false).forEach(effectName -> {
             PotionEffectType type = PotionEffectType.getByName(effectName);
