@@ -109,6 +109,10 @@ CHAT_FORMAT:
 #               LunarClient API configuration             #
 #=========================================================#
 
+# In order for this to work, you need to install
+# the official LunarClientAPI plugin on your server.
+# Download @ bit.ly/36njcBJ
+
 # Should we enable lunar client API?
 LUNAR_CLIENT_API_ENABLED: false
 
