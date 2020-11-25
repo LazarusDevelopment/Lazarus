@@ -286,6 +286,7 @@ public class DynamicEventHandler extends Handler implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
+        player.setFireTicks(0);
 
         Location spawn = Config.WORLD_SPAWNS.get(Environment.NORMAL);
         event.setRespawnLocation(spawn == null ? player.getWorld().getSpawnLocation() : spawn);
@@ -334,7 +335,7 @@ public class DynamicEventHandler extends Handler implements Listener {
 
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-        if(Bukkit.getPlayer(event.getName()) != null) {
+        if(Bukkit.getPlayerExact(event.getName()) != null) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Language.PLAYER_ALREADY_ONLINE);
         }
     }

@@ -1,6 +1,6 @@
 package me.qiooip.lazarus.integration;
 
-import club.frozed.zoom.ZoomAPI;
+import club.frozed.core.ZoomAPI;
 import me.qiooip.lazarus.handlers.chat.ChatHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

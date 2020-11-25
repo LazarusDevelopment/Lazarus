@@ -86,7 +86,6 @@ public abstract class PvpClass implements Listener {
         if(event.isCancelled()) return;
 
         this.players.add(uuid);
-
         this.effects.forEach(effect -> NmsUtils.getInstance().addPotionEffect(player, effect));
 
         player.sendMessage(Language.PVP_CLASSES_ACTIVATED.replace("<name>", this.getDisplayName()));
