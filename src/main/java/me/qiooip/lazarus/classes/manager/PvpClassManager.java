@@ -101,10 +101,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(toAdd.getAmplifier() < effect.getAmplifier()) return;
         if(toAdd.getAmplifier() == effect.getAmplifier() && toAdd.getDuration() < effect.getDuration()) return;
 
-        if(effect.getDuration() < 12_000) {
-            this.restorers.put(player.getUniqueId(), effect.getType(), effect);
-        }
-
+        this.restorers.put(player.getUniqueId(), effect.getType(), effect);
         NmsUtils.getInstance().addPotionEffect(player, toAdd);
     }
 
@@ -224,7 +221,9 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(effect == null) return;
 
         Tasks.sync(() -> {
-            player.addPotionEffect(effect);
+            if(effect.getDuration() < 12_000) {
+                player.addPotionEffect(effect);
+            }
 
             PvpClass pvpClass = this.getActivePvpClass(player);
 
