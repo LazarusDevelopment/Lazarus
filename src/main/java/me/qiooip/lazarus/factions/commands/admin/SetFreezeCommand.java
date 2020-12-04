@@ -48,7 +48,7 @@ public class SetFreezeCommand extends SubCommand {
             timer.activate(faction, duration);
         }
 
-        String time = DurationFormatUtils.formatDurationWords(duration * 1000, true, true);
+        String time = DurationFormatUtils.formatDurationWords(duration * 1000L, true, true);
 
         sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_FREEZE_CHANGED_SENDER
             .replace("<faction>", faction.getName())

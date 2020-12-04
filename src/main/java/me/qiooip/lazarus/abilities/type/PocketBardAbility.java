@@ -42,7 +42,7 @@ public class PocketBardAbility extends AbilityItem {
             .replace("<abilityName>", this.displayName)
             .replace("<amount>", String.valueOf(teammateAmount))
             .replace("<effects>", AbilityUtils.getEffectList(this.effects, Language.ABILITIES_POCKET_BARD_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override

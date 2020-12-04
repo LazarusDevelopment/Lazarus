@@ -38,6 +38,6 @@ public class KitDelayCommand extends SubCommand {
 		kit.setDelay(delay);
 
 		sender.sendMessage(Language.KIT_PREFIX + Language.KITS_SET_DELAY_CHANGED.replace("<kit>", args[0])
-		.replace("<delay>", DurationFormatUtils.formatDurationWords(delay * 1000, true, true)));
+		.replace("<delay>", DurationFormatUtils.formatDurationWords(delay * 1000L, true, true)));
 	}
 }

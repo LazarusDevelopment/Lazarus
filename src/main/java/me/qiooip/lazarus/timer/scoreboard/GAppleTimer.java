@@ -2,7 +2,6 @@ package me.qiooip.lazarus.timer.scoreboard;
 
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.lunarclient.cooldown.CooldownType;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import org.bukkit.entity.Player;

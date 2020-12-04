@@ -76,7 +76,7 @@ public class StarvationFleshAbility extends AbilityItem implements Listener {
                 .replace("<abilityName>", this.displayName)
                 .replace("<target>", target.getName())
                 .replace("<hunger>", String.valueOf(this.hunger))
-                .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+                .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     private void activateAbilityOnTarget(Player damager, Player target) {

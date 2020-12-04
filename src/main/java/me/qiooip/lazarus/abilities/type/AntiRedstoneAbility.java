@@ -65,8 +65,8 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<target>", target.getName())
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000, true, true))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000L, true, true))
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class AntiRedstoneAbility extends AbilityItem implements Listener {
         target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_REDSTONE_TARGET_ACTIVATED
             .replace("<player>", damager.getName())
             .replace("<abilityName>", this.displayName)
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000, true, true)));
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000L, true, true)));
 
         this.sendActivationMessage(damager, target);
     }

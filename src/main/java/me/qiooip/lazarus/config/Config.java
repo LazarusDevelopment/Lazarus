@@ -395,6 +395,7 @@ public class Config {
     public static String SCOREBOARD_TITLE;
 
     public static String SCOREBOARD_LINE_COLOR;
+    public static boolean SCOREBOARD_LINE_INVISIBLE;
     public static boolean SCOREBOARD_LINE_AFTER_EVERY_SECTION;
 
     public static boolean SCOREBOARD_FOOTER_ENABLED;
@@ -433,10 +434,11 @@ public class Config {
     public static String GAMEMODE_PLACEHOLDER;
     public static String ONLINE_PLACEHOLDER;
     public static String MINER_DIAMOND_COUNT_PLACEHOLDER;
-    public static String KITMAP_KILLS_PLACEHOLDER;
-    public static String KITMAP_DEATHS_PLACEHOLDER;
-    public static String KITMAP_BALANCE_PLACEHOLDER;
-    public static String KITMAP_KILLSTREAK_PLACEHOLDER;
+    public static String KITMAP_STATS_TITLE_PLACEHOLDER;
+    public static String KITMAP_STATS_KILLS_PLACEHOLDER;
+    public static String KITMAP_STATS_DEATHS_PLACEHOLDER;
+    public static String KITMAP_STATS_BALANCE_PLACEHOLDER;
+    public static String KITMAP_STATS_KILLSTREAK_PLACEHOLDER;
     public static String HOME_PLACEHOLDER;
     public static String STUCK_PLACEHOLDER;
     public static String REBOOT_PLACEHOLDER;
@@ -887,8 +889,9 @@ public class Config {
 
         SCOREBOARD_TITLE = scoreboard.getString("SCOREBOARD_TITLE");
 
-        SCOREBOARD_LINE_COLOR = scoreboard.getString("SCOREBOARD_LINE_COLOR");
-        SCOREBOARD_LINE_AFTER_EVERY_SECTION = scoreboard.getBoolean("SCOREBOARD_LINE_AFTER_EVERY_SECTION");
+        SCOREBOARD_LINE_COLOR = scoreboard.getString("SCOREBOARD_LINE.COLOR");
+        SCOREBOARD_LINE_INVISIBLE = scoreboard.getBoolean("SCOREBOARD_LINE.INVISIBLE");
+        SCOREBOARD_LINE_AFTER_EVERY_SECTION = scoreboard.getBoolean("SCOREBOARD_LINE.AFTER_EVERY_SECTION");
 
         SCOREBOARD_FOOTER_ENABLED = scoreboard.getBoolean("SCOREBOARD_FOOTER.ENABLED");
         SCOREBOARD_FOOTER_PLACEHOLDER = scoreboard.getString("SCOREBOARD_FOOTER.PLACEHOLDER");
@@ -926,10 +929,11 @@ public class Config {
         GAMEMODE_PLACEHOLDER = scoreboard.getString("GAMEMODE_PLACEHOLDER");
         ONLINE_PLACEHOLDER = scoreboard.getString("ONLINE_PLACEHOLDER");
         MINER_DIAMOND_COUNT_PLACEHOLDER = scoreboard.getString("MINER_DIAMOND_COUNT_PLACEHOLDER");
-        KITMAP_KILLS_PLACEHOLDER = scoreboard.getString("KITMAP_KILLS_PLACEHOLDER");
-        KITMAP_DEATHS_PLACEHOLDER = scoreboard.getString("KITMAP_DEATHS_PLACEHOLDER");
-        KITMAP_BALANCE_PLACEHOLDER = scoreboard.getString("KITMAP_BALANCE_PLACEHOLDER");
-        KITMAP_KILLSTREAK_PLACEHOLDER = scoreboard.getString("KITMAP_KILLSTREAK_PLACEHOLDER");
+        KITMAP_STATS_TITLE_PLACEHOLDER = scoreboard.getString("KITMAP_STATS.TITLE_PLACEHOLDER");
+        KITMAP_STATS_KILLS_PLACEHOLDER = scoreboard.getString("KITMAP_STATS.KILLS_PLACEHOLDER");
+        KITMAP_STATS_DEATHS_PLACEHOLDER = scoreboard.getString("KITMAP_STATS.DEATHS_PLACEHOLDER");
+        KITMAP_STATS_BALANCE_PLACEHOLDER = scoreboard.getString("KITMAP_STATS.BALANCE_PLACEHOLDER");
+        KITMAP_STATS_KILLSTREAK_PLACEHOLDER = scoreboard.getString("KITMAP_STATS.KILLSTREAK_PLACEHOLDER");
         HOME_PLACEHOLDER = scoreboard.getString("HOME_PLACEHOLDER");
         STUCK_PLACEHOLDER = scoreboard.getString("STUCK_PLACEHOLDER");
         REBOOT_PLACEHOLDER = scoreboard.getString("REBOOT_PLACEHOLDER");

@@ -31,8 +31,8 @@ public class AntiAbilityBallAbility extends AbilityItem {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<radius>", String.valueOf(radius))
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000, true, true))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000L, true, true))
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override
@@ -55,6 +55,6 @@ public class AntiAbilityBallAbility extends AbilityItem {
         target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_ABILITY_BALL_TARGET_ACTIVATED
             .replace("<player>", damager.getName())
             .replace("<abilityName>", this.displayName)
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000, true, true)));
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000L, true, true)));
     }
 }

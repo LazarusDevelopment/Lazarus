@@ -54,10 +54,21 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         this.pvpClasses = new ArrayList<>();
         this.restorers = HashBasedTable.create();
 
-        if(Config.ARCHER_ACTIVATED) this.pvpClasses.add(new Archer(this));
-        if(Config.BARD_ACTIVATED) this.pvpClasses.add(new Bard(this));
-        if(Config.MINER_ACTIVATED) this.pvpClasses.add(this.miner = new Miner(this));
-        if(Config.ROGUE_ACTIVATED) this.pvpClasses.add(new Rogue(this));
+        if(Config.ARCHER_ACTIVATED) {
+            this.registerPvpClass(new Archer(this));
+        }
+
+        if(Config.BARD_ACTIVATED) {
+            this.registerPvpClass(new Bard(this));
+        }
+
+        if(Config.MINER_ACTIVATED) {
+            this.registerPvpClass(this.miner = new Miner(this));
+        }
+
+        if(Config.ROGUE_ACTIVATED) {
+            this.registerPvpClass(new Rogue(this));
+        }
 
         Bukkit.getOnlinePlayers().forEach(player -> this.pvpClasses
             .forEach(pvpClass -> pvpClass.checkEquipmentChange(player)));
@@ -68,6 +79,10 @@ public class PvpClassManager implements Listener, ManagerEnabler {
     public void disable() {
         this.pvpClasses.forEach(PvpClass::disable);
         this.pvpClasses.clear();
+    }
+
+    public void registerPvpClass(PvpClass pvpClass) {
+        this.pvpClasses.add(pvpClass);
     }
 
     public PvpClass getActivePvpClass(Player player) {

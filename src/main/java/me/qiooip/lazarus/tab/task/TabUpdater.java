@@ -93,7 +93,9 @@ public class TabUpdater implements Runnable {
                     }
                 }
 
-                tab.set(this.locationSlot, this.locationFunction.apply(player));
+                if(this.locationFunction != null) {
+                    tab.set(this.locationSlot, this.locationFunction.apply(player));
+                }
             }
         } catch(Throwable t) {
             t.printStackTrace();

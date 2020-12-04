@@ -150,7 +150,7 @@ public class KitsManager implements Listener, ManagerEnabler {
     }
 
     private void applyKitCooldown(Userdata data, KitData kit) {
-        data.getKitDelays().put(kit.getName(), kit.getDelay() == -1 ? -1 : System.currentTimeMillis() + (kit.getDelay() * 1000));
+        data.getKitDelays().put(kit.getName(), kit.getDelay() == -1 ? -1 : System.currentTimeMillis() + (kit.getDelay() * 1000L));
     }
 	
 	public void editKit(Player player, KitData kit) {

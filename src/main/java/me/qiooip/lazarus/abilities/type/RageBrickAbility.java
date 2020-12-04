@@ -53,7 +53,7 @@ public class RageBrickAbility extends AbilityItem {
             .replace("<abilityName>", this.displayName)
             .replace("<amount>", String.valueOf(enemies))
             .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_RAGE_BRICK_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override

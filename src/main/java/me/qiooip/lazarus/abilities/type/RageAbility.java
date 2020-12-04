@@ -60,8 +60,8 @@ public class RageAbility extends AbilityItem implements Listener {
     public void sendActivationMessage(Player player, int duration) {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000, true, true))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000L, true, true))
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override

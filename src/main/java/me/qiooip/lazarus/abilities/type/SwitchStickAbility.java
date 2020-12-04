@@ -29,7 +29,7 @@ public class SwitchStickAbility extends AbilityItem {
             .replace("<abilityName>", this.displayName)
             .replace("<target>", target.getName())
             .replace("<amount>", String.valueOf(amount))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override

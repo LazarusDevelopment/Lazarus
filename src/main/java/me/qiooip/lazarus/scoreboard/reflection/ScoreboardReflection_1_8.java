@@ -7,7 +7,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
 
 public class ScoreboardReflection_1_8 {
 

@@ -45,7 +45,7 @@ public class LuckyIngotAbility extends AbilityItem {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_LUCKY_INGOT_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000, true, true))));
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override

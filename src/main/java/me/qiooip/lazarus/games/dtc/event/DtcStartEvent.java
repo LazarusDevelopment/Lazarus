@@ -1,7 +1,6 @@
 package me.qiooip.lazarus.games.dtc.event;
 
 import lombok.Getter;
-import me.qiooip.lazarus.games.conquest.RunningConquest;
 import me.qiooip.lazarus.games.dtc.DtcData;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;

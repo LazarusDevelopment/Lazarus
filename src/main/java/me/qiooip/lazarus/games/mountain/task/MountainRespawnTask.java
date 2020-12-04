@@ -38,7 +38,7 @@ public class MountainRespawnTask extends BukkitRunnable {
         int nextInSeconds = this.getNextRespawnInSeconds();
 
         if(nextInSeconds <= 0) {
-            this.nextRespawn = System.currentTimeMillis() + (Config.MOUNTAIN_RESPAWN_INTERVAL * 1000);
+            this.nextRespawn = System.currentTimeMillis() + (Config.MOUNTAIN_RESPAWN_INTERVAL * 1000L);
 
             Language.MOUNTAIN_RESPAWNED.forEach(line -> Messages.sendMessage(line
             .replace("<time>", String.valueOf(Config.MOUNTAIN_RESPAWN_INTERVAL / 60))));

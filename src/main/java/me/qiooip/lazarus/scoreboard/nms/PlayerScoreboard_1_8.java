@@ -182,7 +182,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
         if(!Config.SCOREBOARD_LINE_AFTER_EVERY_SECTION || this.entries.isEmpty()
             || this.lastLine.get() || this.entries.size() >= this.maxSize) return;
 
-        this.entries.addLast(new ScoreboardInput(SB_LINE, color.toString() + SB_LINE, "---------"));
+        this.entries.addLast(this.getScoreboardLineInput(color));
         this.lastLine.set(true);
     }
 
@@ -192,8 +192,8 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     }
 
     @Override
-    public boolean add(String value, String time) {
-        if(value.isEmpty() || this.entries.size() >= this.maxSize) return false;
+    public void add(String value, String time) {
+        if(value.isEmpty() || this.entries.size() >= this.maxSize) return;
 
         if(time.length() > 16) {
             time = time.substring(0, 16);
@@ -210,7 +210,6 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
         }
 
         this.lastLine.set(false);
-        return true;
     }
 
     @Override
@@ -223,7 +222,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
     @Override
     public void addLinesAndFooter() {
-        this.entries.addFirst(new ScoreboardInput(SB_LINE, ChatColor.DARK_BLUE.toString() + SB_LINE, "---------"));
+        this.entries.addLast(this.getScoreboardLineInput(ChatColor.DARK_BLUE));
 
         if(Config.SCOREBOARD_FOOTER_ENABLED && this.lastLine.get()) {
             this.entries.pollLast();
@@ -232,7 +231,10 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
         if(!this.lastLine.get()) {
             this.addFooter(Config.SCOREBOARD_FOOTER_PLACEHOLDER);
-            this.entries.addLast(new ScoreboardInput(SB_LINE, ChatColor.DARK_GREEN.toString() + SB_LINE, "---------"));
+
+            if(!Config.SCOREBOARD_LINE_INVISIBLE) {
+                this.entries.addLast(this.getScoreboardLineInput(ChatColor.DARK_GREEN));
+            }
         }
     }
 
@@ -246,6 +248,14 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
         } else {
             this.entries.addLast(new ScoreboardInput(footer.substring(0, footer
             .length() - 16), footer.substring(footer.length() - 16), ""));
+        }
+    }
+
+    private ScoreboardInput getScoreboardLineInput(ChatColor color) {
+        if(Config.SCOREBOARD_LINE_INVISIBLE) {
+            return new ScoreboardInput("", color.toString(), "");
+        } else {
+            return new ScoreboardInput(SB_LINE, color.toString() + SB_LINE, "---------");
         }
     }
 

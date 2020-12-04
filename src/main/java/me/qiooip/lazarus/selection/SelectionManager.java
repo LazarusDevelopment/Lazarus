@@ -10,6 +10,7 @@ import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -59,8 +60,14 @@ public class SelectionManager implements Listener, ManagerEnabler {
 
     private void loadSelectionWand(String type) {
         ConfigFile config = Lazarus.getInstance().getConfig();
+        ItemStack wandItem = ItemUtils.parseItem(config.getString(type + "_WAND.MATERIAL_ID"));
 
-        ItemBuilder builder = new ItemBuilder(ItemUtils.parseItem(config.getString(type + "_WAND.MATERIAL_ID")));
+        if(wandItem == null) {
+            wandItem = new ItemBuilder(Material.GOLD_HOE).build();
+            Lazarus.getInstance().log("&cCould not parse wand item. Using default (Gold Hoe)");
+        }
+
+        ItemBuilder builder = new ItemBuilder(wandItem);
         builder.setName(config.getString(type + "_WAND.NAME"));
         builder.setLore(config.getStringList(type + "_WAND.LORE"));
 

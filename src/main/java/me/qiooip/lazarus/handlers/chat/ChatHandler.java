@@ -117,8 +117,9 @@ public class ChatHandler extends Handler implements Listener {
             return Config.CHAT_FORMAT.replace("<displayName>", displayName) + chatColor + message;
         }
 
-        return Config.CHAT_FORMAT_WITH_FACTION.replace("<faction>", playerFaction
-            .getName(recipient)).replace("<displayName>", displayName) + chatColor + message;
+        return Config.CHAT_FORMAT_WITH_FACTION
+            .replace("<faction>", playerFaction.getName(recipient))
+            .replace("<displayName>", displayName) + chatColor + message;
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

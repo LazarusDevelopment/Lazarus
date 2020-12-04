@@ -76,9 +76,9 @@ public class Miner extends PvpClass {
             data.getEffects().forEach(effect -> joiner.add(StringUtils.getPotionEffectName(effect)));
 
             Language.MINER_EFFECT_FORMAT.forEach(line -> sender.sendMessage(line
-            .replace("<name>", data.getName())
-            .replace("<diamonds>", String.valueOf(data.getDiamonds()))
-            .replace("<effects>", joiner.toString())));
+                .replace("<name>", data.getName())
+                .replace("<diamonds>", String.valueOf(data.getDiamonds()))
+                .replace("<effects>", joiner.toString())));
         });
 
         sender.sendMessage(Language.MINER_EFFECT_FOOTER);

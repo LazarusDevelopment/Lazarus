@@ -116,12 +116,13 @@ public class ScoreboardUpdater extends BukkitRunnable {
                 Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
 
                 if(Config.KITMAP_MODE_ENABLED) {
-                    scoreboard.add(Config.KITMAP_KILLS_PLACEHOLDER, userdata.getKills() + "");
-                    scoreboard.add(Config.KITMAP_DEATHS_PLACEHOLDER, userdata.getDeaths() + "");
-                    scoreboard.add(Config.KITMAP_BALANCE_PLACEHOLDER, userdata.getBalance() + "");
+                    scoreboard.add(Config.KITMAP_STATS_TITLE_PLACEHOLDER, "");
+                    scoreboard.add(Config.KITMAP_STATS_KILLS_PLACEHOLDER, userdata.getKills() + "");
+                    scoreboard.add(Config.KITMAP_STATS_DEATHS_PLACEHOLDER, userdata.getDeaths() + "");
+                    scoreboard.add(Config.KITMAP_STATS_BALANCE_PLACEHOLDER, userdata.getBalance() + "");
 
                     if(userdata.getKillstreak() > 0) {
-                        scoreboard.add(Config.KITMAP_KILLSTREAK_PLACEHOLDER, userdata.getKillstreak() + "");
+                        scoreboard.add(Config.KITMAP_STATS_KILLSTREAK_PLACEHOLDER, userdata.getKillstreak() + "");
                     }
 
                     if(!Config.CLAIM_PLACEHOLDER.isEmpty()) {
