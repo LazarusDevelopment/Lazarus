@@ -64,7 +64,9 @@ public class KothManager implements Listener, ManagerEnabler {
         this.koths.clear();
         this.runningKoths.clear();
 
-        if(this.tickTask != null) this.cancelTickTask();
+        if(this.tickTask != null) {
+            this.cancelTickTask();
+        }
     }
 
     private void loadKoths() {

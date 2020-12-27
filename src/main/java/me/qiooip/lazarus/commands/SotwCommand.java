@@ -29,22 +29,22 @@ public class SotwCommand extends BaseCommand {
 		if(args.length == 1) {
 			switch(args[0].toLowerCase()) {
 				case "start": {
-					if(!checkPermission(sender, "lazarus.sotw")) return;
+					if(!this.checkPermission(sender, "lazarus.sotw")) return;
 					Lazarus.getInstance().getSotwHandler().startSotwTimer(sender, Config.SOTW_DEFAULT_TIME * 60);
 					return;
 				}
 				case "stop": {
-					if(!checkPermission(sender, "lazarus.sotw")) return;
+					if(!this.checkPermission(sender, "lazarus.sotw")) return;
 					Lazarus.getInstance().getSotwHandler().stopSotwTimer(sender);
 					return;
 				}
 				case "hideplayers": {
-					if(!checkPermission(sender, "lazarus.sotw")) return;
+					if(!this.checkPermission(sender, "lazarus.sotw")) return;
 					Tasks.async(() -> Lazarus.getInstance().getSotwHandler().toggleSotwInvisibility(sender, null));
 					return;
 				}
 				case "enable": {
-					if(!this.checkConsoleSender(sender)) return;
+					if(!this.checkConsoleSender(sender) || !this.checkPermission(sender, "lazarus.sotw.enable")) return;
 					Lazarus.getInstance().getSotwHandler().enableSotwForPlayer((Player) sender);
 					return;
 				}
@@ -67,7 +67,7 @@ public class SotwCommand extends BaseCommand {
 				}
 			}
 		} else {
-			if(!checkPermission(sender, "lazarus.sotw")) return;
+			if(!this.checkPermission(sender, "lazarus.sotw")) return;
 
 			if(args[0].equalsIgnoreCase("start")) {
 				int time = StringUtils.parseSeconds(args[1]);

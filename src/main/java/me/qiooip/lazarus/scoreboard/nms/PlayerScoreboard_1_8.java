@@ -33,6 +33,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     private static final String SB_LINE = Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH.toString() + "------";
     private static final ScoreboardInput EMPTY_INPUT = new ScoreboardInput("", "", "");
 
+    private final Object lock = new Object();
     private final Deque<ScoreboardInput> entries;
     private Set<String> lastEntries;
 
@@ -293,7 +294,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     private void updateAllTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {
         if(this.player == null || this.scoreboard == null) return;
 
-        synchronized(this) {
+        synchronized(this.lock) {
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
             for(Player online : players) {
@@ -301,13 +302,12 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
                 if(Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
                     nametag = new ArrayList<>();
-
                     PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(online);
+
                     if(faction != null) {
-                        String tag = Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
-                                .replace("<faction>", faction.getName(this.player))
-                                .replace("<dtr>", faction.getDtrString());
-                        nametag.add(tag);
+                        nametag.add(Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
+                            .replace("<faction>", faction.getName(this.player))
+                            .replace("<dtr>", faction.getDtrString()));
                     }
                 }
 
@@ -359,7 +359,6 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
         if(nametag != null) {
             nametag.add(team.getPrefix() + online.getName());
-
             LunarClientAPI.getInstance().overrideNametag(online, nametag, this.player);
         }
     }

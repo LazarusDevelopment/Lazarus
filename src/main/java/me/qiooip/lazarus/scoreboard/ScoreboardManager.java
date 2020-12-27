@@ -13,6 +13,7 @@ import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent.LeaveReason;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.scoreboard.task.ScoreboardUpdater;
+import me.qiooip.lazarus.scoreboard.task.ScoreboardUpdaterImpl;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.Tasks;
@@ -39,16 +40,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ScoreboardManager implements Listener, ManagerEnabler {
 
     @Getter private final Map<UUID, PlayerScoreboard> scoreboards;
-    private final Set<UUID> staffSb;
 
-    private final ScoreboardUpdater updater;
+    private final Set<UUID> staffSb;
+    private ScoreboardUpdater updater;
 
     public ScoreboardManager() {
         this.scoreboards = new ConcurrentHashMap<>();
         this.staffSb = new HashSet<>();
 
         Bukkit.getOnlinePlayers().forEach(this::loadScoreboard);
-        this.updater = new ScoreboardUpdater(Lazarus.getInstance(), this);
+        this.updater = new ScoreboardUpdaterImpl(Lazarus.getInstance(), this);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
@@ -58,6 +59,11 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
 
         this.scoreboards.values().forEach(PlayerScoreboard::unregister);
         this.scoreboards.clear();
+    }
+
+    public void setUpdater(ScoreboardUpdater scoreboardUpdater) {
+        this.updater.cancel();
+        this.updater = scoreboardUpdater;
     }
 
     public void loadScoreboard(Player player) {

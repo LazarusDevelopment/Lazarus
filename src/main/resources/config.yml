@@ -1294,7 +1294,7 @@ STRENGTH_NERF:
 
 SUBCLAIMS:
   # What title should we use for subclaim signs?
-  SIGN_TITLE: "[&3Subclaim&r]"
+  SIGN_TITLE: "[&3Subclaim&0]"
   # Leader only subclaim sign
   LEADER_ONLY: "&cLeader"
   # CoLeaders only subclaim sign

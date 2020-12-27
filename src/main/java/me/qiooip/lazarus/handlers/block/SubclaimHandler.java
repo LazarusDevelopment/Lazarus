@@ -33,6 +33,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.material.Attachable;
 import org.bukkit.material.MaterialData;
 
+import java.util.Arrays;
+
 public class SubclaimHandler extends Handler implements Listener {
 
     private final BlockFace[] signFaces;
@@ -78,10 +80,15 @@ public class SubclaimHandler extends Handler implements Listener {
         Chest chest = (Chest) block.getState();
 
         if(chest.getInventory().getHolder() instanceof DoubleChest) {
+            System.out.println("DoubleChest");
             DoubleChest doubleChest = (DoubleChest) chest.getInventory().getHolder();
 
             Sign sign1 = this.getSign(((BlockState) doubleChest.getLeftSide()).getBlock());
+            System.out.println(sign1);
+            System.out.println(sign1 != null ? Arrays.toString(sign1.getLines()) : "No Lines");
             Sign sign2 = this.getSign(((BlockState) doubleChest.getRightSide()).getBlock());
+            System.out.println(sign2);
+            System.out.println(sign2 != null ? Arrays.toString(sign2.getLines()) : "No Lines");
 
             if(sign1 != null && sign1.getLine(0).equalsIgnoreCase(Config.SUBCLAIMS_SIGN_TITLE)) return sign1.getLines();
             if(sign2 != null && sign2.getLine(0).equalsIgnoreCase(Config.SUBCLAIMS_SIGN_TITLE)) return sign2.getLines();
@@ -89,7 +96,10 @@ public class SubclaimHandler extends Handler implements Listener {
             return null;
         }
 
+        System.out.println("SingleChest");
         Sign sign = this.getSign(chest.getBlock());
+        System.out.println(sign);
+        System.out.println(sign != null ? Arrays.toString(sign.getLines()) : "No Lines");
         if(sign != null && sign.getLine(0).equalsIgnoreCase(Config.SUBCLAIMS_SIGN_TITLE)) return sign.getLines();
 
         return null;
@@ -191,7 +201,11 @@ public class SubclaimHandler extends Handler implements Listener {
                 if(!fplayer.getRole().isAtLeast(Role.CAPTAIN)) return;
 
                 event.setLine(0, Config.SUBCLAIMS_SIGN_TITLE);
-                if(StringUtils.isNullOrEmpty(lines[1])) event.setLine(1, player.getName());
+
+                if(StringUtils.isNullOrEmpty(lines[1])) {
+                    event.setLine(1, player.getName());
+                }
+
                 this.sendCreationMessage(playerFaction, player, block);
             }
         }
@@ -313,6 +327,8 @@ public class SubclaimHandler extends Handler implements Listener {
         Inventory destination = event.getDestination();
         if(destination.getType() != InventoryType.HOPPER) return;
 
-        if(this.getSubclaim(location.getBlock()) != null) event.setCancelled(true);
+        if(this.getSubclaim(location.getBlock()) != null) {
+            event.setCancelled(true);
+        }
     }
 }

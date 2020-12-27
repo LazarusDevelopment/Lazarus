@@ -170,8 +170,9 @@ public class PlayerFaction extends Faction {
     }
 
     public double getMaxDtr() {
-        return this.members.size() == 1 || this.members.isEmpty() ? Config.FACTION_DTR_SOLO_FACTION_DTR
-        : Math.min(Config.FACTION_MAX_DTR, this.members.size() * Config.FACTION_DTR_PER_PLAYER);
+        return this.members.size() == 1 || this.members.isEmpty()
+            ? Config.FACTION_DTR_SOLO_FACTION_DTR
+            : Math.min(Config.FACTION_MAX_DTR, this.members.size() * Config.FACTION_DTR_PER_PLAYER);
     }
 
     public double getDtr() {
