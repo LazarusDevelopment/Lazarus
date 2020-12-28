@@ -79,6 +79,7 @@ public class EotwHandler extends Handler implements Listener {
             Lazarus.getInstance().getDeathbanManager().deleteAllDeathbans(false);
         }
 
+        TimerManager.getInstance().getDtrRegenTimer().cancel();
         Messages.sendMessage(Language.EOTW_BROADCAST_START);
     }
 
@@ -103,6 +104,8 @@ public class EotwHandler extends Handler implements Listener {
         FactionsManager.getInstance().setAllRaidable(false);
 
         TimerManager.getInstance().getEotwTimer().cancel();
+        TimerManager.getInstance().getDtrRegenTimer().startRegenTask();
+
         Messages.sendMessage(Language.EOTW_BROADCAST_STOP);
     }
 

@@ -275,12 +275,14 @@ public class FactionsManager implements Listener {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
 
         return offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline()
-        ? this.getPlayerFaction(offlinePlayer.getUniqueId()) : null;
+            ? this.getPlayerFaction(offlinePlayer.getUniqueId())
+            : null;
     }
 
     public void setAllRaidable(boolean raidable) {
-        this.factions.values().stream().filter(faction -> faction instanceof PlayerFaction).map(faction -> (PlayerFaction)
-        faction).forEach(faction -> faction.setDtr(raidable ? Config.FACTION_MIN_DTR : faction.getMaxDtr()));
+        this.factions.values().stream().filter(faction -> faction instanceof PlayerFaction)
+            .map(faction -> (PlayerFaction) faction)
+            .forEach(faction -> faction.setDtr(raidable ? Config.FACTION_MIN_DTR : faction.getMaxDtr()));
     }
 
     public void checkHomeTeleports(PlayerFaction faction, String message) {

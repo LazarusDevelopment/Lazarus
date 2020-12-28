@@ -57,16 +57,14 @@ public class FactionFreezeTimer extends SystemTimer {
 
     public void activate(PlayerFaction playerFaction) {
         this.cancel(playerFaction.getId());
-        this.activate(playerFaction.getId());
-    }
+        this.activate(playerFaction.getId(), this.delay);
 
-    public void activate(UUID uuid) {
-        if(this.delay <= 0 || this.isActive(uuid)) return;
-        this.factions.put(uuid, this.scheduleExpiry(uuid, this.delay));
+        TimerManager.getInstance().getDtrRegenTimer().removeFaction(playerFaction);
     }
 
     public void activate(PlayerFaction playerFaction, int delay) {
         this.activate(playerFaction.getId(), delay);
+        TimerManager.getInstance().getDtrRegenTimer().removeFaction(playerFaction);
     }
 
     public void activate(UUID uuid, int delay) {
