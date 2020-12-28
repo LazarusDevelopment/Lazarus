@@ -223,7 +223,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
     @Override
     public void addLinesAndFooter() {
-        this.entries.addLast(this.getScoreboardLineInput(ChatColor.DARK_BLUE));
+        this.entries.addFirst(this.getScoreboardLineInput(ChatColor.DARK_BLUE));
 
         if(Config.SCOREBOARD_FOOTER_ENABLED && this.lastLine.get()) {
             this.entries.pollLast();

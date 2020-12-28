@@ -45,13 +45,13 @@ public class CustomSpigotListener implements Listener {
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
 
-        if(!Config.STRENGTH_NERF_ENABLED) return;
-
-        try {
-            Class<?> clazz = Class.forName("gg.custom.CustomSpigotConfig");
-            this.setStrengthFields(clazz);
-        } catch(ReflectiveOperationException e) {
-            throw new RuntimeException(e);
+        if(Config.STRENGTH_NERF_ENABLED) {
+            try {
+                Class<?> clazz = Class.forName("gg.custom.CustomSpigotConfig");
+                this.setStrengthFields(clazz);
+            } catch(ReflectiveOperationException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
