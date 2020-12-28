@@ -149,7 +149,6 @@ public class MongoFactionsManager extends FactionsManager {
                 .append("name", faction.getName())
                 .append("deathban", faction.isDeathban())
                 .append("dtr", playerFaction.getDtr())
-                .append("lastDtrUpdate", playerFaction.getLastDtrUpdate())
                 .append("announcement", playerFaction.getAnnouncement())
                 .append("balance", playerFaction.getBalance())
                 .append("lives", playerFaction.getLives())
@@ -181,7 +180,6 @@ public class MongoFactionsManager extends FactionsManager {
             faction.setName(document.getString("name"));
             faction.setDeathban(document.getBoolean("deathban"));
             faction.setDtr(document.getDouble("dtr"));
-            faction.setLastDtrUpdate(document.getLong("lastDtrUpdate"));
             faction.setAnnouncement(document.getString("announcement"));
             faction.setBalance(document.getInteger("balance"));
             faction.setLives(document.getInteger("lives"));

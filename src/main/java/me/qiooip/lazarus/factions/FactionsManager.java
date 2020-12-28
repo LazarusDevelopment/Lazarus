@@ -13,6 +13,7 @@ import me.qiooip.lazarus.factions.event.FactionClaimChangeEvent.ClaimChangeReaso
 import me.qiooip.lazarus.factions.event.FactionCreateEvent;
 import me.qiooip.lazarus.factions.event.FactionCreateEvent.FactionType;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
+import me.qiooip.lazarus.factions.event.FactionDtrChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionRallyEvent;
 import me.qiooip.lazarus.factions.event.FactionRallyEvent.RallyEventType;
 import me.qiooip.lazarus.factions.event.FactionRelationChangeEvent;
@@ -541,6 +542,13 @@ public class FactionsManager implements Listener {
     public void onFactionDisband(FactionDisbandEvent event) {
         TimerManager.getInstance().getFactionFreezeTimer().cancel(event.getFaction().getId());
         TimerManager.getInstance().getFactionRallyTimer().cancel(event.getFaction().getId());
+    }
+
+    @EventHandler
+    public void onFactionDtrChange(FactionDtrChangeEvent event) {
+        if(event.getNewDtr() >= event.getFaction().getMaxDtr()) {
+            TimerManager.getInstance().getDtrRegenTimer().removeFaction(event.getFaction());
+        }
     }
 
     @EventHandler

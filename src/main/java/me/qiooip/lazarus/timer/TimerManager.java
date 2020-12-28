@@ -7,6 +7,7 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
 import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
 import me.qiooip.lazarus.timer.cooldown.FactionRallyTimer;
 import me.qiooip.lazarus.timer.cooldown.RankReviveTimer;
 import me.qiooip.lazarus.timer.custom.CustomTimer;
@@ -41,32 +42,33 @@ public class TimerManager {
     private ConfigFile timersFile;
 
     private final ScheduledThreadPoolExecutor executor;
-    private final List<ScoreboardTimer> scoreboardTimers;
-
-    private final ArcherTagTimer archerTagTimer;
-    private final CombatTagTimer combatTagTimer;
-    private final EnderPearlTimer enderPearlTimer;
-    private final EotwTimer eotwTimer;
-    private final LogoutTimer logoutTimer;
-    private final PvpProtTimer pvpProtTimer;
-    private final SotwTimer sotwTimer;
-    private final HomeTimer homeTimer;
-    private final SaleTimer saleTimer;
-    private final KeySaleTimer keySaleTimer;
-    private final StuckTimer stuckTimer;
-    private final TeleportTimer teleportTimer;
-    private final AppleTimer appleTimer;
-    private final GAppleTimer gAppleTimer;
     private final PvpClassWarmupTimer pvpClassWarmupTimer;
-
     private final GlobalAbilitiesTimer globalAbilitiesTimer;
     private final AbilitiesTimer abilitiesTimer;
 
-    private final FactionFreezeTimer factionFreezeTimer;
-    private final FactionRallyTimer factionRallyTimer;
-    private final CooldownTimer cooldownTimer;
-    private final RankReviveTimer rankReviveTimer;
-    private final CustomTimer customTimer;
+    private List<ScoreboardTimer> scoreboardTimers;
+
+    private ArcherTagTimer archerTagTimer;
+    private CombatTagTimer combatTagTimer;
+    private EnderPearlTimer enderPearlTimer;
+    private EotwTimer eotwTimer;
+    private LogoutTimer logoutTimer;
+    private PvpProtTimer pvpProtTimer;
+    private SotwTimer sotwTimer;
+    private HomeTimer homeTimer;
+    private SaleTimer saleTimer;
+    private KeySaleTimer keySaleTimer;
+    private StuckTimer stuckTimer;
+    private TeleportTimer teleportTimer;
+    private AppleTimer appleTimer;
+    private GAppleTimer gAppleTimer;
+
+    private FactionFreezeTimer factionFreezeTimer;
+    private FactionRallyTimer factionRallyTimer;
+    private DtrRegenTimer dtrRegenTimer;
+    private CooldownTimer cooldownTimer;
+    private RankReviveTimer rankReviveTimer;
+    private CustomTimer customTimer;
 
     public TimerManager() {
         instance = this;
@@ -75,36 +77,12 @@ public class TimerManager {
         this.executor = new ScheduledThreadPoolExecutor(1, Tasks.newThreadFactory("Timer Thread - %d"));
         this.executor.setRemoveOnCancelPolicy(true);
 
-        this.scoreboardTimers = new ArrayList<>();
-
-        this.scoreboardTimers.add(this.saleTimer = new SaleTimer(this.executor));
-        this.scoreboardTimers.add(this.keySaleTimer = new KeySaleTimer(this.executor));
-        this.scoreboardTimers.add(this.sotwTimer = new SotwTimer(this.executor));
-        this.scoreboardTimers.add(this.eotwTimer = new EotwTimer(this.executor));
-        this.scoreboardTimers.add(this.pvpProtTimer = new PvpProtTimer(this.executor));
-        this.scoreboardTimers.add(this.combatTagTimer = new CombatTagTimer(this.executor));
-        this.scoreboardTimers.add(this.enderPearlTimer = new EnderPearlTimer(this.executor));
-        this.scoreboardTimers.add(this.archerTagTimer = new ArcherTagTimer(this.executor));
-        this.scoreboardTimers.add(this.homeTimer = new HomeTimer(this.executor));
-        this.scoreboardTimers.add(this.stuckTimer = new StuckTimer(this.executor));
-        this.scoreboardTimers.add(this.teleportTimer = new TeleportTimer(this.executor));
-        this.scoreboardTimers.add(this.logoutTimer = new LogoutTimer(this.executor));
-
         this.globalAbilitiesTimer = new GlobalAbilitiesTimer(this.executor);
         this.abilitiesTimer = new AbilitiesTimer(this.executor);
-
         this.pvpClassWarmupTimer = new PvpClassWarmupTimer(this.executor);
-        this.appleTimer = new AppleTimer(this.executor);
-        this.gAppleTimer = new GAppleTimer(this.executor);
 
-        if(Config.ENCHANTED_GOLDEN_APPLE_ON_SCOREBOARD) this.scoreboardTimers.add(this.gAppleTimer);
-        if(Config.NORMAL_GOLDEN_APPLE_ON_SCOREBOARD) this.scoreboardTimers.add(this.appleTimer);
-
-        this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
-        this.factionRallyTimer = new FactionRallyTimer(this.executor);
-        this.cooldownTimer = new CooldownTimer(this.executor);
-        this.rankReviveTimer = new RankReviveTimer(this.executor);
-        this.customTimer = new CustomTimer(this.executor);
+        this.initializeScoreboardTimers();
+        this.initializeCustomAndFactionTimers();
     }
 
     public void disable() {
@@ -147,5 +125,37 @@ public class TimerManager {
 
         int deleted = this.scoreboardTimers.size() + 3;
         Lazarus.getInstance().log("- &cCleared &e" + deleted + " &ccooldown timers.");
+    }
+
+    private void initializeScoreboardTimers() {
+        this.scoreboardTimers = new ArrayList<>();
+
+        this.scoreboardTimers.add(this.saleTimer = new SaleTimer(this.executor));
+        this.scoreboardTimers.add(this.keySaleTimer = new KeySaleTimer(this.executor));
+        this.scoreboardTimers.add(this.sotwTimer = new SotwTimer(this.executor));
+        this.scoreboardTimers.add(this.eotwTimer = new EotwTimer(this.executor));
+        this.scoreboardTimers.add(this.pvpProtTimer = new PvpProtTimer(this.executor));
+        this.scoreboardTimers.add(this.combatTagTimer = new CombatTagTimer(this.executor));
+        this.scoreboardTimers.add(this.enderPearlTimer = new EnderPearlTimer(this.executor));
+        this.scoreboardTimers.add(this.archerTagTimer = new ArcherTagTimer(this.executor));
+        this.scoreboardTimers.add(this.homeTimer = new HomeTimer(this.executor));
+        this.scoreboardTimers.add(this.stuckTimer = new StuckTimer(this.executor));
+        this.scoreboardTimers.add(this.teleportTimer = new TeleportTimer(this.executor));
+        this.scoreboardTimers.add(this.logoutTimer = new LogoutTimer(this.executor));
+
+        this.gAppleTimer = new GAppleTimer(this.executor);
+        this.appleTimer = new AppleTimer(this.executor);
+
+        if(Config.ENCHANTED_GOLDEN_APPLE_ON_SCOREBOARD) this.scoreboardTimers.add(this.gAppleTimer);
+        if(Config.NORMAL_GOLDEN_APPLE_ON_SCOREBOARD) this.scoreboardTimers.add(this.appleTimer);
+    }
+
+    private void initializeCustomAndFactionTimers() {
+        this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
+        this.factionRallyTimer = new FactionRallyTimer(this.executor);
+        this.dtrRegenTimer = new DtrRegenTimer(this.executor);
+        this.cooldownTimer = new CooldownTimer(this.executor);
+        this.rankReviveTimer = new RankReviveTimer(this.executor);
+        this.customTimer = new CustomTimer(this.executor);
     }
 }

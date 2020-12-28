@@ -27,7 +27,7 @@ public class ThawCommand extends SubCommand {
             return;
         }
 
-        faction.setLastDtrUpdate(System.currentTimeMillis());
+        TimerManager.getInstance().getDtrRegenTimer().addFaction(faction);
         TimerManager.getInstance().getFactionFreezeTimer().cancel(faction);
 
         sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_THAW_CHANGED_SENDER

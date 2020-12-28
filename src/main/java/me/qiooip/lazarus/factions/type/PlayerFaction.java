@@ -42,8 +42,6 @@ import java.util.stream.Collectors;
 public class PlayerFaction extends Faction {
 
     private double dtr;
-    private long lastDtrUpdate;
-
     private String announcement;
 
     private int balance;
@@ -175,23 +173,7 @@ public class PlayerFaction extends Faction {
             : Math.min(Config.FACTION_MAX_DTR, this.members.size() * Config.FACTION_DTR_PER_PLAYER);
     }
 
-    public double getDtr() {
-        if(this.dtr == this.getMaxDtr() || this.isRegenerating()) return this.dtr;
-        if(Lazarus.getInstance().getEotwHandler().isActive()) return this.dtr;
-
-        int secondsPassed = (int) ((System.currentTimeMillis() - this.lastDtrUpdate) / 1000);
-
-        if(secondsPassed > 60) {
-            this.setDtr(this.dtr + (secondsPassed / 60.0 * Config.FACTION_DTR_REGEN_PER_MINUTE));
-            this.lastDtrUpdate = System.currentTimeMillis();
-        }
-
-        return this.dtr;
-    }
-
     public void setDtr(double amount) {
-        this.lastDtrUpdate = System.currentTimeMillis();
-
         double currentDtr = this.dtr;
         double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
 

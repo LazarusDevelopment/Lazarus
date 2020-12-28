@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SystemTimer extends Timer {
 
-    private ScheduledFuture<?> timer;
+    protected ScheduledFuture<?> timer;
 
     protected SystemTimer(ScheduledExecutorService executor, String name, int delay, boolean persistable) {
         super(executor, name, delay, persistable);
