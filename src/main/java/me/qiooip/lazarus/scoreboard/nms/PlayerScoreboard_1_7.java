@@ -302,6 +302,8 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
         if(this.player == null || this.scoreboard == null) return;
 
         synchronized(this.lock) {
+            if(this.player == null) return;
+
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
             for(Player online : players) {

@@ -26,8 +26,8 @@ public class FriendlyFireCommand extends SubCommand {
             return;
         }
 
-        if(faction.getMember(player).getRole() != Role.LEADER) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_MUST_BE_LEADER);
+        if(!faction.getMember(player).getRole().isAtLeast(Role.CO_LEADER)) {
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.getName(Role.CO_LEADER)));
             return;
         }
 

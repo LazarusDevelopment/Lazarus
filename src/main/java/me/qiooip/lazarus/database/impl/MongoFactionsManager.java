@@ -231,7 +231,7 @@ public class MongoFactionsManager extends FactionsManager {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onFactionDisband(FactionDisbandEvent event) {
+    public void onFactionDisbandMongo(FactionDisbandEvent event) {
         Faction faction = event.getFaction();
 
         Tasks.async(() -> {
@@ -247,7 +247,7 @@ public class MongoFactionsManager extends FactionsManager {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
+    public void onPlayerLeaveFactionMongo(PlayerLeaveFactionEvent event) {
         if(event.getReason() == LeaveReason.DISBAND) return;
 
         Tasks.async(() -> this.getPlayersRepo().deleteOne(Filters.eq("_id", event.getFactionPlayer().getUuid())));

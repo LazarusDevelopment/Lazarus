@@ -95,8 +95,8 @@ public class PlayerFaction extends Faction {
     }
 
     private int getOnlinePlayersCount(CommandSender sender) {
-        Predicate<? super Player> condition = (player) -> Objects.nonNull(player) && (!(sender instanceof Player)
-        || (((Player) sender).canSee(player) || !Lazarus.getInstance().getVanishManager().isVanished(player)));
+        Predicate<? super Player> condition = (player) -> Objects.nonNull(player) && (!(sender instanceof Player) ||
+            (((Player) sender).canSee(player) || !Lazarus.getInstance().getVanishManager().isVanished(player)));
 
         return (int) this.members.values().stream().map(member -> Bukkit.getPlayer(member.getUuid())).filter(condition).count();
     }
