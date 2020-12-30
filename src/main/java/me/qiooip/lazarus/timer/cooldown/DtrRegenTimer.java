@@ -57,6 +57,8 @@ public class DtrRegenTimer extends SystemTimer {
     }
 
     private void handleDtrUpdate() {
+        if(this.regeneratingFactions.isEmpty()) return;
+
         for(PlayerFaction faction : this.regeneratingFactions) {
             faction.setDtr(faction.getDtr() + Config.FACTION_DTR_REGEN_PER_MINUTE);
         }

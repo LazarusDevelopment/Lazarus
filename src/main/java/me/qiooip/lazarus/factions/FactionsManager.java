@@ -36,6 +36,7 @@ import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
 import me.qiooip.lazarus.timer.cooldown.FactionRallyTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.utils.Color;
@@ -542,14 +543,24 @@ public class FactionsManager implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFactionDisband(FactionDisbandEvent event) {
-        TimerManager.getInstance().getFactionFreezeTimer().cancel(event.getFaction().getId());
-        TimerManager.getInstance().getFactionRallyTimer().cancel(event.getFaction().getId());
+        TimerManager timerManager = TimerManager.getInstance();
+
+        timerManager.getFactionFreezeTimer().cancel(event.getFaction().getId());
+        timerManager.getFactionRallyTimer().cancel(event.getFaction().getId());
+
+        if(event.getFaction() instanceof PlayerFaction) {
+            timerManager.getDtrRegenTimer().removeFaction((PlayerFaction) event.getFaction());
+        }
     }
 
     @EventHandler
     public void onFactionDtrChange(FactionDtrChangeEvent event) {
+        DtrRegenTimer dtrRegenTimer = TimerManager.getInstance().getDtrRegenTimer();
+
         if(event.getNewDtr() >= event.getFaction().getMaxDtr()) {
-            TimerManager.getInstance().getDtrRegenTimer().removeFaction(event.getFaction());
+            dtrRegenTimer.removeFaction(event.getFaction());
+        } else {
+            dtrRegenTimer.addFaction(event.getFaction());
         }
     }
 
