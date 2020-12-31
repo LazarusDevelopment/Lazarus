@@ -9,17 +9,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 @Getter
-public class LazarusKickEvent extends PlayerEvent implements Cancellable {
+public class CombatLoggerSpawnEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private final KickType kickReason;
-    private final String kickMessage;
     @Setter private boolean cancelled;
 
-    public LazarusKickEvent(Player player, KickType kickReason, String kickMessage) {
+    public CombatLoggerSpawnEvent(Player player) {
         super(player);
-        this.kickReason = kickReason;
-        this.kickMessage = kickMessage;
 
         Bukkit.getPluginManager().callEvent(this);
     }
@@ -28,8 +24,4 @@ public class LazarusKickEvent extends PlayerEvent implements Cancellable {
     public HandlerList getHandlers() { return handlers; }
 
     public static HandlerList getHandlerList() { return handlers; }
-
-    public enum KickType {
-        DEATHBAN, LOGOUT, KICKALL, REBOOT, USERDATA_FAILED_TO_LOAD
-    }
 }

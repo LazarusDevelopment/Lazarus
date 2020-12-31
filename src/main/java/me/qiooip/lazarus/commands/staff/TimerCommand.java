@@ -2,6 +2,7 @@ package me.qiooip.lazarus.commands.staff;
 
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.timer.scoreboard.PvpProtTimer;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -43,8 +44,17 @@ public class TimerCommand extends BaseCommand {
             return;
         }
 
-        if(timer.isActive(target)) timer.cancel(target);
-        if(duration > 0) timer.activate(target, duration);
+        if(timer.isActive(target)) {
+            timer.cancel(target);
+        }
+
+        if(duration > 0) {
+            if(timer instanceof PvpProtTimer) {
+                ((PvpProtTimer) timer).activate(target, duration, target.getLocation());
+            } else {
+                timer.activate(target, duration);
+            }
+        }
 
         sender.sendMessage(Language.PREFIX + Language.TIMER_CHANGED_SENDER
             .replace("<player>", target.getName())

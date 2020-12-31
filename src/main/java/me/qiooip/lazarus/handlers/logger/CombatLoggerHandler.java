@@ -3,6 +3,7 @@ package me.qiooip.lazarus.handlers.logger;
 import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
+import me.qiooip.lazarus.handlers.event.CombatLoggerSpawnEvent;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
@@ -55,9 +56,7 @@ public class CombatLoggerHandler extends Handler implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-
-        if(player.getHealth() == 0.0) return;
-        if(this.kickAll) return;
+        if(this.kickAll || player.getHealth() == 0.0) return;
 
         if(player.hasPermission("lazarus.combatlogger.bypass") || player.hasMetadata("logout")) {
             player.removeMetadata("logout", Lazarus.getInstance());
@@ -69,7 +68,11 @@ public class CombatLoggerHandler extends Handler implements Listener {
         if(Lazarus.getInstance().getStaffModeManager().isInStaffModeOrVanished(player)) return;
         if(ClaimManager.getInstance().getFactionAt(player).isSafezone()) return;
 
-        CombatLogger logger = NmsUtils.getInstance().spawnCombatLogger(player.getWorld(), player);
-        this.combatLoggers.put(player.getUniqueId(), logger);
+        CombatLoggerSpawnEvent loggerEvent = new CombatLoggerSpawnEvent(player);
+
+        if(!loggerEvent.isCancelled()) {
+            CombatLogger logger = NmsUtils.getInstance().spawnCombatLogger(player.getWorld(), player);
+            this.combatLoggers.put(player.getUniqueId(), logger);
+        }
     }
 }
