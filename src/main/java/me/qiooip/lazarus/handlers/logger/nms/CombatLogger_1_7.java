@@ -11,6 +11,7 @@ import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import net.minecraft.server.v1_7_R4.DamageSource;
 import net.minecraft.server.v1_7_R4.Entity;
 import net.minecraft.server.v1_7_R4.EntityDamageSourceIndirect;
@@ -153,8 +154,8 @@ public class CombatLogger_1_7 extends EntitySkeleton implements CombatLogger {
                 return;
             }
 
-            player.addPotionEffect(new PotionEffect(PotionEffectType.getById(nmsEffect.getEffectId()),
-            nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient()), true);
+            NmsUtils.getInstance().addPotionEffect(player, new PotionEffect(PotionEffectType.getById(nmsEffect
+                .getEffectId()), nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient()));
         });
     }
 

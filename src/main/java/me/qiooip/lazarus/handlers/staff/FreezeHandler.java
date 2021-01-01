@@ -9,6 +9,7 @@ import me.qiooip.lazarus.handlers.event.freeze.UnfreezePlayerEvent;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -116,7 +117,8 @@ public class FreezeHandler extends Handler implements Listener {
         player.setSprinting(false);
         player.setAllowFlight(false);
         player.setFlying(false);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
+
+        NmsUtils.getInstance().addPotionEffect(player, new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
     }
 
     private void freezeAll(CommandSender sender) {
@@ -143,7 +145,7 @@ public class FreezeHandler extends Handler implements Listener {
         Messages.sendMessage(Language.FREEZE_UNFREEZED_ALL.replace("<player>", sender.getName()));
     }
 
-    private boolean isFrozen(Player player) {
+    public boolean isFrozen(Player player) {
         return this.frozen.containsKey(player.getUniqueId());
     }
 

@@ -7,6 +7,7 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -126,7 +127,7 @@ public abstract class AbilityItem {
 
     protected void addEffects(Player player, List<PotionEffect> effects) {
         for(PotionEffect effect : effects) {
-            Lazarus.getInstance().getPvpClassManager().addPotionEffect(player, effect);
+            NmsUtils.getInstance().addPotionEffect(player, effect);
         }
     }
 
