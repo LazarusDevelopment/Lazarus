@@ -41,7 +41,7 @@ public class DtrRegenTimer extends SystemTimer {
 
             PlayerFaction playerFaction = (PlayerFaction) faction;
 
-            if(playerFaction.getDtr() < playerFaction.getMaxDtr()) {
+            if(playerFaction.getDtr() < playerFaction.getMaxDtr() && !playerFaction.isRegenerating()) {
                 this.addFaction(playerFaction);
             }
         }

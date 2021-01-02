@@ -21,11 +21,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Queue;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -33,7 +31,7 @@ public class PotionEffectRestorer implements Listener {
 
     private final PvpClassManager pvpClassManager;
 
-    private final Table<UUID, PotionEffectType, Queue<EffectRestore>> restorers;
+    private final Table<UUID, PotionEffectType, EffectRestore> restorers;
     private final Map<UUID, Collection<PotionEffect>> playerEffectCache;
 
     public PotionEffectRestorer(PvpClassManager pvpClassManager) {
@@ -52,37 +50,15 @@ public class PotionEffectRestorer implements Listener {
     }
 
     public PotionEffect getPotionEffectToRestore(Player player, PotionEffectType effectType) {
-        Queue<EffectRestore> effectQueue = this.restorers.get(player.getUniqueId(), effectType);
-        if(effectQueue == null) return null;
-
-        EffectRestore effectRestore = null;
-
-        while(!effectQueue.isEmpty()) {
-            EffectRestore polled = effectQueue.poll();
-
-            if(polled != null && polled.getCondition().test(player)) {
-                effectRestore = polled;
-                break;
-            }
-        }
-
-        return effectRestore != null ? effectRestore.getEffect() : null;
+        EffectRestore effectRestore = this.restorers.get(player.getUniqueId(), effectType);
+        return effectRestore != null && effectRestore.getCondition().test(player) ? effectRestore.getEffect() : null;
     }
 
     private void queueEffectRestore(Player player, PotionEffect toAdd, PotionEffect current) {
         if(toAdd.getAmplifier() < current.getAmplifier()) return;
         if(toAdd.getAmplifier() == current.getAmplifier() && toAdd.getDuration() < current.getDuration()) return;
 
-        Queue<EffectRestore> effectRestorerQueue;
-
-        if(!this.restorers.contains(player.getUniqueId(), current.getType())) {
-            effectRestorerQueue = new ArrayDeque<>();
-        } else {
-            effectRestorerQueue = this.restorers.get(player.getUniqueId(), current.getType());
-        }
-
-        effectRestorerQueue.offer(this.createEffectRestore(player, current));
-        this.restorers.put(player.getUniqueId(), current.getType(), effectRestorerQueue);
+        this.restorers.put(player.getUniqueId(), current.getType(), this.createEffectRestore(player, current));
     }
 
     private EffectRestore createEffectRestore(Player player, PotionEffect currentEffect) {
