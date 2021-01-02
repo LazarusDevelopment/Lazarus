@@ -100,14 +100,14 @@ public abstract class PvpClass implements Listener {
     }
 
     void deactivateClass(Player player, boolean disable) {
-        this.getEffects().forEach(effect -> NmsUtils.getInstance().removePotionEffect(player, effect));
+        this.getEffects().forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect));
 
         if(this instanceof Miner) {
 			Miner miner = (Miner) this;
             int diamondsMined = player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE);
 
-			miner.getDiamondData(diamondsMined).forEach(data ->
-			    data.getEffects().forEach(effect -> NmsUtils.getInstance().removePotionEffect(player, effect)));
+			miner.getDiamondData(diamondsMined).forEach(data -> data.getEffects()
+                .forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect)));
 		}
 
         if(!disable) {

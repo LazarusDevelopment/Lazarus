@@ -52,7 +52,12 @@ COMMANDS:
 PLUGIN_RELOAD_MESSAGE: "&eLazarus successfully reloaded in &c<time>ms&e."
 
 ONLINE_RANK_ANNOUNCER:
-  MESSAGE: "&5Online donators&7: <donators>"
+  MESSAGE:
+    - ""
+    - "&5Online donators&7: <donators>"
+    - ""
+    - "&7Want to be featured? Purchase ranks at our store and receive awesome perks."
+    - ""
   DELIMITER: "&7, "
 
 ABILITIES:

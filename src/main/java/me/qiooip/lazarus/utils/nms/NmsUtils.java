@@ -93,7 +93,7 @@ public abstract class NmsUtils {
 
     public abstract void addPotionEffect(Player player, PotionEffect effect);
 
-    public abstract void removePotionEffect(Player player, PotionEffect effect);
+    public abstract void removeInfinitePotionEffect(Player player, PotionEffect effect);
 
     public abstract Scoreboard getPlayerScoreboard(Player player);
 
