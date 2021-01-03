@@ -4,9 +4,8 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.kits.kit.KingKitData;
 import me.qiooip.lazarus.kits.kit.KitData;
-import me.qiooip.lazarus.kits.kit.KitmapKitData;
+import me.qiooip.lazarus.kits.kit.KitType;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.InventoryUtils;
@@ -77,23 +76,16 @@ public class KitsManager implements Listener, ManagerEnabler {
 		this.kitsFile.getKeys(false).forEach(kitName -> {
 			ConfigurationSection section = this.kitsFile.getSection(kitName);
 
-			String kitType = section.getString("type");
-			KitData kit;
+			KitType kitType = KitType.fromName(section.getString("type"));
+			if(kitType == null) return;
 
-			if(kitType.equals("KITMAP")) {
-				kit = new KitmapKitData();
-				((KitmapKitData) kit).setArmor(InventoryUtils.itemStackArrayFromBase64(section.getString("armor")));
-			} else if(kitType.equals("SPECIAL")) {
-				kit = new KingKitData();
-				((KingKitData) kit).setArmor(InventoryUtils.itemStackArrayFromBase64(section.getString("armor")));
-			} else {
-				kit = new KitData();
-			}
-
+			KitData kit = new KitData();
+			kit.setType(kitType);
 			kit.setName(kitName);
 			kit.setDelay(section.getInt("delay"));
-			kit.setContents(InventoryUtils.itemStackArrayFromBase64(section.getString("contents")));
 			kit.setPermission("lazarus.kit." + kitName);
+			kit.setContents(InventoryUtils.itemStackArrayFromBase64(section.getString("contents")));
+			kit.setArmor(InventoryUtils.itemStackArrayFromBase64(section.getString("armor")));
 
             this.kits.add(kit);
 		});
@@ -102,15 +94,10 @@ public class KitsManager implements Listener, ManagerEnabler {
 	private void saveKits() {
 		this.kits.forEach(kit -> {
 			ConfigurationSection section = this.kitsFile.createSection(kit.getName());
-			section.set("type", kit.getType());
+			section.set("type", kit.getType().name());
 			section.set("delay", kit.getDelay());
 			section.set("contents", InventoryUtils.itemStackArrayToBase64(kit.getContents()));
-
-			if(kit instanceof KitmapKitData) {
-				section.set("armor", InventoryUtils.itemStackArrayToBase64(((KitmapKitData) kit).getArmor()));
-			} else if(kit instanceof KingKitData) {
-				section.set("armor", InventoryUtils.itemStackArrayToBase64(((KingKitData) kit).getArmor()));
-			}
+			section.set("armor", InventoryUtils.itemStackArrayToBase64(kit.getArmor()));
 		});
 
 		this.kitsFile.save();
@@ -158,20 +145,11 @@ public class KitsManager implements Listener, ManagerEnabler {
 
 		Inventory inventory = Bukkit.createInventory(null, 54, Color.translate("&3Kit: &c" + kit.getName()));
 		inventory.setContents(kit.getContents());
+		IntStream.rangeClosed(45, 48).forEach(i -> inventory.setItem(i, kit.getArmor()[i-45]));
 
 		ItemStack placeholder = new ItemBuilder(Material.STAINED_GLASS_PANE, 1, 7).setName(ChatColor.RED + "Kit Editor").build();
 		IntStream.rangeClosed(36, 44).forEach(i -> inventory.setItem(i, placeholder));
 		IntStream.rangeClosed(49, 51).forEach(i -> inventory.setItem(i, placeholder));
-
-		if(kit instanceof KitmapKitData) {
-			KitmapKitData kitmapKit = (KitmapKitData) kit;
-			IntStream.rangeClosed(45, 48).forEach(i -> inventory.setItem(i, kitmapKit.getArmor()[i-45]));
-		} else if(kit instanceof KingKitData) {
-			KingKitData kingKit = (KingKitData) kit;
-			IntStream.rangeClosed(45, 48).forEach(i -> inventory.setItem(i, kingKit.getArmor()[i-45]));
-		} else {
-			IntStream.rangeClosed(45, 48).forEach(i -> inventory.setItem(i, placeholder));
-		}
 
 		inventory.setItem(52, new ItemBuilder(Material.STAINED_CLAY, 1, 14).setName(ChatColor.RED + "Close Editor").build());
 		inventory.setItem(53, new ItemBuilder(Material.STAINED_CLAY, 1, 5).setName(ChatColor.GREEN + "Save Kit").build());
@@ -200,8 +178,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 		StringJoiner availableKits = new StringJoiner(Color.translate("&7, "));
 
 		this.kits.stream().sorted(Comparator.comparing(KitData::getName)).forEach(kit -> {
-			if(!player.hasPermission(kit.getPermission()) || kit instanceof KingKitData) return;
-			if(kit instanceof KitmapKitData && !Config.KITMAP_MODE_ENABLED) return;
+			if(!player.hasPermission(kit.getPermission()) || kit.getType() == KitType.SPECIAL) return;
 
 			if(this.isOnCooldown(player, kit)) {
 				if(kit.getDelay() == -1) return;
@@ -221,17 +198,12 @@ public class KitsManager implements Listener, ManagerEnabler {
 	}
 
 	public void giveKit(Player player, KitData kit, boolean sign) {
-		if(kit instanceof KingKitData) {
+		if(kit.getType() == KitType.SPECIAL) {
 			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_SPECIAL_EVENT_KIT);
 			return;
 		}
 
-		if(kit instanceof KitmapKitData && !sign) {
-			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_KITMAP_ONLY_KIT);
-			return;
-		}
-
-		if(!(kit instanceof KitmapKitData) && !this.hasKitPermission(player, kit) && kit.getDelay() != -1) {
+		if(kit.getType() != KitType.KITMAP && !this.hasKitPermission(player, kit) && kit.getDelay() != -1) {
 			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_NO_PERMISSION.replace("<kit>", kit.getName()));
             return;
 		}
@@ -240,16 +212,18 @@ public class KitsManager implements Listener, ManagerEnabler {
 
 		if(this.isOnCooldown(player, kit)) {
 			player.sendMessage(kit.getDelay() == -1
-            ? Language.KIT_PREFIX + Language.KITS_EXCEPTION_ONE_TIME_ONLY.replace("<kit>", kit.getName())
-			: Language.KIT_PREFIX + Language.KITS_EXCEPTION_COOLDOWN.replace("<kit>", kit.getName())
-            .replace("<time>", this.getCooldownString(data, kit)));
+            	? Language.KIT_PREFIX + Language.KITS_EXCEPTION_ONE_TIME_ONLY
+					.replace("<kit>", kit.getName())
+				: Language.KIT_PREFIX + Language.KITS_EXCEPTION_COOLDOWN
+					.replace("<kit>", kit.getName())
+            		.replace("<time>", this.getCooldownString(data, kit)));
             return;
 		}
 
 		this.applyKitCooldown(data, kit);
 		kit.applyKit(player);
 
-		if(!(kit instanceof KitmapKitData) && player.getInventory().firstEmpty() == -1) {
+		if(kit.getType() != KitType.KITMAP && player.getInventory().firstEmpty() == -1) {
 			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_FULL_INVENTORY);
 		}
 
@@ -258,13 +232,8 @@ public class KitsManager implements Listener, ManagerEnabler {
 	}
 
 	public void giveKitWithCommand(CommandSender sender, Player player, KitData kit) {
-		if(kit instanceof KingKitData) {
+		if(kit.getType() == KitType.SPECIAL) {
 			sender.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_SPECIAL_EVENT_KIT);
-			return;
-		}
-
-		if(kit instanceof KitmapKitData) {
-			sender.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_KITMAP_ONLY_KIT);
 			return;
 		}
 
@@ -326,18 +295,16 @@ public class KitsManager implements Listener, ManagerEnabler {
 		}
 
 		if(item.getItemMeta().getDisplayName().contains("Save Kit")) {
-			if(kit instanceof KitmapKitData || kit instanceof KingKitData) {
-				ItemStack[] armor = kit instanceof KitmapKitData
-					? ((KitmapKitData) kit).getArmor()
-					: ((KingKitData) kit).getArmor();
-
-				IntStream.rangeClosed(45, 48).forEach(i -> armor[i-45] = event.getInventory().getItem(i));
+			if(kit.getType() == KitType.KITMAP || kit.getType() == KitType.SPECIAL) {
 				IntStream.range(0, 36).forEach(i -> kit.getContents()[i] = event.getInventory().getItem(i));
 			} else {
 				ItemStack[] contents = new ItemStack[36];
 				System.arraycopy(event.getInventory().getContents(), 0, contents, 0, contents.length);
 				kit.setContents(InventoryUtils.getRealItems(contents));
 			}
+
+			ItemStack[] armor = kit.getArmor();
+			IntStream.rangeClosed(45, 48).forEach(i -> armor[i-45] = event.getInventory().getItem(i));
 
 			this.editingKits.remove(player.getUniqueId());
 			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EDIT_EDITED.replace("<kit>", kit.getName()));

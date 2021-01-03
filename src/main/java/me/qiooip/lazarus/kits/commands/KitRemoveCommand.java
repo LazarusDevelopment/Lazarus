@@ -3,9 +3,7 @@ package me.qiooip.lazarus.kits.commands;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.kits.kit.KingKitData;
 import me.qiooip.lazarus.kits.kit.KitData;
-import me.qiooip.lazarus.kits.kit.KitmapKitData;
 import org.bukkit.command.CommandSender;
 
 public class KitRemoveCommand extends SubCommand {
