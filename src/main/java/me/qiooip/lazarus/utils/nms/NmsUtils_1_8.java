@@ -344,8 +344,6 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         MobEffect mobEffect = new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier());
 
-        entityPlayer.removeEffect(mobEffect.getEffectId());
-
         if(Thread.currentThread() == this.getMainThread()) {
             entityPlayer.addEffect(mobEffect);
         } else {
