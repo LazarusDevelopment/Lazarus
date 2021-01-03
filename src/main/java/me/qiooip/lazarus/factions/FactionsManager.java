@@ -553,6 +553,19 @@ public class FactionsManager implements Listener {
         }
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
+        if(event.getReason() == LeaveReason.DISBAND) return;
+
+        Tasks.sync(() -> {
+            PlayerFaction faction = event.getFaction();
+
+            if(faction.getDtr() > faction.getMaxDtr()) {
+                faction.setDtr(faction.getMaxDtr());
+            }
+        });
+    }
+
     @EventHandler
     public void onFactionDtrChange(FactionDtrChangeEvent event) {
         DtrRegenTimer dtrRegenTimer = TimerManager.getInstance().getDtrRegenTimer();
