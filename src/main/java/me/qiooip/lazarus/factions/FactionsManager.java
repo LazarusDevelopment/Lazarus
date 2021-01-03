@@ -199,6 +199,14 @@ public class FactionsManager implements Listener {
             spawnFaction.setSafezone(true);
             spawnFaction.setDeathban(false);
         }
+
+        if(faction instanceof PlayerFaction) {
+            PlayerFaction playerFaction = (PlayerFaction) faction;
+
+            if(playerFaction.getDtr() > playerFaction.getMaxDtr()) {
+                playerFaction.setDtr(playerFaction.getMaxDtr());
+            }
+        }
     }
 
     protected void stripFactionColor(Faction faction) {
