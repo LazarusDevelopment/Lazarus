@@ -1,7 +1,5 @@
 package me.qiooip.lazarus.classes.manager;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.Archer;
@@ -11,6 +9,7 @@ import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.Rogue;
 import me.qiooip.lazarus.classes.event.PvpClassEquipEvent;
 import me.qiooip.lazarus.classes.event.PvpClassUnequipEvent;
+import me.qiooip.lazarus.classes.utils.PotionEffectRestorer;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
@@ -22,7 +21,6 @@ import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
 import me.qiooip.lazarus.utils.ManagerEnabler;
-import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
@@ -31,44 +29,32 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PotionEffectExpireEvent;
 import org.bukkit.event.inventory.EquipmentSetEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
 public class PvpClassManager implements Listener, ManagerEnabler {
 
-    @Getter private Miner miner;
+    private final PotionEffectRestorer potionEffectRestorer;
     private final List<PvpClass> pvpClasses;
-    private final Table<UUID, PotionEffectType, PotionEffect> restorers;
+    private Miner miner;
 
     public PvpClassManager() {
+        this.potionEffectRestorer = new PotionEffectRestorer(this);
         this.pvpClasses = new ArrayList<>();
-        this.restorers = HashBasedTable.create();
 
-        if(Config.ARCHER_ACTIVATED) {
-            this.registerPvpClass(new Archer(this));
-        }
-
-        if(Config.BARD_ACTIVATED) {
-            this.registerPvpClass(new Bard(this));
-        }
-
-        if(Config.MINER_ACTIVATED) {
-            this.registerPvpClass(this.miner = new Miner(this));
-        }
-
-        if(Config.ROGUE_ACTIVATED) {
-            this.registerPvpClass(new Rogue(this));
-        }
+        if(Config.ARCHER_ACTIVATED) this.registerPvpClass(new Archer(this));
+        if(Config.BARD_ACTIVATED) this.registerPvpClass(new Bard(this));
+        if(Config.MINER_ACTIVATED) this.registerPvpClass(this.miner = new Miner(this));
+        if(Config.ROGUE_ACTIVATED) this.registerPvpClass(new Rogue(this));
 
         Bukkit.getOnlinePlayers().forEach(player -> this.pvpClasses
             .forEach(pvpClass -> pvpClass.checkEquipmentChange(player)));
@@ -99,25 +85,6 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         }
 
         return null;
-    }
-
-    public PotionEffect getPotionEffect(Player player, PotionEffectType effectType) {
-        return restorers.remove(player.getUniqueId(), effectType);
-    }
-
-    public void addPotionEffect(Player player, PotionEffect toAdd) {
-        if(!player.hasPotionEffect(toAdd.getType())) {
-            NmsUtils.getInstance().addPotionEffect(player, toAdd);
-            return;
-        }
-
-        PotionEffect effect = NmsUtils.getInstance().getPotionEffect(player, toAdd.getType());
-
-        if(toAdd.getAmplifier() < effect.getAmplifier()) return;
-        if(toAdd.getAmplifier() == effect.getAmplifier() && toAdd.getDuration() < effect.getDuration()) return;
-
-        this.restorers.put(player.getUniqueId(), effect.getType(), effect);
-        NmsUtils.getInstance().addPotionEffect(player, toAdd);
     }
 
     private void increaseFactionLimit(PvpClass pvpClass, PlayerFaction faction) {
@@ -215,35 +182,14 @@ public class PvpClassManager implements Listener, ManagerEnabler {
             PvpClass pvpClass = this.getActivePvpClass(player);
             if(pvpClass == null) return;
 
-            pvpClass.getEffects().forEach(effect -> player.addPotionEffect(effect, true));
+            pvpClass.getEffects().forEach(effect -> NmsUtils.getInstance().addPotionEffect(player, effect));
 
             if(pvpClass instanceof Miner) {
                 Miner miner = (Miner) pvpClass;
                 int diamondsMined = player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE);
 
                 miner.getDiamondData(diamondsMined).forEach(data -> data.getEffects()
-                    .forEach(effect -> player.addPotionEffect(effect, true)));
-            }
-        });
-    }
-
-    @EventHandler
-    public void onPotionEffectExpire(PotionEffectExpireEvent event) {
-        if(!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
-
-        PotionEffect effect = this.getPotionEffect(player, ServerUtils.getEffect(event).getType());
-        if(effect == null) return;
-
-        Tasks.sync(() -> {
-            if(effect.getDuration() < 12_000) {
-                player.addPotionEffect(effect);
-            }
-
-            PvpClass pvpClass = this.getActivePvpClass(player);
-
-            if(pvpClass != null) {
-                pvpClass.getEffects().forEach(player::addPotionEffect);
+                    .forEach(effect -> NmsUtils.getInstance().addPotionEffect(player, effect)));
             }
         });
     }

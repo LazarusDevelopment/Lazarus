@@ -103,6 +103,7 @@ public class TimerManager {
 
         this.factionFreezeTimer.disable();
         this.factionRallyTimer.disable();
+        this.dtrRegenTimer.disable();
         this.cooldownTimer.disable();
         this.rankReviveTimer.disable();
         this.customTimer.disable();

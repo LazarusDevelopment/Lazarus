@@ -10,6 +10,7 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -95,10 +96,10 @@ public class Miner extends PvpClass {
         DiamondData diamondData = this.diamondData.get(diamonds);
         if(diamondData == null) return;
 
-        diamondData.getEffects().forEach(effect -> player.addPotionEffect(effect, true));
+        diamondData.getEffects().forEach(effect -> NmsUtils.getInstance().addPotionEffect(player, effect));
 
         Messages.sendMessage(Language.MINER_EFFECT_REWARD.replace("<player>",
-        player.getName()).replace("<name>", diamondData.getName()));
+            player.getName()).replace("<name>", diamondData.getName()));
     }
 
     @Getter

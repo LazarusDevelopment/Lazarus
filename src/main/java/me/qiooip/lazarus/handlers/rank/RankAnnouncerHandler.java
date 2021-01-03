@@ -7,7 +7,6 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -73,8 +72,13 @@ public class RankAnnouncerHandler extends Handler {
         playerNames.values().forEach(list -> list.forEach(joiner::add));
 
         if(joiner.length() != 0) {
-            Messages.sendMessage(Language.ONLINE_RANK_ANNOUNCER_MESSAGE.replace("<donators>", joiner.toString()));
+            Language.ONLINE_RANK_ANNOUNCER_MESSAGE.forEach(line ->
+                this.sendGlobalMessage(line.replace("<donators>", joiner.toString())));
         }
+    }
+
+    private void sendGlobalMessage(String message) {
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(message));
     }
 
     private void setupAnnouncementTask() {

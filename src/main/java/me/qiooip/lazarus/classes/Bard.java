@@ -14,8 +14,9 @@ import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
-import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.item.ItemUtils;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -97,7 +98,7 @@ public class Bard extends PvpClass {
         if(faction == null) {
             if(!item.isCanBardHimself()) return;
 
-            this.getManager().addPotionEffect(player, item.getPotionEffect());
+            NmsUtils.getInstance().addPotionEffect(player, item.getPotionEffect());
             return;
         }
 
@@ -105,13 +106,13 @@ public class Bard extends PvpClass {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
             if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-            this.getManager().addPotionEffect(member, item.getPotionEffect());
+            NmsUtils.getInstance().addPotionEffect(member, item.getPotionEffect());
         }
     }
 
     private void applyClickableEffect(Player player, PlayerFaction faction, BardClickableItem item) {
         if(item.isApplyToEnemy()) {
-            this.getManager().addPotionEffect(player, item.getPotionEffect());
+            NmsUtils.getInstance().addPotionEffect(player, item.getPotionEffect());
             int amountOfEnemies = 0;
 
             for(Entity nearby : player.getNearbyEntities(item.getDistance(), item.getDistance(), item.getDistance())) {
@@ -127,7 +128,7 @@ public class Bard extends PvpClass {
 
                 amountOfEnemies++;
 
-                this.getManager().addPotionEffect(enemy, item.getPotionEffect());
+                NmsUtils.getInstance().addPotionEffect(enemy, item.getPotionEffect());
                 TimerManager.getInstance().getCombatTagTimer().activate(enemy.getUniqueId());
 
                 enemy.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
@@ -145,7 +146,7 @@ public class Bard extends PvpClass {
                     if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
                     if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-                    this.getManager().addPotionEffect(member, item.getPotionEffect());
+                    NmsUtils.getInstance().addPotionEffect(member, item.getPotionEffect());
 
                     if(member != player) {
                         amountOfTeammates++;
@@ -167,7 +168,7 @@ public class Bard extends PvpClass {
                 player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
                 item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
 
-                this.getManager().addPotionEffect(player, item.getPotionEffect());
+                NmsUtils.getInstance().addPotionEffect(player, item.getPotionEffect());
             }
         }
     }

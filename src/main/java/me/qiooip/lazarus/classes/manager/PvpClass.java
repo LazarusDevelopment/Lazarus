@@ -100,14 +100,14 @@ public abstract class PvpClass implements Listener {
     }
 
     void deactivateClass(Player player, boolean disable) {
-        this.getEffects().forEach(effect -> NmsUtils.getInstance().removePotionEffect(player, effect));
+        this.getEffects().forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect));
 
         if(this instanceof Miner) {
 			Miner miner = (Miner) this;
             int diamondsMined = player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE);
 
-			miner.getDiamondData(diamondsMined).forEach(data ->
-			    data.getEffects().forEach(effect -> NmsUtils.getInstance().removePotionEffect(player, effect)));
+			miner.getDiamondData(diamondsMined).forEach(data -> data.getEffects()
+                .forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect)));
 		}
 
         if(!disable) {
@@ -120,7 +120,7 @@ public abstract class PvpClass implements Listener {
     protected void applyClickableEffect(Player player, ClickableItem clickable, boolean archer) {
         String effect = StringUtils.getPotionEffectName(clickable.getPotionEffect());
 
-        this.getManager().addPotionEffect(player, clickable.getPotionEffect());
+        NmsUtils.getInstance().addPotionEffect(player, clickable.getPotionEffect());
         ItemUtils.removeOneItem(player);
 
         String message = archer ? Language.ARCHER_CLICKABLE_ACTIVATED : Language.ROGUE_CLICKABLE_ACTIVATED;

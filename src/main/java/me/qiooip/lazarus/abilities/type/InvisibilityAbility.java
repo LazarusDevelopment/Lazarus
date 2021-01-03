@@ -1,7 +1,6 @@
 package me.qiooip.lazarus.abilities.type;
 
 import lombok.Getter;
-import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
@@ -61,8 +60,8 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
 
     public void hidePlayer(Player player, int duration) {
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, duration, 1);
-        Lazarus.getInstance().getPvpClassManager().addPotionEffect(player, effect);
 
+        NmsUtils.getInstance().addPotionEffect(player, effect);
         NmsUtils.getInstance().updateArmor(player, true);
 
         this.players.add(player.getUniqueId());
@@ -81,14 +80,7 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
         this.players.remove(player.getUniqueId());
 
         if(forced) {
-            PotionEffect effect = Lazarus.getInstance().getPvpClassManager()
-                .getPotionEffect(player, PotionEffectType.INVISIBILITY);
-
-            if(effect == null) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-            } else {
-                player.addPotionEffect(effect, true);
-            }
+            player.removePotionEffect(PotionEffectType.INVISIBILITY);
         }
 
         NmsUtils.getInstance().updateArmor(player, false);

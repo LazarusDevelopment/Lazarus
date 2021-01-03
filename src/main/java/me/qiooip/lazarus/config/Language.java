@@ -44,7 +44,7 @@ public class Language {
 
     public static String PLUGIN_RELOAD_MESSAGE;
 
-    public static String ONLINE_RANK_ANNOUNCER_MESSAGE;
+    public static List<String> ONLINE_RANK_ANNOUNCER_MESSAGE;
     public static String ONLINE_RANK_ANNOUNCER_DELIMITER;
 
     public static String ABILITIES_GLOBAL_COOLDOWN_ACTIVE;
@@ -1428,7 +1428,7 @@ public class Language {
 
         PLUGIN_RELOAD_MESSAGE = language.getString("PLUGIN_RELOAD_MESSAGE");
 
-        ONLINE_RANK_ANNOUNCER_MESSAGE = language.getString("ONLINE_RANK_ANNOUNCER.MESSAGE");
+        ONLINE_RANK_ANNOUNCER_MESSAGE = language.getStringList("ONLINE_RANK_ANNOUNCER.MESSAGE");
         ONLINE_RANK_ANNOUNCER_DELIMITER = language.getString("ONLINE_RANK_ANNOUNCER.DELIMITER");
 
         ABILITIES_GLOBAL_COOLDOWN_ACTIVE = language.getString("ABILITIES.GLOBAL_COOLDOWN.ACTIVE");

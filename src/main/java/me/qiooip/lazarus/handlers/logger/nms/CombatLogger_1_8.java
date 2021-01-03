@@ -11,6 +11,7 @@ import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import net.minecraft.server.v1_8_R3.DamageSource;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityDamageSourceIndirect;
@@ -61,6 +62,13 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
 
         this.setEquipment(0, CraftItemStack.asNMSCopy(player.getItemInHand()));
         IntStream.rangeClosed(0, 3).forEach(i -> this.setEquipment(i + 1, CraftItemStack.asNMSCopy(this.armor[i])));
+
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+
+        player.getActivePotionEffects().forEach(effect -> {
+            if(effect.getDuration() > 12000) return;
+            this.addEffect(entityPlayer.getEffect(MobEffectList.byId[effect.getType().getId()]));
+        });
 
         this.setCustomName(Config.COMBAT_LOGGER_NAME_FORMAT.replace("<player>", player.getName()));
         this.setCustomNameVisible(true);
@@ -136,8 +144,8 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
                 return;
             }
 
-            player.addPotionEffect(new PotionEffect(PotionEffectType.getById(nmsEffect.getEffectId()),
-            nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient()), true);
+            NmsUtils.getInstance().addPotionEffect(player, new PotionEffect(PotionEffectType.getById(nmsEffect
+                .getEffectId()), nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient()));
         });
     }
 
