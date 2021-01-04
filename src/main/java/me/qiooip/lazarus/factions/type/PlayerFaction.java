@@ -155,7 +155,7 @@ public class PlayerFaction extends Faction {
         return this.getDtr() <= 0;
     }
 
-    public boolean isRegenerating() {
+    public boolean isFrozen() {
         return TimerManager.getInstance().getFactionFreezeTimer().isActive(this.id);
     }
 
@@ -312,7 +312,7 @@ public class PlayerFaction extends Faction {
             || line.contains("<captains>") && captains.length() == 0
             || line.contains("<members>") && members.length() == 0
             || line.contains("<allies>") && allies.length() == 0
-            || line.contains("<regen-time>") && !this.isRegenerating());
+            || line.contains("<regen-time>") && !this.isFrozen());
 
         showMessage.forEach(line -> sender.sendMessage(line
             .replace("<faction>", this.getName(sender))

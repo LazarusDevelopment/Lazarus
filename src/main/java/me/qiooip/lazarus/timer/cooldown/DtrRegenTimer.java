@@ -21,7 +21,6 @@ public class DtrRegenTimer extends SystemTimer {
         super(executor, "DtrRegenTimer", 0, false);
 
         this.regeneratingFactions = new HashSet<>();
-        this.startRegenTask();
     }
 
     @Override
@@ -39,16 +38,12 @@ public class DtrRegenTimer extends SystemTimer {
         for(Faction faction : FactionsManager.getInstance().getFactions().values()) {
             if(!(faction instanceof PlayerFaction)) continue;
 
-            PlayerFaction playerFaction = (PlayerFaction) faction;
-
-            if(playerFaction.getDtr() < playerFaction.getMaxDtr() && !playerFaction.isRegenerating()) {
-                this.addFaction(playerFaction);
-            }
+            this.addFaction((PlayerFaction) faction);
         }
     }
 
     public void addFaction(PlayerFaction playerFaction) {
-        if(playerFaction.getDtr() < playerFaction.getMaxDtr()) {
+        if(playerFaction.getDtr() < playerFaction.getMaxDtr() && !playerFaction.isFrozen()) {
             this.regeneratingFactions.add(playerFaction);
         }
     }
@@ -72,6 +67,6 @@ public class DtrRegenTimer extends SystemTimer {
             } catch(Throwable t) {
                 t.printStackTrace();
             }
-        }, 0L, 60L, TimeUnit.SECONDS);
+        }, 1L, 1L, TimeUnit.MINUTES);
     }
 }
