@@ -140,7 +140,8 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
             MobEffect nmsEffect = this.getEffect(MobEffectList.byId[effect.getType().getId()]);
 
             if(nmsEffect == null) {
-                player.removePotionEffect(effect.getType());
+                Lazarus.getInstance().getPvpClassManager().getPotionEffectRestorer()
+                    .removePlayerEffect(player, effect.getType());
                 return;
             }
 

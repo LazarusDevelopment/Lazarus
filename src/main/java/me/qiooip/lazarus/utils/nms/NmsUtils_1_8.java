@@ -336,13 +336,15 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
         MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[type.getId()]);
 
         return new PotionEffect(PotionEffectType.getById(nmsEffect.getEffectId()),
-        nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient());
+            nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient());
     }
 
     @Override
     public void addPotionEffect(Player player, PotionEffect effect) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         MobEffect mobEffect = new MobEffect(effect.getType().getId(), effect.getDuration(), effect.getAmplifier());
+
+        entityPlayer.removeEffect(mobEffect.getEffectId());
 
         if(Thread.currentThread() == this.getMainThread()) {
             entityPlayer.addEffect(mobEffect);
@@ -352,14 +354,15 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     }
 
     @Override
-    public void removeInfinitePotionEffect(Player player, PotionEffect effect) {
+    public void removeInfinitePotionEffect(Player player, PotionEffect toRemove) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[effect.getType().getId()]);
+        MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[toRemove.getType().getId()]);
 
         if(nmsEffect == null) return;
-        if(effect.getAmplifier() != nmsEffect.getAmplifier() || nmsEffect.getDuration() < 12000) return;
+        if(toRemove.getAmplifier() != nmsEffect.getAmplifier() || nmsEffect.getDuration() < 12000) return;
 
-        entityPlayer.removeEffect(nmsEffect.getEffectId());
+        Lazarus.getInstance().getPvpClassManager().getPotionEffectRestorer()
+            .removePlayerEffect(player, toRemove.getType());
     }
 
     @Override

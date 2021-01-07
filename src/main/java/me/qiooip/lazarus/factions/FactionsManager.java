@@ -562,6 +562,11 @@ public class FactionsManager implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
+        Tasks.sync(() -> TimerManager.getInstance().getDtrRegenTimer().addFaction(event.getFaction()));
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
         if(event.getReason() == LeaveReason.DISBAND) return;
 

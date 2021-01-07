@@ -61,7 +61,7 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
 
     public void hidePlayer(Player player, int duration) {
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, duration, 1);
-
+        
         NmsUtils.getInstance().addPotionEffect(player, effect);
         NmsUtils.getInstance().updateArmor(player, true);
 
@@ -81,14 +81,8 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
         this.players.remove(player.getUniqueId());
 
         if(forced) {
-            PotionEffect effect = Lazarus.getInstance().getPvpClassManager()
-                .getPotionEffectRestorer().getPotionEffectToRestore(player, PotionEffectType.INVISIBILITY);
-
-            if(effect == null) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-            } else {
-                NmsUtils.getInstance().addPotionEffect(player, effect);
-            }
+            Lazarus.getInstance().getPvpClassManager().getPotionEffectRestorer()
+                .removePlayerEffect(player, PotionEffectType.INVISIBILITY);
         }
 
         NmsUtils.getInstance().updateArmor(player, false);

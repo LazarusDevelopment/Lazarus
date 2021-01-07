@@ -64,13 +64,15 @@ public class EconomyCommand extends BaseCommand {
             }
         }
 
-        sender.sendMessage(Language.PREFIX + Language.ECONOMY_BALANCE_CHANGED_STAFF.replace("<player>", target
-        .getName()).replace("<sender>", sender.getName()).replace("<amount>", String.valueOf(Lazarus
-        .getInstance().getEconomyManager().getBalance(target))));
+        sender.sendMessage(Language.PREFIX + Language.ECONOMY_BALANCE_CHANGED_STAFF
+            .replace("<player>", target.getName())
+            .replace("<sender>", sender.getName())
+            .replace("<amount>", String.valueOf(Lazarus.getInstance().getEconomyManager().getBalance(target))));
 
         if(target.isOnline()) {
-            target.getPlayer().sendMessage(Language.PREFIX + Language.ECONOMY_BALANCE_CHANGED.replace("<sender>", sender.getName())
-            .replace("<amount>", String.valueOf(Lazarus.getInstance().getEconomyManager().getBalance(target))));
+            target.getPlayer().sendMessage(Language.PREFIX + Language.ECONOMY_BALANCE_CHANGED
+                .replace("<sender>", sender.getName())
+                .replace("<amount>", String.valueOf(Lazarus.getInstance().getEconomyManager().getBalance(target))));
         }
     }
 }

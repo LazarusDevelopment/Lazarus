@@ -11,6 +11,7 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -172,7 +173,9 @@ public class Rogue extends PvpClass implements Listener {
             timer.activate(damager, "BACKSTAB", Config.ROGUE_BACKSTAB_COOLDOWN,
                 Language.PREFIX + Language.ROGUE_BACKSTAB_COOLDOWN_EXPIRED);
 
-            if(Config.ROGUE_BACKSTAB_EFFECTS_ENABLED) this.backstabEffects.forEach(damager::addPotionEffect);
+            if(Config.ROGUE_BACKSTAB_EFFECTS_ENABLED) {
+                this.backstabEffects.forEach(effect -> NmsUtils.getInstance().addPotionEffect(damager, effect));
+            }
         }
     }
 }

@@ -152,12 +152,13 @@ public class TimerManager {
     }
 
     private void initializeCustomAndFactionTimers() {
-        this.dtrRegenTimer = new DtrRegenTimer(this.executor);
-        this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
         this.factionRallyTimer = new FactionRallyTimer(this.executor);
         this.cooldownTimer = new CooldownTimer(this.executor);
         this.rankReviveTimer = new RankReviveTimer(this.executor);
         this.customTimer = new CustomTimer(this.executor);
+
+        this.dtrRegenTimer = new DtrRegenTimer(this.executor);
+        this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
 
         this.dtrRegenTimer.startRegenTask();
     }

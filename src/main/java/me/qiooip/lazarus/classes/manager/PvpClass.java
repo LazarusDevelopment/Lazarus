@@ -120,7 +120,7 @@ public abstract class PvpClass implements Listener {
     protected void applyClickableEffect(Player player, ClickableItem clickable, boolean archer) {
         String effect = StringUtils.getPotionEffectName(clickable.getPotionEffect());
 
-        NmsUtils.getInstance().addPotionEffect(player, clickable.getPotionEffect());
+        this.manager.addPotionEffect(player, clickable.getPotionEffect());
         ItemUtils.removeOneItem(player);
 
         String message = archer ? Language.ARCHER_CLICKABLE_ACTIVATED : Language.ROGUE_CLICKABLE_ACTIVATED;
