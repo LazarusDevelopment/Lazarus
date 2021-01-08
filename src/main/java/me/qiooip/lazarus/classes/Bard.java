@@ -73,12 +73,12 @@ public class Bard extends PvpClass {
 
     private BardClickableItem getClickableItem(ItemStack item) {
         return this.clickables.stream().filter(clickable -> clickable.getItem().getType() == item.getType()
-        && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+            && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
     }
 
     private BardHoldableItem getHoldableItem(ItemStack item) {
         return this.holdables.stream().filter(holdable -> holdable.getItem().getType() == item.getType()
-        && holdable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+            && holdable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
     }
 
     private double getPower(UUID uuid) {

@@ -1,6 +1,9 @@
 package me.qiooip.lazarus.commands;
 
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.classes.Miner;
+import me.qiooip.lazarus.classes.manager.PvpClass;
+import me.qiooip.lazarus.classes.manager.PvpClassType;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import org.bukkit.command.CommandSender;
 
@@ -14,6 +17,10 @@ public class MinerEffectsCommand extends BaseCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Lazarus.getInstance().getPvpClassManager().getMiner().sendEffectInfo(sender);
+        PvpClass pvpClass = Lazarus.getInstance().getPvpClassManager().getPvpClassByType(PvpClassType.MINER);
+
+        if(pvpClass instanceof Miner) {
+            ((Miner) pvpClass).sendEffectInfo(sender);
+        }
     }
 }

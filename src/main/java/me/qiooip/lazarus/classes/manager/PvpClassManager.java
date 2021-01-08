@@ -35,8 +35,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -44,37 +43,46 @@ import java.util.UUID;
 public class PvpClassManager implements Listener, ManagerEnabler {
 
     private final PotionEffectRestorer potionEffectRestorer;
-    private final List<PvpClass> pvpClasses;
-    private Miner miner;
+    private final Map<PvpClassType, PvpClass> pvpClasses;
 
     public PvpClassManager() {
         this.potionEffectRestorer = new PotionEffectRestorer(this);
-        this.pvpClasses = new ArrayList<>();
+        this.pvpClasses = new HashMap<>();
 
-        if(Config.ARCHER_ACTIVATED) this.registerPvpClass(new Archer(this));
-        if(Config.BARD_ACTIVATED) this.registerPvpClass(new Bard(this));
-        if(Config.MINER_ACTIVATED) this.registerPvpClass(this.miner = new Miner(this));
-        if(Config.ROGUE_ACTIVATED) this.registerPvpClass(new Rogue(this));
+        if(Config.ARCHER_ACTIVATED) this.registerPvpClass(PvpClassType.ARCHER, new Archer(this));
+        if(Config.BARD_ACTIVATED) this.registerPvpClass(PvpClassType.BARD, new Bard(this));
+        if(Config.MINER_ACTIVATED) this.registerPvpClass(PvpClassType.MINER, new Miner(this));
+        if(Config.ROGUE_ACTIVATED) this.registerPvpClass(PvpClassType.ROGUE, new Rogue(this));
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             this.removeInfiniteEffects(player);
-            this.pvpClasses.forEach(pvpClass -> pvpClass.checkEquipmentChange(player));
+            this.pvpClasses.values().forEach(pvpClass -> pvpClass.checkEquipmentChange(player));
         });
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void disable() {
-        this.pvpClasses.forEach(PvpClass::disable);
+        this.pvpClasses.values().forEach(PvpClass::disable);
         this.pvpClasses.clear();
     }
 
-    public void registerPvpClass(PvpClass pvpClass) {
-        this.pvpClasses.add(pvpClass);
+    public void registerPvpClass(PvpClassType type, PvpClass pvpClass) {
+        PvpClass currentPvpClass = this.getPvpClassByType(type);
+
+        if(currentPvpClass != null) {
+            currentPvpClass.disable();
+        }
+
+        this.pvpClasses.put(type, pvpClass);
+    }
+
+    public PvpClass getPvpClassByType(PvpClassType type) {
+        return this.pvpClasses.get(type);
     }
 
     public PvpClass getActivePvpClass(Player player) {
-        for(PvpClass pvpClass : this.pvpClasses) {
+        for(PvpClass pvpClass : this.pvpClasses.values()) {
             if(pvpClass.isActive(player)) return pvpClass;
         }
 
@@ -82,7 +90,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
     }
 
     public PvpClass getWarmupOrActivePvpClass(Player player) {
-        for(PvpClass pvpClass : this.pvpClasses) {
+        for(PvpClass pvpClass : this.pvpClasses.values()) {
             if(pvpClass.isWarmupOrActive(player)) return pvpClass;
         }
 
@@ -161,7 +169,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
     public void onFactionDisband(FactionDisbandEvent event) {
         if(!(event.getFaction() instanceof PlayerFaction)) return;
 
-        this.pvpClasses.forEach(pvpClass -> pvpClass.getFactionLimit().remove(event.getFaction().getId()));
+        this.pvpClasses.values().forEach(pvpClass -> pvpClass.getFactionLimit().remove(event.getFaction().getId()));
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -220,7 +228,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
     @EventHandler
     public void onEquipmentSet(EquipmentSetEvent event) {
-        for(PvpClass pvpClass : this.pvpClasses) {
+        for(PvpClass pvpClass : this.pvpClasses.values()) {
             pvpClass.checkEquipmentChange((Player) event.getHumanEntity());
         }
     }
@@ -230,7 +238,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         this.removeInfiniteEffects(event.getPlayer());
 
         if(event.getPlayer().hasPlayedBefore()) {
-            this.pvpClasses.forEach(pvpClass -> pvpClass.checkEquipmentChange(event.getPlayer()));
+            this.pvpClasses.values().forEach(pvpClass -> pvpClass.checkEquipmentChange(event.getPlayer()));
         }
     }
 

@@ -118,12 +118,13 @@ public class PotionEffectRestorer implements Listener {
     @EventHandler
     public void onPotionEffectAdd(PotionEffectAddEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
-
         Player player = (Player) event.getEntity();
-        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, event.getEffect().getType());
+
+        PotionEffect toAdd = ServerUtils.getEffect(event);
+        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, toAdd.getType());
 
         if(currentEffect != null) {
-            this.queueEffectRestore(player, event.getEffect(), currentEffect);
+            this.queueEffectRestore(player, toAdd, currentEffect);
         }
 
         this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects());

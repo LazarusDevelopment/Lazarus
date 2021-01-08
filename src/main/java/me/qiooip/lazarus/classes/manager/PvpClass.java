@@ -49,7 +49,6 @@ public abstract class PvpClass implements Listener {
 
     protected PvpClass(PvpClassManager manager, String name, Material helmet, Material chestplate, Material leggings, Material boots) {
         this.manager = manager;
-
         this.name = name;
 
         this.helmet = helmet;
@@ -125,8 +124,8 @@ public abstract class PvpClass implements Listener {
 
         String message = archer ? Language.ARCHER_CLICKABLE_ACTIVATED : Language.ROGUE_CLICKABLE_ACTIVATED;
 
-        player.sendMessage(Language.PREFIX + message.replace("<effect>", effect).replace("<seconds>",
-        String.valueOf(clickable.getPotionEffect().getDuration() / 20)));
+        player.sendMessage(Language.PREFIX + message.replace("<effect>", effect)
+            .replace("<seconds>", String.valueOf(clickable.getPotionEffect().getDuration() / 20)));
     }
 
     public boolean isActive(Player player) {

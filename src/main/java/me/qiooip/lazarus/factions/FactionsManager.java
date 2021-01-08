@@ -284,8 +284,7 @@ public class FactionsManager implements Listener {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
 
         return offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline()
-            ? this.getPlayerFaction(offlinePlayer.getUniqueId())
-            : null;
+            ? this.getPlayerFaction(offlinePlayer.getUniqueId()) : null;
     }
 
     public void setAllRaidable(boolean raidable) {
