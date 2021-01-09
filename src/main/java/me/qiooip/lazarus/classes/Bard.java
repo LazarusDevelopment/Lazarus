@@ -105,7 +105,7 @@ public class Bard extends PvpClass {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
             if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-            this.getManager().addPotionEffect(player, item.getPotionEffect());
+            this.getManager().addPotionEffect(member, item.getPotionEffect());
         }
     }
 
@@ -127,11 +127,11 @@ public class Bard extends PvpClass {
 
                 amountOfEnemies++;
 
-                this.getManager().addPotionEffect(player, item.getPotionEffect());
+                this.getManager().addPotionEffect(enemy, item.getPotionEffect());
                 TimerManager.getInstance().getCombatTagTimer().activate(enemy.getUniqueId());
 
-                enemy.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
-                item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
+                enemy.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS
+                    .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
             }
 
             player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_ENEMY
@@ -145,13 +145,13 @@ public class Bard extends PvpClass {
                     if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
                     if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-                    this.getManager().addPotionEffect(player, item.getPotionEffect());
+                    this.getManager().addPotionEffect(member, item.getPotionEffect());
 
                     if(member != player) {
                         amountOfTeammates++;
 
-                        member.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
-                        item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
+                        member.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS
+                            .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
                     }
                 }
 

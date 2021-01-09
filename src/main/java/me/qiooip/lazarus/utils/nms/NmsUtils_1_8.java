@@ -527,7 +527,9 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
         Channel channel = cplayer.getHandle().playerConnection.networkManager.channel;
         if(channel == null) return;
 
-        if(channel.pipeline().get(LISTENER_NAME) != null) channel.pipeline().remove(LISTENER_NAME);
+        if(channel.pipeline().get(LISTENER_NAME) != null) {
+            channel.pipeline().remove(LISTENER_NAME);
+        }
     }
 
     @Override

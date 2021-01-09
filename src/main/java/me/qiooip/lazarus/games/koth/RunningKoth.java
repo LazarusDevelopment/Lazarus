@@ -64,6 +64,8 @@ public class RunningKoth {
     }
 
     private void sendStartedCappingMessage(Player player) {
+        if(player == null) return;
+
         player.sendMessage(Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
         .parse(this, Language.KOTH_YOU_STARTED_CAPPING));
 

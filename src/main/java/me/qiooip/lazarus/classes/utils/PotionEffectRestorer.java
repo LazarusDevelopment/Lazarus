@@ -127,7 +127,7 @@ public class PotionEffectRestorer implements Listener {
             this.queueEffectRestore(player, toAdd, currentEffect);
         }
 
-        this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects());
+        Tasks.sync(() -> this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects()));
     }
 
     @EventHandler

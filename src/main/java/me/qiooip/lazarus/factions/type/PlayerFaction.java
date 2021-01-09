@@ -173,6 +173,10 @@ public class PlayerFaction extends Faction {
             : Math.min(Config.FACTION_MAX_DTR, this.members.size() * Config.FACTION_DTR_PER_PLAYER);
     }
 
+    public void setDtrOnLoad(double amount) {
+        this.dtr = amount;
+    }
+
     public void setDtr(double amount) {
         double currentDtr = this.dtr;
         double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
