@@ -33,7 +33,6 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     private static final String SB_LINE = Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH.toString() + "------";
     private static final ScoreboardInput EMPTY_INPUT = new ScoreboardInput("", "", "");
 
-    private final Object lock = new Object();
     private final Deque<ScoreboardInput> entries;
     private Set<String> lastEntries;
 
@@ -294,9 +293,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     private void updateAllTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {
         if(this.player == null || this.scoreboard == null) return;
 
-        synchronized(this.lock) {
-            if(this.player == null) return;
-
+        synchronized(this) {
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
             for(Player online : players) {
