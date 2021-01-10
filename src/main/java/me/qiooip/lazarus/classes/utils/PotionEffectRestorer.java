@@ -33,7 +33,7 @@ public class PotionEffectRestorer implements Listener {
     private final PvpClassManager pvpClassManager;
 
     private final Table<UUID, PotionEffectType, EffectRestore> restorers;
-    private final Map<UUID, Collection<PotionEffect>> playerEffectCache;
+    private final Map<UUID, PotionEffect[]> playerEffectCache;
 
     public PotionEffectRestorer(PvpClassManager pvpClassManager) {
         this.pvpClassManager = pvpClassManager;
@@ -78,31 +78,37 @@ public class PotionEffectRestorer implements Listener {
         PotionEffect effect = this.getPotionEffectToRestore(player, effectType);
         if(effect == null) return;
 
-        NmsUtils.getInstance().addPotionEffect(player, effect);
+        Tasks.sync(() -> NmsUtils.getInstance().addPotionEffect(player, effect));
     }
 
     private PotionEffect getPlayerPreviousEffect(Player player, PotionEffectType effectType) {
-        Collection<PotionEffect> playerEffects = this.playerEffectCache.get(player.getUniqueId());
-        if(playerEffects == null || playerEffects.isEmpty()) return null;
+        PotionEffect[] playerEffects = this.playerEffectCache.get(player.getUniqueId());
+        if(playerEffects == null) return null;
 
-        PotionEffect currentEffect = null;
-
-        for(PotionEffect effect : playerEffects) {
-            if(effect.getType().equals(effectType)) {
-                currentEffect = effect;
-                break;
-            }
-        }
-
-        return currentEffect;
+        return playerEffects[effectType.getId() - 1];
     }
 
     private void cachePlayerEffects(Player player) {
         Collection<PotionEffect> currentEffects = player.getActivePotionEffects();
+        PotionEffect[] effectCache = new PotionEffect[23];
 
-        if(!currentEffects.isEmpty()) {
-            this.playerEffectCache.put(player.getUniqueId(), currentEffects);
+        for(PotionEffect potionEffect : currentEffects) {
+            effectCache[potionEffect.getType().getId() - 1] = potionEffect;
         }
+
+        this.playerEffectCache.put(player.getUniqueId(), effectCache);
+    }
+
+    private void addPotionEffectToCache(Player player, PotionEffect potionEffect) {
+        PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+        effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+    }
+
+    private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {
+        PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+        if(effectCache == null) return;
+
+        effectCache[effectType.getId() - 1] = null;
     }
 
     public void removePlayerEffect(Player player, PotionEffectType effectType) {
@@ -115,7 +121,7 @@ public class PotionEffectRestorer implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPotionEffectAdd(PotionEffectAddEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
@@ -123,28 +129,41 @@ public class PotionEffectRestorer implements Listener {
         PotionEffect toAdd = ServerUtils.getEffect(event);
         PotionEffect currentEffect = this.getPlayerPreviousEffect(player, toAdd.getType());
 
+        this.addPotionEffectToCache(player, toAdd);
+
         if(currentEffect != null) {
             this.queueEffectRestore(player, toAdd, currentEffect);
         }
-
-        Tasks.sync(() -> this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects()));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPotionEffectExpire(PotionEffectExpireEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
 
-        this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects());
-        this.handleEffectRestore(player, ServerUtils.getEffect(event).getType());
+        Player player = (Player) event.getEntity();
+        PotionEffectType effectType = ServerUtils.getEffect(event).getType();
+
+        this.removePotionEffectFromCache(player, effectType);
+        this.handleEffectRestore(player, effectType);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPotionEffectRemove(PotionEffectRemoveEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
 
-        Tasks.sync(() -> this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects()));
+        UUID uuid = event.getEntity().getUniqueId();
+        PotionEffectType effectType = ServerUtils.getEffect(event).getType();
+
+        Tasks.sync(() -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if(player == null) return;
+
+            if(!player.hasPotionEffect(effectType)) {
+                this.removePotionEffectFromCache(player, effectType);
+            } else {
+                this.addPotionEffectToCache(player, NmsUtils.getInstance().getPotionEffect(player, effectType));
+            }
+        });
     }
 
     @EventHandler
