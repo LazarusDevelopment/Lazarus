@@ -109,8 +109,9 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
                 } else if(this.instance.getVanishManager().isVanished(player) && this.manager.isStaffSb(player)) {
                     scoreboard.add(Config.VANISH_PLACEHOLDER, "");
 
-                    scoreboard.add(Config.VISIBILITY_PLACEHOLDER, this.instance.getVanishManager()
-                    .isVanished(player) ? Config.STAFF_SB_VANISHED : Config.STAFF_SB_VISIBLE);
+                    scoreboard.add(Config.VISIBILITY_PLACEHOLDER, this.instance.getVanishManager().isVanished(player)
+                        ? Config.STAFF_SB_VANISHED
+                        : Config.STAFF_SB_VISIBLE);
 
                     scoreboard.addLine(ChatColor.DARK_AQUA);
                 }
@@ -156,7 +157,7 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
 
                     for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
                         scoreboard.add(ChatColor.GRAY.toString() + count + ". " + Config.CONQUEST_FACTION_FORMAT
-                        .replace("<faction>", entry.getKey().getName()),  entry.getValue() + "");
+                            .replace("<faction>", entry.getKey().getName()),  entry.getValue() + "");
 
                         if(++count == 4) break;
                     }

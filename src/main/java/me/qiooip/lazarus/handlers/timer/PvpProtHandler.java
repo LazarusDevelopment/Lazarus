@@ -73,7 +73,7 @@ public class PvpProtHandler extends Handler implements Listener {
 
     private void sendDelayedMessage(Player player, String message) {
         if(this.messageDelays.containsKey(player.getUniqueId()) && (this.messageDelays
-        .get(player.getUniqueId()) - System.currentTimeMillis() > 0)) return;
+            .get(player.getUniqueId()) - System.currentTimeMillis() > 0)) return;
 
         player.sendMessage(message);
         this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 3000L);

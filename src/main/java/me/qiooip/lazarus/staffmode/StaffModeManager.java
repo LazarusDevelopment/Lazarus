@@ -1,6 +1,5 @@
 package me.qiooip.lazarus.staffmode;
 
-
 import com.google.common.collect.Iterables;
 import lombok.Getter;
 import lombok.Setter;

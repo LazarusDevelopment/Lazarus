@@ -42,6 +42,7 @@ public class Bard extends PvpClass {
     private final List<BardClickableItem> clickables;
     private final List<BardHoldableItem> holdables;
 
+    private final Map<UUID, Long> messageDelays;
     private final BardHoldableTask holdableTask;
 
     public Bard(PvpClassManager manager) {
@@ -57,6 +58,7 @@ public class Bard extends PvpClass {
         this.clickables = PvpClassUtils.loadBardClickableItems();
         this.holdables = PvpClassUtils.loadBardHoldableItems();
 
+        this.messageDelays = new HashMap<>();
         this.holdableTask = new BardHoldableTask();
     }
 
@@ -172,28 +174,41 @@ public class Bard extends PvpClass {
         }
     }
 
-    private boolean canBard(Player player) {
+    private boolean canBard(Player player, boolean holdable) {
         if(Lazarus.getInstance().getStaffModeManager().isInStaffModeOrVanished(player)) {
-            player.sendMessage(Language.PREFIX + Language.BARD_VANISHED_OR_IN_STAFFMODE);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_VANISHED_OR_IN_STAFFMODE, holdable);
             return false;
         }
 
         if(TimerManager.getInstance().getPvpProtTimer().isActive(player)) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_WITH_PVP_TIMER);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_CAN_NOT_BARD_WITH_PVP_TIMER, holdable);
             return false;
         }
 
         if(ClaimManager.getInstance().getFactionAt(player).isSafezone()) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_IN_SAFEZONE);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_CAN_NOT_BARD_IN_SAFEZONE, holdable);
             return false;
         }
 
         if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(player)) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_WHEN_SOTW_NOT_ENABLED);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_CAN_NOT_BARD_WHEN_SOTW_NOT_ENABLED, holdable);
             return false;
         }
 
         return true;
+    }
+
+    protected void sendDelayedMessage(Player player, String message, boolean holdable) {
+        if(!holdable) {
+            player.sendMessage(message);
+            return;
+        }
+
+        if(this.messageDelays.containsKey(player.getUniqueId()) && (this.messageDelays
+            .get(player.getUniqueId()) - System.currentTimeMillis() > 0)) return;
+
+        player.sendMessage(message);
+        this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 4000L);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -202,7 +217,7 @@ public class Bard extends PvpClass {
         if(!this.isActive(player)) return;
 
         BardHoldableItem holdableItem = this.getHoldableItem(player.getItemInHand());
-        if(holdableItem == null || !this.canBard(player)) return;
+        if(holdableItem == null || !this.canBard(player, true)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         this.applyHoldableEffect(player, faction, holdableItem);
@@ -218,7 +233,7 @@ public class Bard extends PvpClass {
         Player player = event.getPlayer();
 
         BardClickableItem clickableItem = this.getClickableItem(event.getItem());
-        if(clickableItem == null || !this.canBard(player)) return;
+        if(clickableItem == null || !this.canBard(player, false)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
@@ -265,7 +280,7 @@ public class Bard extends PvpClass {
                 if(player == null) return;
 
                 BardHoldableItem holdableItem = getHoldableItem(player.getItemInHand());
-                if(holdableItem == null || !canBard(player)) return;
+                if(holdableItem == null || !canBard(player, true)) return;
 
                 PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
                 applyHoldableEffect(player, faction, holdableItem);
