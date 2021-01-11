@@ -28,6 +28,7 @@ import java.util.function.Predicate;
 
 public class PotionEffectRestorer implements Listener {
 
+    private static final long INFINITE_DURATION = 12_000L;
     private final PvpClassManager pvpClassManager;
 
     private final Table<UUID, PotionEffectType, EffectRestore> restorers;
@@ -69,7 +70,7 @@ public class PotionEffectRestorer implements Listener {
         PvpClass pvpClass = this.pvpClassManager.getActivePvpClass(player);
         Predicate<Player> condition = futurePlayer -> true;
 
-        if(currentEffect.getDuration() > 12_000 && pvpClass != null) {
+        if(currentEffect.getDuration() > INFINITE_DURATION && pvpClass != null) {
             condition = futurePlayer -> pvpClass.isActive(futurePlayer);
         }
 
@@ -79,6 +80,12 @@ public class PotionEffectRestorer implements Listener {
     private void handleEffectRestore(Player player, PotionEffectType effectType) {
         PotionEffect effect = this.getPotionEffectToRestore(player, effectType);
         if(effect == null) return;
+
+//        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, effectType);
+//
+//        if(currentEffect != null
+//            && effect.getDuration() > INFINITE_DURATION
+//            && currentEffect.getDuration() > INFINITE_DURATION) return;
 
         Tasks.sync(() -> NmsUtils.getInstance().addPotionEffect(player, effect));
     }
@@ -145,8 +152,8 @@ public class PotionEffectRestorer implements Listener {
         Player player = (Player) event.getEntity();
         PotionEffectType effectType = ServerUtils.getEffect(event).getType();
 
-        this.removePotionEffectFromCache(player, effectType);
         this.handleEffectRestore(player, effectType);
+        this.removePotionEffectFromCache(player, effectType);
     }
 
     @EventHandler(ignoreCancelled = true)

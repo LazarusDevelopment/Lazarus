@@ -99,6 +99,10 @@ public abstract class PvpClass implements Listener {
     }
 
     void deactivateClass(Player player, boolean disable) {
+        if(!disable) {
+            this.players.remove(player.getUniqueId());
+        }
+
         this.getEffects().forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect));
 
         if(this instanceof Miner) {
@@ -108,10 +112,6 @@ public abstract class PvpClass implements Listener {
 			miner.getDiamondData(diamondsMined).forEach(data -> data.getEffects()
                 .forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect)));
 		}
-
-        if(!disable) {
-            this.players.remove(player.getUniqueId());
-        }
 
         new PvpClassUnequipEvent(player.getUniqueId(), this);
     }
