@@ -17,8 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PotionEffectAddEvent;
 import org.bukkit.event.entity.PotionEffectExpireEvent;
 import org.bukkit.event.entity.PotionEffectRemoveEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -48,6 +46,10 @@ public class PotionEffectRestorer implements Listener {
     public void disable() {
         this.restorers.clear();
         this.playerEffectCache.clear();
+    }
+
+    public void removeEffectCache(Player player) {
+        this.playerEffectCache.remove(player.getUniqueId());
     }
 
     public PotionEffect getPotionEffectToRestore(Player player, PotionEffectType effectType) {
@@ -88,7 +90,7 @@ public class PotionEffectRestorer implements Listener {
         return playerEffects[effectType.getId() - 1];
     }
 
-    private void cachePlayerEffects(Player player) {
+    public void cachePlayerEffects(Player player) {
         Collection<PotionEffect> currentEffects = player.getActivePotionEffects();
         PotionEffect[] effectCache = new PotionEffect[23];
 
@@ -164,16 +166,6 @@ public class PotionEffectRestorer implements Listener {
                 this.addPotionEffectToCache(player, NmsUtils.getInstance().getPotionEffect(player, effectType));
             }
         });
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        this.cachePlayerEffects(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        this.playerEffectCache.remove(event.getPlayer().getUniqueId());
     }
 
     @Getter

@@ -236,6 +236,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         this.removeInfiniteEffects(event.getPlayer());
+        this.potionEffectRestorer.cachePlayerEffects(event.getPlayer());
 
         if(event.getPlayer().hasPlayedBefore()) {
             this.pvpClasses.values().forEach(pvpClass -> pvpClass.checkEquipmentChange(event.getPlayer()));
@@ -245,6 +246,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        this.potionEffectRestorer.removeEffectCache(player);
 
         PvpClassWarmupTimer warmupTimer = TimerManager.getInstance().getPvpClassWarmupTimer();
 
@@ -257,6 +259,10 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
         if(pvpClass != null) {
             pvpClass.deactivateClass(player, false);
+
+            if(pvpClass instanceof Bard) {
+                ((Bard) pvpClass).removePlayerMessageDelays(player);
+            }
         }
     }
 }

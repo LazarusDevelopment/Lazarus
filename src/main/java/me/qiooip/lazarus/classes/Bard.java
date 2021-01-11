@@ -211,6 +211,10 @@ public class Bard extends PvpClass {
         this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 4000L);
     }
 
+    public void removePlayerMessageDelays(Player player) {
+        this.messageDelays.remove(player.getUniqueId());
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
