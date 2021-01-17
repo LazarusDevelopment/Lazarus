@@ -69,7 +69,7 @@ public class BlockEventListener implements Listener {
             if(this.playerCanBreakInWarzone(location)) return true;
 
             if(Config.KITMAP_MODE_ENABLED && interactEvent && NmsUtils.getInstance()
-            .getKitmapClickables().contains(location.getBlock().getType())) return true;
+                .getKitmapClickables().contains(location.getBlock().getType())) return true;
         }
 
         if(message != null) {

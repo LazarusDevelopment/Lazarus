@@ -134,11 +134,11 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
             Material.BIRCH_FENCE_GATE, Material.ACACIA_FENCE_GATE);
 
         this.exoticBoneClickables = EnumSet.of(Material.CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
-                Material.DROPPER, Material.DISPENSER, Material.TRAP_DOOR, Material.WORKBENCH,
-                Material.ENDER_CHEST, Material.ACACIA_DOOR, Material.BIRCH_DOOR, Material.DARK_OAK_DOOR,
-                Material.JUNGLE_DOOR, Material.SPRUCE_DOOR, Material.WOODEN_DOOR, Material.FENCE_GATE,
-                Material.ACACIA_FENCE_GATE, Material.BIRCH_FENCE_GATE, Material.DARK_OAK_FENCE_GATE,
-                Material.JUNGLE_FENCE_GATE, Material.SPRUCE_FENCE_GATE);
+            Material.DROPPER, Material.DISPENSER, Material.TRAP_DOOR, Material.WORKBENCH,
+            Material.ENDER_CHEST, Material.ACACIA_DOOR, Material.BIRCH_DOOR, Material.DARK_OAK_DOOR,
+            Material.JUNGLE_DOOR, Material.SPRUCE_DOOR, Material.WOODEN_DOOR, Material.FENCE_GATE,
+            Material.ACACIA_FENCE_GATE, Material.BIRCH_FENCE_GATE, Material.DARK_OAK_FENCE_GATE,
+            Material.JUNGLE_FENCE_GATE, Material.SPRUCE_FENCE_GATE);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
 

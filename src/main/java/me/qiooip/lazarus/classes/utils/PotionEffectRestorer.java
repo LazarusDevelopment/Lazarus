@@ -60,7 +60,9 @@ public class PotionEffectRestorer implements Listener {
 
     private void queueEffectRestore(Player player, PotionEffect toAdd, PotionEffect current) {
         int durationDiff = toAdd.getDuration() - current.getDuration();
+
         if(toAdd.getAmplifier() == current.getAmplifier() && durationDiff < 5) return;
+        if(current.getDuration() < INFINITE_DURATION && toAdd.getAmplifier() <= current.getAmplifier()) return;
 
         EffectRestore effectRestore = this.createEffectRestore(player, current);
         this.restorers.put(player.getUniqueId(), current.getType(), effectRestore);
@@ -80,12 +82,6 @@ public class PotionEffectRestorer implements Listener {
     private void handleEffectRestore(Player player, PotionEffectType effectType) {
         PotionEffect effect = this.getPotionEffectToRestore(player, effectType);
         if(effect == null) return;
-
-//        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, effectType);
-//
-//        if(currentEffect != null
-//            && effect.getDuration() > INFINITE_DURATION
-//            && currentEffect.getDuration() > INFINITE_DURATION) return;
 
         Tasks.sync(() -> NmsUtils.getInstance().addPotionEffect(player, effect));
     }
