@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.scoreboard.nms;
 
 import com.lunarclient.bukkitapi.LunarClientAPI;
+import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
@@ -41,8 +42,6 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     private final AtomicBoolean update;
     private final AtomicBoolean lastLine;
 
-    private final int maxSize;
-
     private Team members;
     private Team archers;
     private Team focused;
@@ -51,6 +50,8 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
     private Team sotw;
     private Team staff;
     private Team invis;
+
+    @Setter private int maxSize;
 
     public PlayerScoreboard_1_8(Player player) {
         super(player, NmsUtils.getInstance().getPlayerScoreboard(player));

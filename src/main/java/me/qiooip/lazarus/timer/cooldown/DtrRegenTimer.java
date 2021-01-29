@@ -5,6 +5,7 @@ import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.type.SystemTimer;
+import me.qiooip.lazarus.utils.Tasks;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -55,9 +56,11 @@ public class DtrRegenTimer extends SystemTimer {
     private void handleDtrUpdate() {
         if(this.regeneratingFactions.isEmpty()) return;
 
-        for(PlayerFaction faction : new ArrayList<>(this.regeneratingFactions)) {
-            faction.setDtr(faction.getDtr() + Config.FACTION_DTR_REGEN_PER_MINUTE);
-        }
+        Tasks.async(() -> {
+            for(PlayerFaction faction : new ArrayList<>(this.regeneratingFactions)) {
+                faction.setDtr(faction.getDtr() + Config.FACTION_DTR_REGEN_PER_MINUTE);
+            }
+        });
     }
 
     private ScheduledFuture<?> scheduleExpiry() {
