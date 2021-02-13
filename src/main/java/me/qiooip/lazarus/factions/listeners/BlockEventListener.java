@@ -57,7 +57,7 @@ public class BlockEventListener implements Listener {
             Material.CHEST, Material.ENCHANTMENT_TABLE, Material.ANVIL, Material.BEACON);
     }
 
-    private boolean checkPlayerBuild(Player player, Location location, String message, boolean interactEvent) {
+    public boolean checkPlayerBuild(Player player, Location location, String message, boolean interactEvent) {
         if(player.hasPermission("lazarus.factions.bypass") && player.getGameMode() == GameMode.CREATIVE) return true;
 
         Faction factionAt = ClaimManager.getInstance().getFactionAt(location);
