@@ -3,6 +3,7 @@ package me.qiooip.lazarus.games.loot;
 import lombok.Getter;
 import lombok.Setter;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -37,12 +38,7 @@ public class LootData {
 
         for(int i = 0; i < amount; i++) {
             index = random.nextInt(this.items.length);
-
-            if(player.getInventory().firstEmpty() == -1) {
-                player.getWorld().dropItemNaturally(player.getLocation(), this.getItems()[index]);
-            } else {
-                player.getInventory().addItem(this.getItems()[index]);
-            }
+            PlayerUtils.addToInventoryOrDropToFloor(player, this.getItems()[index]);
         }
     }
 
@@ -51,12 +47,7 @@ public class LootData {
 
         for(int i = 0; i < amount; i++) {
             index = i % this.getItems().length;
-
-            if(player.getInventory().firstEmpty() == -1) {
-                player.getWorld().dropItemNaturally(player.getLocation(), this.getItems()[index]);
-            } else {
-                player.getInventory().addItem(this.getItems()[index]);
-            }
+            PlayerUtils.addToInventoryOrDropToFloor(player, this.getItems()[index]);
         }
     }
 }

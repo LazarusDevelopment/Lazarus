@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.kits.kit.KitData;
 import me.qiooip.lazarus.kits.kit.KitType;
 import me.qiooip.lazarus.userdata.Userdata;
@@ -42,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class KitsManager implements Listener, ManagerEnabler {
@@ -49,6 +51,8 @@ public class KitsManager implements Listener, ManagerEnabler {
 	private final ConfigFile kitsFile;
 
 	private final List<KitData> kits;
+	private final Map<String, List<String>> kitFormatOverrides;
+
 	private final Map<UUID, String> editingKits;
 	private final Map<Location, KitData> kitSignCache;
 	
@@ -56,9 +60,12 @@ public class KitsManager implements Listener, ManagerEnabler {
 		this.kitsFile = new ConfigFile("kits.yml");
 
 		this.kits = new ArrayList<>();
+		this.kitFormatOverrides = new HashMap<>();
+
 		this.editingKits = new HashMap<>();
 		this.kitSignCache = new HashMap<>();
 
+		this.loadKitFormats();
 		this.loadKits();
 		
 		Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
@@ -70,6 +77,14 @@ public class KitsManager implements Listener, ManagerEnabler {
 		this.kits.clear();
 		this.editingKits.clear();
 		this.kitSignCache.clear();
+	}
+
+	private void loadKitFormats() {
+		ConfigurationSection section = Lazarus.getInstance().getConfig()
+			.getConfigurationSection("KITS.KIT_SIGN_FORMAT_OVERRIDES");
+
+		section.getKeys(false).forEach(kitName -> this.kitFormatOverrides.put(kitName.toUpperCase(),
+			section.getStringList(kitName).stream().map(Color::translate).collect(Collectors.toList())));
 	}
 	
 	private void loadKits() {
@@ -94,6 +109,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 	private void saveKits() {
 		this.kits.forEach(kit -> {
 			ConfigurationSection section = this.kitsFile.createSection(kit.getName());
+
 			section.set("type", kit.getType().name());
 			section.set("delay", kit.getDelay());
 			section.set("contents", InventoryUtils.itemStackArrayToBase64(kit.getContents()));
@@ -103,12 +119,14 @@ public class KitsManager implements Listener, ManagerEnabler {
 		this.kitsFile.save();
 	}
 	
-	public void createKit(String name, int delay) {
+	public void createKit(String name, KitType kitType, int delay) {
 		KitData kit = new KitData();
 		kit.setName(name);
+		kit.setType(kitType);
 		kit.setDelay(delay);
 		kit.setPermission("lazarus.kit." + name);
 		kit.setContents(new ItemStack[36]);
+		kit.setArmor(new ItemStack[4]);
 
         this.kits.add(kit);
 	}
@@ -125,6 +143,13 @@ public class KitsManager implements Listener, ManagerEnabler {
 	}
 
 	private boolean hasKitPermission(Player player, KitData kit) {
+		if(player.isOp()) return true;
+		if(kit.getType() == KitType.SPECIAL) return false;
+
+		if(kit.getType() == KitType.KITMAP) {
+			return Config.KITMAP_MODE_ENABLED;
+		}
+
 	    return player.hasPermission(kit.getPermission()) || player.hasPermission("lazarus.kit.*");
     }
 
@@ -178,10 +203,9 @@ public class KitsManager implements Listener, ManagerEnabler {
 		StringJoiner availableKits = new StringJoiner(Color.translate("&7, "));
 
 		this.kits.stream().sorted(Comparator.comparing(KitData::getName)).forEach(kit -> {
-			if(!player.hasPermission(kit.getPermission()) || kit.getType() == KitType.SPECIAL) return;
+			if(!this.hasKitPermission(player, kit)) return;
 
 			if(this.isOnCooldown(player, kit)) {
-				if(kit.getDelay() == -1) return;
 				availableKits.add(Color.translate("&c" + kit.getName()));
 				return;
 			}
@@ -197,15 +221,15 @@ public class KitsManager implements Listener, ManagerEnabler {
 		sender.sendMessage(Language.KITS_LIST_FORMAT.replace("<kits>", availableKits.toString()));
 	}
 
-	public void giveKit(Player player, KitData kit, boolean sign) {
-		if(kit.getType() == KitType.SPECIAL) {
-			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_SPECIAL_EVENT_KIT);
+	public void giveKit(Player player, KitData kit) {
+		if(!this.hasKitPermission(player, kit)) {
+			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_NO_PERMISSION.replace("<kit>", kit.getName()));
 			return;
 		}
 
-		if(kit.getType() != KitType.KITMAP && !this.hasKitPermission(player, kit) && kit.getDelay() != -1) {
-			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_NO_PERMISSION.replace("<kit>", kit.getName()));
-            return;
+		if(kit.getType() == KitType.KITMAP && !ClaimManager.getInstance().getFactionAt(player).isSafezone()) {
+			player.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_KITMAP_ONLY_IN_SAFEZONE);
+			return;
 		}
 
 		Userdata data = Lazarus.getInstance().getUserdataManager().getUserdata(player);
@@ -215,8 +239,7 @@ public class KitsManager implements Listener, ManagerEnabler {
             	? Language.KIT_PREFIX + Language.KITS_EXCEPTION_ONE_TIME_ONLY
 					.replace("<kit>", kit.getName())
 				: Language.KIT_PREFIX + Language.KITS_EXCEPTION_COOLDOWN
-					.replace("<kit>", kit.getName())
-            		.replace("<time>", this.getCooldownString(data, kit)));
+					.replace("<kit>", kit.getName()).replace("<time>", this.getCooldownString(data, kit)));
             return;
 		}
 
@@ -232,11 +255,6 @@ public class KitsManager implements Listener, ManagerEnabler {
 	}
 
 	public void giveKitWithCommand(CommandSender sender, Player player, KitData kit) {
-		if(kit.getType() == KitType.SPECIAL) {
-			sender.sendMessage(Language.KIT_PREFIX + Language.KITS_EXCEPTION_SPECIAL_EVENT_KIT);
-			return;
-		}
-
 		kit.applyKit(player);
 
         if(player.getInventory().firstEmpty() == -1) {
@@ -251,22 +269,33 @@ public class KitsManager implements Listener, ManagerEnabler {
 			.replace("<player>", player.getName()));
 	}
 
-	private void setKitmapSignFormat(String kit, String color, SignChangeEvent event) {
-		event.setLine(0, "");
-		event.setLine(1, color + kit);
-		event.setLine(2, color + "Kit");
-		event.setLine(3, "");
-	}
+	private KitData getKitFromSign(Sign sign) {
+		KitData kitData = null;
+		int kitNameIndex = -1;
 
-	private String getColor(String kit) {
-		switch(kit.toUpperCase()) {
-			case "ARCHER": return Config.ARCHER_SIGN_COLOR;
-			case "BARD": return Config.BARD_SIGN_COLOR;
-			case "BUILDER": return Config.BUILDER_SIGN_COLOR;
-			case "DIAMOND": return Config.DIAMOND_SIGN_COLOR;
-			case "ROGUE": return Config.ROGUE_SIGN_COLOR;
-			default: return null;
+		for(int i = 0; i < 4; i++) {
+			String kitNameLine = sign.getLine(i);
+			String kitName = Color.strip(kitNameLine);
+
+			kitData = this.getKit(kitName);
+
+			if(kitData != null) {
+				kitNameIndex = i;
+				break;
+			}
 		}
+
+		if(kitData == null) return null;
+
+		List<String> kitFormat = this.kitFormatOverrides
+			.getOrDefault(kitData.getName().toUpperCase(), Config.KIT_SIGN_FORMAT);
+
+		for(int i = 0; i < 4; i++) {
+			if(i == kitNameIndex) continue;
+			if(!sign.getLine(i).equals(kitFormat.get(i))) return null;
+		}
+
+		return kitData;
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -274,9 +303,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 		if(!(event.getWhoClicked() instanceof Player)) return;
 
 		Player player = (Player) event.getWhoClicked();
-
-		if(!this.isEditingKit(player)) return;
-		if(event.getSlotType() == InventoryType.SlotType.OUTSIDE) return;
+		if(!this.isEditingKit(player) || event.getSlotType() == InventoryType.SlotType.OUTSIDE) return;
 
 		KitData kit = this.getKit(this.editingKits.get(player.getUniqueId()));
 		if(kit == null) return;
@@ -286,8 +313,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 		}
 
 		ItemStack item = event.getCurrentItem();
-		if(item == null || !item.hasItemMeta()) return;
-		if(!item.getItemMeta().hasDisplayName()) return;
+		if(item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 
 		if(item.getItemMeta().getDisplayName().contains("Close Editor")) {
 			Tasks.sync(() -> player.closeInventory());
@@ -320,56 +346,34 @@ public class KitsManager implements Listener, ManagerEnabler {
 		KitData kit = this.getKit(Config.KITS_FIRST_JOIN_KIT);
 		if(kit == null) return;
 
-		Tasks.syncLater(() -> this.giveKit(event.getPlayer(), kit, false), 5L);
+		Tasks.syncLater(() -> this.giveKit(event.getPlayer(), kit), 5L);
 	}
 
 	@EventHandler
 	public void onSighChange(SignChangeEvent event) {
 		if(!event.getPlayer().hasPermission("lazarus.kits.sign.create")) return;
 
-		int titleSignLine;
+		int kitNameLine = -1;
 
-		if(StringUtils.containsIgnoreCase(event.getLine(0), "kit")) {
-			titleSignLine = 1;
-		} else if(StringUtils.containsIgnoreCase(event.getLine(1), "kit")) {
-			titleSignLine = 2;
-		} else if(StringUtils.containsIgnoreCase(event.getLine(2), "kit")) {
-			titleSignLine = 3;
-		} else {
+		for(int i = 0; i < 3; i++) {
+			if(StringUtils.containsIgnoreCase(event.getLine(i), "kit")) {
+				kitNameLine = i + 1;
+				break;
+			}
+		}
+
+		if(kitNameLine == -1) {
 			return;
 		}
 
-		String kitName = event.getLine(titleSignLine);
+		KitData kit = this.getKit(event.getLine(kitNameLine));
+		if(kit == null) return;
 
-		switch(kitName.toLowerCase()) {
-			case "archer": {
-				this.setKitmapSignFormat("Archer", Config.ARCHER_SIGN_COLOR, event);
-				break;
-			}
-			case "bard": {
-				this.setKitmapSignFormat("Bard", Config.BARD_SIGN_COLOR, event);
-				break;
-			}
-			case "builder": {
-				this.setKitmapSignFormat("Builder", Config.BUILDER_SIGN_COLOR, event);
-				break;
-			}
-			case "diamond": {
-				this.setKitmapSignFormat("Diamond", Config.DIAMOND_SIGN_COLOR, event);
-				break;
-			}
-			case "rogue": {
-				this.setKitmapSignFormat("Rogue", Config.ROGUE_SIGN_COLOR, event);
-				break;
-			}
-			default: {
-				KitData regularKit = this.getKit(kitName);
-				if(regularKit == null) return;
+		List<String> kitFormat = this.kitFormatOverrides
+			.getOrDefault(kit.getName().toUpperCase(), Config.KIT_SIGN_FORMAT);
 
-				for(int i = 0; i < 4; i++) {
-					event.setLine(i, Config.REGULAR_KIT_SIGN_FORMAT.get(i).replace("<kitName>", regularKit.getName()));
-				}
-			}
+		for(int i = 0; i < 4; i++) {
+			event.setLine(i, kitFormat.get(i).replace("<kitName>", kit.getName()));
 		}
 	}
 
@@ -383,22 +387,9 @@ public class KitsManager implements Listener, ManagerEnabler {
 		if(kitData == null) {
 			Sign sign = (Sign) event.getClickedBlock().getState();
 
-			if(sign.getLine(1).equalsIgnoreCase(Config.REGULAR_KIT_SIGN_FORMAT.get(1))) {
-				String kitNameLine = sign.getLine(2);
-				String kitName = Color.strip(kitNameLine);
-
-				kitData = this.getKit(kitName);
-			} else {
-				String kitNameLine = sign.getLine(1);
-				String kitName = Color.strip(kitNameLine);
-
-				String kitColor = this.getColor(kitName);
-				if(kitColor == null || !kitNameLine.startsWith(Color.translate(kitColor))) return;
-
-				kitData = this.getKit(kitName);
-			}
-
+			kitData = this.getKitFromSign(sign);
 			if(kitData == null) return;
+
 			this.kitSignCache.put(sign.getLocation(), kitData);
 		}
 
@@ -408,7 +399,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 		}
 
 		event.setCancelled(true);
-		this.giveKit(event.getPlayer(), kitData, true);
+		this.giveKit(event.getPlayer(), kitData);
 	}
 
 	@EventHandler

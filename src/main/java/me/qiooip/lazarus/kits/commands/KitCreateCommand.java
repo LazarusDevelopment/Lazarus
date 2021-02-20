@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.kits.kit.KitData;
+import me.qiooip.lazarus.kits.kit.KitType;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,15 +31,25 @@ public class KitCreateCommand extends SubCommand {
             return;
 		}
 
-		int delay = StringUtils.parseSeconds(args[1]);
+		KitType kitType = KitType.fromName(args[1].toUpperCase());
 
-		if(delay == -1) {
-			sender.sendMessage(Language.KIT_PREFIX + Language.COMMANDS_INVALID_DURATION);
+		if(kitType == null || kitType == KitType.SPECIAL) {
+			player.sendMessage(Language.KIT_PREFIX + Language.KITS_CREATE_INVALID_KIT_TYPE.replace("<type>", args[1]));
 			return;
 		}
 
-		Lazarus.getInstance().getKitsManager().createKit(args[0], delay);
+		Integer delay = StringUtils.tryParseInteger(args[2]);
 
+		if(delay == null || delay != -1) {
+			delay = StringUtils.parseSeconds(args[2]);
+
+			if(delay == -1) {
+				sender.sendMessage(Language.KIT_PREFIX + Language.COMMANDS_INVALID_DURATION);
+				return;
+			}
+		}
+
+		Lazarus.getInstance().getKitsManager().createKit(args[0], kitType, delay);
 		player.sendMessage(Language.KIT_PREFIX + Language.KITS_CREATE_CREATED.replace("<kit>", args[0]));
 	}
 }

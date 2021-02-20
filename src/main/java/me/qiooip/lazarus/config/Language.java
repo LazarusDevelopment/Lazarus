@@ -1046,11 +1046,11 @@ public class Language {
     public static String KITS_EXCEPTION_ALREADY_EXISTS;
     public static String KITS_EXCEPTION_DOESNT_EXISTS;
     public static String KITS_EXCEPTION_FULL_INVENTORY;
-    public static String KITS_EXCEPTION_KITMAP_ONLY_KIT;
-    public static String KITS_EXCEPTION_SPECIAL_EVENT_KIT;
+    public static String KITS_EXCEPTION_KITMAP_ONLY_IN_SAFEZONE;
 
     public static String KITS_CREATE_USAGE;
     public static String KITS_CREATE_CREATED;
+    public static String KITS_CREATE_INVALID_KIT_TYPE;
 
     public static String KITS_EDIT_USAGE;
     public static String KITS_EDIT_EDITED;
@@ -1062,7 +1062,6 @@ public class Language {
 
     public static String KITS_REMOVE_USAGE;
     public static String KITS_REMOVE_REMOVED;
-    public static String KITS_REMOVE_CANNOT_REMOVE_KITMAP_KIT;
     public static String KITS_REMOVE_CANNOT_REMOVE_SPECIAL_EVENT_KIT;
 
     public static String KITS_SET_DELAY_USAGE;
@@ -2433,11 +2432,11 @@ public class Language {
         KITS_EXCEPTION_ALREADY_EXISTS = language.getString("KITS.EXCEPTION.ALREADY_EXISTS");
         KITS_EXCEPTION_DOESNT_EXISTS = language.getString("KITS.EXCEPTION.DOESNT_EXISTS");
         KITS_EXCEPTION_FULL_INVENTORY = language.getString("KITS.EXCEPTION.FULL_INVENTORY");
-        KITS_EXCEPTION_KITMAP_ONLY_KIT = language.getString("KITS.EXCEPTION.KITMAP_ONLY_KIT");
-        KITS_EXCEPTION_SPECIAL_EVENT_KIT = language.getString("KITS.EXCEPTION.SPECIAL_EVENT_KIT");
+        KITS_EXCEPTION_KITMAP_ONLY_IN_SAFEZONE = language.getString("KITS.EXCEPTION.KITMAP_ONLY_IN_SAFEZONE");
 
         KITS_CREATE_USAGE = language.getString("KITS.CREATE_COMMAND.USAGE");
         KITS_CREATE_CREATED = language.getString("KITS.CREATE_COMMAND.CREATED");
+        KITS_CREATE_INVALID_KIT_TYPE = language.getString("KITS.CREATE_COMMAND.INVALID_KIT_TYPE");
 
         KITS_EDIT_USAGE = language.getString("KITS.EDIT_COMMAND.USAGE");
         KITS_EDIT_EDITED = language.getString("KITS.EDIT_COMMAND.EDITED");
@@ -2449,7 +2448,6 @@ public class Language {
 
         KITS_REMOVE_USAGE = language.getString("KITS.REMOVE_COMMAND.USAGE");
         KITS_REMOVE_REMOVED = language.getString("KITS.REMOVE_COMMAND.REMOVED");
-        KITS_REMOVE_CANNOT_REMOVE_KITMAP_KIT = language.getString("KITS.REMOVE_COMMAND.CANNOT_REMOVE_KITMAP_KIT");
         KITS_REMOVE_CANNOT_REMOVE_SPECIAL_EVENT_KIT = language.getString("KITS.REMOVE_COMMAND.CANNOT_REMOVE_SPECIAL_EVENT_KIT");
 
         KITS_SET_DELAY_USAGE = language.getString("KITS.SET_DELAY_COMMAND.USAGE");

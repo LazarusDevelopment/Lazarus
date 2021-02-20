@@ -46,7 +46,7 @@ public class KitCommandExecutor extends SubCommandExecutor {
 
             if(kit != null && sender instanceof Player) {
                 Player player = (Player) sender;
-                Lazarus.getInstance().getKitsManager().giveKit(player, kit, false);
+                Lazarus.getInstance().getKitsManager().giveKit(player, kit);
                 return true;
             }
 
