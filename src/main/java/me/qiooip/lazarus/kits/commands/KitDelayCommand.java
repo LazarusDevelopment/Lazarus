@@ -28,16 +28,20 @@ public class KitDelayCommand extends SubCommand {
 			return;
 		}
 
-		int delay = StringUtils.parseSeconds(args[1]);
+		Integer delay = StringUtils.tryParseInteger(args[1]);
 
-		if(delay == -1) {
-			sender.sendMessage(Language.KIT_PREFIX + Language.COMMANDS_INVALID_DURATION);
-			return;
+		if(delay == null || delay != -1) {
+			delay = StringUtils.parseSeconds(args[1]);
+
+			if(delay == -1) {
+				sender.sendMessage(Language.KIT_PREFIX + Language.COMMANDS_INVALID_DURATION);
+				return;
+			}
 		}
 
 		kit.setDelay(delay);
 
 		sender.sendMessage(Language.KIT_PREFIX + Language.KITS_SET_DELAY_CHANGED.replace("<kit>", args[0])
-		.replace("<delay>", DurationFormatUtils.formatDurationWords(delay * 1000L, true, true)));
+			.replace("<delay>", DurationFormatUtils.formatDurationWords(delay * 1000L, true, true)));
 	}
 }

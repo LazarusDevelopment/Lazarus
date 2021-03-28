@@ -3,6 +3,7 @@ package me.qiooip.lazarus.handlers.salvage;
 import com.google.common.collect.Iterables;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Bukkit;
@@ -30,14 +31,14 @@ public class SalvageHandler extends Handler implements Listener {
         ItemStack recipeReference = new ItemBuilder(handItem.clone()).setDurability(0).build();
 
         ShapedRecipe recipe = (ShapedRecipe) Bukkit.getRecipesFor(recipeReference).stream()
-        .filter(r -> r instanceof ShapedRecipe).findFirst().orElse(null);
+            .filter(r -> r instanceof ShapedRecipe).findFirst().orElse(null);
 
         if(recipe == null) return;
 
         ItemUtils.removeOneItem(player);
 
         double salvagePercentage = (double) (handItem.getType().getMaxDurability()
-        - handItem.getDurability()) / handItem.getType().getMaxDurability();
+            - handItem.getDurability()) / handItem.getType().getMaxDurability();
 
         Collection<ItemStack> ingredients = recipe.getIngredientMap().values();
         Map<Material, Integer> toAdd = new EnumMap<>(Material.class);
@@ -51,14 +52,11 @@ public class SalvageHandler extends Handler implements Listener {
             int roundedAmount = (int) Math.round(Math.max(1, amount * salvagePercentage));
             ItemStack itemStack = new ItemBuilder(material, roundedAmount).build();
 
-            if(player.getInventory().firstEmpty() == -1) {
-                player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
-            } else {
-                player.getInventory().addItem(itemStack);
-            }
+            PlayerUtils.addToInventoryOrDropToFloor(player, itemStack);
 
-            message.add(Language.SALVAGE_INGREDIENT_FORMAT.replace("<amount>", String.valueOf(itemStack
-            .getAmount())).replace("<material>", ItemUtils.getItemName(itemStack)));
+            message.add(Language.SALVAGE_INGREDIENT_FORMAT
+                .replace("<amount>", String.valueOf(itemStack.getAmount()))
+                .replace("<material>", ItemUtils.getItemName(itemStack)));
         });
 
         this.dropRandomEnchantedBook(player, handItem, message);
@@ -79,11 +77,7 @@ public class SalvageHandler extends Handler implements Listener {
         ItemStack bookItemStack = new ItemBuilder(Material.ENCHANTED_BOOK)
             .addStoredEnchantment(enchantment.getKey(), enchantment.getValue()).build();
 
-        if(player.getInventory().firstEmpty() == -1) {
-            player.getWorld().dropItemNaturally(player.getLocation(), bookItemStack);
-        } else {
-            player.getInventory().addItem(bookItemStack);
-        }
+        PlayerUtils.addToInventoryOrDropToFloor(player, bookItemStack);
 
         message.add(Language.SALVAGE_INGREDIENT_FORMAT
             .replace("<amount>", "1")

@@ -2,6 +2,7 @@ package me.qiooip.lazarus.handlers.block;
 
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.handlers.manager.Handler;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.GameMode;
@@ -59,11 +60,7 @@ public class AutoSmeltHandler extends Handler implements Listener {
 
     private void handleItemDrops(Player player, Block block, ItemStack drop, int expToDrop) {
         if(Lazarus.getInstance().getSotwHandler().isActive()) {
-            if(player.getInventory().firstEmpty() == -1) {
-                block.getWorld().dropItemNaturally(block.getLocation(), drop);
-            } else {
-                player.getInventory().addItem(drop);
-            }
+            PlayerUtils.addToInventoryOrDropToFloor(player, drop);
         } else {
             block.getWorld().dropItemNaturally(block.getLocation(), drop);
         }

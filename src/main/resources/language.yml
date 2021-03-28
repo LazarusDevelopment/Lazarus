@@ -1706,13 +1706,14 @@ KITS:
   COMMAND_USAGE_ADMIN:
     - "&7&m                                                                                "
     - " &6&lKit management"
-    - "  &e/kit create <name> <delay>"
+    - "  &e/kit create <name> <type> <delay>"
     - "  &e/kit delay <name> <delay>"
     - "  &e/kit remove <name>"
     - "  &e/kit give <player> <kit>"
     - "  &e/kit edit <name>"
     - "  &e/kit list"
     - ""
+    - " &7* Type can be &eNORMAL &7or &eKITMAP&7!"
     - " &7* Set delay to &c-1 &7for one use only kits"
     - "&7&m                                                                                "
   APPLIED_OTHERS: "&eYou have applied kit &c<kit> &eto &c<player>&e."
@@ -1724,11 +1725,11 @@ KITS:
     ALREADY_EXISTS: "&eKit &c<kit> &ealready exists!"
     DOESNT_EXISTS: "&eKit with name &c<kit> &edoes not exists!"
     FULL_INVENTORY: "&eYour &cinventory &eis full. Dropping some items on the &cfloor&e!"
-    KITMAP_ONLY_KIT: "&eThis kit is only obtainable via &ckitmap &esigns."
-    SPECIAL_EVENT_KIT: "&eThis is &cspecial event &ekit. Not obtainable!"
+    KITMAP_ONLY_IN_SAFEZONE: "&eThis kit is only obtainable in &6Safezones&e."
   CREATE_COMMAND:
     USAGE: "&cUsage: /kit create <name> <delay>"
     CREATED: "&eKit &c<kit> &ehas been created."
+    INVALID_KIT_TYPE: "&eKit type '&c<type>&e' is not valid."
   EDIT_COMMAND:
     USAGE: "&cUsage: /kit edit <kit>"
     EDITED: "&eKit &c<kit> &ehas been edited."
@@ -1740,7 +1741,6 @@ KITS:
   REMOVE_COMMAND:
     USAGE: "&cUsage: /kit remove <kit>"
     REMOVED: "&eKit &c<kit> &ehas been removed."
-    CANNOT_REMOVE_KITMAP_KIT: "&eYou cannot remove &ckitmap &ekits!"
     CANNOT_REMOVE_SPECIAL_EVENT_KIT: "&eYou cannot remove &cspecial event &ekits!"
   SET_DELAY_COMMAND:
     USAGE: "&cUsage: /kit setdelay <kit> <delay>"

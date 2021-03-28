@@ -688,22 +688,39 @@ KITS:
   FIRST_JOIN_KIT_ENABLED: true
   # First join kit
   FIRST_JOIN_KIT: "Starter"
-  # Kitmap archer kit sign color
-  ARCHER_SIGN_COLOR: "&5&l"
-  # Kitmap bard kit sign color
-  BARD_SIGN_COLOR: "&6&l"
-  # Kitmap builder kit sign color
-  BUILDER_SIGN_COLOR: "&7&l"
-  # Kitmap diamond kit sign color
-  DIAMOND_SIGN_COLOR: "&b&l"
-  # Kitmap rogue kit sign color
-  ROGUE_SIGN_COLOR: "&c&l"
   # Regular kits sign format
-  REGULAR_KIT_SIGN_FORMAT:
+  KIT_SIGN_FORMAT:
     - ""
     - "&a[Kit]"
     - "&7<kitName>"
     - ""
+  # Kit sign overridden formats
+  KIT_SIGN_FORMAT_OVERRIDES:
+    ARCHER:
+      - ""
+      - "&7&lKit"
+      - "&5&lArcher"
+      - ""
+    BARD:
+      - ""
+      - "&7&lKit"
+      - "&6&lBard"
+      - ""
+    BUILDER:
+      - ""
+      - "&7&lKit"
+      - "&e&lBuilder"
+      - ""
+    DIAMOND:
+      - ""
+      - "&7&lKit"
+      - "&b&lDiamond"
+      - ""
+    ROGUE:
+      - ""
+      - "&7&lKit"
+      - "&c&lRogue"
+      - ""
 
 #=========================================================#
 #             Inventory restore configuration             #

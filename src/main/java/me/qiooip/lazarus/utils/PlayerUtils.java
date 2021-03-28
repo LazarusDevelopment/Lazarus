@@ -49,6 +49,14 @@ public class PlayerUtils {
         return removed;
     }
 
+    public static void addToInventoryOrDropToFloor(Player player, ItemStack itemStack) {
+        if(player.getInventory().firstEmpty() == -1) {
+            player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
+        } else {
+            player.getInventory().addItem(itemStack);
+        }
+    }
+
     public static void sendToServer(Player player, String serverName) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");

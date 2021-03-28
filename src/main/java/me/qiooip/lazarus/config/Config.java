@@ -225,12 +225,7 @@ public class Config {
 
     public static boolean KITS_FIRST_JOIN_KIT_ENABLED;
     public static String KITS_FIRST_JOIN_KIT;
-    public static String ARCHER_SIGN_COLOR;
-    public static String BARD_SIGN_COLOR;
-    public static String BUILDER_SIGN_COLOR;
-    public static String DIAMOND_SIGN_COLOR;
-    public static String ROGUE_SIGN_COLOR;
-    public static List<String> REGULAR_KIT_SIGN_FORMAT;
+    public static List<String> KIT_SIGN_FORMAT;
 
     public static boolean BLOCKED_COMMANDS_DISABLE_COLON;
     public static List<String> BLOCKED_COMMANDS;
@@ -717,12 +712,7 @@ public class Config {
 
         KITS_FIRST_JOIN_KIT_ENABLED = config.getBoolean("KITS.FIRST_JOIN_KIT_ENABLED");
         KITS_FIRST_JOIN_KIT = config.getString("KITS.FIRST_JOIN_KIT");
-        ARCHER_SIGN_COLOR = config.getString("KITS.ARCHER_SIGN_COLOR");
-        BARD_SIGN_COLOR = config.getString("KITS.BARD_SIGN_COLOR");
-        BUILDER_SIGN_COLOR = config.getString("KITS.BUILDER_SIGN_COLOR");
-        DIAMOND_SIGN_COLOR = config.getString("KITS.DIAMOND_SIGN_COLOR");
-        ROGUE_SIGN_COLOR = config.getString("KITS.ROGUE_SIGN_COLOR");
-        REGULAR_KIT_SIGN_FORMAT = config.getStringList("KITS.REGULAR_KIT_SIGN_FORMAT");
+        KIT_SIGN_FORMAT = config.getStringList("KITS.KIT_SIGN_FORMAT");
 
         BLOCKED_COMMANDS_DISABLE_COLON = config.getBoolean("BLOCKED_COMMANDS.DISABLE_COLON");
         BLOCKED_COMMANDS = config.getStringList("BLOCKED_COMMANDS.COMMANDS");

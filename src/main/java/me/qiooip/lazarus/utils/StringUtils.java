@@ -128,6 +128,14 @@ public class StringUtils {
         }
     }
 
+    public static Integer tryParseInteger(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch(NumberFormatException e) {
+            return null;
+        }
+    }
+
     public static boolean isBoolean(String value) {
         return "true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value);
     }
