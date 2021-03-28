@@ -56,9 +56,9 @@ public class CombatLoggerHandler extends Handler implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if(this.kickAll || player.getHealth() == 0.0) return;
+        if(this.kickAll || player.getHealth() == 0.0 || player.hasPermission("lazarus.combatlogger.bypass")) return;
 
-        if(player.hasPermission("lazarus.combatlogger.bypass") || player.hasMetadata("logout")) {
+        if(player.hasMetadata("logout")) {
             player.removeMetadata("logout", Lazarus.getInstance());
             return;
         }

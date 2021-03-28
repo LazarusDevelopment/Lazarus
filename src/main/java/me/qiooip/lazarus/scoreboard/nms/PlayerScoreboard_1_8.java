@@ -206,6 +206,8 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
             this.entries.addLast(new ScoreboardInput(value.substring(0,
             value.length() - 16), value.substring(value.length() - 16), time));
         } else {
+            value = value.substring(value.length() - 32);
+
             this.entries.addLast(new ScoreboardInput(value.substring(0, 16),
             value.substring(16, 32), time));
         }
