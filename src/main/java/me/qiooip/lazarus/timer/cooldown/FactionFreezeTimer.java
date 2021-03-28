@@ -42,9 +42,10 @@ public class FactionFreezeTimer extends SystemTimer {
 
         section.getKeys(false).forEach(key -> {
             UUID uuid = UUID.fromString(key);
+            PlayerFaction faction = FactionsManager.getInstance().getPlayerFactionByUuid(uuid);
 
-            if(FactionsManager.getInstance().getPlayerFactionByUuid(uuid) != null) {
-                this.activate(uuid, (int) section.getLong(key) / 1000);
+            if(faction != null) {
+                this.activate(faction, (int) section.getLong(key) / 1000);
             }
         });
     }
@@ -57,19 +58,15 @@ public class FactionFreezeTimer extends SystemTimer {
 
     public void activate(PlayerFaction playerFaction) {
         this.cancel(playerFaction.getId());
-        this.activate(playerFaction.getId(), this.delay);
-
-        TimerManager.getInstance().getDtrRegenTimer().removeFaction(playerFaction);
+        this.activate(playerFaction, this.delay);
     }
 
     public void activate(PlayerFaction playerFaction, int delay) {
-        this.activate(playerFaction.getId(), delay);
-        TimerManager.getInstance().getDtrRegenTimer().removeFaction(playerFaction);
-    }
+        UUID factionId = playerFaction.getId();
+        if(delay <= 0 || this.isActive(factionId)) return;
 
-    public void activate(UUID uuid, int delay) {
-        if(delay <= 0 || this.isActive(uuid)) return;
-        this.factions.put(uuid, this.scheduleExpiry(uuid, delay));
+        this.factions.put(factionId, this.scheduleExpiry(factionId, delay));
+        TimerManager.getInstance().getDtrRegenTimer().removeFaction(playerFaction);
     }
 
     public void cancel(PlayerFaction playerFaction) {

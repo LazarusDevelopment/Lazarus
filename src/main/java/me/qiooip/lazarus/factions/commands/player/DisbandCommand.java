@@ -32,7 +32,7 @@ public class DisbandCommand extends SubCommand {
             return;
         }
 
-        if(!Config.FACTION_DISBAND_WHILE_FROZEN && faction.isRegenerating()) {
+        if(!Config.FACTION_DISBAND_WHILE_FROZEN && faction.isFrozen()) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_CANNOT_DISBAND_WHILE_REGENERATING);
             return;
         }

@@ -16,6 +16,8 @@ import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -155,7 +157,7 @@ public class PlayerFaction extends Faction {
         return this.getDtr() <= 0;
     }
 
-    public boolean isRegenerating() {
+    public boolean isFrozen() {
         return TimerManager.getInstance().getFactionFreezeTimer().isActive(this.id);
     }
 
@@ -173,12 +175,23 @@ public class PlayerFaction extends Faction {
             : Math.min(Config.FACTION_MAX_DTR, this.members.size() * Config.FACTION_DTR_PER_PLAYER);
     }
 
+    public void setDtrOnLoad(double amount) {
+        this.dtr = amount;
+    }
+
     public void setDtr(double amount) {
         double currentDtr = this.dtr;
         double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
 
         this.dtr = Math.round(newDtr * 100) / 100.0;
-        new FactionDtrChangeEvent(this, currentDtr, this.dtr);
+
+        if(currentDtr != this.dtr) {
+            if(Thread.currentThread() != NmsUtils.getInstance().getMainThread()) {
+                new FactionDtrChangeEvent(this, currentDtr, this.dtr);
+            } else {
+                Tasks.async(() ->  new FactionDtrChangeEvent(this, currentDtr, this.dtr));
+            }
+        }
     }
 
     public String getMaxDtrString() {
@@ -312,7 +325,7 @@ public class PlayerFaction extends Faction {
             || line.contains("<captains>") && captains.length() == 0
             || line.contains("<members>") && members.length() == 0
             || line.contains("<allies>") && allies.length() == 0
-            || line.contains("<regen-time>") && !this.isRegenerating());
+            || line.contains("<regen-time>") && !this.isFrozen());
 
         showMessage.forEach(line -> sender.sendMessage(line
             .replace("<faction>", this.getName(sender))

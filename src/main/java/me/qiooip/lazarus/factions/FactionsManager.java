@@ -276,8 +276,7 @@ public class FactionsManager implements Listener {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
 
         return offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline()
-            ? this.getPlayerFaction(offlinePlayer.getUniqueId())
-            : null;
+            ? this.getPlayerFaction(offlinePlayer.getUniqueId()) : null;
     }
 
     public void setAllRaidable(boolean raidable) {
@@ -551,6 +550,24 @@ public class FactionsManager implements Listener {
         if(event.getFaction() instanceof PlayerFaction) {
             timerManager.getDtrRegenTimer().removeFaction((PlayerFaction) event.getFaction());
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
+        Tasks.sync(() -> TimerManager.getInstance().getDtrRegenTimer().addFaction(event.getFaction()));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
+        if(event.getReason() == LeaveReason.DISBAND) return;
+
+        Tasks.sync(() -> {
+            PlayerFaction faction = event.getFaction();
+
+            if(faction.getDtr() > faction.getMaxDtr()) {
+                faction.setDtr(faction.getMaxDtr());
+            }
+        });
     }
 
     @EventHandler

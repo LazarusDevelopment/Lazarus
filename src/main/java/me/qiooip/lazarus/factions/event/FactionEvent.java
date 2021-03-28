@@ -7,7 +7,13 @@ class FactionEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    FactionEvent() { }
+    protected FactionEvent() {
+        super();
+    }
+
+    protected FactionEvent(boolean isAsync) {
+        super(isAsync);
+    }
 
     @Override
     public HandlerList getHandlers() { return handlers; }

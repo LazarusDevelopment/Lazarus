@@ -63,9 +63,9 @@ public class TimerManager {
     private AppleTimer appleTimer;
     private GAppleTimer gAppleTimer;
 
+    private DtrRegenTimer dtrRegenTimer;
     private FactionFreezeTimer factionFreezeTimer;
     private FactionRallyTimer factionRallyTimer;
-    private DtrRegenTimer dtrRegenTimer;
     private CooldownTimer cooldownTimer;
     private RankReviveTimer rankReviveTimer;
     private CustomTimer customTimer;
@@ -101,9 +101,9 @@ public class TimerManager {
         this.gAppleTimer.disable();
         this.pvpClassWarmupTimer.disable();
 
+        this.dtrRegenTimer.disable();
         this.factionFreezeTimer.disable();
         this.factionRallyTimer.disable();
-        this.dtrRegenTimer.disable();
         this.cooldownTimer.disable();
         this.rankReviveTimer.disable();
         this.customTimer.disable();
@@ -152,11 +152,14 @@ public class TimerManager {
     }
 
     private void initializeCustomAndFactionTimers() {
-        this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
         this.factionRallyTimer = new FactionRallyTimer(this.executor);
-        this.dtrRegenTimer = new DtrRegenTimer(this.executor);
         this.cooldownTimer = new CooldownTimer(this.executor);
         this.rankReviveTimer = new RankReviveTimer(this.executor);
         this.customTimer = new CustomTimer(this.executor);
+
+        this.dtrRegenTimer = new DtrRegenTimer(this.executor);
+        this.factionFreezeTimer = new FactionFreezeTimer(this.executor);
+
+        this.dtrRegenTimer.startRegenTask();
     }
 }

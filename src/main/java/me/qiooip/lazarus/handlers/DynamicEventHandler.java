@@ -27,7 +27,6 @@ import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,7 +51,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -197,18 +195,6 @@ public class DynamicEventHandler extends Handler implements Listener {
         if(event.getClickedBlock().getWorld().getEnvironment() == Environment.NORMAL) return;
 
         event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBoatGlitch(VehicleCreateEvent event) {
-        if(!(event.getVehicle() instanceof Boat)) return;
-
-        Boat boat = (Boat) event.getVehicle();
-        Block blockBelow = boat.getLocation().subtract(0.0, 1.0, 0.0).getBlock();
-
-        if((blockBelow.getType() == Material.WATER) || (blockBelow.getType() == Material.STATIONARY_WATER)) return;
-
-        boat.remove();
     }
 
     @EventHandler(ignoreCancelled = true)

@@ -47,7 +47,7 @@ public class JoinCommand extends SubCommand {
             return;
         }
 
-        if(!Config.FACTION_JOIN_WHILE_FROZEN && faction.isRegenerating()) {
+        if(!Config.FACTION_JOIN_WHILE_FROZEN && faction.isFrozen()) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_CANNOT_JOIN_WHILE_REGENERATING.replace("<faction>", faction.getName()));
             return;
         }

@@ -16,8 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PotionEffectAddEvent;
 import org.bukkit.event.entity.PotionEffectExpireEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.PotionEffectRemoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -29,10 +28,11 @@ import java.util.function.Predicate;
 
 public class PotionEffectRestorer implements Listener {
 
+    private static final long INFINITE_DURATION = 12_000L;
     private final PvpClassManager pvpClassManager;
 
     private final Table<UUID, PotionEffectType, EffectRestore> restorers;
-    private final Map<UUID, Collection<PotionEffect>> playerEffectCache;
+    private final Map<UUID, PotionEffect[]> playerEffectCache;
 
     public PotionEffectRestorer(PvpClassManager pvpClassManager) {
         this.pvpClassManager = pvpClassManager;
@@ -49,23 +49,30 @@ public class PotionEffectRestorer implements Listener {
         this.playerEffectCache.clear();
     }
 
+    public void removeEffectCache(Player player) {
+        this.playerEffectCache.remove(player.getUniqueId());
+    }
+
     public PotionEffect getPotionEffectToRestore(Player player, PotionEffectType effectType) {
-        EffectRestore effectRestore = this.restorers.get(player.getUniqueId(), effectType);
+        EffectRestore effectRestore = this.restorers.remove(player.getUniqueId(), effectType);
         return effectRestore != null && effectRestore.getCondition().test(player) ? effectRestore.getEffect() : null;
     }
 
     private void queueEffectRestore(Player player, PotionEffect toAdd, PotionEffect current) {
-        if(toAdd.getAmplifier() < current.getAmplifier()) return;
-        if(toAdd.getAmplifier() == current.getAmplifier() && toAdd.getDuration() < current.getDuration()) return;
+        int durationDiff = toAdd.getDuration() - current.getDuration();
 
-        this.restorers.put(player.getUniqueId(), current.getType(), this.createEffectRestore(player, current));
+        if(toAdd.getAmplifier() == current.getAmplifier() && durationDiff < 5) return;
+        if(current.getDuration() < INFINITE_DURATION && toAdd.getAmplifier() <= current.getAmplifier()) return;
+
+        EffectRestore effectRestore = this.createEffectRestore(player, current);
+        this.restorers.put(player.getUniqueId(), current.getType(), effectRestore);
     }
 
     private EffectRestore createEffectRestore(Player player, PotionEffect currentEffect) {
         PvpClass pvpClass = this.pvpClassManager.getActivePvpClass(player);
         Predicate<Player> condition = futurePlayer -> true;
 
-        if(currentEffect.getDuration() > 12_000 && pvpClass != null) {
+        if(currentEffect.getDuration() > INFINITE_DURATION && pvpClass != null) {
             condition = futurePlayer -> pvpClass.isActive(futurePlayer);
         }
 
@@ -80,59 +87,88 @@ public class PotionEffectRestorer implements Listener {
     }
 
     private PotionEffect getPlayerPreviousEffect(Player player, PotionEffectType effectType) {
-        Collection<PotionEffect> playerEffects = this.playerEffectCache.get(player.getUniqueId());
+        PotionEffect[] playerEffects = this.playerEffectCache.get(player.getUniqueId());
         if(playerEffects == null) return null;
 
-        PotionEffect currentEffect = null;
-
-        for(PotionEffect effect : this.playerEffectCache.get(player.getUniqueId())) {
-            if(effect.getType().equals(effectType)) {
-                currentEffect = effect;
-                break;
-            }
-        }
-
-        return currentEffect;
+        return playerEffects[effectType.getId() - 1];
     }
 
-    private void cachePlayerEffects(Player player) {
+    public void cachePlayerEffects(Player player) {
         Collection<PotionEffect> currentEffects = player.getActivePotionEffects();
+        PotionEffect[] effectCache = new PotionEffect[23];
 
-        if(!currentEffects.isEmpty()) {
-            this.playerEffectCache.put(player.getUniqueId(), currentEffects);
+        for(PotionEffect potionEffect : currentEffects) {
+            effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+        }
+
+        this.playerEffectCache.put(player.getUniqueId(), effectCache);
+    }
+
+    private void addPotionEffectToCache(Player player, PotionEffect potionEffect) {
+        PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+        effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+    }
+
+    private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {
+        PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+        if(effectCache == null) return;
+
+        effectCache[effectType.getId() - 1] = null;
+    }
+
+    public void removePlayerEffect(Player player, PotionEffectType effectType) {
+        PotionEffect effectToRestore = this.getPotionEffectToRestore(player, effectType);
+
+        if(effectToRestore == null) {
+            player.removePotionEffect(effectType);
+        } else {
+            NmsUtils.getInstance().addPotionEffect(player, effectToRestore);
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPotionEffectAdd(PotionEffectAddEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
-
         Player player = (Player) event.getEntity();
-        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, event.getEffect().getType());
+
+        PotionEffect toAdd = ServerUtils.getEffect(event);
+        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, toAdd.getType());
+
+        this.addPotionEffectToCache(player, toAdd);
 
         if(currentEffect != null) {
-            this.queueEffectRestore(player, event.getEffect(), currentEffect);
+            this.queueEffectRestore(player, toAdd, currentEffect);
         }
-
-        this.playerEffectCache.put(player.getUniqueId(), player.getActivePotionEffects());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPotionEffectExpire(PotionEffectExpireEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
+
         Player player = (Player) event.getEntity();
+        PotionEffectType effectType = ServerUtils.getEffect(event).getType();
 
-        this.handleEffectRestore(player, ServerUtils.getEffect(event).getType());
+        this.handleEffectRestore(player, effectType);
+        this.removePotionEffectFromCache(player, effectType);
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        this.cachePlayerEffects(event.getPlayer());
-    }
+    @EventHandler(ignoreCancelled = true)
+    public void onPotionEffectRemove(PotionEffectRemoveEvent event) {
+        if(!(event.getEntity() instanceof Player)) return;
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        this.playerEffectCache.remove(event.getPlayer().getUniqueId());
+        UUID uuid = event.getEntity().getUniqueId();
+        PotionEffectType effectType = ServerUtils.getEffect(event).getType();
+
+        Tasks.sync(() -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if(player == null) return;
+
+            if(!player.hasPotionEffect(effectType)) {
+                this.removePotionEffectFromCache(player, effectType);
+            } else {
+                this.addPotionEffectToCache(player, NmsUtils.getInstance().getPotionEffect(player, effectType));
+            }
+        });
     }
 
     @Getter

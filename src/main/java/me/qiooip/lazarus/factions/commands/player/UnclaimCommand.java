@@ -46,7 +46,7 @@ public class UnclaimCommand extends SubCommand {
             return;
         }
 
-        if(!Config.FACTION_UNCLAIM_WHILE_FROZEN && faction.isRegenerating()) {
+        if(!Config.FACTION_UNCLAIM_WHILE_FROZEN && faction.isFrozen()) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_CANNOT_UNCLAIM_WHILE_REGENERATING);
             return;
         }

@@ -6,6 +6,7 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.utils.Tasks;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -52,7 +53,7 @@ public class PrePearlAbility extends AbilityItem implements Listener {
         Location prePearlLocation = player.getLocation().clone();
 
         TimerManager.getInstance().getCooldownTimer().activate(player, this.cooldownName,
-            this.teleportAfter, message, () -> player.teleport(prePearlLocation));
+            this.teleportAfter, message, () -> Tasks.sync(() -> player.teleport(prePearlLocation)));
 
         if(Config.ENDER_PEARL_COOLDOWN_ENABLED && this.activateEnderpearlTimer) {
             TimerManager.getInstance().getEnderPearlTimer().reactivate(player);

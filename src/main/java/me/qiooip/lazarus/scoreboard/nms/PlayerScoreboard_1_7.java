@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.scoreboard.nms;
 
 import com.lunarclient.bukkitapi.LunarClientAPI;
+import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
@@ -34,7 +35,6 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
     private static final String SB_LINE = Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH.toString() + "------";
     private static final ScoreboardInput EMPTY_INPUT = new ScoreboardInput("", "", "");
 
-    private final Object lock = new Object();
     private final Deque<ScoreboardInput> entries;
     private Set<String> lastEntries;
 
@@ -42,8 +42,6 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
     private final AtomicBoolean update;
     private final AtomicBoolean lastLine;
-
-    private final int maxSize;
 
     private Team members;
     private Team archers;
@@ -53,6 +51,8 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
     private Team sotw;
     private Team staff;
     private Team invis;
+
+    @Setter private int maxSize;
 
     public PlayerScoreboard_1_7(Player player) {
         super(player, NmsUtils.getInstance().getPlayerScoreboard(player));
@@ -213,6 +213,8 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
             this.entries.addLast(new ScoreboardInput(value.substring(0,
             value.length() - 16), value.substring(value.length() - 16), time));
         } else {
+            value = value.substring(value.length() - 32);
+
             this.entries.addLast(new ScoreboardInput(value.substring(0, 16),
             value.substring(16, 32), time));
         }
@@ -301,9 +303,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
     private void updateAllTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {
         if(this.player == null || this.scoreboard == null) return;
 
-        synchronized(this.lock) {
-            if(this.player == null) return;
-
+        synchronized(this) {
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
             for(Player online : players) {

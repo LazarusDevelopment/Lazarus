@@ -179,7 +179,7 @@ public class MongoFactionsManager extends FactionsManager {
             faction.setId((UUID) document.get("_id"));
             faction.setName(document.getString("name"));
             faction.setDeathban(document.getBoolean("deathban"));
-            faction.setDtr(document.getDouble("dtr"));
+            faction.setDtrOnLoad(document.getDouble("dtr"));
             faction.setAnnouncement(document.getString("announcement"));
             faction.setBalance(document.getInteger("balance"));
             faction.setLives(document.getInteger("lives"));

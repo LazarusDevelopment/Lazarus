@@ -113,8 +113,8 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
             Material.WORKBENCH, Material.FURNACE, Material.BURNING_FURNACE, Material.FENCE_GATE);
 
         this.exoticBoneClickables = EnumSet.of(Material.CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
-                Material.DROPPER, Material.DISPENSER, Material.TRAP_DOOR, Material.WORKBENCH,
-                Material.ENDER_CHEST, Material.WOODEN_DOOR, Material.FENCE_GATE);
+            Material.DROPPER, Material.DISPENSER, Material.TRAP_DOOR, Material.WORKBENCH,
+            Material.ENDER_CHEST, Material.WOODEN_DOOR, Material.FENCE_GATE);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
 
@@ -307,8 +307,8 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[type.getId()]);
 
-        return new PotionEffect(PotionEffectType.getById(nmsEffect.getEffectId()),
-        nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient());
+        return nmsEffect != null ? new PotionEffect(PotionEffectType.getById(nmsEffect.getEffectId()),
+            nmsEffect.getDuration(), nmsEffect.getAmplifier(), nmsEffect.isAmbient()) : null;
     }
 
     @Override
@@ -326,14 +326,15 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     }
 
     @Override
-    public void removeInfinitePotionEffect(Player player, PotionEffect effect) {
+    public void removeInfinitePotionEffect(Player player, PotionEffect toRemove) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[effect.getType().getId()]);
+        MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[toRemove.getType().getId()]);
 
         if(nmsEffect == null) return;
-        if(effect.getAmplifier() != nmsEffect.getAmplifier() || nmsEffect.getDuration() < 12000) return;
+        if(toRemove.getAmplifier() != nmsEffect.getAmplifier() || nmsEffect.getDuration() < 12000) return;
 
-        entityPlayer.removeEffect(nmsEffect.getEffectId());
+        Lazarus.getInstance().getPvpClassManager().getPotionEffectRestorer()
+            .removePlayerEffect(player, toRemove.getType());
     }
 
     @Override

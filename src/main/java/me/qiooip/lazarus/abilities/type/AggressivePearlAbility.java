@@ -48,9 +48,9 @@ public class AggressivePearlAbility extends AbilityItem implements Listener {
 
     public void sendActivationMessage(Player player, List<PotionEffect> effects) {
         this.activationMessage.forEach(line -> player.sendMessage(line
-                .replace("<abilityName>", this.displayName)
-                .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_AGGRESSIVE_PEARL_EFFECT_FORMAT))
-                .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<abilityName>", this.displayName)
+            .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_AGGRESSIVE_PEARL_EFFECT_FORMAT))
+            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
     }
 
     @Override

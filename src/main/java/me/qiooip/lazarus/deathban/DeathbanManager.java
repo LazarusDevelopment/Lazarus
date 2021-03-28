@@ -135,7 +135,8 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         this.revivePlayer(target.getUniqueId());
 
         Messages.sendMessage(Language.PREFIX + Language.DEATHBAN_REVIVED_PLAYER
-        .replace("<player>", sender.getName()).replace("<target>", target.getName()), "lazarus.staff");
+            .replace("<player>", sender.getName())
+            .replace("<target>", target.getName()), "lazarus.staff");
     }
 
     public void checkStatus(CommandSender sender, OfflinePlayer target) {
@@ -243,8 +244,9 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         data.subtractLives(lives);
         targetData.addLives(lives);
 
-        player.sendMessage(Language.PREFIX + Language.LIVES_SUCCESSFULLY_SENT_LIVES.replace("<amount>",
-        String.valueOf(lives)).replace("<player>", target.getName()));
+        player.sendMessage(Language.PREFIX + Language.LIVES_SUCCESSFULLY_SENT_LIVES
+            .replace("<amount>", String.valueOf(lives))
+            .replace("<player>", target.getName()));
 
         if(target.isOnline()) {
             target.getPlayer().sendMessage(Language.PREFIX + Language.LIVES_SUCCESSFULLY_RECEIVED_LIVES
@@ -264,19 +266,27 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         if(addLives) {
             userdata.addLives(Math.abs(Integer.parseInt(amount)));
 
-            sender.sendMessage(Language.PREFIX + Language.LIVES_ADDED.replace("<amount>", amount)
+            sender.sendMessage(Language.PREFIX + Language.LIVES_ADDED
+                .replace("<amount>", amount)
                 .replace("<player>", target.getName()));
 
-            if(target.isOnline()) target.getPlayer().sendMessage(Language.PREFIX + Language.LIVES_ADD_RECEIVED
-                .replace("<amount>", amount).replace("<player>", sender.getName()));
+            if(target.isOnline()) {
+                target.getPlayer().sendMessage(Language.PREFIX + Language.LIVES_ADD_RECEIVED
+                    .replace("<amount>", amount)
+                    .replace("<player>", sender.getName()));
+            }
         } else {
             userdata.setLives(Math.abs(Integer.parseInt(amount)));
 
-            sender.sendMessage(Language.PREFIX + Language.LIVES_SET.replace("<amount>", amount)
+            sender.sendMessage(Language.PREFIX + Language.LIVES_SET
+                .replace("<amount>", amount)
                 .replace("<player>", target.getName()));
 
-            if(target.isOnline()) target.getPlayer().sendMessage(Language.PREFIX + Language.LIVES_SET_RECEIVED
-                .replace("<amount>", amount).replace("<player>", sender.getName()));
+            if(target.isOnline()) {
+                target.getPlayer().sendMessage(Language.PREFIX + Language.LIVES_SET_RECEIVED
+                    .replace("<amount>", amount)
+                    .replace("<player>", sender.getName()));
+            }
         }
     }
 
@@ -307,9 +317,8 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         if(Lazarus.getInstance().getEotwHandler().isActive()) {
             kickMessage = Language.DEATHBAN_EOTW_MESSAGE;
         } else {
-            long banTime = this.getBanTime(player);
             kickMessage = Language.DEATHBAN_BAN_MESSAGE.replace("<time>", DurationFormatUtils
-            .formatDurationWords(banTime, true, true)).replace("<reason>", reason);
+                .formatDurationWords(this.getBanTime(player), true, true)).replace("<reason>", reason);
         }
 
         LazarusKickEvent event = new LazarusKickEvent(player, KickType.DEATHBAN, kickMessage);

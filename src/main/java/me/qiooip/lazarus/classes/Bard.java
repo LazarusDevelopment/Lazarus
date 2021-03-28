@@ -16,7 +16,6 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
-import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -43,6 +42,7 @@ public class Bard extends PvpClass {
     private final List<BardClickableItem> clickables;
     private final List<BardHoldableItem> holdables;
 
+    private final Map<UUID, Long> messageDelays;
     private final BardHoldableTask holdableTask;
 
     public Bard(PvpClassManager manager) {
@@ -58,6 +58,7 @@ public class Bard extends PvpClass {
         this.clickables = PvpClassUtils.loadBardClickableItems();
         this.holdables = PvpClassUtils.loadBardHoldableItems();
 
+        this.messageDelays = new HashMap<>();
         this.holdableTask = new BardHoldableTask();
     }
 
@@ -74,12 +75,12 @@ public class Bard extends PvpClass {
 
     private BardClickableItem getClickableItem(ItemStack item) {
         return this.clickables.stream().filter(clickable -> clickable.getItem().getType() == item.getType()
-        && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+            && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
     }
 
     private BardHoldableItem getHoldableItem(ItemStack item) {
         return this.holdables.stream().filter(holdable -> holdable.getItem().getType() == item.getType()
-        && holdable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+            && holdable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
     }
 
     private double getPower(UUID uuid) {
@@ -98,7 +99,7 @@ public class Bard extends PvpClass {
         if(faction == null) {
             if(!item.isCanBardHimself()) return;
 
-            NmsUtils.getInstance().addPotionEffect(player, item.getPotionEffect());
+            this.getManager().addPotionEffect(player, item.getPotionEffect());
             return;
         }
 
@@ -106,13 +107,13 @@ public class Bard extends PvpClass {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
             if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-            NmsUtils.getInstance().addPotionEffect(member, item.getPotionEffect());
+            this.getManager().addPotionEffect(member, item.getPotionEffect());
         }
     }
 
     private void applyClickableEffect(Player player, PlayerFaction faction, BardClickableItem item) {
         if(item.isApplyToEnemy()) {
-            NmsUtils.getInstance().addPotionEffect(player, item.getPotionEffect());
+            this.getManager().addPotionEffect(player, item.getPotionEffect());
             int amountOfEnemies = 0;
 
             for(Entity nearby : player.getNearbyEntities(item.getDistance(), item.getDistance(), item.getDistance())) {
@@ -128,11 +129,11 @@ public class Bard extends PvpClass {
 
                 amountOfEnemies++;
 
-                NmsUtils.getInstance().addPotionEffect(enemy, item.getPotionEffect());
+                this.getManager().addPotionEffect(enemy, item.getPotionEffect());
                 TimerManager.getInstance().getCombatTagTimer().activate(enemy.getUniqueId());
 
-                enemy.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
-                item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
+                enemy.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS
+                    .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
             }
 
             player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_ENEMY
@@ -146,13 +147,13 @@ public class Bard extends PvpClass {
                     if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
                     if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-                    NmsUtils.getInstance().addPotionEffect(member, item.getPotionEffect());
+                    this.getManager().addPotionEffect(member, item.getPotionEffect());
 
                     if(member != player) {
                         amountOfTeammates++;
 
-                        member.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
-                        item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
+                        member.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS
+                            .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
                     }
                 }
 
@@ -165,36 +166,53 @@ public class Bard extends PvpClass {
                     return;
                 }
 
-                player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS.replace("<effect>",
-                item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
+                player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_MESSAGE_OTHERS
+                    .replace("<effect>", item.getChatColor() + StringUtils.getPotionEffectName(item.getPotionEffect())));
 
-                NmsUtils.getInstance().addPotionEffect(player, item.getPotionEffect());
+                this.getManager().addPotionEffect(player, item.getPotionEffect());
             }
         }
     }
 
-    private boolean canBard(Player player) {
+    private boolean canBard(Player player, boolean holdable) {
         if(Lazarus.getInstance().getStaffModeManager().isInStaffModeOrVanished(player)) {
-            player.sendMessage(Language.PREFIX + Language.BARD_VANISHED_OR_IN_STAFFMODE);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_VANISHED_OR_IN_STAFFMODE, holdable);
             return false;
         }
 
         if(TimerManager.getInstance().getPvpProtTimer().isActive(player)) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_WITH_PVP_TIMER);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_CAN_NOT_BARD_WITH_PVP_TIMER, holdable);
             return false;
         }
 
         if(ClaimManager.getInstance().getFactionAt(player).isSafezone()) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_IN_SAFEZONE);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_CAN_NOT_BARD_IN_SAFEZONE, holdable);
             return false;
         }
 
         if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(player)) {
-            player.sendMessage(Language.PREFIX + Language.BARD_CAN_NOT_BARD_WHEN_SOTW_NOT_ENABLED);
+            this.sendDelayedMessage(player, Language.PREFIX + Language.BARD_CAN_NOT_BARD_WHEN_SOTW_NOT_ENABLED, holdable);
             return false;
         }
 
         return true;
+    }
+
+    protected void sendDelayedMessage(Player player, String message, boolean holdable) {
+        if(!holdable) {
+            player.sendMessage(message);
+            return;
+        }
+
+        if(this.messageDelays.containsKey(player.getUniqueId()) && (this.messageDelays
+            .get(player.getUniqueId()) - System.currentTimeMillis() > 0)) return;
+
+        player.sendMessage(message);
+        this.messageDelays.put(player.getUniqueId(), System.currentTimeMillis() + 4000L);
+    }
+
+    public void removePlayerMessageDelays(Player player) {
+        this.messageDelays.remove(player.getUniqueId());
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -203,7 +221,7 @@ public class Bard extends PvpClass {
         if(!this.isActive(player)) return;
 
         BardHoldableItem holdableItem = this.getHoldableItem(player.getItemInHand());
-        if(holdableItem == null || !this.canBard(player)) return;
+        if(holdableItem == null || !this.canBard(player, true)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         this.applyHoldableEffect(player, faction, holdableItem);
@@ -219,7 +237,7 @@ public class Bard extends PvpClass {
         Player player = event.getPlayer();
 
         BardClickableItem clickableItem = this.getClickableItem(event.getItem());
-        if(clickableItem == null || !this.canBard(player)) return;
+        if(clickableItem == null || !this.canBard(player, false)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
@@ -266,7 +284,7 @@ public class Bard extends PvpClass {
                 if(player == null) return;
 
                 BardHoldableItem holdableItem = getHoldableItem(player.getItemInHand());
-                if(holdableItem == null || !canBard(player)) return;
+                if(holdableItem == null || !canBard(player, true)) return;
 
                 PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
                 applyHoldableEffect(player, faction, holdableItem);

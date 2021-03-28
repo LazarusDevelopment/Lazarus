@@ -49,7 +49,6 @@ public abstract class PvpClass implements Listener {
 
     protected PvpClass(PvpClassManager manager, String name, Material helmet, Material chestplate, Material leggings, Material boots) {
         this.manager = manager;
-
         this.name = name;
 
         this.helmet = helmet;
@@ -100,6 +99,10 @@ public abstract class PvpClass implements Listener {
     }
 
     void deactivateClass(Player player, boolean disable) {
+        if(!disable) {
+            this.players.remove(player.getUniqueId());
+        }
+
         this.getEffects().forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect));
 
         if(this instanceof Miner) {
@@ -110,23 +113,19 @@ public abstract class PvpClass implements Listener {
                 .forEach(effect -> NmsUtils.getInstance().removeInfinitePotionEffect(player, effect)));
 		}
 
-        if(!disable) {
-            this.players.remove(player.getUniqueId());
-        }
-
         new PvpClassUnequipEvent(player.getUniqueId(), this);
     }
 
     protected void applyClickableEffect(Player player, ClickableItem clickable, boolean archer) {
         String effect = StringUtils.getPotionEffectName(clickable.getPotionEffect());
 
-        NmsUtils.getInstance().addPotionEffect(player, clickable.getPotionEffect());
+        this.manager.addPotionEffect(player, clickable.getPotionEffect());
         ItemUtils.removeOneItem(player);
 
         String message = archer ? Language.ARCHER_CLICKABLE_ACTIVATED : Language.ROGUE_CLICKABLE_ACTIVATED;
 
-        player.sendMessage(Language.PREFIX + message.replace("<effect>", effect).replace("<seconds>",
-        String.valueOf(clickable.getPotionEffect().getDuration() / 20)));
+        player.sendMessage(Language.PREFIX + message.replace("<effect>", effect)
+            .replace("<seconds>", String.valueOf(clickable.getPotionEffect().getDuration() / 20)));
     }
 
     public boolean isActive(Player player) {

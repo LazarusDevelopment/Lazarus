@@ -33,7 +33,7 @@ public class LeaveCommand extends SubCommand {
             return;
         }
 
-        if(!Config.FACTION_LEAVE_WHILE_FROZEN && faction.isRegenerating()) {
+        if(!Config.FACTION_LEAVE_WHILE_FROZEN && faction.isFrozen()) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_CANNOT_LEAVE_WHILE_REGENERATING);
             return;
         }

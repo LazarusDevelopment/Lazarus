@@ -41,15 +41,19 @@ public class RepairCommand extends BaseCommand {
                 }
 
                 item.setDurability((short) 0);
-                player.sendMessage(Language.PREFIX + Language.REPAIR_REPAIRED_ITEM.replace("<item>", ItemUtils.getItemName(item)));
+
+                player.sendMessage(Language.PREFIX + Language.REPAIR_REPAIRED_ITEM
+                    .replace("<item>", ItemUtils.getItemName(item)));
                 return;
             }
             case "all": {
-                Stream.of(player.getInventory().getContents()).filter(item -> item != null && item.getType() != Material
-                .AIR && ItemUtils.isRepairable(item.getType())).forEach(item -> item.setDurability((short) 0));
+                Stream.of(player.getInventory().getContents())
+                    .filter(item -> item != null && item.getType() != Material.AIR && ItemUtils.isRepairable(item.getType()))
+                    .forEach(item -> item.setDurability((short) 0));
 
-                Stream.of(player.getInventory().getArmorContents()).filter(item -> item != null && item.getType() !=
-                Material.AIR).forEach(item -> item.setDurability((short) 0));
+                Stream.of(player.getInventory().getArmorContents())
+                    .filter(item -> item != null && item.getType() != Material.AIR)
+                    .forEach(item -> item.setDurability((short) 0));
 
                 player.sendMessage(Language.PREFIX + Language.REPAIR_REPAIRED_ALL);
                 return;
