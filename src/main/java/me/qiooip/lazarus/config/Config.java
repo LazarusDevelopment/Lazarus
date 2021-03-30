@@ -96,6 +96,9 @@ public class Config {
     public static double FACTION_DTR_REGEN_PER_MINUTE;
     public static double FACTION_DTR_SOLO_FACTION_DTR;
     public static int FACTION_DTR_FREEZE_DURATION;
+    public static String FACTION_DTR_CHARACTERS_FULL_DTR;
+    public static String FACTION_DTR_CHARACTERS_REGENERATING;
+    public static String FACTION_DTR_CHARACTERS_FROZEN;
     public static Map<Environment, Double> FACTION_DTR_DEATH_LOSS;
 
     public static int FACTION_PLAYER_LIMIT;
@@ -567,6 +570,9 @@ public class Config {
         FACTION_DTR_REGEN_PER_MINUTE = config.getDouble("FACTION_DTR.REGEN_PER_MINUTE");
         FACTION_DTR_SOLO_FACTION_DTR = config.getDouble("FACTION_DTR.SOLO_FACTION_DTR");
         FACTION_DTR_FREEZE_DURATION = config.getInt("FACTION_DTR.FREEZE_DURATION");
+        FACTION_DTR_CHARACTERS_FULL_DTR = config.getString("FACTION_DTR.DTR_CHARACTERS.FULL_DTR");
+        FACTION_DTR_CHARACTERS_REGENERATING = config.getString("FACTION_DTR.DTR_CHARACTERS.REGENERATING");
+        FACTION_DTR_CHARACTERS_FROZEN = config.getString("FACTION_DTR.DTR_CHARACTERS.FROZEN");
 
         FACTION_DTR_DEATH_LOSS = new EnumMap<>(Environment.class);
         FACTION_DTR_DEATH_LOSS.put(Environment.NORMAL, config.getDouble("FACTION_DTR.DTR_DEATH_LOSS.OVERWORLD"));

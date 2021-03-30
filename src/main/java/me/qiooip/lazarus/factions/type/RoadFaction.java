@@ -44,7 +44,10 @@ public class RoadFaction extends SystemFaction {
         String claimInfoString = Language.FACTIONS_SYSTEM_CLAIM_FORMAT.replace("<claimLocation>", "None");
 
         Language.FACTIONS_SYSTEM_FACTION_SHOW.forEach(line -> sender.sendMessage(line
-            .replace("<factionName>", this.getDisplayName(sender))
+            .replace("<factionName>", this.getName(sender))
+            .replace("<deathban>", this.getDeathbanString())
+            .replace("<safezone>", String.valueOf(this.isSafezone()))
+            .replace("<enderpearls>", String.valueOf(this.isEnderpearls()))
             .replace("<claims>", claimInfoString)));
     }
 }

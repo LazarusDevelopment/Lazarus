@@ -13,8 +13,8 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
-import me.qiooip.lazarus.factions.event.FactionPlayerFocusedEvent;
-import me.qiooip.lazarus.factions.event.FactionPlayerUnfocusedEvent;
+import me.qiooip.lazarus.factions.event.FactionFocusedEvent;
+import me.qiooip.lazarus.factions.event.FactionUnfocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionRallyEvent;
 import me.qiooip.lazarus.factions.event.FactionSetHomeEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
@@ -120,14 +120,14 @@ public class WaypointManager implements Listener {
     }
 
     @EventHandler
-    public void onFactionPlayerFocused(FactionPlayerFocusedEvent event) {
+    public void onFactionPlayerFocused(FactionFocusedEvent event) {
         for(Player player : event.getFaction().getOnlinePlayers()) {
             this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onFactionPlayerUnfocused(FactionPlayerUnfocusedEvent event) {
+    public void onFactionPlayerUnfocused(FactionUnfocusedEvent event) {
         for(Player player : event.getFaction().getOnlinePlayers()) {
             this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
         }
@@ -391,8 +391,8 @@ public class WaypointManager implements Listener {
                 break;
             }
             case FOCUSED_FACTION_HOME: {
-                if(faction != null && faction.getFocused() != null) {
-                    PlayerFaction focusedFaction = FactionsManager.getInstance().getPlayerFaction(faction.getFocused());
+                if(faction != null && faction.getFocusedFaction() != null) {
+                    PlayerFaction focusedFaction = FactionsManager.getInstance().getPlayerFactionByUuid(faction.getFocusedFaction());
 
                     if(focusedFaction != null && focusedFaction.getHome() != null) {
                         waypoint = typeWaypoint.createWaypoint(focusedFaction.getHome());

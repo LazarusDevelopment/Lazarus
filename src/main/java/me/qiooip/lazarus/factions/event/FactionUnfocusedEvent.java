@@ -9,15 +9,15 @@ import org.bukkit.event.Cancellable;
 import java.util.UUID;
 
 @Getter
-public class FactionPlayerUnfocusedEvent extends FactionEvent implements Cancellable {
+public class FactionUnfocusedEvent extends FactionEvent implements Cancellable {
 
     private final PlayerFaction faction;
-    private final UUID target;
+    private final UUID factionUuid;
     @Setter private boolean cancelled;
 
-    public FactionPlayerUnfocusedEvent(PlayerFaction faction, UUID target) {
+    public FactionUnfocusedEvent(PlayerFaction faction, UUID factionUuid) {
         this.faction = faction;
-        this.target = target;
+        this.factionUuid = factionUuid;
 
         Bukkit.getPluginManager().callEvent(this);
     }

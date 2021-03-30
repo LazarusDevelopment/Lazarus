@@ -315,6 +315,11 @@ FACTION_DTR:
     OVERWORLD: 1
     NETHER: 0.5
     END: 1
+  # DTR display characters
+  DTR_CHARACTERS:
+    FULL_DTR: "&a\u25C0"
+    REGENERATING: "&e\u25B2"
+    FROZEN: "&c\u25A0"
 
 FACTION_PLAYER:
   # Faction player limit

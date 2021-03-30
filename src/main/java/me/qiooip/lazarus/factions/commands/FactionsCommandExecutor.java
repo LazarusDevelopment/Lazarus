@@ -41,6 +41,7 @@ import me.qiooip.lazarus.factions.commands.player.CreateCommand;
 import me.qiooip.lazarus.factions.commands.player.DemoteCommand;
 import me.qiooip.lazarus.factions.commands.player.DepositCommand;
 import me.qiooip.lazarus.factions.commands.player.DisbandCommand;
+import me.qiooip.lazarus.factions.commands.player.FocusCommand;
 import me.qiooip.lazarus.factions.commands.player.FriendlyFireCommand;
 import me.qiooip.lazarus.factions.commands.player.HelpCommand;
 import me.qiooip.lazarus.factions.commands.player.HomeCommand;
@@ -67,6 +68,7 @@ import me.qiooip.lazarus.factions.commands.player.TopCommand;
 import me.qiooip.lazarus.factions.commands.player.UnallyCommand;
 import me.qiooip.lazarus.factions.commands.player.UnclaimAllCommand;
 import me.qiooip.lazarus.factions.commands.player.UnclaimCommand;
+import me.qiooip.lazarus.factions.commands.player.UnfocusCommand;
 import me.qiooip.lazarus.factions.commands.player.UninviteCommand;
 import me.qiooip.lazarus.factions.commands.player.WithdrawCommand;
 
@@ -119,6 +121,7 @@ public class FactionsCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new DemoteCommand());
         this.addSubCommand(new DepositCommand());
         this.addSubCommand(new DisbandCommand());
+        this.addSubCommand(new FocusCommand());
         this.addSubCommand(new FriendlyFireCommand());
         this.addSubCommand(new HelpCommand());
         this.addSubCommand(new HomeCommand());
@@ -145,6 +148,7 @@ public class FactionsCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new UnallyCommand());
         this.addSubCommand(new UnclaimAllCommand());
         this.addSubCommand(new UnclaimCommand());
+        this.addSubCommand(new UnfocusCommand());
         this.addSubCommand(new UninviteCommand());
         this.addSubCommand(new WithdrawCommand());
     }

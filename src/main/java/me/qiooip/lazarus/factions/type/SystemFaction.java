@@ -66,6 +66,9 @@ public class SystemFaction extends Faction {
 
         Language.FACTIONS_SYSTEM_FACTION_SHOW.forEach(line -> sender.sendMessage(line
             .replace("<factionName>", this.getName(sender))
+            .replace("<deathban>", this.getDeathbanString())
+            .replace("<safezone>", String.valueOf(this.isSafezone()))
+            .replace("<enderpearls>", String.valueOf(this.isEnderpearls()))
             .replace("<claims>", claimInfoString)));
     }
 }

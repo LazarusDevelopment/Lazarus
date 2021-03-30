@@ -501,6 +501,14 @@ FACTIONS:
     NOT_SYSTEM_FACTION: "&cEnderpearls &evalue can only be changed to &6system factions&e."
     ENABLED: "&eYou &aenabled &eenderpearl usage in <faction>'s &eterritory."
     DISABLED: "&eYou &cdisabled &eenderpearl usage in <faction>'s &eterritory."
+  FOCUS_COMMAND:
+    USAGE: "&cUsage: /f focus <faction>"
+    ALREADY_FOCUSING: "&eYou are already focusing &c<faction>&e."
+    CANNOT_FOCUS: "&eYou cannot focus this &cfaction&e."
+    FOCUSED:
+      - ""
+      - "&7&l* &b&lYour faction is now focusing on &a&l<faction>&b&l."
+      - ""
   FORCE_DEMOTE_COMMAND:
     USAGE: "&cUsage: /f forcedemote <player>"
     DEMOTED_SENDER: "&eYou have force demoted &c<player> &eto &c<role>&e."
@@ -736,10 +744,15 @@ FACTIONS:
       - " &eRegenerating: &7<regen-time>"
       - " &eDTR: <dtr>&7/&a<dtrMax> &eRaidable: <raidable>"
       - "&7&m                                                                                "
-    SYSTEM_CLAIM_FORMAT: " &eLocation: &7<claimLocation>"
+    SYSTEM_CLAIM_FORMAT: "  &e* &7<claimLocation>"
     SYSTEM_FACTION_MESSAGE:
       - "&7&m                                                                                "
-      - " <factionName>"
+      - " <factionName> &e(<deathban>&e)"
+      - ""
+      - " &bSafezone: &7<safezone>"
+      - " &bEnderpearls: &7<enderpearls>"
+      - ""
+      - " &bClaims:"
       - "<claims>"
       - "&7&m                                                                                "
   STUCK_COMMAND:
@@ -805,6 +818,10 @@ FACTIONS:
     UNINVITED: "&ePlayer &c<player> &ehas been uninvited from faction."
     UNINVITE_ALL: "&ePlayer &c<player> &ehas removed all player invitations."
     NOT_INVITED: "&ePlayer &c<player> &eis not invited to faction."
+  UNFOCUS_COMMAND:
+    NOT_FOCUSING: "&eYou are currently &cnot focusing &eanyone."
+    UNFOCUSED: "&eYou are no longer focusing &c<faction>&e."
+    FACTION_DOESNT_EXIST: "&eFaction you were &cfocusing &edoesn't exist anymore!"
   WITHDRAW_COMMAND:
     USAGE: "&cUsage: /f withdraw <amount>"
     WITHDRAWN: "&c<player> &ewithdrawn &a$&c<amount> &efrom faction's balance."
@@ -1559,15 +1576,6 @@ FLY_COMMAND:
   MESSAGE_OTHERS_ENABLED: "&eYou have &aenabled &e<player>'s fly mode."
   MESSAGE_OTHERS_DISABLED: "&eYou have &cdisabled &e<player>'s fly mode."
 
-FOCUS_COMMAND:
-  USAGE: "&cUsage: /focus <player>"
-  ALREADY_FOCUSING: "&eYou are already focusing &c<player>&e."
-  CANNOT_FOCUS: "&eYou cannot focus this &cplayer&e."
-  FOCUSED:
-    - ""
-    - "&7&l* &b&lYour faction is now focusing on &a&l<target> &b&l."
-    - ""
-
 FOUND_ORE:
   MESSAGE: "&7[&b*&7] &e<player> &7has found &bdiamonds&7. &7[&c<amount>&7]"
 
@@ -2197,10 +2205,6 @@ TOGGLE_SOUNDS_COMMAND:
   TOGGLED_OFF: "&eYou have toggled &coff &eyour &cmessage sounds&e."
 
 TOP_COMMAND_MESSAGE: "&eTeleported to &chighest &eblock."
-
-UNFOCUS_COMMAND:
-  NOT_FOCUSING: "&cYou are currently &cnot focusing &canyone."
-  UNFOCUSED: "&cYou are no longer focusing &c<player>&c."
 
 UNREPAIRABLE_ITEM_MESSAGE: "&eThis item is not &crepairable&e!"
 

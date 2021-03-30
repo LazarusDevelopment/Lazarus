@@ -344,7 +344,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
                 if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
                     this.addAndUpdate(online, nametag, this.invis, lunarOnly);
-                } else if(playerFaction.isFocusing(online.getUniqueId())) {
+                } else if(playerFaction.isFocusing(targetFaction)) {
                     this.addAndUpdate(online, nametag, this.focused, lunarOnly);
                 } else if(playerFaction == targetFaction) {
                     this.addAndUpdate(online, nametag, this.members, lunarOnly);

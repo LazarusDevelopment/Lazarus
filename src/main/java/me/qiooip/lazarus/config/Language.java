@@ -291,6 +291,11 @@ public class Language {
     public static String FACTIONS_DISBAND_RAIDABLE_DENY;
     public static String FACTIONS_CANNOT_DISBAND_WHILE_REGENERATING;
 
+    public static String FACTIONS_FOCUS_USAGE;
+    public static String FACTIONS_FOCUS_ALREADY_FOCUSING;
+    public static String FACTIONS_FOCUS_CANNOT_FOCUS;
+    public static List<String> FACTIONS_FOCUS_FOCUSED;
+
     public static String FACTIONS_FRIENDLY_FIRE_TOGGLED_ON;
     public static String FACTIONS_FRIENDLY_FIRE_TOGGLED_OFF;
 
@@ -510,6 +515,10 @@ public class Language {
     public static String FACTIONS_UNCLAIM_CLAIM_MONEY_REFUNDED;
     public static String FACTIONS_UNCLAIM_HOME_TELEPORT_CANCELLED;
     public static String FACTIONS_CANNOT_UNCLAIM_WHILE_REGENERATING;
+
+    public static String FACTIONS_UNFOCUS_NOT_FOCUSING;
+    public static String FACTIONS_UNFOCUS_UNFOCUSED;
+    public static String FACTIONS_UNFOCUS_FACTION_DOESNT_EXIST;
 
     public static String FACTIONS_UNINVITE_USAGE;
     public static String FACTIONS_UNINVITE_UNINVITED;
@@ -943,11 +952,6 @@ public class Language {
     public static String FLY_OTHERS_ENABLED;
     public static String FLY_OTHERS_DISABLED;
 
-    public static String FOCUS_USAGE;
-    public static String FOCUS_ALREADY_FOCUSING;
-    public static String FOCUS_CANNOT_FOCUS;
-    public static List<String> FOCUS_FOCUSED;
-
     public static String FOUND_ORE_MESSAGE;
 
     public static String FREEZE_USAGE;
@@ -1353,9 +1357,6 @@ public class Language {
 
     public static String TOP_COMMAND_MESSAGE;
 
-    public static String UNFOCUS_NOT_FOCUSING;
-    public static String UNFOCUS_UNFOCUSED;
-
     public static String UNREPAIRABLE_ITEM_MESSAGE;
 
     public static String VANISH_ENABLED;
@@ -1674,6 +1675,11 @@ public class Language {
         FACTIONS_DISBAND_RAIDABLE_DENY = language.getString("FACTIONS.DISBAND_COMMAND.RAIDABLE_DENY");
         FACTIONS_CANNOT_DISBAND_WHILE_REGENERATING = language.getString("FACTIONS.DISBAND_COMMAND.CANNOT_DISBAND_WHILE_REGENERATING");
 
+        FACTIONS_FOCUS_USAGE = language.getString("FACTIONS.FOCUS_COMMAND.USAGE");
+        FACTIONS_FOCUS_ALREADY_FOCUSING = language.getString("FACTIONS.FOCUS_COMMAND.ALREADY_FOCUSING");
+        FACTIONS_FOCUS_CANNOT_FOCUS = language.getString("FACTIONS.FOCUS_COMMAND.CANNOT_FOCUS");
+        FACTIONS_FOCUS_FOCUSED = language.getStringList("FACTIONS.FOCUS_COMMAND.FOCUSED");
+
         FACTIONS_FRIENDLY_FIRE_TOGGLED_ON = language.getString("FACTIONS.FRIENDLY_FIRE_COMMAND.TOGGLED_ON");
         FACTIONS_FRIENDLY_FIRE_TOGGLED_OFF = language.getString("FACTIONS.FRIENDLY_FIRE_COMMAND.TOGGLED_OFF");
 
@@ -1895,6 +1901,10 @@ public class Language {
         FACTIONS_UNCLAIM_CLAIM_MONEY_REFUNDED = language.getString("FACTIONS.UNCLAIM_COMMAND.CLAIM_MONEY_REFUNDED");
         FACTIONS_UNCLAIM_HOME_TELEPORT_CANCELLED = language.getString("FACTIONS.UNCLAIM_COMMAND.HOME_TELEPORT_CANCELLED");
         FACTIONS_CANNOT_UNCLAIM_WHILE_REGENERATING = language.getString("FACTIONS.UNCLAIM_COMMAND.CANNOT_UNCLAIM_WHILE_REGENERATING");
+
+        FACTIONS_UNFOCUS_NOT_FOCUSING = language.getString("FACTIONS.UNFOCUS_COMMAND.NOT_FOCUSING");
+        FACTIONS_UNFOCUS_UNFOCUSED = language.getString("FACTIONS.UNFOCUS_COMMAND.UNFOCUSED");
+        FACTIONS_UNFOCUS_FACTION_DOESNT_EXIST = language.getString("FACTIONS.UNFOCUS_COMMAND.FACTION_DOESNT_EXIST");
 
         FACTIONS_UNINVITE_USAGE = language.getString("FACTIONS.UNINVITE_COMMAND.USAGE");
         FACTIONS_UNINVITE_UNINVITED = language.getString("FACTIONS.UNINVITE_COMMAND.UNINVITED");
@@ -2328,11 +2338,6 @@ public class Language {
         FLY_OTHERS_ENABLED = language.getString("FLY_COMMAND.MESSAGE_OTHERS_ENABLED");
         FLY_OTHERS_DISABLED = language.getString("FLY_COMMAND.MESSAGE_OTHERS_DISABLED");
 
-        FOCUS_USAGE = language.getString("FOCUS_COMMAND.USAGE");
-        FOCUS_ALREADY_FOCUSING = language.getString("FOCUS_COMMAND.ALREADY_FOCUSING");
-        FOCUS_CANNOT_FOCUS = language.getString("FOCUS_COMMAND.CANNOT_FOCUS");
-        FOCUS_FOCUSED = language.getStringList("FOCUS_COMMAND.FOCUSED");
-
         FOUND_ORE_MESSAGE = language.getString("FOUND_ORE.MESSAGE");
 
         FREEZE_USAGE = language.getString("FREEZE_COMMAND.USAGE");
@@ -2738,9 +2743,6 @@ public class Language {
         TOGGLE_SOUNDS_TOGGLED_OFF = language.getString("TOGGLE_SOUNDS_COMMAND.TOGGLED_OFF");
 
         TOP_COMMAND_MESSAGE = language.getString("TOP_COMMAND_MESSAGE");
-
-        UNFOCUS_NOT_FOCUSING = language.getString("UNFOCUS_COMMAND.NOT_FOCUSING");
-        UNFOCUS_UNFOCUSED = language.getString("UNFOCUS_COMMAND.UNFOCUSED");
 
         UNREPAIRABLE_ITEM_MESSAGE = language.getString("UNREPAIRABLE_ITEM_MESSAGE");
 
