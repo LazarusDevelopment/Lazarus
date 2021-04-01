@@ -10,11 +10,11 @@ import java.util.UUID;
 public class FactionFocusedEvent extends FactionEvent {
 
     private final PlayerFaction faction;
-    private final UUID factionUuid;
+    private final UUID focusedFactionUuid;
 
-    public FactionFocusedEvent(PlayerFaction faction, UUID factionUuid) {
+    public FactionFocusedEvent(PlayerFaction faction, UUID focusedFactionUuid) {
         this.faction = faction;
-        this.factionUuid = factionUuid;
+        this.focusedFactionUuid = focusedFactionUuid;
 
         Bukkit.getPluginManager().callEvent(this);
     }

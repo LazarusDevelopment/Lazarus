@@ -28,10 +28,12 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -63,6 +65,7 @@ public class PlayerFaction extends Faction {
     private transient List<UUID> allyInvitations;
 
     private transient UUID focusedFaction;
+    private transient Set<UUID> focusing;
     private transient Location rallyLocation;
 
     private transient long renameCooldown;
@@ -72,6 +75,7 @@ public class PlayerFaction extends Faction {
         this.members = new HashMap<>();
         this.playerInvitations = new ArrayList<>();
         this.allyInvitations = new ArrayList<>();
+        this.focusing = new HashSet<>();
     }
 
     public PlayerFaction(String name) {
@@ -80,6 +84,7 @@ public class PlayerFaction extends Faction {
         this.members = new HashMap<>();
         this.playerInvitations = new ArrayList<>();
         this.allyInvitations = new ArrayList<>();
+        this.focusing = new HashSet<>();
 
         this.allies = new ArrayList<>();
 
@@ -142,6 +147,10 @@ public class PlayerFaction extends Faction {
 
     public List<PlayerFaction> getAlliesAsFactions() {
         return this.allies.stream().map(FactionsManager.getInstance()::getPlayerFactionByUuid).collect(Collectors.toList());
+    }
+
+    public List<PlayerFaction> getFocusingAsFactions() {
+        return this.focusing.stream().map(FactionsManager.getInstance()::getPlayerFactionByUuid).collect(Collectors.toList());
     }
 
     public String getHomeString() {
@@ -282,6 +291,7 @@ public class PlayerFaction extends Faction {
             }
         }
 
+        playerFaction.getFocusing().add(this.id);
         new FactionFocusedEvent(this, playerFaction.getId());
     }
 
@@ -290,6 +300,7 @@ public class PlayerFaction extends Faction {
         if(event.isCancelled()) return;
 
         this.focusedFaction = null;
+        playerFaction.getFocusing().remove(this.id);
         List<Player> enemies = playerFaction.getOnlinePlayers();
 
         this.members.values().forEach(member -> {

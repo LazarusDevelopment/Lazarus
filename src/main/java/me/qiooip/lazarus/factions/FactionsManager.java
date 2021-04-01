@@ -34,6 +34,7 @@ import me.qiooip.lazarus.factions.type.SpawnFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.koth.KothData;
+import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
@@ -57,6 +58,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -501,6 +503,24 @@ public class FactionsManager implements Listener {
             .forEach(kothFaction -> this.disbandFaction(kothFaction, Bukkit.getConsoleSender()));
     }
 
+    private void updateFocusNametagsOnDisband(PlayerFaction faction) {
+        List<PlayerFaction> focusingFactions = faction.getFocusingAsFactions();
+        List<Player> ownPlayers = faction.getOnlinePlayers();
+
+        List<Player> enemies = new ArrayList<>();
+
+        for(PlayerFaction focusing : focusingFactions) {
+            enemies.addAll(focusing.getOnlinePlayers());
+        }
+
+        for(Player enemy : enemies) {
+            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(enemy);
+            if(scoreboard == null) continue;
+
+            scoreboard.updateTabRelations(ownPlayers);
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onFactionCreate(FactionCreateEvent event) {
         if(event.getFactionType() != FactionType.PLAYER_FACTION) return;
@@ -548,7 +568,10 @@ public class FactionsManager implements Listener {
         timerManager.getFactionRallyTimer().cancel(event.getFaction().getId());
 
         if(event.getFaction() instanceof PlayerFaction) {
-            timerManager.getDtrRegenTimer().removeFaction((PlayerFaction) event.getFaction());
+            PlayerFaction faction = (PlayerFaction) event.getFaction();
+            timerManager.getDtrRegenTimer().removeFaction(faction);
+
+            this.updateFocusNametagsOnDisband(faction);
         }
     }
 

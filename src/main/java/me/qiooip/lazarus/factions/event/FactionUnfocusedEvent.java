@@ -12,12 +12,12 @@ import java.util.UUID;
 public class FactionUnfocusedEvent extends FactionEvent implements Cancellable {
 
     private final PlayerFaction faction;
-    private final UUID factionUuid;
+    private final UUID focusedFactionUuid;
     @Setter private boolean cancelled;
 
-    public FactionUnfocusedEvent(PlayerFaction faction, UUID factionUuid) {
+    public FactionUnfocusedEvent(PlayerFaction faction, UUID focusedFactionUuid) {
         this.faction = faction;
-        this.factionUuid = factionUuid;
+        this.focusedFactionUuid = focusedFactionUuid;
 
         Bukkit.getPluginManager().callEvent(this);
     }
