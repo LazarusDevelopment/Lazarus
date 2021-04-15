@@ -3,6 +3,7 @@ package me.qiooip.lazarus.abilities.type;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.abilities.event.ProjectileAbilityActivatedEvent;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
@@ -37,6 +38,7 @@ public class WebGunAbility extends AbilityItem implements Listener {
         this.cooldownName = "PrePearl";
         this.metadataName = "webGun";
         this.removeOneItem = false;
+        this.projectileAbility = true;
 
         this.overrideActivationMessage();
     }
@@ -78,7 +80,14 @@ public class WebGunAbility extends AbilityItem implements Listener {
         Projectile projectile = event.getEntity();
         if(!(projectile.getShooter() instanceof Player) || !projectile.hasMetadata(this.metadataName)) return;
 
+        Player player = (Player) projectile.getShooter();
         projectile.removeMetadata(this.metadataName, Lazarus.getInstance());
+
+        ProjectileAbilityActivatedEvent abilityEvent = new ProjectileAbilityActivatedEvent(player, projectile.getLocation(), this);
+
+        if(abilityEvent.isCancelled()) {
+            return;
+        }
 
         this.handleCobwebCreation(projectile);
     }

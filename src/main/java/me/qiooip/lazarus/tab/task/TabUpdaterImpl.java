@@ -159,7 +159,7 @@ public class TabUpdaterImpl implements TabUpdater {
         ConfigFile tabFile = Lazarus.getInstance().getTabFile();
         AtomicInteger count = new AtomicInteger(1);
 
-        Stream.of("LEFT", "CENTER", "RIGHT", "FAR_RIGHT").forEach(sides -> tabFile.getStringList(sides).forEach(line -> {
+        Stream.of("LEFT", "CENTER", "RIGHT", "FAR_RIGHT").forEach(column -> tabFile.getStringList(column).forEach(line -> {
             int slot = count.getAndIncrement();
 
             if(line.toLowerCase().contains("<location>")) {

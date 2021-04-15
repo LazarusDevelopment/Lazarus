@@ -46,7 +46,9 @@ public class KitData {
 
 		for(int i = 0; i < 4; i++) {
 			int index = inventory.getSize() + i;
+
 			ItemStack armorPart = this.armor[i];
+			if(armorPart == null) continue;
 
 			if(inventory.getItem(inventory.getSize() + i) != null) {
 				PlayerUtils.addToInventoryOrDropToFloor(target, armorPart);

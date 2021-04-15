@@ -1,5 +1,7 @@
 package me.qiooip.lazarus.factions.listeners;
 
+import me.qiooip.lazarus.abilities.event.AbilityActivatedEvent;
+import me.qiooip.lazarus.abilities.event.ProjectileAbilityActivatedEvent;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.Faction;
@@ -98,10 +100,10 @@ public class PlayerEventListener implements Listener {
         player.sendMessage(refundMessage);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerMove(PlayerMoveEvent event) {
         if(TimerManager.getInstance().getCombatTagTimer().isActive(event.getPlayer())
-        && ClaimManager.getInstance().getFactionAt(event.getTo()).isSafezone()) {
+                && ClaimManager.getInstance().getFactionAt(event.getTo()).isSafezone()) {
             event.setTo(event.getFrom());
             return;
         }
@@ -109,7 +111,7 @@ public class PlayerEventListener implements Listener {
         this.checkMovement(event.getPlayer(), event.getFrom(), event.getTo());
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
 
@@ -161,6 +163,37 @@ public class PlayerEventListener implements Listener {
         }
 
         event.setTo(newLocation);
+    }
+
+    @EventHandler
+    public void onAbilityActivated(AbilityActivatedEvent event) {
+        if(event.isProjectileAbility()) return;
+
+        Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getLocation());
+
+        if(factionAt instanceof SystemFaction && !((SystemFaction) factionAt).isAbilities()) {
+            event.getPlayer().sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_ABILITIES_USAGE_DENIED
+                .replace("<faction>", factionAt.getDisplayName(event.getPlayer())));
+
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onProjectileAbilityActivated(ProjectileAbilityActivatedEvent event) {
+        Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getLocation());
+
+        if(factionAt instanceof SystemFaction && !((SystemFaction) factionAt).isAbilities()) {
+            Player player = event.getPlayer();
+
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_ABILITIES_USAGE_DENIED
+                .replace("<faction>", factionAt.getDisplayName(player)));
+
+            TimerManager.getInstance().getEnderPearlTimer().cancel(player);
+            event.getAbilityItem().handleAbilityRefund(player, null);
+
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

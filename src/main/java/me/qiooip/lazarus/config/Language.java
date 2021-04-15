@@ -184,6 +184,7 @@ public class Language {
     public static String FACTIONS_ALLIES_DISABLED;
     public static String FACTIONS_DENY_DAMAGE_ALLIES;
     public static String FACTIONS_ENDERPEARL_USAGE_DENIED;
+    public static String FACTIONS_ABILITIES_USAGE_DENIED;
     public static String FACTIONS_NO_LONGER_FROZEN;
     public static String FACTIONS_RALLY_EXPIRED;
 
@@ -210,6 +211,11 @@ public class Language {
 
     public static String FACTIONS_CLAIM_ENTERING;
     public static String FACTIONS_CLAIM_LEAVING;
+
+    public static String FACTIONS_ABILITIES_USAGE;
+    public static String FACTIONS_ABILITIES_NOT_SYSTEM_FACTION;
+    public static String FACTIONS_ABILITIES_ENABLED;
+    public static String FACTIONS_ABILITIES_DISABLED;
 
     public static String FACTIONS_ADD_DTR_USAGE;
     public static String FACTIONS_ADD_DTR_CHANGED_SENDER;
@@ -1568,6 +1574,7 @@ public class Language {
         FACTIONS_ALLIES_DISABLED = language.getString("FACTIONS.ALLIES_DISABLED");
         FACTIONS_DENY_DAMAGE_ALLIES = language.getString("FACTIONS.DENY_DAMAGE_ALLIES");
         FACTIONS_ENDERPEARL_USAGE_DENIED = language.getString("FACTIONS.ENDERPEARLS_DISABLED");
+        FACTIONS_ABILITIES_USAGE_DENIED = language.getString("FACTIONS.ABILITIES_DISABLED");
         FACTIONS_NO_LONGER_FROZEN = language.getString("FACTIONS.NO_LONGER_FROZEN");
         FACTIONS_RALLY_EXPIRED = language.getString("FACTIONS.RALLY_EXPIRED");
 
@@ -1594,6 +1601,11 @@ public class Language {
 
         FACTIONS_CLAIM_ENTERING = language.getString("FACTIONS.CLAIM_MESSAGES.ENTERING");
         FACTIONS_CLAIM_LEAVING = language.getString("FACTIONS.CLAIM_MESSAGES.LEAVING");
+
+        FACTIONS_ABILITIES_USAGE = language.getString("FACTIONS.ABILITIES_COMMAND.USAGE");
+        FACTIONS_ABILITIES_NOT_SYSTEM_FACTION = language.getString("FACTIONS.ABILITIES_COMMAND.NOT_SYSTEM_FACTION");
+        FACTIONS_ABILITIES_ENABLED = language.getString("FACTIONS.ABILITIES_COMMAND.ENABLED");
+        FACTIONS_ABILITIES_DISABLED = language.getString("FACTIONS.ABILITIES_COMMAND.DISABLED");
 
         FACTIONS_ADD_DTR_USAGE = language.getString("FACTIONS.ADD_DTR_COMMAND.USAGE");
         FACTIONS_ADD_DTR_CHANGED_SENDER = language.getString("FACTIONS.ADD_DTR_COMMAND.CHANGED_SENDER");

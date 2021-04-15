@@ -143,7 +143,7 @@ public class SubclaimHandler extends Handler implements Listener {
         if(!this.isSubclaimable(block)) return;
 
         String[] lines = event.getLines();
-        if(!lines[0].equalsIgnoreCase("[subclaim]")) return;
+        if(!lines[0].equalsIgnoreCase("[subclaim]") && !lines[0].equalsIgnoreCase("[s]")) return;
 
         Player player = event.getPlayer();
 

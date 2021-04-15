@@ -33,6 +33,7 @@ public abstract class AbilityItem {
     protected boolean enabled;
     protected ItemStack item;
     protected boolean removeOneItem;
+    protected boolean projectileAbility;
 
     private boolean overrideActivationMessage;
     protected List<String> activationMessage;
@@ -130,12 +131,15 @@ public abstract class AbilityItem {
         }
     }
 
-    protected void handleAbilityRefund(Player player, String message) {
+    public void handleAbilityRefund(Player player, String message) {
         TimerManager.getInstance().getGlobalAbilitiesTimer().cancel(player);
         TimerManager.getInstance().getAbilitiesTimer().cancel(player, this.type);
 
         player.getInventory().addItem(this.getItem());
-        player.sendMessage(message);
+
+        if(message != null) {
+            player.sendMessage(message);
+        }
     }
 
     protected void overrideActivationMessage() {

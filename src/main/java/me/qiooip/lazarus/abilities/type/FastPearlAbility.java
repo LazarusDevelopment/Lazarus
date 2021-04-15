@@ -10,10 +10,7 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class FastPearlAbility extends AbilityItem implements Listener {
@@ -35,6 +32,14 @@ public class FastPearlAbility extends AbilityItem implements Listener {
         this.reducedDuration = abilitySection.getInt("ENDERPEARL_COOLDOWN");
     }
 
+    public boolean hasFastPearlMetadata(Player player) {
+        return player.hasMetadata(this.metadataName);
+    }
+
+    public void removeFastPearlMetadata(Player player) {
+        player.removeMetadata(this.metadataName, Lazarus.getInstance());
+    }
+
     public void sendActivationMessage(Player player, int duration) {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
@@ -51,18 +56,5 @@ public class FastPearlAbility extends AbilityItem implements Listener {
         player.setMetadata(this.metadataName, PlayerUtils.TRUE_METADATA_VALUE);
         this.sendActivationMessage(player, this.reducedDuration);
         return true;
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if(!(event.getEntity().getShooter() instanceof Player)) return;
-
-        Projectile projectile = event.getEntity();
-
-        Player player = (Player) projectile.getShooter();
-        if(!player.hasMetadata(this.metadataName)) return;
-
-        player.removeMetadata(this.metadataName, Lazarus.getInstance());
-        projectile.setMetadata(this.metadataName, PlayerUtils.TRUE_METADATA_VALUE);
     }
 }

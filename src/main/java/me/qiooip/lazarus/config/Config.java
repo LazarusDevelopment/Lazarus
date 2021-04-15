@@ -476,7 +476,7 @@ public class Config {
         COMMANDS_COOLDOWN = config.getInt("COMMANDS_COOLDOWN");
 
         DEATHBAN_DIR = new File(Lazarus.getInstance().getDataFolder(), "deathbans");
-        RESTORE_DIR = new File(DEATHBAN_DIR, "restore");
+        RESTORE_DIR = new File(Lazarus.getInstance().getDataFolder(), "restore");
         FACTIONS_DIR = new File(Lazarus.getInstance().getDataFolder(), "factions");
         GAMES_DIR = new File(Lazarus.getInstance().getDataFolder(), "games");
         USERDATA_DIR = new File(Lazarus.getInstance().getDataFolder(), "userdata");

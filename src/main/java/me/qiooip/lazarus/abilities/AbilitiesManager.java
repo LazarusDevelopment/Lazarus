@@ -2,6 +2,7 @@ package me.qiooip.lazarus.abilities;
 
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.abilities.event.AbilityActivatedEvent;
 import me.qiooip.lazarus.abilities.type.AggressivePearlAbility;
 import me.qiooip.lazarus.abilities.type.AntiAbilityBallAbility;
 import me.qiooip.lazarus.abilities.type.AntiRedstoneAbility;
@@ -34,6 +35,8 @@ import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
 import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -145,6 +148,9 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if(!event.hasItem() || !event.getItem().hasItemMeta()) return;
 
+        Player player = event.getPlayer();
+        if(event.getItem().getType() == Material.ENDER_PEARL && player.getGameMode() == GameMode.CREATIVE) return;
+
         ItemMeta itemMeta = event.getItem().getItemMeta();
         if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return;
 
@@ -153,7 +159,13 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         AbilityItem ability = this.abilityItems.get(hash);
         if(ability == null) return;
 
-        Player player = event.getPlayer();
+        AbilityActivatedEvent abilityEvent = new AbilityActivatedEvent(player, player.getLocation(), ability, ability.isProjectileAbility());
+
+        if(abilityEvent.isCancelled()) {
+            event.setUseItemInHand(Result.DENY);
+            return;
+        }
+
         GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
 
         if(globalTimer.isActive(player.getUniqueId())) {
@@ -201,6 +213,12 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
 
         AbilityItem ability = this.abilityItems.get(hash);
         if(ability == null) return;
+
+        AbilityActivatedEvent abilityEvent = new AbilityActivatedEvent(damager, damager.getLocation(), ability, ability.isProjectileAbility());
+
+        if(abilityEvent.isCancelled()) {
+            return;
+        }
 
         GlobalAbilitiesTimer globalTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
 

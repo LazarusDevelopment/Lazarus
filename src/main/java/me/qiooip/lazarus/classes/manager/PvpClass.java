@@ -79,7 +79,7 @@ public abstract class PvpClass implements Listener {
 
     public void activateClass(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
-        if(player == null) return;
+        if(player == null || !this.isWearingFull(player)) return;
 
         PvpClassEquipEvent event = new PvpClassEquipEvent(uuid, this);
         if(event.isCancelled()) return;

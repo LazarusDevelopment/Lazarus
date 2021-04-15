@@ -67,7 +67,13 @@ public class EnderPearlHandler extends Handler implements Listener {
         AbilityItem abilityItem = AbilitiesManager.getInstance().getAbilityItem(itemInHand);
 
         if(abilityItem instanceof FastPearlAbility) {
-            cooldown = ((FastPearlAbility) abilityItem).getReducedDuration();
+            FastPearlAbility fastPearlAbility = (FastPearlAbility) abilityItem;
+
+            if(fastPearlAbility.hasFastPearlMetadata(player)) {
+                cooldown = ((FastPearlAbility) abilityItem).getReducedDuration();
+            }
+
+            fastPearlAbility.removeFastPearlMetadata(player);
         }
 
         TimerManager.getInstance().getEnderPearlTimer().activate(player, cooldown);

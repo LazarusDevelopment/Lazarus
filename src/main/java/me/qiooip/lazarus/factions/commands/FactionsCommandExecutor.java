@@ -2,6 +2,7 @@ package me.qiooip.lazarus.factions.commands;
 
 import me.qiooip.lazarus.commands.manager.SubCommandExecutor;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.factions.commands.admin.AbilitiesCommand;
 import me.qiooip.lazarus.factions.commands.admin.AddDtrCommand;
 import me.qiooip.lazarus.factions.commands.admin.ChatSpyCommand;
 import me.qiooip.lazarus.factions.commands.admin.ClaimForCommand;
@@ -81,6 +82,7 @@ public class FactionsCommandExecutor extends SubCommandExecutor {
 
         this.setPrefix(Language.FACTION_PREFIX);
 
+        this.addSubCommand(new AbilitiesCommand());
         this.addSubCommand(new AddDtrCommand());
         this.addSubCommand(new ChatSpyCommand());
         this.addSubCommand(new ClaimForCommand());

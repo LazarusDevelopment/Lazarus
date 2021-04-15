@@ -3,6 +3,7 @@ package me.qiooip.lazarus.abilities.type;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.abilities.event.ProjectileAbilityActivatedEvent;
 import me.qiooip.lazarus.abilities.utils.AbilityUtils;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
@@ -32,6 +33,7 @@ public class AggressivePearlAbility extends AbilityItem implements Listener {
 
         this.metadataName = "aggressivePearl";
         this.removeOneItem = false;
+        this.projectileAbility = true;
 
         this.overrideActivationMessage();
     }
@@ -81,6 +83,13 @@ public class AggressivePearlAbility extends AbilityItem implements Listener {
 
         if(player.hasMetadata(this.metadataName)) {
             player.removeMetadata(this.metadataName, Lazarus.getInstance());
+
+            ProjectileAbilityActivatedEvent abilityEvent = new ProjectileAbilityActivatedEvent(player, event.getTo(), this);
+
+            if(abilityEvent.isCancelled()) {
+                event.setCancelled(true);
+                return;
+            }
 
             this.addEffects(player, this.effects);
             this.sendActivationMessage(player, this.effects);

@@ -387,6 +387,7 @@ FACTIONS:
   ALLIES_DISABLED: "&cAllies &eare disabled this map."
   DENY_DAMAGE_ALLIES: "&eYou cannot damage <player>&e."
   ENDERPEARLS_DISABLED: "&eEnderpearls are disabled in <faction>'s &eterritory!"
+  ABILITIES_DISABLED: "&eAbilities are disabled in <faction>'s &eterritory!"
   NO_LONGER_FROZEN: "&eYour &cfaction &eis no longer &afrozen&e."
   RALLY_EXPIRED: "&cRally &elocation display has expired."
   PVP_CLASS_LIMIT:
@@ -404,6 +405,11 @@ FACTIONS:
   CLAIM_MESSAGES:
     ENTERING: "&eEntering <faction> &e(<deathban>&e)"
     LEAVING: "&eLeaving <faction> &e(<deathban>&e)"
+  ABILITIES_COMMAND:
+    USAGE: "&cUsage: /f abilities <faction>"
+    NOT_SYSTEM_FACTION: "&cAbilities &evalue can only be changed to &6system factions&e."
+    ENABLED: "&eYou &aenabled &eability usage in <faction>'s &eterritory."
+    DISABLED: "&eYou &cdisabled &eability usage in <faction>'s &eterritory."
   ADD_DTR_COMMAND:
     USAGE: "&cUsage: /f adddtr <faction> <amount>"
     CHANGED_SENDER: "&eYou changed &c<faction>'s &edtr to <value>&e."
@@ -751,6 +757,7 @@ FACTIONS:
       - ""
       - " &bSafezone: &7<safezone>"
       - " &bEnderpearls: &7<enderpearls>"
+      - " &bAbilities: &7<abilities>"
       - ""
       - " &bClaims:"
       - "<claims>"

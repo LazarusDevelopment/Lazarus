@@ -3,6 +3,7 @@ package me.qiooip.lazarus.abilities.type;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.abilities.event.ProjectileAbilityActivatedEvent;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.Faction;
@@ -38,6 +39,7 @@ public class ScramblerAbility extends AbilityItem implements Listener {
         this.empty = new ItemStack(Material.AIR);
         this.metadataName = "scrambler";
         this.removeOneItem = false;
+        this.projectileAbility = true;
     }
 
     @Override
@@ -64,11 +66,18 @@ public class ScramblerAbility extends AbilityItem implements Listener {
         if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Projectile)) return;
 
         Projectile projectile = (Projectile) event.getDamager();
-        if(!projectile.hasMetadata(this.metadataName)) return;
+        if(!(projectile.getShooter() instanceof Player) || !projectile.hasMetadata(this.metadataName)) return;
 
+        Player player = (Player) projectile.getShooter();
         projectile.removeMetadata(this.metadataName, Lazarus.getInstance());
 
         event.setCancelled(true);
+
+        ProjectileAbilityActivatedEvent abilityEvent = new ProjectileAbilityActivatedEvent(player, projectile.getLocation(), this);
+
+        if(abilityEvent.isCancelled()) {
+            return;
+        }
 
         Player target = (Player) event.getEntity();
         Player shooter = (Player) projectile.getShooter();

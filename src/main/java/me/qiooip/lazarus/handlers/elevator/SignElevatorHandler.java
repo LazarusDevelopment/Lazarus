@@ -103,11 +103,11 @@ public class SignElevatorHandler extends Handler implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
 		if(!Config.SIGN_ELEVATOR_ENABLED) return;
-		
-		Player player = event.getPlayer();
-		String[] lines = event.getLines();
 
-		if(!lines[0].equalsIgnoreCase("[elevator]")) return;
+		String[] lines = event.getLines();
+		if(!lines[0].equalsIgnoreCase("[elevator]") && !lines[0].equalsIgnoreCase("[e]")) return;
+
+		Player player = event.getPlayer();
 
 		if(lines[1].equalsIgnoreCase("up")) {
 			IntStream.range(0, 4).forEach(i -> event.setLine(i, Config.SIGN_ELEVATOR_ELEVATOR_UP.get(i)));

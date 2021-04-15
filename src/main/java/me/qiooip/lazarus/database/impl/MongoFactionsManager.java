@@ -167,6 +167,7 @@ public class MongoFactionsManager extends FactionsManager {
                 .append("deathban", faction.isDeathban())
                 .append("safezone", systemFaction.isSafezone())
                 .append("enderpearls", systemFaction.isEnderpearls())
+                .append("abilities", systemFaction.isAbilities())
                 .append("color", systemFaction.getColor().replace('§', '&'));
         }
     }
@@ -202,6 +203,7 @@ public class MongoFactionsManager extends FactionsManager {
                 faction.setDeathban(document.getBoolean("deathban"));
                 faction.setSafezone(document.getBoolean("safezone"));
                 faction.setEnderpearls(document.getBoolean("enderpearls"));
+                faction.setAbilities(document.getBoolean("abilities", true));
                 faction.setColor(Color.translate(document.getString("color")));
 
             } catch(InstantiationException | IllegalAccessException e) {

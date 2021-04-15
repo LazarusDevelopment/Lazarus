@@ -19,12 +19,15 @@ public class SystemFaction extends Faction {
 
     private String color;
     private boolean safezone;
+
     private boolean enderpearls;
+    private boolean abilities;
 
     public SystemFaction(String name) {
         super(name);
 
         this.enderpearls = true;
+        this.abilities = true;
         this.setColor(Color.translate("&b"));
     }
 
@@ -69,6 +72,7 @@ public class SystemFaction extends Faction {
             .replace("<deathban>", this.getDeathbanString())
             .replace("<safezone>", String.valueOf(this.isSafezone()))
             .replace("<enderpearls>", String.valueOf(this.isEnderpearls()))
+            .replace("<abilities>", String.valueOf(this.isAbilities()))
             .replace("<claims>", claimInfoString)));
     }
 }
