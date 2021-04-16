@@ -13,6 +13,7 @@ import org.bukkit.event.HandlerList;
 public class FreezePlayerEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
+
     private final CommandSender sender;
     private final Player target;
     private final FreezeType type;

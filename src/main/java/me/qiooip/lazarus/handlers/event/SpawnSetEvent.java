@@ -12,6 +12,7 @@ import org.bukkit.event.HandlerList;
 public class SpawnSetEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
+
     private final Player player;
     private final World.Environment environment;
     private final Location location;

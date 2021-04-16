@@ -12,6 +12,7 @@ import java.util.UUID;
 public class TimerCancelEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
+
     private final UUID uuid;
     private final Timer timer;
 

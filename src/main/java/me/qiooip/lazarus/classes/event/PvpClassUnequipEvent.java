@@ -8,11 +8,13 @@ import org.bukkit.event.HandlerList;
 
 import java.util.UUID;
 
+@Getter
 public class PvpClassUnequipEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
-    @Getter private final UUID player;
-    @Getter private final PvpClass pvpClass;
+
+    private final UUID player;
+    private final PvpClass pvpClass;
 
     public PvpClassUnequipEvent(UUID player, PvpClass pvpClass) {
         this.player = player;

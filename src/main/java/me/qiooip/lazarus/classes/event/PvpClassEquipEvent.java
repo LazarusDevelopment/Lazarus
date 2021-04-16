@@ -10,12 +10,14 @@ import org.bukkit.event.HandlerList;
 
 import java.util.UUID;
 
+@Getter
 public class PvpClassEquipEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    @Getter private final UUID player;
-    @Getter private final PvpClass pvpClass;
-    @Getter @Setter private boolean cancelled;
+
+    private final UUID player;
+    private final PvpClass pvpClass;
+    @Setter private boolean cancelled;
 
     public PvpClassEquipEvent(UUID player, PvpClass pvpClass) {
         this.player = player;

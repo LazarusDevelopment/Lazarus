@@ -14,6 +14,7 @@ import java.util.UUID;
 public class TimerActivateEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
+
     private final UUID uuid;
     private final Timer timer;
     private final int delay;
