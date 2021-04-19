@@ -11,6 +11,15 @@ ENDER_DRAGON_PREFIX: "&8[&5&lDragon&8] "
 LOOT_PREFIX: "&8[&b&lLoot&8] "
 SCHEDULE_PREFIX: "&8[&6&lSchedule&8] "
 
+YES_PLACEHOLDER: "Yes"
+NO_PLACEHOLDER: "No"
+
+TRUE_PLACEHOLDER: "True"
+FALSE_PLACEHOLDER: "False"
+
+ENABLED_PLACEHOLDER: "Enabled"
+DISABLED_PLACEHOLDER: "Disabled"
+
 STAFF_JOIN_MESSAGE: "&8[&aJoin&8] &a<player>"
 STAFF_JOIN_MESSAGE_VANISHED: "&8[&aJoin&8] &a<player> &8(&cVanished&8)"
 STAFF_QUIT_MESSAGE: "&8[&cQuit&8] &c<player>"
@@ -826,8 +835,8 @@ FACTIONS:
     UNINVITE_ALL: "&ePlayer &c<player> &ehas removed all player invitations."
     NOT_INVITED: "&ePlayer &c<player> &eis not invited to faction."
   UNFOCUS_COMMAND:
-    NOT_FOCUSING: "&eYou are currently &cnot focusing &eanyone."
-    UNFOCUSED: "&eYou are no longer focusing &c<faction>&e."
+    NOT_FOCUSING: "&cYou are currently &enot focusing &canyone."
+    UNFOCUSED: "&bYou are no longer focusing &e<faction>&b."
     FACTION_DOESNT_EXIST: "&eFaction you were &cfocusing &edoesn't exist anymore!"
   WITHDRAW_COMMAND:
     USAGE: "&cUsage: /f withdraw <amount>"
@@ -1583,6 +1592,15 @@ FLY_COMMAND:
   MESSAGE_OTHERS_ENABLED: "&eYou have &aenabled &e<player>'s fly mode."
   MESSAGE_OTHERS_DISABLED: "&eYou have &cdisabled &e<player>'s fly mode."
 
+FOCUS_COMMAND:
+  USAGE: "&cUsage: /focus <player>"
+  ALREADY_FOCUSING: "&eYou are already focusing &c<player>&e."
+  CANNOT_FOCUS: "&eYou cannot focus this &cplayer&e."
+  FOCUSED:
+    - ""
+    - "&7&l* &b&lYour faction is now focusing on &a&l<target>&b&l."
+    - ""
+
 FOUND_ORE:
   MESSAGE: "&7[&b*&7] &e<player> &7has found &bdiamonds&7. &7[&c<amount>&7]"
 
@@ -2212,6 +2230,10 @@ TOGGLE_SOUNDS_COMMAND:
   TOGGLED_OFF: "&eYou have toggled &coff &eyour &cmessage sounds&e."
 
 TOP_COMMAND_MESSAGE: "&eTeleported to &chighest &eblock."
+
+UNFOCUS_COMMAND:
+  NOT_FOCUSING: "&cYou are currently &enot focusing &canyone."
+  UNFOCUSED: "&bYou are no longer focusing &e<player>&b."
 
 UNREPAIRABLE_ITEM_MESSAGE: "&eThis item is not &crepairable&e!"
 

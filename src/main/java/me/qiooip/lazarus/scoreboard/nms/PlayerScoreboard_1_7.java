@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerScoreboard {
 
-    private static final String SB_LINE = Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH.toString() + "------";
+    private static final String SB_LINE = Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH + "------";
     private static final ScoreboardInput EMPTY_INPUT = new ScoreboardInput("", "", "");
 
     private final Deque<ScoreboardInput> entries;
@@ -196,7 +196,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
     @Override
     public void addEmptyLine(ChatColor color) {
-        this.entries.addLast(new ScoreboardInput("", color.toString() + Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH.toString(), ""));
+        this.entries.addLast(new ScoreboardInput("", color.toString() + Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH, ""));
     }
 
     @Override
@@ -344,7 +344,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
                 if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
                     this.addAndUpdate(online, nametag, this.invis, lunarOnly);
-                } else if(playerFaction.isFocusing(targetFaction)) {
+                } else if(playerFaction.isFocusing(online) || playerFaction.isFocusing(targetFaction)) {
                     this.addAndUpdate(online, nametag, this.focused, lunarOnly);
                 } else if(playerFaction == targetFaction) {
                     this.addAndUpdate(online, nametag, this.members, lunarOnly);

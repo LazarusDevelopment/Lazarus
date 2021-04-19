@@ -12,6 +12,7 @@ import me.qiooip.lazarus.factions.enums.Role;
 import me.qiooip.lazarus.factions.event.FactionDtrChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionFocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionUnfocusedEvent;
+import me.qiooip.lazarus.factions.event.PlayerUnfocusedEvent;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
@@ -64,6 +65,7 @@ public class PlayerFaction extends Faction {
     private transient List<String> playerInvitations;
     private transient List<UUID> allyInvitations;
 
+    private transient UUID focusedPlayer;
     private transient UUID focusedFaction;
     private transient Set<UUID> focusing;
     private transient Location rallyLocation;
@@ -175,7 +177,7 @@ public class PlayerFaction extends Faction {
     }
 
     private String getRaidableString() {
-        return this.isRaidable() ? "Yes" : "No";
+        return Language.getYesOrNo(this.isRaidable());
     }
 
     public double getMaxDtr() {
@@ -262,8 +264,48 @@ public class PlayerFaction extends Faction {
         this.points = Config.FACTION_TOP_ALLOW_NEGATIVE_POINTS ? value : Math.max(0, value);
     }
 
+    public boolean isFocusing(Player player) {
+        return this.focusedPlayer != null && this.focusedPlayer.equals(player.getUniqueId());
+    }
+
     public boolean isFocusing(PlayerFaction faction) {
         return this.focusedFaction != null && faction != null && this.focusedFaction.equals(faction.getId());
+    }
+
+    public void focusPlayer(Player player) {
+        Player current = null;
+        if(this.focusedPlayer != null) current = Bukkit.getPlayer(focusedPlayer);
+
+        this.focusedPlayer = player.getUniqueId();
+
+        for(FactionPlayer member : this.members.values()) {
+            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+            if(scoreboard == null) continue;
+
+            scoreboard.updateRelation(player);
+
+            if(current != null) {
+                scoreboard.updateRelation(current);
+            }
+        }
+
+        new FactionFocusedEvent(this, player.getUniqueId());
+    }
+
+    public void unfocusPlayer(OfflinePlayer offlinePlayer) {
+        PlayerUnfocusedEvent event = new PlayerUnfocusedEvent(this, this.focusedPlayer);
+        if(event.isCancelled()) return;
+
+        this.focusedPlayer = null;
+        if(!offlinePlayer.isOnline()) return;
+
+        this.members.values().forEach(member -> {
+            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+
+            if(scoreboard != null) {
+                scoreboard.updateRelation(offlinePlayer.getPlayer());
+            }
+        });
     }
 
     public void focusFaction(PlayerFaction playerFaction) {
@@ -364,7 +406,7 @@ public class PlayerFaction extends Faction {
             .replace("<faction-size>", String.valueOf(this.members.size()))
             .replace("<home-location>", this.home == null ? "None" : this.getHomeString())
             .replace("<announcement>", this.announcement != null ? this.announcement : "")
-            .replace("<autoRevive>", this.autoRevive ? "Enabled" : "Disabled")
+            .replace("<autoRevive>", Language.getEnabledOrDisabled(this.autoRevive))
             .replace("<lives>", String.valueOf(this.lives))
             .replace("<kills>", String.valueOf(totalKills.get()))
             .replace("<leader>", leader.get())

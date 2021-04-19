@@ -21,6 +21,15 @@ public class Language {
     public static String LOOT_PREFIX;
     public static String SCHEDULE_PREFIX;
 
+    public static String YES_PLACEHOLDER;
+    public static String NO_PLACEHOLDER;
+
+    public static String TRUE_PLACEHOLDER;
+    public static String FALSE_PLACEHOLDER;
+
+    public static String ENABLED_PLACEHOLDER;
+    public static String DISABLED_PLACEHOLDER;
+
     public static String STAFF_JOIN_MESSAGE;
     public static String STAFF_JOIN_MESSAGE_VANISHED;
     public static String STAFF_QUIT_MESSAGE;
@@ -958,6 +967,11 @@ public class Language {
     public static String FLY_OTHERS_ENABLED;
     public static String FLY_OTHERS_DISABLED;
 
+    public static String FOCUS_USAGE;
+    public static String FOCUS_ALREADY_FOCUSING;
+    public static String FOCUS_CANNOT_FOCUS;
+    public static List<String> FOCUS_FOCUSED;
+
     public static String FOUND_ORE_MESSAGE;
 
     public static String FREEZE_USAGE;
@@ -1363,6 +1377,9 @@ public class Language {
 
     public static String TOP_COMMAND_MESSAGE;
 
+    public static String UNFOCUS_NOT_FOCUSING;
+    public static String UNFOCUS_UNFOCUSED;
+
     public static String UNREPAIRABLE_ITEM_MESSAGE;
 
     public static String VANISH_ENABLED;
@@ -1395,6 +1412,18 @@ public class Language {
     public static List<String> HELP_MESSAGE;
     public static List<String> SUBCLAIM_MESSAGE;
 
+    public static String getYesOrNo(boolean condition) {
+        return condition ? YES_PLACEHOLDER : NO_PLACEHOLDER;
+    }
+
+    public static String getTrueOrFalse(boolean condition) {
+        return condition ? TRUE_PLACEHOLDER : FALSE_PLACEHOLDER;
+    }
+
+    public static String getEnabledOrDisabled(boolean condition) {
+        return condition ? ENABLED_PLACEHOLDER : DISABLED_PLACEHOLDER;
+    }
+
     public Language() {
         ConfigFile language = Lazarus.getInstance().getLanguage();
 
@@ -1410,6 +1439,15 @@ public class Language {
         ENDER_DRAGON_PREFIX = language.getString("ENDER_DRAGON_PREFIX");
         LOOT_PREFIX = language.getString("LOOT_PREFIX");
         SCHEDULE_PREFIX = language.getString("SCHEDULE_PREFIX");
+
+        YES_PLACEHOLDER = language.getString("YES_PLACEHOLDER");
+        NO_PLACEHOLDER = language.getString("NO_PLACEHOLDER");
+
+        TRUE_PLACEHOLDER = language.getString("TRUE_PLACEHOLDER");
+        FALSE_PLACEHOLDER = language.getString("FALSE_PLACEHOLDER");
+
+        ENABLED_PLACEHOLDER = language.getString("ENABLED_PLACEHOLDER");
+        DISABLED_PLACEHOLDER = language.getString("DISABLED_PLACEHOLDER");
 
         STAFF_JOIN_MESSAGE = language.getString("STAFF_JOIN_MESSAGE");
         STAFF_JOIN_MESSAGE_VANISHED = language.getString("STAFF_JOIN_MESSAGE_VANISHED");
@@ -2350,6 +2388,11 @@ public class Language {
         FLY_OTHERS_ENABLED = language.getString("FLY_COMMAND.MESSAGE_OTHERS_ENABLED");
         FLY_OTHERS_DISABLED = language.getString("FLY_COMMAND.MESSAGE_OTHERS_DISABLED");
 
+        FOCUS_USAGE = language.getString("FOCUS_COMMAND.USAGE");
+        FOCUS_ALREADY_FOCUSING = language.getString("FOCUS_COMMAND.ALREADY_FOCUSING");
+        FOCUS_CANNOT_FOCUS = language.getString("FOCUS_COMMAND.CANNOT_FOCUS");
+        FOCUS_FOCUSED = language.getStringList("FOCUS_COMMAND.FOCUSED");
+
         FOUND_ORE_MESSAGE = language.getString("FOUND_ORE.MESSAGE");
 
         FREEZE_USAGE = language.getString("FREEZE_COMMAND.USAGE");
@@ -2755,6 +2798,9 @@ public class Language {
         TOGGLE_SOUNDS_TOGGLED_OFF = language.getString("TOGGLE_SOUNDS_COMMAND.TOGGLED_OFF");
 
         TOP_COMMAND_MESSAGE = language.getString("TOP_COMMAND_MESSAGE");
+
+        UNFOCUS_NOT_FOCUSING = language.getString("UNFOCUS_COMMAND.NOT_FOCUSING");
+        UNFOCUS_UNFOCUSED = language.getString("UNFOCUS_COMMAND.UNFOCUSED");
 
         UNREPAIRABLE_ITEM_MESSAGE = language.getString("UNREPAIRABLE_ITEM_MESSAGE");
 

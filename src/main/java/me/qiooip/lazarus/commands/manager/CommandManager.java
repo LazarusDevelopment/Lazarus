@@ -7,6 +7,7 @@ import me.qiooip.lazarus.commands.BottleCommand;
 import me.qiooip.lazarus.commands.CoordsCommand;
 import me.qiooip.lazarus.commands.FillBottleCommand;
 import me.qiooip.lazarus.commands.FilterCommand;
+import me.qiooip.lazarus.commands.FocusCommand;
 import me.qiooip.lazarus.commands.GoldenAppleCommand;
 import me.qiooip.lazarus.commands.HelpCommand;
 import me.qiooip.lazarus.commands.LazarusCommand;
@@ -33,6 +34,7 @@ import me.qiooip.lazarus.commands.ToggleDeathMessagesCommand;
 import me.qiooip.lazarus.commands.ToggleFoundOreCommand;
 import me.qiooip.lazarus.commands.ToggleLightningCommand;
 import me.qiooip.lazarus.commands.ToggleScoreboardCommand;
+import me.qiooip.lazarus.commands.UnfocusCommand;
 import me.qiooip.lazarus.commands.base.AdventureCommand;
 import me.qiooip.lazarus.commands.base.BackCommand;
 import me.qiooip.lazarus.commands.base.BroadcastCommand;
@@ -176,6 +178,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new CoordsCommand());
         this.commands.add(new FillBottleCommand());
         this.commands.add(new FilterCommand());
+        this.commands.add(new FocusCommand());
         this.commands.add(new GoldenAppleCommand());
         this.commands.add(new HelpCommand());
         this.commands.add(new LazarusCommand());
@@ -202,6 +205,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new ToggleFoundOreCommand());
         this.commands.add(new ToggleLightningCommand());
         this.commands.add(new ToggleScoreboardCommand());
+        this.commands.add(new UnfocusCommand());
 
         this.commands.add(new AdventureCommand());
         this.commands.add(new BackCommand());

@@ -615,15 +615,38 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     }
 
     private boolean handlePlayInBlockPlacePacket(Player player, PacketPlayInBlockPlace placePacket) {
-        Location location = new Location(player.getWorld(), placePacket.a().getX(), placePacket.a().getY(), placePacket.a().getZ());
-        GlassInfo glassInfo = Lazarus.getInstance().getGlassManager().getGlassAt(player, location);
+        BlockPosition position = placePacket.a();
+        Location location = new Location(player.getWorld(), position.getX(), position.getY(), position.getZ());
 
-        if(glassInfo != null) {
-            player.sendBlockChange(location, glassInfo.getMaterial(), glassInfo.getData());
-            return true;
+        GlassInfo glassInfo = Lazarus.getInstance().getGlassManager().getGlassAt(player, location);
+        if(glassInfo == null) return false;
+
+        player.sendBlockChange(location, glassInfo.getMaterial(), glassInfo.getData());
+        int blockFace = placePacket.getFace();
+
+        if(blockFace != 255 && this.shouldCancelFakePlace(player.getItemInHand().getType())) {
+            this.adjustPlaceLocation(location, blockFace);
+
+            player.sendBlockChange(location, Material.AIR, (byte) 0);
+            player.updateInventory();
         }
 
-        return false;
+        return true;
+    }
+
+    private boolean shouldCancelFakePlace(Material material) {
+        return material.isBlock() || material == Material.LAVA_BUCKET || material == Material.WATER_BUCKET;
+    }
+
+    private void adjustPlaceLocation(Location location, int blockFace) {
+        switch(blockFace) {
+            case 0: location.subtract(0, 1, 0); break;
+            case 1: location.add(0, 1, 0); break;
+            case 2: location.subtract(0, 0, 1); break;
+            case 3: location.add(0, 0, 1); break;
+            case 4: location.subtract(1, 0, 0); break;
+            case 5: location.add(1, 0, 0); break;
+        }
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
