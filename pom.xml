@@ -23,11 +23,6 @@
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com</url>
         </repository>
-
-        <repository>
-            <id>moonsworth-mvn</id>
-            <url>https://maven.moonsworth.com/repository/lunarclient-public/</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -214,7 +209,7 @@
         <dependency>
             <groupId>com.lunarclient</groupId>
             <artifactId>bukkitapi</artifactId>
-            <version>1.0-20200729.212152-7</version>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

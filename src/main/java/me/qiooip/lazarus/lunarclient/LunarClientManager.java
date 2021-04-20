@@ -28,7 +28,6 @@ public class LunarClientManager implements Listener {
     private WaypointManager waypointManager;
 
     private final Set<UUID> players;
-
     private final LCPacketServerRule legacyEnchanting;
 
     public LunarClientManager() {

@@ -8,15 +8,14 @@ import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
 import com.lunarclient.bukkitapi.nethandler.client.LCPacketServerRule;
 import com.lunarclient.bukkitapi.nethandler.client.obj.ServerRule;
 import com.lunarclient.bukkitapi.object.LCWaypoint;
-import com.lunarclient.bukkitapi.object.MinimapStatus;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.FactionFocusedEvent;
-import me.qiooip.lazarus.factions.event.FactionUnfocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionRallyEvent;
 import me.qiooip.lazarus.factions.event.FactionSetHomeEvent;
+import me.qiooip.lazarus.factions.event.FactionUnfocusedEvent;
 import me.qiooip.lazarus.factions.event.PlayerJoinFactionEvent;
 import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
@@ -193,7 +192,7 @@ public class WaypointManager implements Listener {
         Player player = event.getPlayer();
 
         LunarClientAPI.getInstance().sendPacket(player, this.serverRulePacket);
-        LunarClientAPI.getInstance().setMinimapStatus(player, MinimapStatus.NEUTRAL);
+//        LunarClientAPI.getInstance().sendPacket(player, ServerRule.MINIMAP_STATUS);
 
         this.registerPlayerWaypoints(player);
     }
