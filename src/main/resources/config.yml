@@ -111,7 +111,7 @@ CHAT_FORMAT:
 
 # In order for this to work, you need to install
 # the official LunarClientAPI plugin on your server.
-# Download @ bit.ly/36njcBJ
+# Download @ https://github.com/LunarClient/BukkitAPI/releases
 
 # Should we enable lunar client API?
 LUNAR_CLIENT_API_ENABLED: false
@@ -194,6 +194,15 @@ NAMETAGS:
   ENABLED: true
   # Lunar Client name tags format
   FACTION: "&6[<faction> &7\u2503 <dtr>&6]"
+
+# List of server rules with allowed values can be found @ https://bit.ly/2P6Iu0J
+SERVER_RULES:
+  MINIMAP_STATUS: "NEUTRAL"
+  LEGACY_ENCHANTING: true
+
+# List of mod ids can be found @ https://bit.ly/3grNQPa
+FORCE_DISABLED_MODS:
+  - "skyblockAddons"
 
 #=========================================================#
 #                  Commands configuration                 #

@@ -76,6 +76,7 @@ public class Config {
     public static boolean LUNAR_CLIENT_API_COOLDOWNS_ENABLED;
     public static boolean LUNAR_CLIENT_API_NAMETAGS_ENABLED;
     public static String LUNAR_CLIENT_API_NAMETAGS_FACTION;
+    public static List<String> LUNAR_CLIENT_FORCE_DISABLED_MODS;
 
     public static Set<String> DISABLED_LAZARUS_COMMANDS;
     public static Set<String> DISABLED_FACTION_SUBCOMMANDS;
@@ -540,6 +541,7 @@ public class Config {
         LUNAR_CLIENT_API_COOLDOWNS_ENABLED = config.getBoolean("COOLDOWNS_ENABLED");
         LUNAR_CLIENT_API_NAMETAGS_ENABLED = config.getBoolean("NAMETAGS.ENABLED");
         LUNAR_CLIENT_API_NAMETAGS_FACTION = config.getString("NAMETAGS.FACTION");
+        LUNAR_CLIENT_FORCE_DISABLED_MODS = config.getStringList("FORCE_DISABLED_MODS");
 
         DISABLED_LAZARUS_COMMANDS = config.getStringList("DISABLED_LAZARUS_COMMANDS")
             .stream().map(String::toLowerCase).collect(Collectors.toSet());
