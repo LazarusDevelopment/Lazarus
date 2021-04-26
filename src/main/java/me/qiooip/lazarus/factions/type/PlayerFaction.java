@@ -201,17 +201,24 @@ public class PlayerFaction extends Faction {
 
     public void setDtr(double amount) {
         double currentDtr = this.dtr;
-        double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
 
-        this.dtr = Math.round(newDtr * 100) / 100.0;
+        double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
+        double newDtrRounded = Math.round(newDtr * 100) / 100.0;
 
         if(currentDtr != this.dtr) {
             if(Thread.currentThread() != NmsUtils.getInstance().getMainThread()) {
-                new FactionDtrChangeEvent(this, currentDtr, this.dtr);
+                this.callDtrUpdateEvent(currentDtr, newDtrRounded);
             } else {
-                Tasks.async(() ->  new FactionDtrChangeEvent(this, currentDtr, this.dtr));
+                Tasks.async(() -> this.callDtrUpdateEvent(currentDtr, newDtrRounded));
             }
         }
+    }
+
+    private void callDtrUpdateEvent(double currentDtr, double newDtr) {
+        FactionDtrChangeEvent event = new FactionDtrChangeEvent(this, currentDtr, newDtr);
+        if(event.isCancelled()) return;
+
+        this.dtr = event.getNewDtr();
     }
 
     public String getMaxDtrString() {

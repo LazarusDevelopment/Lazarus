@@ -211,7 +211,7 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onFactionDtrChange(FactionDtrChangeEvent event) {
         this.updateAllTabRelations(event.getFaction().getOnlinePlayers(), true);
     }

@@ -606,7 +606,7 @@ public class FactionsManager implements Listener {
         });
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onFactionDtrChange(FactionDtrChangeEvent event) {
         DtrRegenTimer dtrRegenTimer = TimerManager.getInstance().getDtrRegenTimer();
 
