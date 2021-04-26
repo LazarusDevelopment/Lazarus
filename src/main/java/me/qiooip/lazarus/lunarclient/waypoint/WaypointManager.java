@@ -5,8 +5,6 @@ import com.google.common.collect.Table;
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import com.lunarclient.bukkitapi.event.LCPlayerRegisterEvent;
 import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketServerRule;
-import com.lunarclient.bukkitapi.nethandler.client.obj.ServerRule;
 import com.lunarclient.bukkitapi.object.LCWaypoint;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
@@ -52,9 +50,7 @@ public class WaypointManager implements Listener {
     private final Map<String, LCWaypoint> kothWaypoints;
 
     private final Table<UUID, PlayerWaypointType, LCWaypoint> playerWaypoints;
-
     private final PlayerWaypointType[] waypointTypes;
-    private final LCPacketServerRule serverRulePacket;
 
     public WaypointManager() {
         this.waypoints = new HashMap<>();
@@ -65,8 +61,6 @@ public class WaypointManager implements Listener {
         this.playerWaypoints = HashBasedTable.create();
 
         this.waypointTypes = PlayerWaypointType.values();
-        this.serverRulePacket = new LCPacketServerRule(ServerRule.SERVER_HANDLES_WAYPOINTS, true);
-
         this.setupWaypoints();
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
@@ -88,6 +82,7 @@ public class WaypointManager implements Listener {
             LunarClientWaypoint lunarClientWaypoint = new LunarClientWaypoint();
             lunarClientWaypoint.setName(Color.translate(section.getString(waypointName + ".NAME")));
             lunarClientWaypoint.setColor(section.getString(waypointName + ".COLOR"));
+            lunarClientWaypoint.setForced(section.getBoolean(waypointName + ".FORCED"));
 
             PlayerWaypointType type = PlayerWaypointType.valueOf(waypointName);
             this.waypoints.put(type, lunarClientWaypoint);
@@ -189,12 +184,7 @@ public class WaypointManager implements Listener {
 
     @EventHandler
     public void onPlayerRegisterLCEvent(LCPlayerRegisterEvent event) {
-        Player player = event.getPlayer();
-
-        LunarClientAPI.getInstance().sendPacket(player, this.serverRulePacket);
-//        LunarClientAPI.getInstance().sendPacket(player, ServerRule.MINIMAP_STATUS);
-
-        this.registerPlayerWaypoints(player);
+        this.registerPlayerWaypoints(event.getPlayer());
     }
 
     @EventHandler

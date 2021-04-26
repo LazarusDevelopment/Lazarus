@@ -125,42 +125,55 @@ FORCED_WAYPOINTS:
   SPAWN:
     NAME: "&aSpawn"
     COLOR: "#00FF00"
+    FORCED: true
   NETHER_SPAWN:
     NAME: "&a&lNether Spawn"
     COLOR: "#00FF00"
+    FORCED: true
   END_SPAWN:
     NAME: "&a&lEnd Spawn"
     COLOR: "#00FF00"
+    FORCED: true
   CONQUEST_RED:
     NAME: "&cConquest Red"
     COLOR: "#FF0000"
+    FORCED: true
   CONQUEST_BLUE:
     NAME: "&bConquest Blue"
     COLOR: "#0000FF"
+    FORCED: true
   CONQUEST_GREEN:
     NAME: "&aConquest Green"
     COLOR: "#00FF00"
+    FORCED: true
   CONQUEST_YELLOW:
     NAME: "&eConquest Yellow"
     COLOR: "#FFFF00"
+    FORCED: true
   KOTH:
     NAME: "&3<name> KoTH"
     COLOR: "#00FFFF"
+    FORCED: true
   DTC:
     NAME: "&4DTC"
     COLOR: "#202020"
+    FORCED: true
   END_EXIT:
     NAME: "&fEnd Exit"
     COLOR: "#FFFFFF"
+    FORCED: true
   FACTION_RALLY:
     NAME: "&dFaction Rally"
     COLOR: "#FF33FF"
+    FORCED: true
   FACTION_HOME:
     NAME: "&bFaction Home"
     COLOR: "#CC0000"
+    FORCED: true
   FOCUSED_FACTION_HOME:
     NAME: "&5Focused Faction Home"
     COLOR: "#990000"
+    FORCED: true
 
 # Should we enable staff modules
 STAFF_MODULES_ENABLED: true
@@ -199,6 +212,7 @@ NAMETAGS:
 SERVER_RULES:
   MINIMAP_STATUS: "NEUTRAL"
   LEGACY_ENCHANTING: true
+  SERVER_HANDLES_WAYPOINTS: true
 
 # List of mod ids can be found @ https://bit.ly/3grNQPa
 FORCE_DISABLED_MODS:

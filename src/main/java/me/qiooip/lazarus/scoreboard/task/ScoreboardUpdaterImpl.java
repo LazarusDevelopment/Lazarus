@@ -27,6 +27,7 @@ import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.timer.type.SystemTimer;
 import me.qiooip.lazarus.userdata.Userdata;
+import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
@@ -39,9 +40,11 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
 
@@ -51,9 +54,22 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
     private ScheduledThreadPoolExecutor executor;
     private ScheduledFuture<?> updater;
 
+    private final Function<String, String> conquestFactionFunction;
+    private final Function<String, String> kothNameFunction;
+    private final Function<String, String> factionFocusFunction;
+
     public ScoreboardUpdaterImpl(Lazarus instance, ScoreboardManager manager) {
         this.instance = instance;
         this.manager = manager;
+
+        this.conquestFactionFunction = ServerUtils.parsePlaceholderFunction(
+            Config.CONQUEST_FACTION_FORMAT, "<faction>");
+
+        this.kothNameFunction = ServerUtils.parsePlaceholderFunction(
+            Config.KOTH_PLACEHOLDER, "<kothName>");
+
+        this.factionFocusFunction = ServerUtils.parsePlaceholderFunction(
+            Config.FACTION_FOCUS_TITLE_PLACEHOLDER, "<focusedFaction>");
 
         Tasks.syncLater(this::setupTasks, 10L);
     }
@@ -88,33 +104,7 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
                     continue;
                 }
 
-                if(this.instance.getStaffModeManager().isInStaffMode(player) && this.manager.isStaffSb(player)) {
-                    scoreboard.add(Config.STAFFMODE_PLACEHOLDER, "");
-
-                    scoreboard.add(Config.VISIBILITY_PLACEHOLDER, this.instance.getVanishManager().isVanished(player)
-                        ? Config.STAFF_SB_VANISHED
-                        : Config.STAFF_SB_VISIBLE);
-
-                    scoreboard.add(Config.CHATMODE_PLACEHOLDER, this.instance.getStaffChatHandler().isStaffChatEnabled(player)
-                        ? Config.STAFF_SB_STAFFCHAT
-                        : Config.STAFF_SB_GLOBAL);
-
-                    scoreboard.add(Config.GAMEMODE_PLACEHOLDER, player.getGameMode() == GameMode.CREATIVE
-                        ? Config.STAFF_SB_CREATIVE
-                        : Config.STAFF_SB_SURVIVAL);
-
-                    scoreboard.add(Config.ONLINE_PLACEHOLDER, Bukkit.getOnlinePlayers().size() + "");
-
-                    scoreboard.addLine(ChatColor.DARK_AQUA);
-                } else if(this.instance.getVanishManager().isVanished(player) && this.manager.isStaffSb(player)) {
-                    scoreboard.add(Config.VANISH_PLACEHOLDER, "");
-
-                    scoreboard.add(Config.VISIBILITY_PLACEHOLDER, this.instance.getVanishManager().isVanished(player)
-                        ? Config.STAFF_SB_VANISHED
-                        : Config.STAFF_SB_VISIBLE);
-
-                    scoreboard.addLine(ChatColor.DARK_AQUA);
-                }
+                this.applyStaffPlaceholders(player, scoreboard);
 
                 Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
 
@@ -156,8 +146,8 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
                     int count = 1;
 
                     for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
-                        scoreboard.add(ChatColor.GRAY.toString() + count + ". " + Config.CONQUEST_FACTION_FORMAT
-                            .replace("<faction>", entry.getKey().getName()),  entry.getValue() + "");
+                        scoreboard.add(ChatColor.GRAY.toString() + count + ". " +
+                            this.conquestFactionFunction.apply(entry.getKey().getName()),  entry.getValue() + "");
 
                         if(++count == 4) break;
                     }
@@ -187,8 +177,7 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
 
                 if(!koths.isEmpty()) {
                     for(RunningKoth koth : koths) {
-                        scoreboard.add(Config.KOTH_PLACEHOLDER.replace("<kothname>",
-                                koth.getKothData().getColoredName()), koth.getScoreboardEntry());
+                        scoreboard.add(this.kothNameFunction.apply(koth.getKothData().getColoredName()), koth.getScoreboardEntry());
                     }
                 }
 
@@ -210,70 +199,9 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
                     }
                 }
 
-                PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
-
-                if(playerFaction != null && playerFaction.getRallyLocation() != null) {
-                    scoreboard.addLine(ChatColor.DARK_GRAY);
-                    scoreboard.add(Config.FACTION_RALLY_TITLE_PLACEHOLDER, "");
-
-                    scoreboard.add(Config.FACTION_RALLY_WORLD_PLACEHOLDER,
-                        StringUtils.getWorldName(playerFaction.getRallyLocation()));
-
-                    scoreboard.add(Config.FACTION_RALLY_LOCATION_PLACEHOLDER, Config.FACTION_RALLY_INCLUDE_Y_COORDINATE
-                        ? StringUtils.getLocationName(playerFaction.getRallyLocation())
-                        : StringUtils.getLocationNameWithoutY(playerFaction.getRallyLocation()));
-                }
-
-                PvpClass pvpClass = this.instance.getPvpClassManager().getWarmupOrActivePvpClass(player);
-
-                if(pvpClass != null) {
-                    PvpClassWarmupTimer warmupTimer = TimerManager.getInstance().getPvpClassWarmupTimer();
-
-                    if(warmupTimer.isActive(player, pvpClass.getName())) {
-                        scoreboard.addLine(ChatColor.BLUE);
-
-                        scoreboard.add(warmupTimer.getPlaceholder(),
-                            warmupTimer.getScoreboardEntry(player, pvpClass.getName()));
-
-                    } else if(pvpClass.isActive(player)) {
-                        scoreboard.addLine(ChatColor.BLUE);
-                        scoreboard.add(Config.PVPCLASS_ACTIVE_PLACEHOLDER, pvpClass.getDisplayName());
-
-                        if(pvpClass instanceof Bard) {
-                            Bard bard = (Bard) pvpClass;
-                            scoreboard.add(Config.BARD_ENERGY_PLACEHOLDER, bard.getBardPower(player.getUniqueId()));
-
-                            CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
-
-                            if(timer.isActive(player, "BARDBUFF")) {
-                                scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARDBUFF") + 's');
-                            }
-                        } else if(pvpClass instanceof Miner && !Config.KITMAP_MODE_ENABLED) {
-                            scoreboard.add(Config.MINER_DIAMOND_COUNT_PLACEHOLDER,
-                                player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + "");
-                        }
-                    }
-                }
-
-                GlobalAbilitiesTimer globalAbilitiesTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
-                boolean globalTimerActive = globalAbilitiesTimer.isActive(player);
-
-                Map<String, String> activeAbilities = TimerManager.getInstance().getAbilitiesTimer().getActiveAbilities(player);
-
-                if(globalTimerActive || activeAbilities != null) {
-                    scoreboard.addLine(ChatColor.BLUE);
-                    scoreboard.add(Config.ABILITIES_TITLE_PLACEHOLDER, "");
-
-                    if(globalTimerActive) {
-                        scoreboard.add(Config.ABILITIES_GLOBAL_COOLDOWN_PLACEHOLDER, globalAbilitiesTimer.getTimeLeft(player));
-                    }
-
-                    if(activeAbilities != null) {
-                        for(Entry<String, String> abilityPlaceholders : activeAbilities.entrySet()) {
-                            scoreboard.add(abilityPlaceholders.getKey(), abilityPlaceholders.getValue());
-                        }
-                    }
-                }
+                this.applyFactionPlaceholders(player, scoreboard);
+                this.applyPvpClassPlaceholders(player, scoreboard);
+                this.applyAbilitiesPlaceholders(player, scoreboard);
 
                 if(!scoreboard.isEmpty()) {
                     scoreboard.addLinesAndFooter();
@@ -284,6 +212,116 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
             }
         } catch(Throwable t) {
             t.printStackTrace();
+        }
+    }
+
+    private void applyStaffPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        if(this.instance.getStaffModeManager().isInStaffMode(player) && this.manager.isStaffSb(player)) {
+            scoreboard.add(Config.STAFFMODE_PLACEHOLDER, "");
+
+            scoreboard.add(Config.VISIBILITY_PLACEHOLDER, this.instance.getVanishManager().isVanished(player)
+                ? Config.STAFF_SB_VANISHED : Config.STAFF_SB_VISIBLE);
+
+            scoreboard.add(Config.CHATMODE_PLACEHOLDER, this.instance.getStaffChatHandler().isStaffChatEnabled(player)
+                ? Config.STAFF_SB_STAFFCHAT : Config.STAFF_SB_GLOBAL);
+
+            scoreboard.add(Config.GAMEMODE_PLACEHOLDER, player.getGameMode() == GameMode.CREATIVE
+                ? Config.STAFF_SB_CREATIVE : Config.STAFF_SB_SURVIVAL);
+
+            scoreboard.add(Config.ONLINE_PLACEHOLDER, Bukkit.getOnlinePlayers().size() + "");
+
+            scoreboard.addLine(ChatColor.DARK_AQUA);
+        } else if(this.instance.getVanishManager().isVanished(player) && this.manager.isStaffSb(player)) {
+            scoreboard.add(Config.VANISH_PLACEHOLDER, "");
+
+            scoreboard.add(Config.VISIBILITY_PLACEHOLDER, this.instance.getVanishManager().isVanished(player)
+                ? Config.STAFF_SB_VANISHED : Config.STAFF_SB_VISIBLE);
+
+            scoreboard.addLine(ChatColor.DARK_AQUA);
+        }
+    }
+
+    private void applyFactionPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
+        if(playerFaction == null) return;
+
+        UUID focused = playerFaction.getFocusedFaction();
+
+        if(focused != null) {
+            PlayerFaction focusedFaction = FactionsManager.getInstance().getPlayerFactionByUuid(focused);
+
+            scoreboard.addLine(ChatColor.GREEN);
+            scoreboard.add(this.factionFocusFunction.apply(focusedFaction.getName()), "");
+            scoreboard.add(Config.FACTION_FOCUS_DTR_PLACEHOLDER, focusedFaction.getDtrString());
+            scoreboard.add(Config.FACTION_FOCUS_HQ_PLACEHOLDER, focusedFaction.getHomeString());
+            scoreboard.add(Config.FACTION_FOCUS_ONLINE_PLACEHOLDER, String.valueOf(focusedFaction.getOnlineMemberCount()));
+        }
+
+        if(playerFaction.getRallyLocation() != null) {
+            scoreboard.addLine(ChatColor.DARK_GRAY);
+            scoreboard.add(Config.FACTION_RALLY_TITLE_PLACEHOLDER, "");
+
+            scoreboard.add(Config.FACTION_RALLY_WORLD_PLACEHOLDER,
+                StringUtils.getWorldName(playerFaction.getRallyLocation()));
+
+            scoreboard.add(Config.FACTION_RALLY_LOCATION_PLACEHOLDER, Config.FACTION_RALLY_INCLUDE_Y_COORDINATE
+                ? StringUtils.getLocationName(playerFaction.getRallyLocation())
+                : StringUtils.getLocationNameWithoutY(playerFaction.getRallyLocation()));
+        }
+    }
+
+    private void applyPvpClassPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        PvpClass pvpClass = this.instance.getPvpClassManager().getWarmupOrActivePvpClass(player);
+
+        if(pvpClass != null) {
+            PvpClassWarmupTimer warmupTimer = TimerManager.getInstance().getPvpClassWarmupTimer();
+
+            if(warmupTimer.isActive(player, pvpClass.getName())) {
+                scoreboard.addLine(ChatColor.BLUE);
+
+                scoreboard.add(warmupTimer.getPlaceholder(),
+                warmupTimer.getScoreboardEntry(player, pvpClass.getName()));
+
+            } else if(pvpClass.isActive(player)) {
+                scoreboard.addLine(ChatColor.BLUE);
+                scoreboard.add(Config.PVPCLASS_ACTIVE_PLACEHOLDER, pvpClass.getDisplayName());
+
+                if(pvpClass instanceof Bard) {
+                    Bard bard = (Bard) pvpClass;
+                    scoreboard.add(Config.BARD_ENERGY_PLACEHOLDER, bard.getBardPower(player.getUniqueId()));
+
+                    CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
+
+                    if(timer.isActive(player, "BARDBUFF")) {
+                        scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARDBUFF") + 's');
+                    }
+                } else if(pvpClass instanceof Miner && !Config.KITMAP_MODE_ENABLED) {
+                    scoreboard.add(Config.MINER_DIAMOND_COUNT_PLACEHOLDER,
+                    player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + "");
+                }
+            }
+        }
+    }
+
+    private void applyAbilitiesPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        GlobalAbilitiesTimer globalAbilitiesTimer = TimerManager.getInstance().getGlobalAbilitiesTimer();
+        boolean globalTimerActive = globalAbilitiesTimer.isActive(player);
+
+        Map<String, String> activeAbilities = TimerManager.getInstance().getAbilitiesTimer().getActiveAbilities(player);
+
+        if(globalTimerActive || activeAbilities != null) {
+            scoreboard.addLine(ChatColor.BLUE);
+            scoreboard.add(Config.ABILITIES_TITLE_PLACEHOLDER, "");
+
+            if(globalTimerActive) {
+                scoreboard.add(Config.ABILITIES_GLOBAL_COOLDOWN_PLACEHOLDER, globalAbilitiesTimer.getTimeLeft(player));
+            }
+
+            if(activeAbilities != null) {
+                for(Entry<String, String> abilityPlaceholders : activeAbilities.entrySet()) {
+                    scoreboard.add(abilityPlaceholders.getKey(), abilityPlaceholders.getValue());
+                }
+            }
         }
     }
 }

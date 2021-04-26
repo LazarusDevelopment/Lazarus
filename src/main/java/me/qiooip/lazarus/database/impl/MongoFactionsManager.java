@@ -92,7 +92,9 @@ public class MongoFactionsManager extends FactionsManager {
 
                 if(faction != null) {
                     super.players.put(fplayer.getUuid(), fplayer);
+
                     faction.addMember(fplayer);
+                    if(fplayer.isOnline()) faction.incrementOnlineMembers();
                 }
             }
         }

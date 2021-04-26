@@ -452,6 +452,11 @@ public class Config {
     public static String KING_WORLD_PLACEHOLDER;
     public static String KING_LOCATION_PLACEHOLDER;
 
+    public static String FACTION_FOCUS_TITLE_PLACEHOLDER;
+    public static String FACTION_FOCUS_DTR_PLACEHOLDER;
+    public static String FACTION_FOCUS_HQ_PLACEHOLDER;
+    public static String FACTION_FOCUS_ONLINE_PLACEHOLDER;
+
     public static String STAFF_SB_VANISHED;
     public static String STAFF_SB_VISIBLE;
     public static String STAFF_SB_STAFFCHAT;
@@ -945,6 +950,11 @@ public class Config {
         KING_TIME_LASTED_PLACEHOLDER = scoreboard.getString("KILL_THE_KING.TIME_LASTED_PLACEHOLDER");
         KING_WORLD_PLACEHOLDER = scoreboard.getString("KILL_THE_KING.WORLD_PLACEHOLDER");
         KING_LOCATION_PLACEHOLDER = scoreboard.getString("KILL_THE_KING.LOCATION_PLACEHOLDER");
+
+        FACTION_FOCUS_TITLE_PLACEHOLDER = scoreboard.getString("FACTION_FOCUS.TITLE_PLACEHOLDER");
+        FACTION_FOCUS_DTR_PLACEHOLDER = scoreboard.getString("FACTION_FOCUS.DTR_PLACEHOLDER");
+        FACTION_FOCUS_HQ_PLACEHOLDER = scoreboard.getString("FACTION_FOCUS.HQ_PLACEHOLDER");
+        FACTION_FOCUS_ONLINE_PLACEHOLDER = scoreboard.getString("FACTION_FOCUS.ONLINE_PLACEHOLDER");
 
         STAFF_SB_VANISHED = scoreboard.getString("STAFF_SCOREBOARD.VISIBILITY_VANISHED");
         STAFF_SB_VISIBLE = scoreboard.getString("STAFF_SCOREBOARD.VISIBILITY_VISIBLE");

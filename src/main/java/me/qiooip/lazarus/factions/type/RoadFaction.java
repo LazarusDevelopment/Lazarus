@@ -41,7 +41,7 @@ public class RoadFaction extends SystemFaction {
 
     @Override
     public void showInformation(CommandSender sender) {
-        String claimInfoString = Language.FACTIONS_SYSTEM_CLAIM_FORMAT.replace("<claimLocation>", "None");
+        String claimInfoString = Language.FACTIONS_SYSTEM_CLAIM_FORMAT.replace("<claimLocation>", Language.NONE_PLACEHOLDER);
 
         Language.FACTIONS_SYSTEM_FACTION_SHOW.forEach(line -> sender.sendMessage(line
             .replace("<factionName>", this.getName(sender))

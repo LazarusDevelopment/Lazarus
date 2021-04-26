@@ -65,7 +65,7 @@ public class SystemFaction extends Faction {
 
         String claimInfoString = claimInfo.length() != 0
             ? claimInfo.toString()
-            : Language.FACTIONS_SYSTEM_CLAIM_FORMAT.replace("<claimLocation>", "None");
+            : Language.FACTIONS_SYSTEM_CLAIM_FORMAT.replace("<claimLocation>", Language.NONE_PLACEHOLDER);
 
         Language.FACTIONS_SYSTEM_FACTION_SHOW.forEach(line -> sender.sendMessage(line
             .replace("<factionName>", this.getName(sender))

@@ -136,7 +136,7 @@ public class TabUpdaterImpl implements TabUpdater {
         }
 
         tab.set(this.factionInfoStart, this.factionInfo[1][0] + faction.getDtrString() + "&7/" + faction.getMaxDtrString());
-        tab.set(this.factionInfoStart + 1, this.factionInfo[1][1] + (faction.getHome() == null ? "None" : faction.getHomeString()));
+        tab.set(this.factionInfoStart + 1, this.factionInfo[1][1] + faction.getHomeString());
     }
 
     public void initialSet(PlayerTab tab) {

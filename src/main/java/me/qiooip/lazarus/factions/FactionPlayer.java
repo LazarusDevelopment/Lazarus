@@ -39,6 +39,10 @@ public class FactionPlayer {
         return Bukkit.getPlayer(this.uuid);
     }
 
+    public boolean isOnline() {
+        return this.getPlayer() != null;
+    }
+
     public String getName() {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(this.uuid);
         return offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline() ? offlinePlayer.getName() : null;

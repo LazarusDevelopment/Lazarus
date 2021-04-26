@@ -30,6 +30,8 @@ public class Language {
     public static String ENABLED_PLACEHOLDER;
     public static String DISABLED_PLACEHOLDER;
 
+    public static String NONE_PLACEHOLDER;
+
     public static String STAFF_JOIN_MESSAGE;
     public static String STAFF_JOIN_MESSAGE_VANISHED;
     public static String STAFF_QUIT_MESSAGE;
@@ -1448,6 +1450,8 @@ public class Language {
 
         ENABLED_PLACEHOLDER = language.getString("ENABLED_PLACEHOLDER");
         DISABLED_PLACEHOLDER = language.getString("DISABLED_PLACEHOLDER");
+
+        NONE_PLACEHOLDER = language.getString("NONE_PLACEHOLDER");
 
         STAFF_JOIN_MESSAGE = language.getString("STAFF_JOIN_MESSAGE");
         STAFF_JOIN_MESSAGE_VANISHED = language.getString("STAFF_JOIN_MESSAGE_VANISHED");

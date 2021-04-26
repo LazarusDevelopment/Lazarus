@@ -76,10 +76,16 @@ KILL_THE_KING:
   WORLD_PLACEHOLDER: " &fWorld: &c"
   LOCATION_PLACEHOLDER: " &fLocation: &c"
 
+FACTION_FOCUS:
+  TITLE_PLACEHOLDER: "&6&l<focusedFaction>"
+  DTR_PLACEHOLDER: " &cDTR: &e"
+  HQ_PLACEHOLDER: " &cHome: &e"
+  ONLINE_PLACEHOLDER: " &cOnline: &e"
+
 CONQUEST_PLACEHOLDER: "&5&lConquest"
 CONQUEST_FACTION_FORMAT: "&b<faction>&7: &c"
 
-KOTH_PLACEHOLDER: "<kothname>&7: &c"
+KOTH_PLACEHOLDER: "<kothName>&7: &c"
 DTC_PLACEHOLDER: "&c&lDTC&7: &c"
 ENDER_DRAGON_PLACEHOLDER: "&6&lDragon&7: &c"
 

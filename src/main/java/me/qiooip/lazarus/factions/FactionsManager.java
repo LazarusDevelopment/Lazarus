@@ -168,7 +168,11 @@ public class FactionsManager implements Listener {
 
         this.players.values().forEach(fplayer -> {
             PlayerFaction faction = fplayer.getFaction();
-            if(faction != null) faction.addMember(fplayer);
+
+            if(faction != null) {
+                faction.addMember(fplayer);
+                if(fplayer.isOnline()) faction.incrementOnlineMembers();
+            }
         });
 
         Lazarus.getInstance().log("- &7Loaded &a" + this.players.size() + " &7players.");
@@ -328,7 +332,9 @@ public class FactionsManager implements Listener {
         }
 
         faction.addMember(fplayer);
+        faction.incrementOnlineMembers();
         faction.getPlayerInvitations().remove(player.getName());
+
         this.players.put(fplayer.getUuid(), fplayer);
         return true;
     }
@@ -340,6 +346,8 @@ public class FactionsManager implements Listener {
         if(event.isCancelled()) return false;
 
         faction.removeMember(fplayer);
+        faction.decrementOnlineMembers();
+
         this.players.remove(fplayer.getUuid());
         return true;
     }
@@ -351,6 +359,8 @@ public class FactionsManager implements Listener {
         if(event.isCancelled()) return false;
 
         faction.removeMember(fplayer);
+        if(player.isOnline()) faction.decrementOnlineMembers();
+
         this.players.remove(fplayer.getUuid());
         return true;
     }
@@ -385,7 +395,9 @@ public class FactionsManager implements Listener {
         fplayer.setRole(Role.LEADER);
 
         new PlayerJoinFactionEvent(fplayer, faction);
+
         faction.addMember(fplayer);
+        faction.incrementOnlineMembers();
 
         this.factions.put(faction.getId(), faction);
         this.factionNames.put(faction.getName(), faction.getId());
@@ -510,6 +522,7 @@ public class FactionsManager implements Listener {
         List<Player> enemies = new ArrayList<>();
 
         for(PlayerFaction focusing : focusingFactions) {
+            focusing.setFocusedFaction(null);
             enemies.addAll(focusing.getOnlinePlayers());
         }
 
@@ -639,6 +652,7 @@ public class FactionsManager implements Listener {
         PlayerFaction faction = this.getPlayerFaction(event.getPlayer());
         if(faction == null) return;
 
+        faction.incrementOnlineMembers();
         faction.sendMessage(Language.FACTIONS_MEMBER_ONLINE.replace("<player>", event.getPlayer().getName()));
 
         if(Config.SHOW_FACTION_INFO_ON_JOIN) {
@@ -656,6 +670,7 @@ public class FactionsManager implements Listener {
         PlayerFaction faction = this.getPlayerFaction(event.getPlayer());
         if(faction == null) return;
 
+        faction.decrementOnlineMembers();
         faction.sendMessage(Language.FACTIONS_MEMBER_OFFLINE.replace("<player>", event.getPlayer().getName()));
     }
 }

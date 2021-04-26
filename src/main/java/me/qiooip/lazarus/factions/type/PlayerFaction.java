@@ -61,6 +61,7 @@ public class PlayerFaction extends Faction {
     private List<UUID> allies;
 
     private transient Map<UUID, FactionPlayer> members;
+    private transient int onlineMemberCount;
 
     private transient List<String> playerInvitations;
     private transient List<UUID> allyInvitations;
@@ -110,6 +111,14 @@ public class PlayerFaction extends Faction {
         return (int) this.members.values().stream().map(member -> Bukkit.getPlayer(member.getUuid())).filter(condition).count();
     }
 
+    public void incrementOnlineMembers() {
+        this.onlineMemberCount++;
+    }
+
+    public void decrementOnlineMembers() {
+        this.onlineMemberCount--;
+    }
+
     public FactionPlayer getLeader() {
         return this.members.values().stream().filter(member -> member.getRole() == Role.LEADER).findFirst().orElse(null);
     }
@@ -156,7 +165,7 @@ public class PlayerFaction extends Faction {
     }
 
     public String getHomeString() {
-        return this.home.getBlockX() + ", " + this.home.getBlockZ();
+        return this.home == null ? Language.NONE_PLACEHOLDER : this.home.getBlockX() + ", " + this.home.getBlockZ();
     }
 
     public void setOpenStatus(boolean value) {
@@ -404,7 +413,7 @@ public class PlayerFaction extends Faction {
             .replace("<faction>", this.getName(sender))
             .replace("<online-count>", String.valueOf(this.getOnlinePlayersCount(sender)))
             .replace("<faction-size>", String.valueOf(this.members.size()))
-            .replace("<home-location>", this.home == null ? "None" : this.getHomeString())
+            .replace("<home-location>", this.getHomeString())
             .replace("<announcement>", this.announcement != null ? this.announcement : "")
             .replace("<autoRevive>", Language.getEnabledOrDisabled(this.autoRevive))
             .replace("<lives>", String.valueOf(this.lives))

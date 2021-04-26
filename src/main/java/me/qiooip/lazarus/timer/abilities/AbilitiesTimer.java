@@ -5,6 +5,7 @@ import com.google.common.collect.Table;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
+import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 import org.bukkit.Bukkit;
@@ -23,7 +24,7 @@ import java.util.function.Function;
 public class AbilitiesTimer extends PlayerTimer {
 
     private final Table<UUID, AbilityType, ScheduledFuture<?>> cooldowns;
-    private Function<String, String> placeholderFunction;
+    private final Function<String, String> placeholderFunction;
 
     public AbilitiesTimer(ScheduledExecutorService executor) {
         super(executor, "AbilitiesTimer", 0);
@@ -31,31 +32,14 @@ public class AbilitiesTimer extends PlayerTimer {
         this.cooldowns = HashBasedTable.create();
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
 
-        this.setupPlaceholderFunction();
+        this.placeholderFunction = ServerUtils.parsePlaceholderFunction(
+            Config.ABILITIES_ABILITY_COOLDOWN_PLACEHOLDER, "<abilityName>");
     }
 
     @Override
     public void disable() {
         this.cooldowns.values().forEach(future -> future.cancel(true));
         this.cooldowns.clear();
-    }
-
-    private void setupPlaceholderFunction() {
-        String abilityPlaceholder = Config.ABILITIES_ABILITY_COOLDOWN_PLACEHOLDER;
-
-        if(abilityPlaceholder.isEmpty()) {
-            this.placeholderFunction = null;
-        } else {
-            int indexOf = abilityPlaceholder.indexOf("<abilityName>");
-
-            if(indexOf == 0) {
-                String finalAbilityPlaceholder = abilityPlaceholder.replace("<abilityName>", "");
-                this.placeholderFunction = s -> s + finalAbilityPlaceholder;
-            } else {
-                String[] placeholderParts = abilityPlaceholder.split("<abilityName>");
-                this.placeholderFunction = s -> placeholderParts[0] + s + placeholderParts[1];
-            }
-        }
     }
 
     public void activate(Player player, AbilityType abilityType, int delay, String message) {

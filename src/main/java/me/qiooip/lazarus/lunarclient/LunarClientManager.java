@@ -75,6 +75,7 @@ public class LunarClientManager implements Listener {
 
         section.getKeys(false).forEach(key -> {
             ServerRule rule;
+
             try {
                 rule = ServerRule.valueOf(key);
             } catch (IllegalArgumentException e) {
@@ -83,6 +84,7 @@ public class LunarClientManager implements Listener {
 
             LCPacketServerRule serverRule;
             Object value = section.get(key);
+
             if(value instanceof String) {
                 serverRule = new LCPacketServerRule(rule, section.getString(key));
             } else {
