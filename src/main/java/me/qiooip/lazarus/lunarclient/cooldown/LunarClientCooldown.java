@@ -18,6 +18,6 @@ public class LunarClientCooldown {
     }
 
     public LCCooldown clearCooldown() {
-        return new LCCooldown(this.name, 0, TimeUnit.SECONDS, this.material);
+        return new LCCooldown(this.name, 1, TimeUnit.SECONDS, this.material);
     }
 }

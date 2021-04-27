@@ -47,13 +47,7 @@ public class LunarClientManager implements Listener {
         }
 
         this.setupServerRules();
-
-        ModSettings settings = new ModSettings();
-        for (String id : Config.LUNAR_CLIENT_FORCE_DISABLED_MODS) {
-            settings.addModSetting(id, new ModSettings.ModSetting(false, new HashMap<>()));
-        }
-
-        this.modSettings = new LCPacketModSettings(settings);
+        this.modSettings = this.setupModSettings();
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
@@ -93,6 +87,16 @@ public class LunarClientManager implements Listener {
 
             this.serverRules.add(serverRule);
         });
+    }
+
+    private LCPacketModSettings setupModSettings() {
+        ModSettings settings = new ModSettings();
+
+        for(String id : Config.LUNAR_CLIENT_FORCE_DISABLED_MODS) {
+            settings.addModSetting(id, new ModSettings.ModSetting(false, new HashMap<>()));
+        }
+
+        return new LCPacketModSettings(settings);
     }
 
     @EventHandler
