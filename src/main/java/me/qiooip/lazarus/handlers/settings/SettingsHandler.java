@@ -50,8 +50,7 @@ public class SettingsHandler extends Handler implements Listener {
     }
 
     private void loadSettings() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig()
-            .getSection("PLAYER_SETTINGS.SETTINGS");
+        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("PLAYER_SETTINGS.SETTINGS");
 
         section.getKeys(false).forEach(item -> {
             PlayerSetting setting = new PlayerSetting();
@@ -69,16 +68,16 @@ public class SettingsHandler extends Handler implements Listener {
             setting.setCommand(section.getString(item + ".COMMAND"));
 
             setting.setToggledOnLore(section.getStringList(item + ".TOGGLED_ON_LORE")
-            .stream().map(Color::translate).collect(Collectors.toList()));
+                .stream().map(Color::translate).collect(Collectors.toList()));
 
             setting.setToggledOffLore(section.getStringList(item + ".TOGGLED_OFF_LORE")
-            .stream().map(Color::translate).collect(Collectors.toList()));
+                .stream().map(Color::translate).collect(Collectors.toList()));
 
             setting.setSettingLore((player) -> {
                 Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(player);
 
                 return this.getSettingStatus(userdata, setting.getType())
-                ? setting.getToggledOnLore() : setting.getToggledOffLore();
+                    ? setting.getToggledOnLore() : setting.getToggledOffLore();
             });
 
             this.playerSettings.add(setting);

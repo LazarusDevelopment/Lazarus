@@ -60,7 +60,7 @@ public class EotwHandler extends Handler implements Listener {
         this.running = true;
 
         Lazarus.getInstance().getKothManager().startKoth(koth, Config.KOTH_DEFAULT_CAP_TIME);
-        Tasks.async(() -> FactionsManager.getInstance().setAllRaidable(true));
+        FactionsManager.getInstance().setAllRaidable(true);
 
         SystemFaction spawnFaction = (SystemFaction) FactionsManager.getInstance().getFactionByName("Spawn");
         spawnFaction.setSafezone(false);
@@ -101,7 +101,7 @@ public class EotwHandler extends Handler implements Listener {
         spawnFaction.setSafezone(true);
         spawnFaction.setDeathban(false);
 
-        Tasks.async(() -> FactionsManager.getInstance().setAllRaidable(false));
+        FactionsManager.getInstance().setAllRaidable(false);
 
         TimerManager.getInstance().getEotwTimer().cancel();
         TimerManager.getInstance().getDtrRegenTimer().startRegenTask();
@@ -113,7 +113,7 @@ public class EotwHandler extends Handler implements Listener {
     public void onFactionCreate(FactionCreateEvent event) {
         if(!this.isActive() || event.getFactionType() != FactionType.PLAYER_FACTION) return;
 
-        Tasks.async(() -> {
+        Tasks.sync(() -> {
             PlayerFaction faction = FactionsManager.getInstance().getPlayerFactionByName(event.getFactionName());
             if(faction == null) return;
 

@@ -15,8 +15,6 @@ public class FactionDtrChangeEvent extends FactionEvent implements Cancellable {
     @Setter private boolean cancelled;
 
     public FactionDtrChangeEvent(PlayerFaction faction, double oldDtr, double newDtr) {
-        super(true);
-
         this.faction = faction;
         this.oldDtr = oldDtr;
         this.newDtr = newDtr;

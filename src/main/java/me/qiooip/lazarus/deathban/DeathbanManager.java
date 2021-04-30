@@ -89,7 +89,7 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("DEATHBAN.BAN_TIMES");
 
         section.getKeys(false).forEach(time -> this.deathBanTimes
-        .add(new DeathBanTime(Integer.parseInt(time), section.getString(time))));
+            .add(new DeathBanTime(Integer.parseInt(time), section.getString(time))));
     }
 
     public int getBanTime(Player player) {

@@ -37,9 +37,9 @@ public class SetDtrCommand extends SubCommand {
         faction.setDtr(Double.parseDouble(args[1]));
 
         sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_DTR_CHANGED_SENDER
-        .replace("<faction>", faction.getName()).replace("<value>", faction.getDtrString()));
+            .replace("<faction>", faction.getName()).replace("<value>", faction.getDtrString()));
 
         faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_DTR_CHANGED_FACTION
-        .replace("<player>", sender.getName()).replace("<dtr>", faction.getDtrString()));
+            .replace("<player>", sender.getName()).replace("<dtr>", faction.getDtrString()));
     }
 }

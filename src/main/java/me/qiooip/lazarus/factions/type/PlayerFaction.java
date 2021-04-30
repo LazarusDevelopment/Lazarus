@@ -17,8 +17,6 @@ import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.StringUtils;
-import me.qiooip.lazarus.utils.Tasks;
-import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -205,12 +203,8 @@ public class PlayerFaction extends Faction {
         double newDtr = amount < 0 ? Math.max(Config.FACTION_MIN_DTR, amount) : Math.min(this.getMaxDtr(), amount);
         double newDtrRounded = Math.round(newDtr * 100) / 100.0;
 
-        if(currentDtr != this.dtr) {
-            if(Thread.currentThread() != NmsUtils.getInstance().getMainThread()) {
-                this.callDtrUpdateEvent(currentDtr, newDtrRounded);
-            } else {
-                Tasks.async(() -> this.callDtrUpdateEvent(currentDtr, newDtrRounded));
-            }
+        if(currentDtr != newDtrRounded) {
+            this.callDtrUpdateEvent(currentDtr, newDtrRounded);
         }
     }
 

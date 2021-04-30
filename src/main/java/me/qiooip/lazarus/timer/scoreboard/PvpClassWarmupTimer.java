@@ -6,6 +6,7 @@ import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.Tasks.Callable;
 import org.bukkit.entity.Player;
 
@@ -37,9 +38,10 @@ public class PvpClassWarmupTimer extends PlayerTimer {
 
     public void activate(UUID uuid, int delay, PvpClass pvpClass) {
         String name = pvpClass.getName();
-
         if(delay <= 0 || this.isActive(uuid, name)) return;
-        this.warmups.put(uuid, name, this.scheduleExpiry(uuid, name, delay, () -> pvpClass.activateClass(uuid)));
+
+        this.warmups.put(uuid, name, this.scheduleExpiry(uuid, name, delay,
+            () -> Tasks.sync(() -> pvpClass.activateClass(uuid))));
     }
 
     public void cancel(Player player, String pvpClassName) {
