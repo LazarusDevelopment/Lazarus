@@ -43,7 +43,7 @@ public class SetFreezeCommand extends SubCommand {
         timer.cancel(faction);
 
         if(duration == 0) {
-            TimerManager.getInstance().getDtrRegenTimer().addFaction(faction);
+            TimerManager.getInstance().getDtrRegenTimer().addFaction(faction, faction.getDtr());
         } else {
             timer.activate(faction, duration);
         }

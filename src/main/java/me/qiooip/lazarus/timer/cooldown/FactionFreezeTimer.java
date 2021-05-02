@@ -95,7 +95,7 @@ public class FactionFreezeTimer extends SystemTimer {
         PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFactionByUuid(uuid);
         if(playerFaction == null) return;
 
-        TimerManager.getInstance().getDtrRegenTimer().addFaction(playerFaction);
+        TimerManager.getInstance().getDtrRegenTimer().addFaction(playerFaction, playerFaction.getDtr());
 
         if(this.expiryMessage != null) {
             playerFaction.sendMessage(this.expiryMessage);

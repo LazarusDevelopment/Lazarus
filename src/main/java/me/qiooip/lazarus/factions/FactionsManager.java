@@ -590,7 +590,10 @@ public class FactionsManager implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
-        Tasks.sync(() -> TimerManager.getInstance().getDtrRegenTimer().addFaction(event.getFaction()));
+        Tasks.sync(() -> {
+            PlayerFaction faction = event.getFaction();
+            TimerManager.getInstance().getDtrRegenTimer().addFaction(faction, faction.getDtr());
+        });
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -606,14 +609,14 @@ public class FactionsManager implements Listener {
         });
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onFactionDtrChange(FactionDtrChangeEvent event) {
         DtrRegenTimer dtrRegenTimer = TimerManager.getInstance().getDtrRegenTimer();
 
         if(event.getNewDtr() >= event.getFaction().getMaxDtr()) {
             dtrRegenTimer.removeFaction(event.getFaction());
         } else {
-            dtrRegenTimer.addFaction(event.getFaction());
+            dtrRegenTimer.addFaction(event.getFaction(), event.getNewDtr());
         }
     }
 

@@ -39,12 +39,13 @@ public class DtrRegenTimer extends SystemTimer {
         for(Faction faction : FactionsManager.getInstance().getFactions().values()) {
             if(!(faction instanceof PlayerFaction)) continue;
 
-            this.addFaction((PlayerFaction) faction);
+            PlayerFaction playerFaction = (PlayerFaction) faction;
+            this.addFaction(playerFaction, playerFaction.getDtr());
         }
     }
 
-    public void addFaction(PlayerFaction playerFaction) {
-        if(playerFaction.getDtr() < playerFaction.getMaxDtr() && !playerFaction.isFrozen()) {
+    public void addFaction(PlayerFaction playerFaction, double factionDtr) {
+        if(factionDtr < playerFaction.getMaxDtr() && !playerFaction.isFrozen()) {
             this.regeneratingFactions.add(playerFaction);
         }
     }
