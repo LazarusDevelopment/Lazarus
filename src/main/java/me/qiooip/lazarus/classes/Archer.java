@@ -56,7 +56,7 @@ public class Archer extends PvpClass implements Listener {
 
     private void archerTagPlayer(Player tagger, Player player) {
         TimerManager.getInstance().getArcherTagTimer().activate(player.getUniqueId());
-        Lazarus.getInstance().getScoreboardManager().updateAllRelations(player);
+        Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
 
         player.sendMessage(Language.PREFIX + Language.ARCHER_TAG_TAGGED_VICTIM
             .replace("<player>", tagger.getName())
@@ -131,8 +131,6 @@ public class Archer extends PvpClass implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         TimerManager.getInstance().getArcherTagTimer().cancel(event.getPlayer());
-
-        Lazarus.getInstance().getScoreboardManager().getScoreboards()
-            .values().forEach(sb -> sb.updateRelation(event.getPlayer()));
+        Lazarus.getInstance().getScoreboardManager().updateTabRelations(event.getPlayer(), false);
     }
 }

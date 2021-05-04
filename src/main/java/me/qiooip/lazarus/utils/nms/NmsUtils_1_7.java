@@ -132,8 +132,8 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     }
 
     @Override
-    public Thread getMainThread() {
-        return MinecraftServer.getServer().primaryThread;
+    public boolean isMainThread() {
+        return MinecraftServer.getServer().primaryThread == Thread.currentThread();
     }
 
     @Override
@@ -318,7 +318,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
         entityPlayer.removeEffect(mobEffect.getEffectId());
 
-        if(Thread.currentThread() == this.getMainThread()) {
+        if(this.isMainThread()) {
             entityPlayer.addEffect(mobEffect);
         } else {
             Tasks.sync(() -> entityPlayer.addEffect(mobEffect));

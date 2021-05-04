@@ -63,7 +63,7 @@ public class AbilityCommand extends BaseCommand {
 
         target.getInventory().addItem(item);
 
-        target.sendMessage(Language.PREFIX + Language.ABILITIES_ABILITY_COMMAND_GIVE_ABILITY
+        sender.sendMessage(Language.PREFIX + Language.ABILITIES_ABILITY_COMMAND_GIVE_ABILITY
             .replace("<amount>", String.valueOf(amount))
             .replace("<ability>", item.getItemMeta().getDisplayName())
             .replace("<player>", target.getName()));

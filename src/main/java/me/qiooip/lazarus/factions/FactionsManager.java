@@ -34,7 +34,6 @@ import me.qiooip.lazarus.factions.type.SpawnFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.koth.KothData;
-import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
@@ -370,15 +369,16 @@ public class FactionsManager implements Listener {
         if(event.isCancelled()) return false;
 
         faction.getAllies().add(targetFaction.getId());
+        faction.getAllyInvitations().remove(targetFaction.getId());
+
         targetFaction.getAllies().add(faction.getId());
+        targetFaction.getAllyInvitations().remove(faction.getId());
         return true;
     }
 
     public boolean removeAllyRelation(PlayerFaction faction, PlayerFaction targetFaction) {
         FactionRelationChangeEvent event = new FactionRelationChangeEvent(faction, targetFaction, Relation.ALLY, Relation.ENEMY);
         if(event.isCancelled()) return false;
-
-        targetFaction.getAllyInvitations().remove(faction.getId());
 
         faction.getAllies().remove(targetFaction.getId());
         targetFaction.getAllies().remove(faction.getId());
@@ -526,12 +526,8 @@ public class FactionsManager implements Listener {
             enemies.addAll(focusing.getOnlinePlayers());
         }
 
-        for(Player enemy : enemies) {
-            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(enemy);
-            if(scoreboard == null) continue;
-
-            scoreboard.updateTabRelations(ownPlayers);
-        }
+        Tasks.async(() -> Lazarus.getInstance().getScoreboardManager()
+            .updateTabRelations(enemies, ownPlayers, false));
     }
 
     @EventHandler(ignoreCancelled = true)

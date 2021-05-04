@@ -6,6 +6,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.timer.type.SystemTimer;
 import me.qiooip.lazarus.utils.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,7 +21,7 @@ public class SotwTimer extends SystemTimer implements ScoreboardTimer {
     public void activate(int delay) {
         super.activate(delay, () -> {
             Lazarus.getInstance().getSotwHandler().showSotwInvisiblePlayers();
-            Lazarus.getInstance().getScoreboardManager().updateAllTabRelations();
+            Lazarus.getInstance().getScoreboardManager().updateTabRelations(Bukkit.getOnlinePlayers(), false);
 
             Messages.sendMessage(Language.SOTW_ENDED);
         });

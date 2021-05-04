@@ -49,7 +49,7 @@ public abstract class NmsUtils {
 
     public abstract boolean isSpigot18();
 
-    public abstract Thread getMainThread();
+    public abstract boolean isMainThread();
 
     public abstract Executor getBukkitExecutor();
 

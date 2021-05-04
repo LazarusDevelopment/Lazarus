@@ -32,10 +32,10 @@ public class ArcherTagTimer extends PlayerTimer implements ScoreboardTimer {
 
         super.activate(uuid, () -> {
             Player player = Bukkit.getPlayer(uuid);
-            if(player == null) return;
 
-            Lazarus.getInstance().getScoreboardManager().getScoreboards()
-            .values().forEach(sb -> sb.updateRelation(player));
+            if(player != null) {
+                Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
+            }
         });
     }
 

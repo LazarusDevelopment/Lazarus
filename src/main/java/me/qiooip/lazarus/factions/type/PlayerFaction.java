@@ -17,6 +17,7 @@ import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.StringUtils;
+import me.qiooip.lazarus.utils.Tasks;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -283,23 +284,23 @@ public class PlayerFaction extends Faction {
     }
 
     public void focusPlayer(Player player) {
-        Player current = null;
-        if(this.focusedPlayer != null) current = Bukkit.getPlayer(focusedPlayer);
+        Player current = this.getOldFocusedPlayer();
 
         this.focusedPlayer = player.getUniqueId();
-
-        for(FactionPlayer member : this.members.values()) {
-            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
-            if(scoreboard == null) continue;
-
-            scoreboard.updateRelation(player);
-
-            if(current != null) {
-                scoreboard.updateRelation(current);
-            }
-        }
-
         new FactionFocusedEvent(this, player.getUniqueId());
+
+        Tasks.async(() -> {
+            for(FactionPlayer member : this.members.values()) {
+                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+                if(scoreboard == null) continue;
+
+                scoreboard.updateRelation(player);
+
+                if(current != null) {
+                    scoreboard.updateRelation(current);
+                }
+            }
+        });
     }
 
     public void unfocusPlayer(OfflinePlayer offlinePlayer) {
@@ -309,42 +310,38 @@ public class PlayerFaction extends Faction {
         this.focusedPlayer = null;
         if(!offlinePlayer.isOnline()) return;
 
-        this.members.values().forEach(member -> {
-            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+        Tasks.async(() -> {
+            for(FactionPlayer member : this.members.values()) {
+                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
 
-            if(scoreboard != null) {
-                scoreboard.updateRelation(offlinePlayer.getPlayer());
+                if(scoreboard != null) {
+                    scoreboard.updateRelation(offlinePlayer.getPlayer());
+                }
             }
         });
     }
 
     public void focusFaction(PlayerFaction playerFaction) {
-        List<Player> oldEnemies = null;
-
-        if(this.focusedFaction != null) {
-            PlayerFaction currentFocused = FactionsManager.getInstance().getPlayerFactionByUuid(this.focusedFaction);
-
-            if(currentFocused != null) {
-                oldEnemies = currentFocused.getOnlinePlayers();
-            }
-        }
+        List<Player> oldEnemies = this.getOldFocusedFactionPlayers();
 
         this.focusedFaction = playerFaction.getId();
         List<Player> newEnemies = playerFaction.getOnlinePlayers();
 
-        for(FactionPlayer member : this.members.values()) {
-            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
-            if(scoreboard == null) continue;
-
-            scoreboard.updateTabRelations(newEnemies);
-
-            if(oldEnemies != null) {
-                scoreboard.updateTabRelations(oldEnemies);
-            }
-        }
-
         playerFaction.getFocusing().add(this.id);
         new FactionFocusedEvent(this, playerFaction.getId());
+
+        Tasks.async(() -> {
+            for(FactionPlayer member : this.members.values()) {
+                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+                if(scoreboard == null) continue;
+
+                scoreboard.updateTabRelations(newEnemies);
+
+                if(oldEnemies != null) {
+                    scoreboard.updateTabRelations(oldEnemies);
+                }
+            }
+        });
     }
 
     public void unfocusFaction(PlayerFaction playerFaction) {
@@ -355,13 +352,26 @@ public class PlayerFaction extends Faction {
         playerFaction.getFocusing().remove(this.id);
         List<Player> enemies = playerFaction.getOnlinePlayers();
 
-        this.members.values().forEach(member -> {
-            PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+        Tasks.async(() -> {
+            for(FactionPlayer member : this.members.values()) {
+                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
 
-            if(scoreboard != null) {
-                scoreboard.updateTabRelations(enemies);
+                if(scoreboard != null) {
+                    scoreboard.updateTabRelations(enemies);
+                }
             }
         });
+    }
+
+    private Player getOldFocusedPlayer() {
+        return this.focusedPlayer != null ? Bukkit.getPlayer(this.focusedPlayer) : null;
+    }
+
+    private List<Player> getOldFocusedFactionPlayers() {
+        if(this.focusedFaction == null) return null;
+
+        PlayerFaction currentFocused = FactionsManager.getInstance().getPlayerFactionByUuid(this.focusedFaction);
+        return currentFocused != null ? currentFocused.getOnlinePlayers() : null;
     }
 
     @Override

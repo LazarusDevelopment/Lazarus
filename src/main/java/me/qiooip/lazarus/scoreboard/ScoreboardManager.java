@@ -30,6 +30,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -68,13 +69,13 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
 
     public void loadScoreboard(Player player) {
         PlayerScoreboard playerScoreboard = NmsUtils.getInstance().getNewPlayerScoreboard(player);
-        this.scoreboards.put(player.getUniqueId(), playerScoreboard);
-
         playerScoreboard.updateTabRelations(Bukkit.getOnlinePlayers());
 
         for(PlayerScoreboard other : this.scoreboards.values()) {
             other.updateRelation(player);
         }
+
+        this.scoreboards.put(player.getUniqueId(), playerScoreboard);
     }
 
     public void removeScoreboard(Player player) {
@@ -108,28 +109,32 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         return this.getPlayerScoreboard(player.getUniqueId());
     }
 
-    public void updateAllRelations(Player player) {
-        this.updateAllRelations(player, false);
+    public void updateTabRelations(Player player, boolean lunarOnly) {
+        Tasks.async(() -> {
+            for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
+                scoreboard.updateRelation(player, lunarOnly);
+            }
+        });
     }
 
-    public void updateAllRelations(Player player, boolean lunarOnly) {
-        for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
-            scoreboard.updateRelation(player, lunarOnly);
-        }
+    public void updateTabRelations(Collection<? extends Player> players, boolean lunarOnly) {
+        Tasks.async(() -> {
+            for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
+                scoreboard.updateTabRelations(players, lunarOnly);
+            }
+        });
     }
 
-    public void updateAllTabRelations() {
-        this.updateAllTabRelations(false);
-    }
+    public void updateTabRelations(Collection<Player> updateFor, Collection<? extends Player> toUpdate, boolean lunarOnly) {
+        Tasks.async(() -> {
+            for(Player player : updateFor) {
+                PlayerScoreboard scoreboard = this.getPlayerScoreboard(player);
 
-    public void updateAllTabRelations(boolean lunarOnly) {
-        this.updateAllTabRelations(Bukkit.getOnlinePlayers(), lunarOnly);
-    }
-
-    public void updateAllTabRelations(Collection<? extends Player> players, boolean lunarOnly) {
-        for(PlayerScoreboard sb : this.scoreboards.values()) {
-            sb.updateTabRelations(players, lunarOnly);
-        }
+                if(scoreboard != null) {
+                    scoreboard.updateTabRelations(toUpdate, lunarOnly);
+                }
+            }
+        });
     }
 
     private void fixInvisibilityForPlayer(PotionEffectEvent event) {
@@ -137,10 +142,7 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         if(ServerUtils.getEffect(event).getType().getId() != 14) return;
 
         Player player = (Player) event.getEntity();
-
-        for(PlayerScoreboard scoreboard : this.scoreboards.values()) {
-            scoreboard.updateRelation(player);
-        }
+        this.updateTabRelations(player, false);
     }
 
     private void updateFactionPlayer(FactionPlayer fplayer, PlayerFaction faction) {
@@ -149,17 +151,10 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
 
         Tasks.async(() -> {
             Collection<Player> players = faction.getOnlinePlayers();
+
             this.getPlayerScoreboard(player).updateTabRelations(players);
-
-            for(Player online : players) {
-                PlayerScoreboard playerScoreboard = this.getPlayerScoreboard(online);
-
-                if(playerScoreboard != null) {
-                    playerScoreboard.updateRelation(player);
-                }
-            }
-
-            this.updateAllRelations(player, true);
+            this.updateTabRelations(players, Collections.singletonList(player), false);
+            this.updateTabRelations(player, true);
         });
     }
 
@@ -195,7 +190,7 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         if(!(event.getFaction() instanceof PlayerFaction)) return;
 
         PlayerFaction faction = (PlayerFaction) event.getFaction();
-        this.updateAllTabRelations(faction.getOnlinePlayers(), true);
+        this.updateTabRelations(faction.getOnlinePlayers(), true);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -206,14 +201,12 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         List<Player> players = faction.getOnlinePlayers();
         players.addAll(targetFaction.getOnlinePlayers());
 
-        for(Player player : players) {
-            this.getPlayerScoreboard(player).updateTabRelations(players);
-        }
+        this.updateTabRelations(players, players, false);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onFactionDtrChange(FactionDtrChangeEvent event) {
-        this.updateAllTabRelations(event.getFaction().getOnlinePlayers(), true);
+        this.updateTabRelations(event.getFaction().getOnlinePlayers(), true);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -227,11 +220,8 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
             players.addAll(ally.getOnlinePlayers());
         }
 
-        for(Player player : players) {
-            this.getPlayerScoreboard(player).updateTabRelations(players);
-        }
-
-        this.updateAllTabRelations(players, true);
+        this.updateTabRelations(players, players, false);
+        this.updateTabRelations(players, true);
     }
 
     @EventHandler

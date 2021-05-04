@@ -11,7 +11,6 @@ import me.qiooip.lazarus.scoreboard.ScoreboardInput;
 import me.qiooip.lazarus.scoreboard.base.ScoreboardBase_1_7;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.Color;
-import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -293,14 +292,6 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
     @Override
     public void updateTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {
-        if(Thread.currentThread() == NmsUtils.getInstance().getMainThread()) {
-            Tasks.async(() -> this.updateAllTabRelations(players, lunarOnly));
-        } else {
-            this.updateAllTabRelations(players, lunarOnly);
-        }
-    }
-
-    private void updateAllTabRelations(Iterable<? extends Player> players, boolean lunarOnly) {
         if(this.player == null || this.scoreboard == null) return;
 
         synchronized(this) {
@@ -315,8 +306,8 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
                     if(faction != null) {
                         nametag.add(Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
-                            .replace("<faction>", faction.getName(this.player))
-                            .replace("<dtr>", faction.getDtrString()));
+                        .replace("<faction>", faction.getName(this.player))
+                        .replace("<dtr>", faction.getDtrString()));
                     }
                 }
 

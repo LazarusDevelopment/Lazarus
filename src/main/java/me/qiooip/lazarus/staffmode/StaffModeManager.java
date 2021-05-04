@@ -145,7 +145,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
             player.sendMessage(Language.PREFIX + Language.STAFF_MODE_ENABLED);
         }
 
-        Lazarus.getInstance().getScoreboardManager().updateAllRelations(player);
+        Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
 
         boolean inStaffMode = this.isInStaffMode(player);
 
