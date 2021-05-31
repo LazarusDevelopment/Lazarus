@@ -117,7 +117,6 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
             Material.ENDER_CHEST, Material.WOODEN_DOOR, Material.FENCE_GATE);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
-
         Tasks.asyncLater(() -> Bukkit.getOnlinePlayers().forEach(this::injectPacketInterceptor), 20L);
     }
 

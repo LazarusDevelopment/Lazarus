@@ -7,20 +7,19 @@ import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
-import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.ServerUtils;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -256,7 +255,7 @@ public class SotwHandler extends Handler implements Listener {
         if(this.sotwEnabledPlayers.contains(player.getUniqueId())) return;
 
         if(event.getCause() == DamageCause.VOID) {
-            Location endSpawn = Config.WORLD_SPAWNS.get(Environment.THE_END);
+            Location endSpawn = Config.WORLD_SPAWNS.get(player.getWorld().getEnvironment());
 
             player.teleport(endSpawn == null ? player.getWorld().getSpawnLocation() : endSpawn);
             player.sendMessage(Language.PREFIX + Language.SOTW_VOID_FIX);

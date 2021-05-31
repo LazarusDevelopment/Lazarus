@@ -105,8 +105,10 @@ public class PotionEffectRestorer implements Listener {
     }
 
     private void addPotionEffectToCache(Player player, PotionEffect potionEffect) {
-        PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
-        effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+        if(potionEffect != null) {
+            PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+            effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+        }
     }
 
     private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {

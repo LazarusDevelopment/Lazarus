@@ -222,13 +222,15 @@ public class ClaimManager implements Listener {
     }
 
     protected void cacheClaim(Claim claim) {
-        IntStream.rangeClosed(claim.getMinX(), claim.getMaxX()).forEach(x -> IntStream.rangeClosed(claim.getMinZ(),
-        claim.getMaxZ()).forEach(z -> this.claimCache.put(claim.getWorldName(), this.hash(x, z), claim)));
+        IntStream.rangeClosed(claim.getMinX(), claim.getMaxX()).forEach(x
+            -> IntStream.rangeClosed(claim.getMinZ(), claim.getMaxZ()).forEach(z
+                -> this.claimCache.put(claim.getWorldName(), this.hash(x, z), claim)));
     }
 
     protected void uncacheClaim(Claim claim) {
-        IntStream.rangeClosed(claim.getMinX(), claim.getMaxX()).forEach(x -> IntStream.rangeClosed(claim.getMinZ(),
-        claim.getMaxZ()).forEach(z -> this.claimCache.remove(claim.getWorldName(), this.hash(x, z))));
+        IntStream.rangeClosed(claim.getMinX(), claim.getMaxX()).forEach(x
+            -> IntStream.rangeClosed(claim.getMinZ(), claim.getMaxZ()).forEach(z
+                -> this.claimCache.remove(claim.getWorldName(), this.hash(x, z))));
     }
 
     public Location getSafeLocation(Player player) {
@@ -319,9 +321,9 @@ public class ClaimManager implements Listener {
             }
 
             if(existingClaimCopy.contains(claim.getWorld(), halfX, claim.getMinZ())
-            || existingClaimCopy.contains(claim.getWorld(), halfX, claim.getMaxZ())
-            || existingClaimCopy.contains(claim.getWorld(), claim.getMinX(), halfZ)
-            || existingClaimCopy.contains(claim.getWorld(), claim.getMaxX(), halfZ)) return true;
+                || existingClaimCopy.contains(claim.getWorld(), halfX, claim.getMaxZ())
+                || existingClaimCopy.contains(claim.getWorld(), claim.getMinX(), halfZ)
+                || existingClaimCopy.contains(claim.getWorld(), claim.getMaxX(), halfZ)) return true;
         }
 
         return false;

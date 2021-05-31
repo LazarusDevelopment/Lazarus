@@ -210,12 +210,12 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
             this.entries.addLast(new ScoreboardInput("", value, time));
         } else if(value.length() <= 32) {
             this.entries.addLast(new ScoreboardInput(value.substring(0,
-            value.length() - 16), value.substring(value.length() - 16), time));
+                value.length() - 16), value.substring(value.length() - 16), time));
         } else {
             value = value.substring(value.length() - 32);
 
             this.entries.addLast(new ScoreboardInput(value.substring(0, 16),
-            value.substring(16, 32), time));
+                value.substring(16, 32), time));
         }
 
         this.lastLine.set(false);
@@ -256,7 +256,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
             this.entries.addLast(new ScoreboardInput("", footer, ""));
         } else {
             this.entries.addLast(new ScoreboardInput(footer.substring(0, footer
-            .length() - 16), footer.substring(footer.length() - 16), ""));
+                .length() - 16), footer.substring(footer.length() - 16), ""));
         }
     }
 

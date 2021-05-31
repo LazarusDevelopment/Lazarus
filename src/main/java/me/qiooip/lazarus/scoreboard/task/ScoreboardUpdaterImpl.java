@@ -105,100 +105,10 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
                 }
 
                 this.applyStaffPlaceholders(player, scoreboard);
-
-                Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
-
-                if(Config.KITMAP_MODE_ENABLED) {
-                    scoreboard.add(Config.KITMAP_STATS_TITLE_PLACEHOLDER, "");
-                    scoreboard.add(Config.KITMAP_STATS_KILLS_PLACEHOLDER, userdata.getKills() + "");
-                    scoreboard.add(Config.KITMAP_STATS_DEATHS_PLACEHOLDER, userdata.getDeaths() + "");
-                    scoreboard.add(Config.KITMAP_STATS_BALANCE_PLACEHOLDER, userdata.getBalance() + "");
-
-                    if(userdata.getKillstreak() > 0) {
-                        scoreboard.add(Config.KITMAP_STATS_KILLSTREAK_PLACEHOLDER, userdata.getKillstreak() + "");
-                    }
-
-                    if(!Config.CLAIM_PLACEHOLDER.isEmpty()) {
-                        scoreboard.addEmptyLine(ChatColor.DARK_RED);
-                        scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
-                    }
-
-                    scoreboard.addLine(ChatColor.DARK_PURPLE);
-                } else {
-                    scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
-                }
-
-                TimerManager.getInstance().getCustomTimer().handleScoreboardUpdate(scoreboard);
-
-                RebootHandler reboot = Lazarus.getInstance().getRebootHandler();
-
-                if(reboot.isRebooting()) {
-                    scoreboard.add(Config.REBOOT_PLACEHOLDER, reboot.getScoreboardEntry());
-                }
-
-                RunningConquest conquest = Lazarus.getInstance().getConquestManager().getRunningConquest();
-
-                if(conquest != null && !Config.CONQUEST_PLACEHOLDER.isEmpty()) {
-                    scoreboard.add(Config.CONQUEST_PLACEHOLDER, "");
-                    scoreboard.addConquest(" " + conquest.getTimeEntry(ZoneType.RED), "&a&b&1&r", "  " + conquest.getTimeEntry(ZoneType.BLUE));
-                    scoreboard.addConquest(" " + conquest.getTimeEntry(ZoneType.GREEN), "&a&b&2&r", "  " + conquest.getTimeEntry(ZoneType.YELLOW));
-
-                    int count = 1;
-
-                    for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
-                        scoreboard.add(ChatColor.GRAY.toString() + count + ". " +
-                            this.conquestFactionFunction.apply(entry.getKey().getName()),  entry.getValue() + "");
-
-                        if(++count == 4) break;
-                    }
-
-                    scoreboard.addLine(ChatColor.GOLD);
-                }
-
-                KillTheKingManager killTheKing = Lazarus.getInstance().getKillTheKingManager();
-
-                if(killTheKing.isActive()) {
-                    scoreboard.add(Config.KING_TITLE_PLACEHOLDER, "");
-                    scoreboard.add(Config.KING_KING_PLACEHOLDER, killTheKing.getKingName());
-                    scoreboard.add(Config.KING_TIME_LASTED_PLACEHOLDER, killTheKing.getTimeLasted());
-                    scoreboard.add(Config.KING_WORLD_PLACEHOLDER, killTheKing.getKingWorld());
-                    scoreboard.add(Config.KING_LOCATION_PLACEHOLDER, killTheKing.getKingLocation());
-
-                    scoreboard.addLine(ChatColor.GRAY);
-                }
-
-                DtcManager dtcManager = Lazarus.getInstance().getDtcManager();
-
-                if(dtcManager.isActive()) {
-                    scoreboard.add(Config.DTC_PLACEHOLDER, dtcManager.getBreaksLeft() + "");
-                }
-
-                List<RunningKoth> koths = this.instance.getKothManager().getRunningKoths();
-
-                if(!koths.isEmpty()) {
-                    for(RunningKoth koth : koths) {
-                        scoreboard.add(this.kothNameFunction.apply(koth.getKothData().getColoredName()), koth.getScoreboardEntry());
-                    }
-                }
-
-                EnderDragonManager dragon = Lazarus.getInstance().getEnderDragonManager();
-
-                if(dragon.isActive()) {
-                    scoreboard.add(Config.ENDER_DRAGON_PLACEHOLDER, dragon.getScoreboardEntry());
-                }
-
-                for(ScoreboardTimer timer : TimerManager.getInstance().getScoreboardTimers()) {
-                    if(timer instanceof SystemTimer && ((SystemTimer) timer).isActive()) {
-                        if(timer instanceof SotwTimer) {
-                            scoreboard.add(timer.getPlaceholder(player), timer.getScoreboardEntry(player));
-                        } else {
-                            scoreboard.add(timer.getPlaceholder(), timer.getScoreboardEntry());
-                        }
-                    } else if(timer instanceof PlayerTimer && ((PlayerTimer) timer).isActive(player)) {
-                        scoreboard.add(timer.getPlaceholder(), timer.getScoreboardEntry(player));
-                    }
-                }
-
+                this.applyMiscellaneousPlaceholders(player, userdata, scoreboard);
+                this.applyConquestPlaceholders(player, scoreboard);
+                this.applyGamesPlaceholders(player, scoreboard);
+                this.applyScoreboardTimerPlaceholders(player, scoreboard);
                 this.applyFactionPlaceholders(player, scoreboard);
                 this.applyPvpClassPlaceholders(player, scoreboard);
                 this.applyAbilitiesPlaceholders(player, scoreboard);
@@ -212,6 +122,107 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
             }
         } catch(Throwable t) {
             t.printStackTrace();
+        }
+    }
+
+    private void applyMiscellaneousPlaceholders(Player player, Userdata userdata, PlayerScoreboard scoreboard) {
+        Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
+
+        if(Config.KITMAP_MODE_ENABLED) {
+            scoreboard.add(Config.KITMAP_STATS_TITLE_PLACEHOLDER, "");
+            scoreboard.add(Config.KITMAP_STATS_KILLS_PLACEHOLDER, userdata.getKills() + "");
+            scoreboard.add(Config.KITMAP_STATS_DEATHS_PLACEHOLDER, userdata.getDeaths() + "");
+            scoreboard.add(Config.KITMAP_STATS_BALANCE_PLACEHOLDER, userdata.getBalance() + "");
+
+            if(userdata.getKillstreak() > 0) {
+                scoreboard.add(Config.KITMAP_STATS_KILLSTREAK_PLACEHOLDER, userdata.getKillstreak() + "");
+            }
+
+            if(!Config.CLAIM_PLACEHOLDER.isEmpty() && factionAt != null) {
+                scoreboard.addEmptyLine(ChatColor.DARK_RED);
+                scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
+            }
+
+            scoreboard.addLine(ChatColor.DARK_PURPLE);
+        } else if(factionAt != null) {
+            scoreboard.add(Config.CLAIM_PLACEHOLDER, factionAt.getDisplayName(player));
+        }
+
+        TimerManager.getInstance().getCustomTimer().handleScoreboardUpdate(scoreboard);
+
+        RebootHandler reboot = Lazarus.getInstance().getRebootHandler();
+
+        if(reboot.isRebooting()) {
+            scoreboard.add(Config.REBOOT_PLACEHOLDER, reboot.getScoreboardEntry());
+        }
+    }
+
+    private void applyConquestPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        RunningConquest conquest = Lazarus.getInstance().getConquestManager().getRunningConquest();
+
+        if(conquest != null && !Config.CONQUEST_PLACEHOLDER.isEmpty()) {
+            scoreboard.add(Config.CONQUEST_PLACEHOLDER, "");
+            scoreboard.addConquest(" " + conquest.getTimeEntry(ZoneType.RED), "&a&b&1&r", "  " + conquest.getTimeEntry(ZoneType.BLUE));
+            scoreboard.addConquest(" " + conquest.getTimeEntry(ZoneType.GREEN), "&a&b&2&r", "  " + conquest.getTimeEntry(ZoneType.YELLOW));
+
+            int count = 1;
+
+            for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
+                scoreboard.add(ChatColor.GRAY.toString() + count + ". " +
+                this.conquestFactionFunction.apply(entry.getKey().getName()),  entry.getValue() + "");
+
+                if(++count == 4) break;
+            }
+
+            scoreboard.addLine(ChatColor.GOLD);
+        }
+    }
+
+    private void applyGamesPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        KillTheKingManager killTheKing = Lazarus.getInstance().getKillTheKingManager();
+
+        if(killTheKing.isActive()) {
+            scoreboard.add(Config.KING_TITLE_PLACEHOLDER, "");
+            scoreboard.add(Config.KING_KING_PLACEHOLDER, killTheKing.getKingName());
+            scoreboard.add(Config.KING_TIME_LASTED_PLACEHOLDER, killTheKing.getTimeLasted());
+            scoreboard.add(Config.KING_WORLD_PLACEHOLDER, killTheKing.getKingWorld());
+            scoreboard.add(Config.KING_LOCATION_PLACEHOLDER, killTheKing.getKingLocation());
+
+            scoreboard.addLine(ChatColor.GRAY);
+        }
+
+        DtcManager dtcManager = Lazarus.getInstance().getDtcManager();
+
+        if(dtcManager.isActive()) {
+            scoreboard.add(Config.DTC_PLACEHOLDER, dtcManager.getBreaksLeft() + "");
+        }
+
+        List<RunningKoth> koths = this.instance.getKothManager().getRunningKoths();
+
+        if(!koths.isEmpty()) {
+            for(RunningKoth koth : koths) {
+                scoreboard.add(this.kothNameFunction.apply(koth.getKothData().getColoredName()), koth.getScoreboardEntry());
+            }
+        }
+
+        EnderDragonManager dragon = Lazarus.getInstance().getEnderDragonManager();
+
+        if(dragon.isActive()) {
+            scoreboard.add(Config.ENDER_DRAGON_PLACEHOLDER, dragon.getScoreboardEntry());
+        }
+    }
+
+    private void applyScoreboardTimerPlaceholders(Player player, PlayerScoreboard scoreboard) {
+        for(ScoreboardTimer timer : TimerManager.getInstance().getScoreboardTimers()) {
+            if(timer instanceof SystemTimer && ((SystemTimer) timer).isActive()) {
+                if(timer instanceof SotwTimer) {
+                    scoreboard.add(timer.getPlaceholder(player), timer.getScoreboardEntry(player));
+                } else {
+                    scoreboard.add(timer.getPlaceholder(), timer.getScoreboardEntry());
+                }
+            } else if(timer instanceof PlayerTimer && ((PlayerTimer) timer).isActive(player)) {
+                scoreboard.add(timer.getPlaceholder(), timer.getScoreboardEntry(player));
+            }
         }
     }
 

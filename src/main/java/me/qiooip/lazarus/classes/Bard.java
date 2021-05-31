@@ -274,7 +274,7 @@ public class Bard extends PvpClass {
     class BardHoldableTask extends BukkitRunnable {
 
         BardHoldableTask() {
-            this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 20L);
+            this.runTaskTimer(Lazarus.getInstance(), 0L, 20L);
         }
 
         @Override
