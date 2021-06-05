@@ -71,7 +71,7 @@ public class InvisibilityAbility extends AbilityItem implements Listener {
     public void hidePlayers(Player player) {
         for(UUID uuid : this.players) {
             Player online = Bukkit.getPlayer(uuid);
-            if(!player.getWorld().getPlayers().contains(online)) continue;
+            if(!player.getWorld().equals(online.getWorld())) continue;
 
             NmsUtils.getInstance().updateArmorFor(player, online, true);
         }
