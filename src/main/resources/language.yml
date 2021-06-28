@@ -72,6 +72,7 @@ ONLINE_RANK_ANNOUNCER:
   DELIMITER: "&7, "
 
 ABILITIES:
+  DENY_USAGE_DISTANCE: "&cAbilities are disabled under distance of &e<amount> blocks&c."
   GLOBAL_COOLDOWN:
     ACTIVE: "&7You are on &cglobal abilities &7cooldown for &b<time>&7."
     EXPIRED: "&7Global &cability cooldown &7has expired!"

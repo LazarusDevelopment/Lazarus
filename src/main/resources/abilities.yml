@@ -2,6 +2,11 @@
 #                  Abilities configuration                #
 #=========================================================#
 
+# Should we disable ability usage before X blocks distance
+DENY_USAGE_DISTANCE:
+  ENABLED: false
+  BLOCKS: 1000
+
 GLOBAL_COOLDOWN:
   # Should we enable global abilities cooldown?
   ENABLED: true

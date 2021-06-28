@@ -113,9 +113,11 @@ public class PotionEffectRestorer implements Listener {
 
     private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {
         PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
-        if(effectCache == null) return;
 
-        effectCache[effectType.getId() - 1] = null;
+        if(effectCache != null) {
+            effectCache[effectType.getId() - 1] = null;
+            System.out.println("Removed effect type '" + effectType.getName() + "' from cache");
+        }
     }
 
     public void removePlayerEffect(Player player, PotionEffectType effectType) {
@@ -124,6 +126,7 @@ public class PotionEffectRestorer implements Listener {
         if(effectToRestore == null) {
             player.removePotionEffect(effectType);
         } else {
+            this.removePotionEffectFromCache(player, effectType);
             NmsUtils.getInstance().addPotionEffect(player, effectToRestore);
         }
     }

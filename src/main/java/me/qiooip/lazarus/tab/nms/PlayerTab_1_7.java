@@ -119,7 +119,7 @@ public class PlayerTab_1_7 extends ScoreboardBase_1_7 implements PlayerTab {
     private String getTeamName(int index) {
         return ChatColor.values()[index / 10].toString()
             + ChatColor.values()[index % 10].toString()
-            + ChatColor.RESET.toString();
+            + ChatColor.RESET;
     }
 
     private void removePlayersFromTab(CraftPlayer cplayer) {

@@ -100,6 +100,13 @@ public class PlayerEventListener implements Listener {
         player.sendMessage(refundMessage);
     }
 
+    private boolean shouldDenyAbilityBasedOnDistance(Location loc) {
+        if(!Config.ABILITIES_DENY_USAGE_DISTANCE_ENABLED) return false;
+
+        return Math.max(Math.abs(loc.getBlockX()), Math.abs(loc.getBlockZ()))
+            <= Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS;
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerMove(PlayerMoveEvent event) {
         if(TimerManager.getInstance().getCombatTagTimer().isActive(event.getPlayer())
@@ -169,11 +176,21 @@ public class PlayerEventListener implements Listener {
     public void onAbilityActivated(AbilityActivatedEvent event) {
         if(event.isProjectileAbility()) return;
 
-        Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getLocation());
+        Player player = event.getPlayer();
+
+        if(this.shouldDenyAbilityBasedOnDistance(event.getLocation())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_DENY_USAGE_DISTANCE
+                .replace("<amount>", String.valueOf(Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS)));
+
+            event.setCancelled(true);
+            return;
+        }
+
+        Faction factionAt = ClaimManager.getInstance().getFactionAt(player);
 
         if(factionAt instanceof SystemFaction && !((SystemFaction) factionAt).isAbilities()) {
-            event.getPlayer().sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_ABILITIES_USAGE_DENIED
-                .replace("<faction>", factionAt.getDisplayName(event.getPlayer())));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_ABILITIES_USAGE_DENIED
+                .replace("<faction>", factionAt.getDisplayName(player)));
 
             event.setCancelled(true);
         }
@@ -181,11 +198,19 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onProjectileAbilityActivated(ProjectileAbilityActivatedEvent event) {
+        Player player = event.getPlayer();
+
+        if(this.shouldDenyAbilityBasedOnDistance(event.getLocation())) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_DENY_USAGE_DISTANCE
+                .replace("<amount>", String.valueOf(Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS)));
+
+            event.setCancelled(true);
+            return;
+        }
+
         Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getLocation());
 
         if(factionAt instanceof SystemFaction && !((SystemFaction) factionAt).isAbilities()) {
-            Player player = event.getPlayer();
-
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_ABILITIES_USAGE_DENIED
                 .replace("<faction>", factionAt.getDisplayName(player)));
 
