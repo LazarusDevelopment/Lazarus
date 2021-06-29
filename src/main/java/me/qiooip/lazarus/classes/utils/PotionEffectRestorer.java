@@ -116,7 +116,6 @@ public class PotionEffectRestorer implements Listener {
 
         if(effectCache != null) {
             effectCache[effectType.getId() - 1] = null;
-            System.out.println("Removed effect type '" + effectType.getName() + "' from cache");
         }
     }
 
