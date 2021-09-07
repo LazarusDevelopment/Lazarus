@@ -161,7 +161,7 @@ FAKE_PEARL:
   DISPLAY_NAME: "&3&lFake pearl"
   # Ability item cooldown in seconds
   COOLDOWN: 120
-  # Should we enable enderpearl timer when pre pearl is used?
+  # Should we enable enderpearl timer when fake pearl is used?
   ACTIVATE_ENDERPEARL_TIMER: false
   # Item used for this ability
   ITEM:

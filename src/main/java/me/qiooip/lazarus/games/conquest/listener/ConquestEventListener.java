@@ -55,7 +55,7 @@ public class ConquestEventListener implements Listener {
         event.getLoot().handleRewards(capper);
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(capper);
-        faction.setPoints(faction.getPoints() + Config.FACTION_TOP_CONQUEST_CAP);
+        faction.incrementPoints(Config.FACTION_TOP_CONQUEST_CAP);
 
         if(!Config.CONQUEST_CAPPED_SIGN_ENABLED) return;
 

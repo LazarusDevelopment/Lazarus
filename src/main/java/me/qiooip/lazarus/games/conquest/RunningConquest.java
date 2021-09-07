@@ -71,7 +71,7 @@ public class RunningConquest extends BukkitRunnable {
         this.factionPoints.clear();
 
         copy.stream().sorted(Entry.<PlayerFaction, Integer>comparingByValue().reversed())
-        .forEach(entry -> this.factionPoints.put(entry.getKey(), entry.getValue()));
+            .forEach(entry -> this.factionPoints.put(entry.getKey(), entry.getValue()));
 
         return value;
     }

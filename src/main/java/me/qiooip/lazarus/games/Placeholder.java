@@ -51,6 +51,7 @@ public class Placeholder {
 
         KOTH_NAME("<koth>"),
         KOTH_CAPTIME("<captime>"),
+        KOTH_POINTS("<points>"),
         KOTH_WORLD("<world>"),
         KOTH_X_BLOCK("<x>"),
         KOTH_Y_BLOCK("<y>"),
@@ -62,6 +63,7 @@ public class Placeholder {
             switch(this) {
                 case KOTH_NAME: return koth.getColoredName();
                 case KOTH_CAPTIME: return StringUtils.formatMillis(koth.getCaptime() * 1000L);
+                case KOTH_POINTS: return String.valueOf(koth.getFactionPoints());
                 case KOTH_WORLD: return StringUtils.getWorldName(koth.getCuboid().getCenter());
                 case KOTH_X_BLOCK: return String.valueOf(koth.getCuboid().getCenter().getBlockX());
                 case KOTH_Y_BLOCK: return String.valueOf(koth.getCuboid().getCenter().getBlockY());

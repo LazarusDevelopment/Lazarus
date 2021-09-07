@@ -753,6 +753,7 @@ FACTIONS:
       - " &eFaction lives: &7<lives>"
       - " &eTotal Kills: &7<kills>"
       - " &ePoints: &7<points>"
+      - " &eKoTH captures: &7<koth-captures>"
       - " &eBalance: &7$<balance>"
       - " &eLeader: <leader>"
       - " &eCo-leaders: <co-leaders>"
@@ -1007,6 +1008,7 @@ KOTH:
     - "  &b/koth loot <koth> &f- &7View koth loot"
     - "  &b/koth settime <koth> <&btime&3> &f- &7Set running koth cap time"
     - "  &b/koth startingtime <koth> <&btime&3> &f- &7Set starting cap time"
+    - "  &b/koth factionpoints <koth> <&bpoints&3> &f- &7Set koth faction points"
     - "&7&m                                                                                "
   CAPPED_NO_FACTION:
     - "&8&m                                                                      "
@@ -1057,9 +1059,12 @@ KOTH:
   END_COMMAND:
     USAGE: "&bUsage: &3/&bkoth end &3<&bkoth&3>"
     ENDED: "&bKoth &6<koth> &bhas ended!"
+  FACTION_POINTS_COMMAND:
+    USAGE: "&bUsage: &3/&bkoth factionpoints &3<&bkoth&3> <&bpoints&3>"
+    CHANGED: "&6<koth>'s &bfaction points reward has been changed to &c<points>&b."
   LIST_COMMAND:
     TITLE: " &3&lKoth List"
-    FORMAT: " &e- &b<koth> &7(<world>, <x>, <z>) (Captime: &a<captime>&7)"
+    FORMAT: " &e- &b<koth> &7(<world>, <x>, <z>) (Captime: &a<captime>&7) (Points: &a<points>&7)"
     NO_KOTHS: "&bThere are no &3koths &bdefined yet!"
   LOOT_COMMAND:
     USAGE: "&bUsage: &3/&bkoth loot &3<&bkoth&3>"

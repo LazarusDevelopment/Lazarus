@@ -167,11 +167,13 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
 
             int count = 1;
 
-            for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
-                scoreboard.add(ChatColor.GRAY.toString() + count + ". " +
-                this.conquestFactionFunction.apply(entry.getKey().getName()),  entry.getValue() + "");
+            if(this.conquestFactionFunction != null) {
+                for(Entry<PlayerFaction, Integer> entry : conquest.getFactionPoints().entrySet()) {
+                    scoreboard.add(ChatColor.GRAY.toString() + count + ". " +
+                        this.conquestFactionFunction.apply(entry.getKey().getName()), entry.getValue() + "");
 
-                if(++count == 4) break;
+                    if(++count == 4) break;
+                }
             }
 
             scoreboard.addLine(ChatColor.GOLD);

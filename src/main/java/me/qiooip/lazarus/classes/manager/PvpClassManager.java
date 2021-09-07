@@ -43,16 +43,16 @@ import java.util.UUID;
 public class PvpClassManager implements Listener, ManagerEnabler {
 
     private final PotionEffectRestorer potionEffectRestorer;
-    private final Map<PvpClassType, PvpClass> pvpClasses;
+    private final Map<String, PvpClass> pvpClasses;
 
     public PvpClassManager() {
         this.potionEffectRestorer = new PotionEffectRestorer(this);
         this.pvpClasses = new HashMap<>();
 
-        if(Config.ARCHER_ACTIVATED) this.registerPvpClass(PvpClassType.ARCHER, new Archer(this));
-        if(Config.BARD_ACTIVATED) this.registerPvpClass(PvpClassType.BARD, new Bard(this));
-        if(Config.MINER_ACTIVATED) this.registerPvpClass(PvpClassType.MINER, new Miner(this));
-        if(Config.ROGUE_ACTIVATED) this.registerPvpClass(PvpClassType.ROGUE, new Rogue(this));
+        if(Config.ARCHER_ACTIVATED) this.registerPvpClass(PvpClassType.ARCHER.getName(), new Archer(this));
+        if(Config.BARD_ACTIVATED) this.registerPvpClass(PvpClassType.BARD.getName(), new Bard(this));
+        if(Config.MINER_ACTIVATED) this.registerPvpClass(PvpClassType.MINER.getName(), new Miner(this));
+        if(Config.ROGUE_ACTIVATED) this.registerPvpClass(PvpClassType.ROGUE.getName(), new Rogue(this));
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             this.removeInfiniteEffects(player);
@@ -67,18 +67,18 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         this.pvpClasses.clear();
     }
 
-    public void registerPvpClass(PvpClassType type, PvpClass pvpClass) {
-        PvpClass currentPvpClass = this.getPvpClassByType(type);
+    public void registerPvpClass(String name, PvpClass pvpClass) {
+        PvpClass currentPvpClass = this.getPvpClassByName(name);
 
         if(currentPvpClass != null) {
             currentPvpClass.disable();
         }
 
-        this.pvpClasses.put(type, pvpClass);
+        this.pvpClasses.put(name, pvpClass);
     }
 
-    public PvpClass getPvpClassByType(PvpClassType type) {
-        return this.pvpClasses.get(type);
+    public PvpClass getPvpClassByName(String name) {
+        return this.pvpClasses.get(name);
     }
 
     public PvpClass getActivePvpClass(Player player) {

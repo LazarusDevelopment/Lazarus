@@ -119,7 +119,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         return this.enabledAbilities.get(type);
     }
 
-    private void loadAbility(AbilityItem abilityItem) {
+    public void loadAbility(AbilityItem abilityItem) {
         if(!abilityItem.isEnabled()) {
             return;
         }

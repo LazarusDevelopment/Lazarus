@@ -235,7 +235,7 @@ public class CombatLogger_1_7 extends EntitySkeleton implements CombatLogger {
             PlayerFaction killerFaction = FactionsManager.getInstance().getPlayerFaction(killer);
 
             if(killerFaction != null) {
-                killerFaction.setPoints(killerFaction.getPoints() + Config.FACTION_TOP_KILL);
+                killerFaction.incrementPoints(Config.FACTION_TOP_KILL);
             }
 
             reason = Language.DEATHMESSAGE_REASON_COMBATLOGGER_KILLER

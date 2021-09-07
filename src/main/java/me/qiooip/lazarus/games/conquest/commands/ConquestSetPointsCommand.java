@@ -33,7 +33,7 @@ public class ConquestSetPointsCommand extends SubCommand {
 
         if(faction == null) {
             sender.sendMessage(Language.CONQUEST_PREFIX + Language.CONQUEST_SET_POINTS_INVALID_FACTION
-            .replace("<argument>", args[0]));
+                .replace("<argument>", args[0]));
             return;
         }
 
@@ -43,6 +43,7 @@ public class ConquestSetPointsCommand extends SubCommand {
         conquest.setPoints(faction, amount);
 
         sender.sendMessage(Language.CONQUEST_PREFIX + Language.CONQUEST_SET_POINTS_CHANGED
-        .replace("<faction>", faction.getName()).replace("<amount>", String.valueOf(amount)));
+            .replace("<faction>", faction.getName())
+            .replace("<amount>", String.valueOf(amount)));
     }
 }

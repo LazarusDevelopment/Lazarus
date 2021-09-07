@@ -11,11 +11,10 @@ public class DtcStartEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final DtcData data;
+    private final DtcData dtc;
 
-    public DtcStartEvent(DtcData data) {
-        this.data = data;
-
+    public DtcStartEvent(DtcData dtc) {
+        this.dtc = dtc;
         Bukkit.getPluginManager().callEvent(this);
     }
 

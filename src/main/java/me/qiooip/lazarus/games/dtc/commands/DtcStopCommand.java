@@ -19,9 +19,9 @@ public class DtcStopCommand extends SubCommand {
             return;
         }
 
-        Lazarus.getInstance().getDtcManager().stopDtc();
+        Lazarus.getInstance().getDtcManager().stopDtc(null);
 
         Messages.sendMessage(Language.DTC_PREFIX + Language.DTC_STOP_STOPPED
-        .replace("<player>", sender.getName()));
+            .replace("<player>", sender.getName()));
     }
 }

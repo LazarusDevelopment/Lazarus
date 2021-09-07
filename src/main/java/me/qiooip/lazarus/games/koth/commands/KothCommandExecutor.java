@@ -17,6 +17,7 @@ public class KothCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new KothCreateCommand());
         this.addSubCommand(new KothDeleteCommand());
         this.addSubCommand(new KothEndCommand());
+        this.addSubCommand(new KothFactionPointsCommand());
         this.addSubCommand(new KothListCommand());
         this.addSubCommand(new KothLootCommand());
         this.addSubCommand(new KothSetTimeCommand());
@@ -29,7 +30,7 @@ public class KothCommandExecutor extends SubCommandExecutor {
 
     @Override
     public List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.koth.admin") ? Language
-        .KOTH_COMMAND_USAGE_ADMIN : Language.KOTH_COMMAND_USAGE_PLAYER;
+        return sender.hasPermission("lazarus.koth.admin")
+            ? Language.KOTH_COMMAND_USAGE_ADMIN : Language.KOTH_COMMAND_USAGE_PLAYER;
     }
 }

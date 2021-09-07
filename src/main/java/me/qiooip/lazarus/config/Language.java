@@ -666,6 +666,9 @@ public class Language {
     public static String KOTH_END_USAGE;
     public static String KOTH_END_ENDED;
 
+    public static String KOTH_FACTION_POINTS_USAGE;
+    public static String KOTH_FACTION_POINTS_CHANGED;
+
     public static String KOTH_TELEPORT_USAGE;
 
     public static List<String> KING_COMMAND_USAGE_ADMIN;
@@ -2089,6 +2092,9 @@ public class Language {
 
         KOTH_END_USAGE = language.getString("KOTH.END_COMMAND.USAGE");
         KOTH_END_ENDED = language.getString("KOTH.END_COMMAND.ENDED");
+
+        KOTH_FACTION_POINTS_USAGE = language.getString("KOTH.FACTION_POINTS_COMMAND.USAGE");
+        KOTH_FACTION_POINTS_CHANGED = language.getString("KOTH.FACTION_POINTS_COMMAND.CHANGED");
 
         KOTH_TELEPORT_USAGE = language.getString("KOTH.TELEPORT_COMMAND.USAGE");
 

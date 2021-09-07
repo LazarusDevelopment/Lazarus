@@ -141,6 +141,7 @@ public class Config {
     public static int FACTION_TOP_DEATH;
     public static int FACTION_TOP_KOTH_CAP;
     public static int FACTION_TOP_CONQUEST_CAP;
+    public static int FACTION_TOP_DTC_DESTROY;
 
     public static int FACTION_RALLY_EXPIRE_AFTER;
     public static boolean FACTION_RALLY_INCLUDE_Y_COORDINATE;
@@ -631,6 +632,7 @@ public class Config {
         FACTION_TOP_DEATH = config.getInt("FACTION_TOP.DEATH");
         FACTION_TOP_KOTH_CAP = config.getInt("FACTION_TOP.KOTH_CAP");
         FACTION_TOP_CONQUEST_CAP = config.getInt("FACTION_TOP.CONQUEST_CAP");
+        FACTION_TOP_DTC_DESTROY = config.getInt("FACTION_TOP.DTC_DESTROY");
 
         FACTION_RALLY_EXPIRE_AFTER = config.getInt("FACTION_RALLY.EXPIRE_AFTER");
         FACTION_RALLY_INCLUDE_Y_COORDINATE = config.getBoolean("FACTION_RALLY.INCLUDE_Y_COORDINATE");

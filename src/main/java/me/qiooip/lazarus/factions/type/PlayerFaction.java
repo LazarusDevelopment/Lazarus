@@ -51,6 +51,7 @@ public class PlayerFaction extends Faction {
     private int balance;
     private int lives;
     private int points;
+    private int kothsCapped;
 
     private Location home;
     private boolean open;
@@ -271,8 +272,16 @@ public class PlayerFaction extends Faction {
             .replace("<dtr>", this.getDtrString()).replace("<maxDtr>", this.getMaxDtrString()));
     }
 
+    public void incrementPoints(int value) {
+        this.points += Math.abs(value);
+    }
+
     public void setPoints(int value) {
         this.points = Config.FACTION_TOP_ALLOW_NEGATIVE_POINTS ? value : Math.max(0, value);
+    }
+
+    public void incrementKothsCapped() {
+        this.kothsCapped++;
     }
 
     public boolean isFocusing(Player player) {
@@ -436,6 +445,7 @@ public class PlayerFaction extends Faction {
             .replace("<allies>", allies.toString())
             .replace("<balance>", String.valueOf(this.balance))
             .replace("<points>", String.valueOf(this.points))
+            .replace("<koth-captures>", String.valueOf(this.kothsCapped))
             .replace("<regen-time>", this.getRegeneratingString())
             .replace("<dtr>", this.getDtrString())
             .replace("<dtrMax>", this.getMaxDtrString())

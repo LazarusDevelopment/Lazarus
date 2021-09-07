@@ -424,6 +424,8 @@ FACTION_TOP:
   KOTH_CAP: 20
   # Points per conquest cap
   CONQUEST_CAP: 100
+  # Points per DTC destroy
+  DTC_DESTROY: 30
 
 FACTION_RALLY:
   # Rally location expiration in seconds

@@ -116,7 +116,8 @@ public class KothManager implements Listener, ManagerEnabler {
         SystemFaction faction = FactionsManager.getInstance().createSystemFaction(name, SystemType.KOTH, sender);
         LootData loot = Lazarus.getInstance().getLootManager().createLoot(name);
 
-        this.koths.add(new KothData(name, faction.getId(), captime, capzone, faction.getColor(), loot));
+        int factionPoints = Config.FACTION_TOP_KOTH_CAP;
+        this.koths.add(new KothData(name, faction.getId(), captime, factionPoints, capzone, faction.getColor(), loot));
     }
 
     public void deleteKoth(CommandSender sender, KothData koth) {
@@ -190,7 +191,7 @@ public class KothManager implements Listener, ManagerEnabler {
         sender.sendMessage(Language.KOTH_LIST_COMMAND_TITLE);
 
         this.koths.stream().sorted(Comparator.comparing(KothData::getName)).forEach(koth -> sender
-        .sendMessage(Placeholder.KothReplacer.parse(koth, Language.KOTH_LIST_COMMAND_FORMAT)));
+            .sendMessage(Placeholder.KothReplacer.parse(koth, Language.KOTH_LIST_COMMAND_FORMAT)));
 
         sender.sendMessage(Language.KOTH_COMMAND_FOOTER);
     }
@@ -230,8 +231,8 @@ public class KothManager implements Listener, ManagerEnabler {
         Location to = event.getTo();
 
         if(from.getBlockX() == to.getBlockX()
-        && from.getBlockY() == to.getBlockY()
-        && from.getBlockZ() == to.getBlockZ()) return;
+            && from.getBlockY() == to.getBlockY()
+            && from.getBlockZ() == to.getBlockZ()) return;
 
         this.checkCapzone(event.getPlayer(), from, to);
     }

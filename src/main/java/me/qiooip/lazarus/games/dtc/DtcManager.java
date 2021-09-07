@@ -6,8 +6,10 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.games.dtc.event.DtcStartEvent;
 import me.qiooip.lazarus.games.dtc.event.DtcStopEvent;
-import me.qiooip.lazarus.utils.ManagerEnabler;
+import me.qiooip.lazarus.games.dtc.event.DtcDestroyedEvent;
+import me.qiooip.lazarus.games.dtc.listener.DtcEventListener;
 import me.qiooip.lazarus.utils.FileUtils;
+import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
@@ -35,11 +37,15 @@ public class DtcManager implements Listener, ManagerEnabler {
         this.dtcFile = FileUtils.getOrCreateFile(Config.GAMES_DIR, "dtc.json");
 
         this.loadDtc();
+        new DtcEventListener();
     }
 
     public void disable() {
         this.saveDtc();
-        if(this.isActive()) this.stopDtc();
+
+        if(this.isActive()) {
+            this.stopDtc(null);
+        }
     }
 
     private void loadDtc() {
@@ -77,17 +83,20 @@ public class DtcManager implements Listener, ManagerEnabler {
         new DtcStartEvent(this.dtcData);
 
         Language.DTC_START_STARTED.forEach(line -> Messages.sendMessage(line
-        .replace("<location>", StringUtils.getLocationNameWithWorld(dtcData
-        .getLocation())).replace("<amount>", String.valueOf(breaks))));
+            .replace("<location>", StringUtils.getLocationNameWithWorld(dtcData.getLocation()))
+            .replace("<amount>", String.valueOf(breaks))));
     }
 
-    public void stopDtc() {
+    public void stopDtc(Player winner) {
         this.active = false;
         this.dtcData.getLocation().getBlock().setType(Material.AIR);
-
-        new DtcStopEvent();
-
         HandlerList.unregisterAll(this);
+
+        if(winner == null) {
+            new DtcStopEvent(this.dtcData);
+        } else {
+            new DtcDestroyedEvent(this.dtcData, winner);
+        }
     }
 
     public int getBreaksLeft() {
@@ -99,11 +108,10 @@ public class DtcManager implements Listener, ManagerEnabler {
         long duration = System.currentTimeMillis() - this.dtcData.getStartTime();
 
         Messages.sendMessage(Language.DTC_PREFIX + Language.DTC_DESTROYED
-        .replace("<player>", winner.getName()).replace("<time>", DurationFormatUtils
-        .formatDurationWords(duration, true, true)));
+            .replace("<player>", winner.getName())
+            .replace("<time>", DurationFormatUtils.formatDurationWords(duration, true, true)));
 
-        Lazarus.getInstance().getLootManager().getLootByName("DTC").handleRewards(winner);
-        this.stopDtc();
+        this.stopDtc(winner);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
@@ -121,7 +129,7 @@ public class DtcManager implements Listener, ManagerEnabler {
 
         if(dtcBreakInterval != 0 && this.dtcData.getBreaksLeft() % dtcBreakInterval == 0) {
             Messages.sendMessage(Language.DTC_PREFIX + Language.DTC_HEALTH_MESSAGE
-            .replace("<amount>", String.valueOf(this.dtcData.getBreaksLeft())));
+                .replace("<amount>", String.valueOf(this.dtcData.getBreaksLeft())));
         }
     }
 }

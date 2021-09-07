@@ -54,20 +54,23 @@ public class KothEventListeners implements Listener {
     @EventHandler
     public void onKothCapped(KothCappedEvent event) {
         Player capper = event.getCapper();
-        event.getKoth().getLoot().handleRewards(capper);
+        KothData koth = event.getKoth();
+
+        koth.getLoot().handleRewards(capper);
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(event.getCapper());
 
         if(faction != null) {
-            faction.setPoints(faction.getPoints() + Config.FACTION_TOP_KOTH_CAP);
+            faction.incrementPoints(koth.getFactionPoints());
+            faction.incrementKothsCapped();
         }
 
         if(!Config.KOTH_CAPPED_SIGN_ENABLED) return;
 
         if(capper.getInventory().firstEmpty() == -1) {
-            capper.getWorld().dropItemNaturally(capper.getLocation(), this.getKothCapSign(capper, event.getKoth()));
+            capper.getWorld().dropItemNaturally(capper.getLocation(), this.getKothCapSign(capper, koth));
         } else {
-            capper.getInventory().addItem(this.getKothCapSign(capper, event.getKoth()));
+            capper.getInventory().addItem(this.getKothCapSign(capper, koth));
         }
     }
 

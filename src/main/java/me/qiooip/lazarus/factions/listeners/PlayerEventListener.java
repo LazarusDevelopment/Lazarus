@@ -237,7 +237,7 @@ public class PlayerEventListener implements Listener {
             PlayerFaction killerFaction = FactionsManager.getInstance().getPlayerFaction(victim.getKiller());
             if(killerFaction == null) return;
 
-            killerFaction.setPoints(killerFaction.getPoints() + Config.FACTION_TOP_KILL);
+            killerFaction.incrementPoints(Config.FACTION_TOP_KILL);
         }
     }
 

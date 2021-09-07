@@ -19,6 +19,7 @@ public class KothData {
     private String name;
     private UUID factionId;
     private int captime;
+    private int factionPoints;
     private Cuboid cuboid;
 
     private transient String color;
