@@ -589,6 +589,9 @@ public class Language {
     public static String DTC_DESTROYED;
     public static String DTC_HEALTH_MESSAGE;
 
+    public static String DTC_EXCEPTION_ALREADY_RUNNING;
+    public static String DTC_EXCEPTION_NOT_RUNNING;
+
     public static String DTC_AREA_MAKE_A_SELECTION;
     public static String DTC_AREA_SET_BOTH_POSITIONS;
     public static String DTC_AREA_CLAIM_OVERLAPPING;
@@ -600,11 +603,12 @@ public class Language {
     public static String DTC_SET_MUST_BE_OBSIDIAN;
     public static String DTC_SET_CORE_SET;
 
-    public static String DTC_START_ALREADY_RUNNING;
+    public static String DTC_SET_HEALTH_USAGE;
+    public static String DTC_SET_HEALTH_CHANGED;
+
     public static String DTC_START_NOT_SETUP;
     public static List<String> DTC_START_STARTED;
 
-    public static String DTC_STOP_NOT_RUNNING;
     public static String DTC_STOP_STOPPED;
 
     public static String DTC_TELEPORT_CORE_NOT_SET;
@@ -2016,6 +2020,9 @@ public class Language {
         DTC_DESTROYED = language.getString("DTC.DESTROYED");
         DTC_HEALTH_MESSAGE = language.getString("DTC.HEALTH_MESSAGE");
 
+        DTC_EXCEPTION_ALREADY_RUNNING = language.getString("DTC.EXCEPTION.ALREADY_RUNNING");
+        DTC_EXCEPTION_NOT_RUNNING = language.getString("DTC.EXCEPTION.NOT_RUNNING");
+
         DTC_AREA_MAKE_A_SELECTION = language.getString("DTC.AREA_COMMAND.MAKE_A_SELECTION");
         DTC_AREA_SET_BOTH_POSITIONS = language.getString("DTC.AREA_COMMAND.SET_BOTH_POSITIONS");
         DTC_AREA_CLAIM_OVERLAPPING = language.getString("DTC.AREA_COMMAND.CLAIM_OVERLAPPING");
@@ -2027,11 +2034,12 @@ public class Language {
         DTC_SET_MUST_BE_OBSIDIAN = language.getString("DTC.SET_COMMAND.MUST_BE_OBSIDIAN");
         DTC_SET_CORE_SET = language.getString("DTC.SET_COMMAND.CORE_SET");
 
-        DTC_START_ALREADY_RUNNING = language.getString("DTC.START_COMMAND.ALREADY_RUNNING");
+        DTC_SET_HEALTH_USAGE = language.getString("DTC.SET_HEALTH_COMMAND.USAGE");
+        DTC_SET_HEALTH_CHANGED = language.getString("DTC.SET_HEALTH_COMMAND.CHANGED");
+
         DTC_START_NOT_SETUP = language.getString("DTC.START_COMMAND.NOT_SETUP");
         DTC_START_STARTED = language.getStringList("DTC.START_COMMAND.STARTED");
 
-        DTC_STOP_NOT_RUNNING = language.getString("DTC.STOP_COMMAND.NOT_RUNNING");
         DTC_STOP_STOPPED = language.getString("DTC.STOP_COMMAND.STOPPED");
 
         DTC_TELEPORT_CORE_NOT_SET = language.getString("DTC.TELEPORT_COMMAND.CORE_NOT_SET");

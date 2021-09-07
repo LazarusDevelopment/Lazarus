@@ -951,6 +951,9 @@ DTC:
     - "&7&m                                                                                "
   DESTROYED: "&cCore &7has been destroyed by &c<player> &7after &e<time>&7."
   HEALTH_MESSAGE: "&cCore &7is at &e<amount> &7health points."
+  EXCEPTION:
+    ALREADY_RUNNING: "&cDTC &7is already running!"
+    NOT_RUNNING: "&cDTC &7is not running!"
   AREA_COMMAND:
     MAKE_A_SELECTION: "&7Please first make a &cselection&7."
     SET_BOTH_POSITIONS: "&7You first have to set &cboth positions&7."
@@ -968,8 +971,10 @@ DTC:
   SET_COMMAND:
     MUST_BE_OBSIDIAN: "&7You must be looking at &5Obsidian&7!"
     CORE_SET: "&cDTC &7core has been set at: &c<location>"
+  SET_HEALTH_COMMAND:
+    USAGE: "&7Usage: &c/&7dtc sethealth &c<&7health&c>"
+    CHANGED: "&cDTC's &7health has been changed to &c<health>&7."
   START_COMMAND:
-    ALREADY_RUNNING: "&cDTC &7is already running!"
     NOT_SETUP: "&7Please setup &cDTC &7core first!"
     STARTED:
       - "&7&m                                                 "
@@ -979,7 +984,6 @@ DTC:
       - " &e* &7Core breaks to win: &e<amount>"
       - "&7&m                                                 "
   STOP_COMMAND:
-    NOT_RUNNING: "&cDTC &7is not running!"
     STOPPED: "&cDTC &7has been stopped by &c<player>&7!"
   TELEPORT_COMMAND:
     CORE_NOT_SET: "&cDTC &7core is not set!"

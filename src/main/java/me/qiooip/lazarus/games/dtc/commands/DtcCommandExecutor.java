@@ -18,6 +18,7 @@ public class DtcCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new DtcInfoCommand());
         this.addSubCommand(new DtcLootCommand());
         this.addSubCommand(new DtcSetCommand());
+        this.addSubCommand(new DtcSetHealthCommand());
         this.addSubCommand(new DtcStartCommand());
         this.addSubCommand(new DtcStopCommand());
         this.addSubCommand(new DtcTeleportCommand());
@@ -25,7 +26,7 @@ public class DtcCommandExecutor extends SubCommandExecutor {
 
     @Override
     protected List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.dtc.admin") ? Language
-        .DTC_COMMAND_USAGE_ADMIN : Language.DTC_COMMAND_USAGE_PLAYER;
+        return sender.hasPermission("lazarus.dtc.admin")
+            ? Language.DTC_COMMAND_USAGE_ADMIN : Language.DTC_COMMAND_USAGE_PLAYER;
     }
 }

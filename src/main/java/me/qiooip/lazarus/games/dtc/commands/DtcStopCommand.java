@@ -15,7 +15,7 @@ public class DtcStopCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(!Lazarus.getInstance().getDtcManager().isActive()) {
-            sender.sendMessage(Language.DTC_PREFIX + Language.DTC_STOP_NOT_RUNNING);
+            sender.sendMessage(Language.DTC_PREFIX + Language.DTC_EXCEPTION_NOT_RUNNING);
             return;
         }
 

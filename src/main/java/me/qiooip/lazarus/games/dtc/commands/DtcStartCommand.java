@@ -15,7 +15,7 @@ public class DtcStartCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(Lazarus.getInstance().getDtcManager().isActive()) {
-            sender.sendMessage(Language.DTC_PREFIX + Language.DTC_START_ALREADY_RUNNING);
+            sender.sendMessage(Language.DTC_PREFIX + Language.DTC_EXCEPTION_ALREADY_RUNNING);
             return;
         }
 
