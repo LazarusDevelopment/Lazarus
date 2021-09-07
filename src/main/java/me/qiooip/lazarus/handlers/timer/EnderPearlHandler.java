@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilitiesManager;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
+import me.qiooip.lazarus.abilities.type.FakePearlAbility;
 import me.qiooip.lazarus.abilities.type.FastPearlAbility;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
@@ -61,6 +62,8 @@ public class EnderPearlHandler extends Handler implements Listener {
         if(!(event.getEntity().getShooter() instanceof Player)) return;
 
         Player player = (Player) event.getEntity().getShooter();
+
+        this.killCheck.put(player.getUniqueId(), event.getEntity());
         int cooldown = Config.ENDER_PEARL_COOLDOWN_TIME;
 
         ItemStack itemInHand = player.getItemInHand();
@@ -76,8 +79,9 @@ public class EnderPearlHandler extends Handler implements Listener {
             fastPearlAbility.removeFastPearlMetadata(player);
         }
 
-        TimerManager.getInstance().getEnderPearlTimer().activate(player, cooldown);
-        this.killCheck.put(player.getUniqueId(), event.getEntity());
+        if(!(abilityItem instanceof FakePearlAbility) || ((FakePearlAbility) abilityItem).isActivateEnderpearlTimer()) {
+            TimerManager.getInstance().getEnderPearlTimer().activate(player, cooldown);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

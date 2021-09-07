@@ -1,5 +1,6 @@
 package me.qiooip.lazarus.abilities.type;
 
+import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
@@ -23,7 +24,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class FakePearlAbility extends AbilityItem implements Listener {
 
     private final String metadataName;
-    private boolean activateEnderpearlTimer;
+    @Getter private boolean activateEnderpearlTimer;
 
     public FakePearlAbility(ConfigFile config) {
         super(AbilityType.FAKE_PEARL, "FAKE_PEARL", config);
@@ -43,10 +44,14 @@ public class FakePearlAbility extends AbilityItem implements Listener {
             return false;
         }
 
+        if(TimerManager.getInstance().getEnderPearlTimer().isActive(player)) {
+            return false;
+        }
+
         if(Config.ENDER_PEARL_COOLDOWN_ENABLED && this.activateEnderpearlTimer) {
             EnderPearlTimer enderPearlTimer = TimerManager.getInstance().getEnderPearlTimer();
-
             enderPearlTimer.cancel(player);
+
             Tasks.sync(() -> enderPearlTimer.activate(player));
         }
 

@@ -5,6 +5,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.GameMode;
@@ -50,6 +51,10 @@ public class FastPearlAbility extends AbilityItem implements Listener {
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
         if(player.getGameMode() == GameMode.CREATIVE) {
+            return false;
+        }
+
+        if(TimerManager.getInstance().getEnderPearlTimer().isActive(player)) {
             return false;
         }
 
