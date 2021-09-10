@@ -13,7 +13,10 @@ LICENCE: ""
 DATASTORE: "JSON"
 
 # Mongo connection
+# If custom connection string is used other settings below will be ignored!
 MONGO:
+  USE_CONNECTION_STRING: false
+  CONNECTION_STRING: ""
   SERVER_IP: "localhost"
   SERVER_PORT: 27017
   DATABASE_NAME: "hcf"

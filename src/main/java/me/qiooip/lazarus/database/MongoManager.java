@@ -27,7 +27,7 @@ public class MongoManager {
         settings.applyToConnectionPoolSettings(builder -> builder.maxConnectionIdleTime(60, TimeUnit.SECONDS));
         settings.retryWrites(true);
 
-        if(MongoConfig.AUTH_ENABLED) {
+        if(MongoConfig.AUTH_ENABLED && !MongoConfig.USE_CONNECTION_STRING) {
             settings.credential(MongoConfig.getCredentials());
         }
 
