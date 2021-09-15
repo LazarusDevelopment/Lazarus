@@ -44,7 +44,7 @@ SEND_TO_HUB_ON_KICK:
   HUBS:
   - "Hub"
 
-# Should we enabled join welcome message?
+# Should we enable join welcome message?
 JOIN_WELCOME_MESSAGE_ENABLED: true
 
 # Commands cooldown in seconds
