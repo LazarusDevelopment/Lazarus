@@ -59,10 +59,10 @@ public class ScheduleCreateCommand extends SubCommand {
         DayOfWeek day = DayOfWeek.valueOf(dayName.toUpperCase());
 
         int id = Lazarus.getInstance().getScheduleManager()
-        .createSchedule(name, day, this.getCorrectTime(time));
+            .createSchedule(name, day, this.getCorrectTime(time));
 
         sender.sendMessage(Language.SCHEDULE_PREFIX + Language
-        .SCHEDULE_CREATE_CREATED.replace("<id>", String.valueOf(id)));
+            .SCHEDULE_CREATE_CREATED.replace("<id>", String.valueOf(id)));
     }
 
     private String getCorrectTime(String time) {

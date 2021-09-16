@@ -98,7 +98,7 @@ public class ScheduleManager implements ManagerEnabler {
         int dayOfMonth = current.getDayOfMonth() + (day.getValue() - current.getDayOfWeek().getValue());
 
         dayOfMonth = dayOfMonth < 1 ? dayOfMonth + 7 : dayOfMonth > current.getMonth()
-        .length(Year.isLeap(current.getYear())) ? dayOfMonth - 7 : dayOfMonth;
+            .length(Year.isLeap(current.getYear())) ? dayOfMonth - 7 : dayOfMonth;
 
         int hours = Integer.parseInt(timeArray[0]);
         int minutes = Integer.parseInt(timeArray[1]);
