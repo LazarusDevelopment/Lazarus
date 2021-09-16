@@ -134,6 +134,10 @@ public class KothManager implements Listener, ManagerEnabler {
         this.stopKoth(runningKoth);
     }
 
+    public void startKoth(KothData koth) {
+        this.startKoth(koth, koth.getCaptime());
+    }
+
     public void startKoth(KothData koth, int time) {
         if(this.tickTask == null) {
             Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());

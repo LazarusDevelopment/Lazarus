@@ -59,7 +59,7 @@ public class EotwHandler extends Handler implements Listener {
 
         this.running = true;
 
-        Lazarus.getInstance().getKothManager().startKoth(koth, koth.getCaptime());
+        Lazarus.getInstance().getKothManager().startKoth(koth);
         FactionsManager.getInstance().setAllRaidable(true);
 
         SystemFaction spawnFaction = (SystemFaction) FactionsManager.getInstance().getFactionByName("Spawn");
