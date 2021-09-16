@@ -90,6 +90,10 @@ public class KothManager implements Listener, ManagerEnabler {
             }
 
             koth.setupKothColor();
+
+            if(koth.getFactionPoints() == 0) {
+                koth.setFactionPoints(Config.FACTION_TOP_KOTH_CAP);
+            }
         }
 
         FactionsManager.getInstance().removeKothFactionsWithoutKoths(this.koths);
