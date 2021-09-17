@@ -19,6 +19,7 @@ import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.timer.scoreboard.StuckTimer;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import org.bukkit.Location;
+import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
@@ -101,10 +102,11 @@ public class PlayerEventListener implements Listener {
     }
 
     private boolean shouldDenyAbilityBasedOnDistance(Location loc) {
-        if(!Config.ABILITIES_DENY_USAGE_DISTANCE_ENABLED) return false;
+        Environment environment = loc.getWorld().getEnvironment();
+        if(!Config.ABILITIES_DENY_USAGE_DISTANCE_ENABLED.get(environment)) return false;
 
-        return Math.max(Math.abs(loc.getBlockX()), Math.abs(loc.getBlockZ()))
-            <= Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS;
+        return Math.max(Math.abs(loc.getBlockX()), Math.abs(loc.getBlockZ())) <=
+            Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS.get(environment);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

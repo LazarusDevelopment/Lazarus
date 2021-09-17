@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class SubCommand {
 
     protected final String name;
-    protected final List<String> allies;
+    protected final List<String> aliases;
     protected final String permission;
 
     @Setter protected String prefix;
@@ -28,8 +28,8 @@ public abstract class SubCommand {
         this(name, new ArrayList<>());
     }
 
-    public SubCommand(String name, List<String> allies) {
-        this(name, allies, null);
+    public SubCommand(String name, List<String> aliases) {
+        this(name, aliases, null);
     }
 
     public SubCommand(String name, boolean forPlayersOnly) {
@@ -40,21 +40,21 @@ public abstract class SubCommand {
         this(name, new ArrayList<>(), permission);
     }
 
-    public SubCommand(String name, List<String> allies, String permission) {
-        this(name, allies, permission, false);
+    public SubCommand(String name, List<String> aliases, String permission) {
+        this(name, aliases, permission, false);
     }
 
     public SubCommand(String name, String permission, boolean forPlayersOnly) {
         this(name, new ArrayList<>(), permission, forPlayersOnly);
     }
 
-    public SubCommand(String name, List<String> allies, boolean forPlayersOnly) {
-        this(name, allies, null, forPlayersOnly);
+    public SubCommand(String name, List<String> aliases, boolean forPlayersOnly) {
+        this(name, aliases, null, forPlayersOnly);
     }
 
-    public SubCommand(String name, List<String> allies, String permission, boolean forPlayersOnly) {
+    public SubCommand(String name, List<String> aliases, String permission, boolean forPlayersOnly) {
         this.name = name;
-        this.allies = allies;
+        this.aliases = aliases;
         this.permission = permission;
         this.forPlayersOnly = forPlayersOnly;
     }

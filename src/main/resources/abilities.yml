@@ -4,8 +4,15 @@
 
 # Should we disable ability usage before X blocks distance
 DENY_USAGE_DISTANCE:
-  ENABLED: false
-  BLOCKS: 1000
+  OVERWORLD:
+    ENABLED: false
+    BLOCKS: 1000
+  NETHER:
+    ENABLED: false
+    BLOCKS: 500
+  END:
+    ENABLED: false
+    BLOCKS: 500
 
 GLOBAL_COOLDOWN:
   # Should we enable global abilities cooldown?

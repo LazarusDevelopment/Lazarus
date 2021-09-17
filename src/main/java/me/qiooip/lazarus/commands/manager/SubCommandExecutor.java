@@ -56,7 +56,7 @@ public class SubCommandExecutor extends BukkitCommand {
 
     protected SubCommand getSubCommand(String name) {
         for(SubCommand sub : this.subCommands) {
-            if(sub.getName().equalsIgnoreCase(name) || sub.getAllies().contains(name.toLowerCase())) {
+            if(sub.getName().equalsIgnoreCase(name) || sub.getAliases().contains(name.toLowerCase())) {
                 return sub;
             }
         }
