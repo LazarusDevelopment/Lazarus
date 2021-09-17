@@ -101,12 +101,26 @@ public class PlayerEventListener implements Listener {
         player.sendMessage(refundMessage);
     }
 
-    private boolean shouldDenyAbilityBasedOnDistance(Location loc) {
+    private boolean shouldDenyAbilityUsage(Player player, Location loc) {
         Environment environment = loc.getWorld().getEnvironment();
-        if(!Config.ABILITIES_DENY_USAGE_DISTANCE_ENABLED.get(environment)) return false;
 
-        return Math.max(Math.abs(loc.getBlockX()), Math.abs(loc.getBlockZ())) <=
-            Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS.get(environment);
+        if(Config.ABILITIES_DENY_USAGE_WORLD.get(environment)) {
+            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_DENY_USAGE_WORLD);
+            return true;
+        }
+
+        if(Config.ABILITIES_DENY_USAGE_DISTANCE_ENABLED.get(environment)) {
+            int denyUsageDistance = Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS.get(environment);
+
+            if(Math.max(Math.abs(loc.getBlockX()), Math.abs(loc.getBlockZ())) <= denyUsageDistance) {
+                player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_DENY_USAGE_DISTANCE
+                    .replace("<amount>", String.valueOf(denyUsageDistance)));
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -180,10 +194,7 @@ public class PlayerEventListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if(this.shouldDenyAbilityBasedOnDistance(event.getLocation())) {
-            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_DENY_USAGE_DISTANCE
-                .replace("<amount>", String.valueOf(Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS)));
-
+        if(this.shouldDenyAbilityUsage(player, event.getLocation())) {
             event.setCancelled(true);
             return;
         }
@@ -202,10 +213,7 @@ public class PlayerEventListener implements Listener {
     public void onProjectileAbilityActivated(ProjectileAbilityActivatedEvent event) {
         Player player = event.getPlayer();
 
-        if(this.shouldDenyAbilityBasedOnDistance(event.getLocation())) {
-            player.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_DENY_USAGE_DISTANCE
-                .replace("<amount>", String.valueOf(Config.ABILITIES_DENY_USAGE_DISTANCE_BLOCKS)));
-
+        if(this.shouldDenyAbilityUsage(player, event.getLocation())) {
             event.setCancelled(true);
             return;
         }

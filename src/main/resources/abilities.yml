@@ -2,6 +2,12 @@
 #                  Abilities configuration                #
 #=========================================================#
 
+# Should we disable ability usage in certain worlds?
+DENY_USAGE:
+  OVERWORLD: false
+  NETHER: false
+  END: false
+
 # Should we disable ability usage before X blocks distance
 DENY_USAGE_DISTANCE:
   OVERWORLD:

@@ -387,6 +387,7 @@ public class Config {
     public static int ROGUE_BACKSTAB_COOLDOWN;
     public static boolean ROGUE_BACKSTAB_EFFECTS_ENABLED;
 
+    public static Map<Environment, Boolean> ABILITIES_DENY_USAGE_WORLD;
     public static Map<Environment, Boolean> ABILITIES_DENY_USAGE_DISTANCE_ENABLED;
     public static Map<Environment, Integer> ABILITIES_DENY_USAGE_DISTANCE_BLOCKS;
 
@@ -889,6 +890,11 @@ public class Config {
         ROGUE_BACKSTAB_DAMAGE = classes.getInt("ROGUE_CLASS.BACKSTAB.DAMAGE");
         ROGUE_BACKSTAB_COOLDOWN = classes.getInt("ROGUE_CLASS.BACKSTAB.COOLDOWN");
         ROGUE_BACKSTAB_EFFECTS_ENABLED = classes.getBoolean("ROGUE_CLASS.BACKSTAB.EFFECTS_ENABLED");
+
+        ABILITIES_DENY_USAGE_WORLD = new EnumMap<>(Environment.class);
+        ABILITIES_DENY_USAGE_WORLD.put(Environment.NORMAL, abilitiesFile.getBoolean("DENY_USAGE.OVERWORLD"));
+        ABILITIES_DENY_USAGE_WORLD.put(Environment.NETHER, abilitiesFile.getBoolean("DENY_USAGE.NETHER"));
+        ABILITIES_DENY_USAGE_WORLD.put(Environment.THE_END, abilitiesFile.getBoolean("DENY_USAGE.END"));
 
         ABILITIES_DENY_USAGE_DISTANCE_ENABLED = new EnumMap<>(Environment.class);
         ABILITIES_DENY_USAGE_DISTANCE_ENABLED.put(Environment.NORMAL, abilitiesFile.getBoolean("DENY_USAGE_DISTANCE.OVERWORLD.ENABLED"));
