@@ -42,8 +42,8 @@ import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -538,8 +538,8 @@ public class FactionsManager implements Listener {
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
         if(timer.isActive(player, "FACTION_CREATE")) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_CREATE_COOLDOWN.replace("<time>",
-            DurationFormatUtils.formatDurationWords(timer.getCooldown(player, "FACTION_CREATE"), true, true)));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_CREATE_COOLDOWN
+                .replace("<time>", StringUtils.formatDurationWords(timer.getCooldown(player, "FACTION_CREATE"))));
 
             event.setCancelled(true);
             return;
@@ -556,7 +556,7 @@ public class FactionsManager implements Listener {
 
             if(diff >= 0) {
                 event.getSender().sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_RENAME_COOLDOWN
-                    .replace("<time>", DurationFormatUtils.formatDurationWords(diff, true, true)));
+                    .replace("<time>", StringUtils.formatDurationWords(diff)));
 
                 event.setCancelled(true);
                 return;

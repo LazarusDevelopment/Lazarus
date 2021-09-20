@@ -18,7 +18,6 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -182,7 +181,7 @@ public class PlayerFaction extends Faction {
     }
 
     private String getRegeneratingString() {
-        return DurationFormatUtils.formatDurationWords(TimerManager.getInstance().getFactionFreezeTimer().getCooldown(this), true, true);
+        return StringUtils.formatDurationWords(TimerManager.getInstance().getFactionFreezeTimer().getCooldown(this));
     }
 
     private String getRaidableString() {

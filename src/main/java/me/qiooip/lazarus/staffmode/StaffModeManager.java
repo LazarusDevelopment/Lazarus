@@ -14,7 +14,6 @@ import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -212,7 +211,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         lore.add(ChatColor.AQUA + "Playtime:");
 
         long playTime = target.getStatistic(Statistic.PLAY_ONE_TICK);
-        lore.add(ChatColor.GRAY + DurationFormatUtils.formatDurationWords(playTime * 50, true, true));
+        lore.add(ChatColor.GRAY + StringUtils.formatDurationWords(playTime * 50));
 
         lore.add("");
         lore.add(ChatColor.AQUA + "PotionEffects:");

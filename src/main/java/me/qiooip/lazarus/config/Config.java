@@ -431,6 +431,8 @@ public class Config {
     public static String LOGOUT_PLACEHOLDER;
     public static String NORMAL_GOLDEN_APPLE_PLACEHOLDER;
     public static String ENCHANTED_GOLDEN_APPLE_PLACEHOLDER;
+    public static String PURGE_START_PLACEHOLDER;
+    public static String PURGE_PLACEHOLDER;
     public static String STAFFMODE_PLACEHOLDER;
     public static String VANISH_PLACEHOLDER;
     public static String VISIBILITY_PLACEHOLDER;
@@ -946,6 +948,8 @@ public class Config {
         LOGOUT_PLACEHOLDER = scoreboard.getString("LOGOUT_PLACEHOLDER");
         NORMAL_GOLDEN_APPLE_PLACEHOLDER = scoreboard.getString("NORMAL_GOLDEN_APPLE_PLACEHOLDER");
         ENCHANTED_GOLDEN_APPLE_PLACEHOLDER = scoreboard.getString("ENCHANTED_GOLDEN_APPLE_PLACEHOLDER");
+        PURGE_START_PLACEHOLDER = scoreboard.getString("PURGE_START_PLACEHOLDER");
+        PURGE_PLACEHOLDER = scoreboard.getString("PURGE_PLACEHOLDER");
         STAFFMODE_PLACEHOLDER = scoreboard.getString("STAFFMODE_PLACEHOLDER");
         VANISH_PLACEHOLDER = scoreboard.getString("VANISH_PLACEHOLDER");
         VISIBILITY_PLACEHOLDER = scoreboard.getString("VISIBILITY_PLACEHOLDER");

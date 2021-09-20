@@ -1174,6 +1174,14 @@ public class Language {
     public static String PLAYTIME_COMMAND_USAGE;
     public static String PLAYTIME_COMMAND_MESSAGE;
 
+    public static String PURGE_STARTED;
+    public static String PURGE_ENDED;
+    public static String PURGE_NOT_RUNNING;
+    public static String PURGE_ALREADY_RUNNING;
+    public static String PURGE_BROADCAST_START;
+    public static String PURGE_BROADCAST_STOP;
+    public static List<String> PURGE_COMMAND_USAGE;
+
     public static String PVP_CLASSES_ACTIVATED;
     public static String PVP_CLASSES_DEACTIVATED;
     public static String PVP_CLASSES_WARMING_UP;
@@ -2606,6 +2614,14 @@ public class Language {
 
         PLAYTIME_COMMAND_USAGE = language.getString("PLAYTIME_COMMAND.USAGE");
         PLAYTIME_COMMAND_MESSAGE = language.getString("PLAYTIME_COMMAND.MESSAGE");
+
+        PURGE_STARTED = language.getString("PURGE.STARTED");
+        PURGE_ENDED = language.getString("PURGE.ENDED");
+        PURGE_NOT_RUNNING = language.getString("PURGE.NOT_RUNNING");
+        PURGE_ALREADY_RUNNING = language.getString("PURGE.ALREADY_RUNNING");
+        PURGE_BROADCAST_START = language.getString("PURGE.BROADCAST_START");
+        PURGE_BROADCAST_STOP = language.getString("PURGE.BROADCAST_STOP");
+        PURGE_COMMAND_USAGE = language.getStringList("PURGE.COMMAND_USAGE");
 
         PVP_CLASSES_ACTIVATED = language.getString("PVP_CLASSES.ACTIVATED");
         PVP_CLASSES_DEACTIVATED = language.getString("PVP_CLASSES.DEACTIVATED");

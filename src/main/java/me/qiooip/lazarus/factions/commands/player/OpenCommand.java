@@ -6,7 +6,7 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.enums.Role;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.utils.Messages;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -35,7 +35,7 @@ public class OpenCommand extends SubCommand {
 
         if(diff >= 0) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_OPEN_COOLDOWN
-            .replace("<time>", DurationFormatUtils.formatDurationWords(diff, true, true)));
+                .replace("<time>", StringUtils.formatDurationWords(diff)));
             return;
         }
 

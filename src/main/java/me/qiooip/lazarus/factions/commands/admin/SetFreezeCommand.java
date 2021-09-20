@@ -7,7 +7,6 @@ import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.FactionFreezeTimer;
 import me.qiooip.lazarus.utils.StringUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -48,7 +47,7 @@ public class SetFreezeCommand extends SubCommand {
             timer.activate(faction, duration);
         }
 
-        String time = DurationFormatUtils.formatDurationWords(duration * 1000L, true, true);
+        String time = StringUtils.formatDurationWords(duration * 1000L);
 
         sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_FREEZE_CHANGED_SENDER
             .replace("<faction>", faction.getName())

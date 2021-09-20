@@ -5,9 +5,9 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.Color;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -122,7 +122,7 @@ public abstract class AbilityItem {
 
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     protected void addEffects(Player player, List<PotionEffect> effects) {

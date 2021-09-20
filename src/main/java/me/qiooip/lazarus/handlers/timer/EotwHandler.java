@@ -29,7 +29,7 @@ public class EotwHandler extends Handler implements Listener {
     }
 
     private boolean isPreTaskOrActive() {
-        return TimerManager.getInstance().getEotwTimer().isActive() || this.running;
+        return this.running || TimerManager.getInstance().getEotwTimer().isActive();
     }
 
     public void startPreEotwTask(CommandSender sender, int delay) {

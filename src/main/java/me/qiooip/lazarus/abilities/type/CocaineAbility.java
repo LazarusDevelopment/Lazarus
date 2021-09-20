@@ -5,7 +5,7 @@ import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.utils.AbilityUtils;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -37,7 +37,7 @@ public class CocaineAbility extends AbilityItem {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_COCAINE_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

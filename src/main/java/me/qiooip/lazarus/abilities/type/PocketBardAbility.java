@@ -7,7 +7,7 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -42,7 +42,7 @@ public class PocketBardAbility extends AbilityItem {
             .replace("<abilityName>", this.displayName)
             .replace("<amount>", String.valueOf(teammateAmount))
             .replace("<effects>", AbilityUtils.getEffectList(this.effects, Language.ABILITIES_POCKET_BARD_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

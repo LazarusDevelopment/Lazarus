@@ -10,11 +10,10 @@ import me.qiooip.lazarus.kits.kit.KitType;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.InventoryUtils;
-import me.qiooip.lazarus.utils.item.ItemBuilder;
+import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import me.qiooip.lazarus.utils.ManagerEnabler;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.item.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -158,7 +157,7 @@ public class KitsManager implements Listener, ManagerEnabler {
 	}
 
 	private String getCooldownString(Userdata data, KitData kit) {
-	    return DurationFormatUtils.formatDurationWords(data.getKitDelays().get(kit.getName()) - System.currentTimeMillis(), true, true);
+	    return StringUtils.formatDurationWords(data.getKitDelays().get(kit.getName()) - System.currentTimeMillis());
     }
 
     private void applyKitCooldown(Userdata data, KitData kit) {

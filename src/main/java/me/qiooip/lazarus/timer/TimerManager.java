@@ -21,6 +21,7 @@ import me.qiooip.lazarus.timer.scoreboard.GAppleTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.timer.scoreboard.KeySaleTimer;
 import me.qiooip.lazarus.timer.scoreboard.LogoutTimer;
+import me.qiooip.lazarus.timer.scoreboard.PurgeTimer;
 import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
 import me.qiooip.lazarus.timer.scoreboard.PvpProtTimer;
 import me.qiooip.lazarus.timer.scoreboard.SaleTimer;
@@ -53,6 +54,7 @@ public class TimerManager {
     private EnderPearlTimer enderPearlTimer;
     private EotwTimer eotwTimer;
     private LogoutTimer logoutTimer;
+    private PurgeTimer purgeTimer;
     private PvpProtTimer pvpProtTimer;
     private SotwTimer sotwTimer;
     private HomeTimer homeTimer;
@@ -91,6 +93,7 @@ public class TimerManager {
         this.enderPearlTimer.disable();
         this.homeTimer.disable();
         this.logoutTimer.disable();
+        this.purgeTimer.disable();
         this.pvpProtTimer.disable();
         this.saleTimer.disable();
         this.keySaleTimer.disable();
@@ -135,6 +138,7 @@ public class TimerManager {
         this.scoreboardTimers.add(this.keySaleTimer = new KeySaleTimer(this.executor));
         this.scoreboardTimers.add(this.sotwTimer = new SotwTimer(this.executor));
         this.scoreboardTimers.add(this.eotwTimer = new EotwTimer(this.executor));
+        this.scoreboardTimers.add(this.purgeTimer = new PurgeTimer(this.executor));
         this.scoreboardTimers.add(this.pvpProtTimer = new PvpProtTimer(this.executor));
         this.scoreboardTimers.add(this.combatTagTimer = new CombatTagTimer(this.executor));
         this.scoreboardTimers.add(this.enderPearlTimer = new EnderPearlTimer(this.executor));

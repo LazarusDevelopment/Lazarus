@@ -8,7 +8,7 @@ import me.qiooip.lazarus.abilities.utils.AbilityUtils;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.utils.PlayerUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -52,7 +52,7 @@ public class AggressivePearlAbility extends AbilityItem implements Listener {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_AGGRESSIVE_PEARL_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

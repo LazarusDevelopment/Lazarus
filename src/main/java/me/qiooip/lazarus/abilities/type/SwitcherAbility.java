@@ -12,7 +12,7 @@ import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.PlayerUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -53,7 +53,7 @@ public class SwitcherAbility extends AbilityItem implements Listener {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<maxDistance>", String.valueOf(distance))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

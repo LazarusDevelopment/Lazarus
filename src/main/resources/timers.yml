@@ -6,4 +6,5 @@ EotwTimer: {}
 SotwTimer: {}
 KeySaleTimer: {}
 SaleTimer: {}
+PurgeTimer: {}
 FactionFreezeTimer: {}

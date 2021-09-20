@@ -8,8 +8,8 @@ import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -55,8 +55,8 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<target>", target.getName())
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000L, true, true))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<duration>", StringUtils.formatDurationWords(this.duration * 1000L))
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ExoticBoneAbility extends AbilityItem implements Listener {
         target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_EXOTIC_BONE_TARGET_ACTIVATED
             .replace("<player>", damager.getName())
             .replace("<abilityName>", this.displayName)
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000L, true, true)));
+            .replace("<duration>", StringUtils.formatDurationWords(this.duration * 1000L)));
 
         this.sendActivationMessage(damager, target);
     }

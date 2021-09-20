@@ -1909,6 +1909,20 @@ PLAYTIME_COMMAND:
   USAGE: "&cUsage: /playtime <player>"
   MESSAGE: "&ePlayer &c<player> &eplayed for: &b<time>&e."
 
+PURGE:
+  NOT_RUNNING: "&cPurge &eis currently not active!"
+  ALREADY_RUNNING: "&cPurge &eis already active!"
+  STARTED: "&8[&c!&8] &4Purge &ewill start in &c<time>&e! &8[&c!&8]"
+  ENDED: "&8[&a*&8] &4Purge &ahas ended! &8[&a*&8]"
+  BROADCAST_START: "&8[&c!&8] &4Purge &ehas been activated and it will last for &c<time>&e. &8[&c!&8]"
+  BROADCAST_STOP: "&cPurge &ehas been canceled."
+  COMMAND_USAGE:
+    - "&7&m                                                      "
+    - " &6&lPurge management"
+    - "  &e/purge start <initialDelay> <duration>"
+    - "  &e/purge stop"
+    - "&7&m                                                      "
+
 POTION_LIMITER_DENY_MESSAGE: "&eThis &cpotion effect &eis disabled!"
 
 PVP_CLASSES:

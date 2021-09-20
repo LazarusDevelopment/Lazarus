@@ -2,7 +2,7 @@ package me.qiooip.lazarus.commands.base;
 
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Language;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -25,8 +25,9 @@ public class SeenCommand extends BaseCommand {
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 
         if(target.isOnline()) {
-            sender.sendMessage(Language.PREFIX + Language.SEEN_ONLINE.replace("<player>", target.getName()).replace("<time>",
-            DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - target.getLastPlayed(), true, true)));
+            sender.sendMessage(Language.PREFIX + Language.SEEN_ONLINE
+                .replace("<player>", target.getName())
+                .replace("<time>", StringUtils.formatDurationWords(System.currentTimeMillis() - target.getLastPlayed())));
             return;
         }
 
@@ -35,7 +36,8 @@ public class SeenCommand extends BaseCommand {
             return;
         }
 
-        sender.sendMessage(Language.PREFIX + Language.SEEN_MESSAGE.replace("<player>", target.getName()).replace("<time>",
-        DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - target.getLastPlayed(), true, true)));
+        sender.sendMessage(Language.PREFIX + Language.SEEN_MESSAGE
+            .replace("<player>", target.getName())
+            .replace("<time>", StringUtils.formatDurationWords(System.currentTimeMillis() - target.getLastPlayed())));
     }
 }

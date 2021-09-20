@@ -5,7 +5,7 @@ import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,8 +31,8 @@ public class AntiAbilityBallAbility extends AbilityItem {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<radius>", String.valueOf(radius))
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000L, true, true))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<duration>", StringUtils.formatDurationWords(duration * 1000L))
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override
@@ -55,6 +55,6 @@ public class AntiAbilityBallAbility extends AbilityItem {
         target.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_ANTI_ABILITY_BALL_TARGET_ACTIVATED
             .replace("<player>", damager.getName())
             .replace("<abilityName>", this.displayName)
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(this.duration * 1000L, true, true)));
+            .replace("<duration>", StringUtils.formatDurationWords(this.duration * 1000L)));
     }
 }

@@ -31,9 +31,9 @@ public class SotwTimer extends SystemTimer implements ScoreboardTimer {
     public String getPlaceholder(Player player) {
         if(Lazarus.getInstance().getSotwHandler().isPlayerSotwEnabled(player)) {
             return Config.SOTW_ENABLE_PLACEHOLDER;
+        } else {
+            return Config.SOTW_PLACEHOLDER;
         }
-
-        return Config.SOTW_PLACEHOLDER;
     }
 
     @Override

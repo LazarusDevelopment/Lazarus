@@ -6,8 +6,8 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -42,7 +42,7 @@ public class PrePearlAbility extends AbilityItem implements Listener {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
             .replace("<time>", String.valueOf(teleportAfter))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

@@ -10,7 +10,6 @@ import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 import me.qiooip.lazarus.utils.Tasks;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.SpigotConfig;
@@ -72,7 +71,7 @@ public class RebootHandler extends Handler {
 
         private void broadcast() {
             Language.REBOOT_BROADCAST.forEach(line -> Messages.sendMessage(line
-                .replace("<time>", DurationFormatUtils.formatDurationWords(this.seconds * 1000L, true, true))));
+                .replace("<time>", StringUtils.formatDurationWords(this.seconds * 1000L))));
         }
 
         private void kickOnlinePlayers() {

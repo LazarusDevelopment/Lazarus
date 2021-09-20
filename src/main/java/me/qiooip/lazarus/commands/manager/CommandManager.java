@@ -100,6 +100,7 @@ import me.qiooip.lazarus.commands.staff.LastDeathsCommand;
 import me.qiooip.lazarus.commands.staff.LivesCommand;
 import me.qiooip.lazarus.commands.staff.NotesCommand;
 import me.qiooip.lazarus.commands.staff.PlaytimeCommand;
+import me.qiooip.lazarus.commands.staff.PurgeCommand;
 import me.qiooip.lazarus.commands.staff.RandomTeleportCommand;
 import me.qiooip.lazarus.commands.staff.RebootCommand;
 import me.qiooip.lazarus.commands.staff.SaleCommand;
@@ -156,6 +157,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new LivesCommand());
         this.commands.add(new NotesCommand());
         this.commands.add(new PlaytimeCommand());
+        this.commands.add(new PurgeCommand());
         this.commands.add(new RandomTeleportCommand());
         this.commands.add(new RebootCommand());
         this.commands.add(new SaleCommand());

@@ -4,15 +4,14 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.games.dtc.event.DtcDestroyedEvent;
 import me.qiooip.lazarus.games.dtc.event.DtcStartEvent;
 import me.qiooip.lazarus.games.dtc.event.DtcStopEvent;
-import me.qiooip.lazarus.games.dtc.event.DtcDestroyedEvent;
 import me.qiooip.lazarus.games.dtc.listener.DtcEventListener;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -109,7 +108,7 @@ public class DtcManager implements Listener, ManagerEnabler {
 
         Messages.sendMessage(Language.DTC_PREFIX + Language.DTC_DESTROYED
             .replace("<player>", winner.getName())
-            .replace("<time>", DurationFormatUtils.formatDurationWords(duration, true, true)));
+            .replace("<time>", StringUtils.formatDurationWords(duration)));
 
         this.stopDtc(winner);
     }

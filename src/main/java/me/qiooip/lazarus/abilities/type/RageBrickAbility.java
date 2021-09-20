@@ -10,7 +10,7 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.timer.TimerManager;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -53,7 +53,7 @@ public class RageBrickAbility extends AbilityItem {
             .replace("<abilityName>", this.displayName)
             .replace("<amount>", String.valueOf(enemies))
             .replace("<effects>", AbilityUtils.getEffectList(effects, Language.ABILITIES_RAGE_BRICK_EFFECT_FORMAT))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

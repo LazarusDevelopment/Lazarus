@@ -3,7 +3,7 @@ package me.qiooip.lazarus.commands.staff;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -35,7 +35,7 @@ public class LagCommand extends BaseCommand {
 
         double finalTps = tps;
 
-        String uptime = DurationFormatUtils.formatDurationWords(System.currentTimeMillis() - Config.START_TIME, true, true);
+        String uptime = StringUtils.formatDurationWords(System.currentTimeMillis() - Config.START_TIME);
 
         Language.LAG_COMMAND_MESSAGE.forEach(line -> sender.sendMessage(line
             .replace("<tps>", String.format(Locale.ROOT, "%.2f", finalTps))

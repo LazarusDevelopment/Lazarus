@@ -7,7 +7,7 @@ import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.PlayerUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -44,8 +44,8 @@ public class FastPearlAbility extends AbilityItem implements Listener {
     public void sendActivationMessage(Player player, int duration) {
         this.activationMessage.forEach(line -> player.sendMessage(line
             .replace("<abilityName>", this.displayName)
-            .replace("<duration>", DurationFormatUtils.formatDurationWords(duration * 1000L, true, true))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<duration>", StringUtils.formatDurationWords(duration * 1000L))
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override

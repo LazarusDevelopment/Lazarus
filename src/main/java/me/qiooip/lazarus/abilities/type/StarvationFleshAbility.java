@@ -7,7 +7,7 @@ import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.config.Language;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -76,7 +76,7 @@ public class StarvationFleshAbility extends AbilityItem implements Listener {
                 .replace("<abilityName>", this.displayName)
                 .replace("<target>", target.getName())
                 .replace("<hunger>", String.valueOf(this.hunger))
-                .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+                .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     private void activateAbilityOnTarget(Player damager, Player target) {

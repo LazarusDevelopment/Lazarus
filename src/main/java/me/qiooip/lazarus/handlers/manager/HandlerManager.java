@@ -11,6 +11,7 @@ import me.qiooip.lazarus.handlers.GlisteringMelonHandler;
 import me.qiooip.lazarus.handlers.InventoryHandler;
 import me.qiooip.lazarus.handlers.MapkitHandler;
 import me.qiooip.lazarus.handlers.MobStackHandler;
+import me.qiooip.lazarus.handlers.timer.PurgeHandler;
 import me.qiooip.lazarus.handlers.StatsHandler;
 import me.qiooip.lazarus.handlers.block.AutoSmeltHandler;
 import me.qiooip.lazarus.handlers.block.CrowbarHandler;
@@ -104,6 +105,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new NotesHandler());
         this.handlers.add(new PortalHandler());
         this.handlers.add(new PotionLimiterHandler());
+        this.handlers.add(new PurgeHandler());
         this.handlers.add(new PvpProtHandler());
         this.handlers.add(new RankReviveHandler());
         this.handlers.add(new RebootHandler());

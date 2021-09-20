@@ -149,13 +149,13 @@ public class DeathbanManager implements Listener, ManagerEnabler {
         Deathban deathban = this.getDeathban(target.getUniqueId());
 
         String duration = (deathban.getBannedUntil() - System.currentTimeMillis() <= 0)
-        ? "Unbanned" : StringUtils.formatDeathban(deathban.getBannedUntil());
+            ? "Unbanned" : StringUtils.formatDeathban(deathban.getBannedUntil());
 
         Language.DEATHBAN_COMMAND_CHECK.forEach(message -> sender.sendMessage(message
-        .replace("<player>", target.getName())
-        .replace("<duration>", duration)
-        .replace("<reason>", deathban.getReason())
-        .replace("<location>", deathban.getLocation())));
+            .replace("<player>", target.getName())
+            .replace("<duration>", duration)
+            .replace("<reason>", deathban.getReason())
+            .replace("<location>", deathban.getLocation())));
     }
 
     public void sendLivesCount(CommandSender sender) {

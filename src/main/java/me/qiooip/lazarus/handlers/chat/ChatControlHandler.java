@@ -9,7 +9,6 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -55,8 +54,8 @@ public class ChatControlHandler extends Handler implements Listener {
 
         this.delay = duration;
 
-        Messages.sendMessage(Language.PREFIX + Language.CHAT_DELAY_BROADCAST.replace("<delay>",
-        DurationFormatUtils.formatDurationWords(this.delay * 1000L, true, true)));
+        Messages.sendMessage(Language.PREFIX + Language.CHAT_DELAY_BROADCAST
+            .replace("<delay>", StringUtils.formatDurationWords(this.delay * 1000L)));
     }
 
     public void toggleFoundOreMessages(CommandSender sender) {

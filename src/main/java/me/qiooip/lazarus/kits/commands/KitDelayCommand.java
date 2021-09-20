@@ -5,7 +5,6 @@ import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.kits.kit.KitData;
 import me.qiooip.lazarus.utils.StringUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.command.CommandSender;
 
 public class KitDelayCommand extends SubCommand {
@@ -42,6 +41,6 @@ public class KitDelayCommand extends SubCommand {
 		kit.setDelay(delay);
 
 		sender.sendMessage(Language.KIT_PREFIX + Language.KITS_SET_DELAY_CHANGED.replace("<kit>", args[0])
-			.replace("<delay>", DurationFormatUtils.formatDurationWords(delay * 1000L, true, true)));
+			.replace("<delay>", StringUtils.formatDurationWords(delay * 1000L)));
 	}
 }

@@ -141,7 +141,11 @@ public class StringUtils {
     }
 
     public static String formatDeathban(long bannedUntil) {
-        return DurationFormatUtils.formatDurationWords(bannedUntil - System.currentTimeMillis(), true, true);
+        return formatDurationWords(bannedUntil - System.currentTimeMillis());
+    }
+
+    public static String formatDurationWords(long cooldown) {
+        return DurationFormatUtils.formatDurationWords(cooldown, true, true);
     }
 
     public static String formatMillis(long millis) {

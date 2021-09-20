@@ -3,9 +3,9 @@ package me.qiooip.lazarus.abilities.type;
 import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -27,7 +27,7 @@ public class PotionCounterAbility extends AbilityItem {
             .replace("<abilityName>", this.displayName)
             .replace("<target>", target.getName())
             .replace("<amount>", String.valueOf(potionAmount))
-            .replace("<cooldown>", DurationFormatUtils.formatDurationWords(this.cooldown * 1000L, true, true))));
+            .replace("<cooldown>", StringUtils.formatDurationWords(this.cooldown * 1000L))));
     }
 
     @Override
