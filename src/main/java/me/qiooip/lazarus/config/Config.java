@@ -929,8 +929,8 @@ public class Config {
         ABILITIES_GLOBAL_COOLDOWN_DURATION = abilitiesFile.getInt("GLOBAL_COOLDOWN.DURATION");
 
         TAB_ENABLED = tab.getBoolean("TAB_ENABLED");
-        TAB_HEADER = tab.getString("TAB_HEADER");
-        TAB_FOOTER = tab.getString("TAB_FOOTER");
+        TAB_HEADER = String.join("\n", tab.getStringList("TAB_HEADER"));
+        TAB_FOOTER = String.join("\n", tab.getStringList("TAB_FOOTER"));
 
         SCOREBOARD_TITLE = scoreboard.getString("SCOREBOARD_TITLE");
 

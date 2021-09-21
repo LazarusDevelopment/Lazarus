@@ -299,8 +299,8 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
                     if(faction != null) {
                         nametag.add(Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
-                        .replace("<faction>", faction.getName(this.player))
-                        .replace("<dtr>", faction.getDtrString()));
+                            .replace("<faction>", faction.getName(this.player))
+                            .replace("<dtr>", faction.getDtrString()));
                     }
                 }
 
