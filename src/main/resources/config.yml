@@ -947,6 +947,12 @@ BOTTLE:
 # How much faster should brew be?
 BREWING_SPEED_MULTIPLIER: 3
 
+COBWEB_REMOVER:
+  # Should we enable cobweb remover?
+  ENABLED: true
+  # Remove cobweb after x seconds
+  REMOVE_AFTER: 30
+
 COMBAT_LOGGER:
   # Combat logger name format
   NAME_FORMAT: "&7(CombatLogger) &c<player>"

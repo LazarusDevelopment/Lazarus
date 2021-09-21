@@ -135,13 +135,11 @@ public class PotionLimiterHandler extends Handler implements Listener {
         player.sendMessage(Language.PREFIX + Language.POTION_LIMITER_DENY_MESSAGE);
     }
 
-    @Getter
-    @Setter
-    static
-    class PotionLimit {
+    @Getter @Setter
+    private static class PotionLimit {
 
-        PotionEffectType type;
-        int level;
-        boolean extended;
+        private PotionEffectType type;
+        private int level;
+        private boolean extended;
     }
 }

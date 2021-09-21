@@ -244,6 +244,9 @@ public class Config {
 
     public static int BREWING_SPEED_MULTIPLIER;
 
+    public static boolean COBWEB_REMOVER_ENABLED;
+    public static int COBWEB_REMOVER_REMOVE_AFTER;
+
     public static CombatLoggerType COMBAT_LOGGER_TYPE;
     public static String COMBAT_LOGGER_NAME_FORMAT;
     public static int COMBAT_LOGGER_TIME;
@@ -750,6 +753,9 @@ public class Config {
         BOTTLE_LORE = config.getStringList("BOTTLE.LORE");
 
         BREWING_SPEED_MULTIPLIER = config.getInt("BREWING_SPEED_MULTIPLIER");
+
+        COBWEB_REMOVER_ENABLED = config.getBoolean("COBWEB_REMOVER.ENABLED");
+        COBWEB_REMOVER_REMOVE_AFTER = config.getInt("COBWEB_REMOVER.REMOVE_AFTER");
 
         COMBAT_LOGGER_TYPE = CombatLoggerType.getByName(config.getString("COMBAT_LOGGER.TYPE"));
         COMBAT_LOGGER_NAME_FORMAT = config.getString("COMBAT_LOGGER.NAME_FORMAT");

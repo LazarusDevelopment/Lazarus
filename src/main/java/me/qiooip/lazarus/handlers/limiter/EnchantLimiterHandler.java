@@ -167,8 +167,7 @@ public class EnchantLimiterHandler extends Handler implements Listener {
         });
     }
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private static class EnchantLimit {
 
         private Enchantment enchantment;

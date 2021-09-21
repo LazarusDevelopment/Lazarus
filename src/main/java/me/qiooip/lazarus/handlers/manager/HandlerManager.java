@@ -11,9 +11,9 @@ import me.qiooip.lazarus.handlers.GlisteringMelonHandler;
 import me.qiooip.lazarus.handlers.InventoryHandler;
 import me.qiooip.lazarus.handlers.MapkitHandler;
 import me.qiooip.lazarus.handlers.MobStackHandler;
-import me.qiooip.lazarus.handlers.timer.PurgeHandler;
 import me.qiooip.lazarus.handlers.StatsHandler;
 import me.qiooip.lazarus.handlers.block.AutoSmeltHandler;
+import me.qiooip.lazarus.handlers.block.CobwebRemoveHandler;
 import me.qiooip.lazarus.handlers.block.CrowbarHandler;
 import me.qiooip.lazarus.handlers.block.DisabledBlocksHandler;
 import me.qiooip.lazarus.handlers.block.FilterHandler;
@@ -53,6 +53,7 @@ import me.qiooip.lazarus.handlers.timer.EnderPearlHandler;
 import me.qiooip.lazarus.handlers.timer.EotwHandler;
 import me.qiooip.lazarus.handlers.timer.GoldenAppleHandler;
 import me.qiooip.lazarus.handlers.timer.LogoutHandler;
+import me.qiooip.lazarus.handlers.timer.PurgeHandler;
 import me.qiooip.lazarus.handlers.timer.PvpProtHandler;
 import me.qiooip.lazarus.handlers.timer.SotwHandler;
 import me.qiooip.lazarus.utils.ManagerEnabler;
@@ -122,6 +123,7 @@ public class HandlerManager implements ManagerEnabler {
 
         if(Config.KITMAP_MODE_ENABLED) this.handlers.add(new KitmapHandler());
         if(Config.MOB_STACK_ENABLED) this.handlers.add(new MobStackHandler());
+        if(Config.COBWEB_REMOVER_ENABLED) this.handlers.add(new CobwebRemoveHandler());
         if(Config.ONLINE_RANK_ANNOUNCER_ENABLED) this.handlers.add(new RankAnnouncerHandler());
 
         this.handlers.stream().filter(handler -> handler instanceof Listener).forEach(handler ->
