@@ -61,6 +61,10 @@ public class TabManager implements Listener {
         this.tabs.put(player.getUniqueId(), tab);
         this.updater.initialSet(tab);
 
+        if(NmsUtils.getInstance().getClientVersion(player) >= 47) {
+            NmsUtils.getInstance().sendHeaderAndFooter(player);
+        }
+
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         if(faction == null) return;
 

@@ -62,16 +62,16 @@ public class ListCommand extends SubCommand {
             Entry<PlayerFaction, Integer> entry = sortedFactions.get(i);
 
             ComponentBuilder message = new ComponentBuilder(Language.FACTIONS_LIST_FACTION_FORMAT
-            .replace("<number>", String.valueOf(i + 1))
-            .replace("<name>", entry.getKey().getName(sender))
-            .replace("<online-count>", String.valueOf(entry.getValue()))
-            .replace("<faction-size>", String.valueOf(entry.getKey().getMembers().size()))
-            .replace("<dtr>", entry.getKey().getDtrString()).replace("<maxDtr>", entry.getKey().getMaxDtrString()));
+                .replace("<number>", String.valueOf(i + 1))
+                .replace("<name>", entry.getKey().getName(sender))
+                .replace("<online-count>", String.valueOf(entry.getValue()))
+                .replace("<faction-size>", String.valueOf(entry.getKey().getMembers().size()))
+                .replace("<dtr>", entry.getKey().getDtrString()).replace("<maxDtr>", entry.getKey().getMaxDtrString()));
 
             String hoverText = Language.FACTIONS_SHOW_HOVER_TEXT.replace("<faction>", entry.getKey().getName());
 
             message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()))
-            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + entry.getKey().getName()));
+                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + entry.getKey().getName()));
 
             player.spigot().sendMessage(message.create());
         }

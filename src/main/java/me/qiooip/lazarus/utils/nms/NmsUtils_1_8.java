@@ -9,6 +9,7 @@ import me.qiooip.lazarus.abilities.AbilitiesManager;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_8;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
+import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_8;
 import me.qiooip.lazarus.games.loot.LootData;
@@ -23,6 +24,7 @@ import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.nms.PlayerTab_1_8;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.BlockCocoa;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
@@ -495,6 +497,14 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     @Override
     public EnderDragon spawnEnderDragon(Location location, LootData loot) {
         return new EnderDragon_1_8(location, loot);
+    }
+
+    @Override
+    public void sendHeaderAndFooter(Player player) {
+        player.setPlayerListHeaderFooter(
+            TextComponent.fromLegacyText(Config.TAB_HEADER),
+            TextComponent.fromLegacyText(Config.TAB_FOOTER)
+        );
     }
 
     @Override

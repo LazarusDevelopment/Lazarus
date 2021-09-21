@@ -43,13 +43,13 @@ public class TopCommand extends SubCommand {
             PlayerFaction faction = (PlayerFaction) factions.get(i);
 
             ComponentBuilder message = new ComponentBuilder(Language.FACTIONS_TOP_FACTION_FORMAT
-            .replace("<number>", String.valueOf(i + 1)).replace("<name>", faction.getName(player))
-            .replace("<points>", String.valueOf(faction.getPoints())));
+                .replace("<number>", String.valueOf(i + 1)).replace("<name>", faction.getName(player))
+                .replace("<points>", String.valueOf(faction.getPoints())));
 
             String hoverText = Language.FACTIONS_SHOW_HOVER_TEXT.replace("<faction>", faction.getName());
 
             message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()))
-            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + faction.getName()));
+                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + faction.getName()));
 
             player.spigot().sendMessage(message.create());
         }

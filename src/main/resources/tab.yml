@@ -4,6 +4,9 @@
 
 TAB_ENABLED: true
 
+TAB_HEADER: "\n&5&lLazarus HCF core \n&7https://discord.gg/3NvxGBE \n"
+TAB_FOOTER: "\n&bMC-Market: &fhttps://www.mc-market.org/resources/11362 \n"
+
 FACTION_INFO_MODULE:
   ENABLED: true
   START_SLOT: 4

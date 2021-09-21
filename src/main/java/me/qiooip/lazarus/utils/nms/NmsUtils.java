@@ -28,9 +28,7 @@ import java.util.concurrent.Executor;
 
 public abstract class NmsUtils {
 
-    @Getter
-    private static NmsUtils instance;
-
+    @Getter private static NmsUtils instance;
     protected Executor bukkitExecutor;
 
     protected static final String HANDLER_NAME = "packet_handler";
@@ -113,6 +111,8 @@ public abstract class NmsUtils {
     public abstract CombatLogger spawnCombatLogger(World world, Player player, CombatLoggerType loggerType);
 
     public abstract EnderDragon spawnEnderDragon(Location location, LootData loot);
+
+    public abstract void sendHeaderAndFooter(Player player);
 
     public abstract void injectPacketInterceptor(Player player);
 

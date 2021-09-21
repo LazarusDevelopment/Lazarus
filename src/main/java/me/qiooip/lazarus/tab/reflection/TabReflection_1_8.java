@@ -38,7 +38,7 @@ public class TabReflection_1_8 {
 
             try {
                 PacketPlayOutPlayerInfo.PlayerInfoData infoData = packet.new PlayerInfoData(gameProfile, 0,
-                EnumGamemode.NOT_SET, new ChatComponentText(gameProfile.getName()));
+                    EnumGamemode.NOT_SET, new ChatComponentText(gameProfile.getName()));
 
                 PLAYER_INFO_SETTER.invokeExact(packet, Collections.singletonList(infoData));
                 ACTION_SETTER.invokeExact(packet, EnumPlayerInfoAction.ADD_PLAYER);
@@ -54,7 +54,7 @@ public class TabReflection_1_8 {
 
             try {
                 PacketPlayOutPlayerInfo.PlayerInfoData infoData = packet.new PlayerInfoData(gameProfile, 0,
-                EnumGamemode.NOT_SET, new ChatComponentText(gameProfile.getName()));
+                    EnumGamemode.NOT_SET, new ChatComponentText(gameProfile.getName()));
 
                 PLAYER_INFO_SETTER.invokeExact(packet, Collections.singletonList(infoData));
                 ACTION_SETTER.invokeExact(packet, EnumPlayerInfoAction.REMOVE_PLAYER);
@@ -70,7 +70,7 @@ public class TabReflection_1_8 {
 
             try {
                 PacketPlayOutPlayerInfo.PlayerInfoData infoData = packet.new PlayerInfoData(profile, 0,
-                EnumGamemode.NOT_SET, new ChatComponentText(displayName));
+                    EnumGamemode.NOT_SET, new ChatComponentText(displayName));
 
                 PLAYER_INFO_SETTER.invokeExact(packet, Collections.singletonList(infoData));
                 ACTION_SETTER.invokeExact(packet, EnumPlayerInfoAction.UPDATE_DISPLAY_NAME);

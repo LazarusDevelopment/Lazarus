@@ -403,6 +403,8 @@ public class Config {
     public static int ABILITIES_GLOBAL_COOLDOWN_DURATION;
 
     public static boolean TAB_ENABLED;
+    public static String TAB_HEADER;
+    public static String TAB_FOOTER;
 
     public static String SCOREBOARD_TITLE;
 
@@ -927,6 +929,8 @@ public class Config {
         ABILITIES_GLOBAL_COOLDOWN_DURATION = abilitiesFile.getInt("GLOBAL_COOLDOWN.DURATION");
 
         TAB_ENABLED = tab.getBoolean("TAB_ENABLED");
+        TAB_HEADER = tab.getString("TAB_HEADER");
+        TAB_FOOTER = tab.getString("TAB_FOOTER");
 
         SCOREBOARD_TITLE = scoreboard.getString("SCOREBOARD_TITLE");
 

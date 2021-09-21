@@ -5,6 +5,7 @@ import me.qiooip.lazarus.abilities.AbilitiesManager;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_7;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
+import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_7;
 import me.qiooip.lazarus.games.loot.LootData;
@@ -22,6 +23,7 @@ import me.qiooip.lazarus.utils.item.ItemBuilder;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import net.minecraft.server.v1_7_R4.BlockCocoa;
 import net.minecraft.server.v1_7_R4.Blocks;
+import net.minecraft.server.v1_7_R4.ChatComponentText;
 import net.minecraft.server.v1_7_R4.EntityLightning;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EntityTypes;
@@ -77,6 +79,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
+import org.spigotmc.ProtocolInjector.PacketTabHeader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -470,6 +473,14 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     @Override
     public EnderDragon spawnEnderDragon(Location location, LootData loot) {
         return new EnderDragon_1_7(location, loot);
+    }
+
+    @Override
+    public void sendHeaderAndFooter(Player player) {
+        this.sendPacket(player, new PacketTabHeader(
+            new ChatComponentText(Config.TAB_HEADER),
+            new ChatComponentText(Config.TAB_FOOTER)
+        ));
     }
 
     @Override
