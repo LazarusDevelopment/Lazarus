@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.config;
 
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.utils.LocationUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.Location;
@@ -206,6 +207,8 @@ public class Config {
     public static String LOOT_INVENTORY_NAME;
     public static int LOOT_INVENTORY_SIZE;
 
+    public static int SCHEDULE_LIST_EVENT_AMOUNT;
+
     public static int MAX_BALANCE;
     public static int DEFAULT_BALANCE_PLAYER;
     public static int DEFAULT_BALANCE_FACTION;
@@ -241,8 +244,10 @@ public class Config {
 
     public static int BREWING_SPEED_MULTIPLIER;
 
+    public static CombatLoggerType COMBAT_LOGGER_TYPE;
     public static String COMBAT_LOGGER_NAME_FORMAT;
     public static int COMBAT_LOGGER_TIME;
+    public static int COMBAT_LOGGER_VILLAGER_PROFESSION;
 
     public static int COMBAT_TAG_DURATION;
     public static boolean COMBAT_TAG_DISABLE_END_ENTRY;
@@ -709,6 +714,8 @@ public class Config {
         LOOT_INVENTORY_NAME = config.getString("LOOT.INVENTORY_NAME");
         LOOT_INVENTORY_SIZE = config.getInt("LOOT.INVENTORY_SIZE");
 
+        SCHEDULE_LIST_EVENT_AMOUNT = config.getInt("SCHEDULE.LIST_EVENT_AMOUNT");
+
         MAX_BALANCE = config.getInt("MAX_BALANCE");
         DEFAULT_BALANCE_PLAYER = config.getInt("DEFAULT_BALANCE.PLAYER");
         DEFAULT_BALANCE_FACTION = config.getInt("DEFAULT_BALANCE.FACTION");
@@ -744,8 +751,10 @@ public class Config {
 
         BREWING_SPEED_MULTIPLIER = config.getInt("BREWING_SPEED_MULTIPLIER");
 
+        COMBAT_LOGGER_TYPE = CombatLoggerType.getByName(config.getString("COMBAT_LOGGER.TYPE"));
         COMBAT_LOGGER_NAME_FORMAT = config.getString("COMBAT_LOGGER.NAME_FORMAT");
         COMBAT_LOGGER_TIME = config.getInt("COMBAT_LOGGER.TIME");
+        COMBAT_LOGGER_VILLAGER_PROFESSION = config.getInt("COMBAT_LOGGER.VILLAGER_PROFESSION", 2);
 
         COMBAT_TAG_DURATION = config.getInt("COMBAT_TAG.DURATION");
         COMBAT_TAG_DISABLE_END_ENTRY = config.getBoolean("COMBAT_TAG.DISABLE_END_ENTRY");

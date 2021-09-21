@@ -504,9 +504,9 @@ CONQUEST:
   CAP_TIME: 30
   # How many points faction get per cap?
   POINTS_PER_CAP: 1
-  # How much points should we remove upon death?
+  # How many points should we remove upon death?
   DEATH_PENALTY: 20
-  # How much points do we need to win conquest?
+  # How many points do we need to win conquest?
   POINTS_TO_WIN: 300
   # Should we allow cap points going below 0?
   ALLOW_NEGATIVE_POINTS: false
@@ -601,7 +601,7 @@ ENDER_DRAGON:
 #=========================================================#
 
 LOOT:
-  # How much items should player get by default
+  # How many items should player get by default
   DEFAULT_REWARD_AMOUNT: 1
   # Should we randomize reward items?
   RANDOMIZE_REWARDS: false
@@ -609,6 +609,14 @@ LOOT:
   INVENTORY_NAME: "&3&l<event>'s &4&lloot"
   # What should be the size of loot inventory?
   INVENTORY_SIZE: 9
+
+#=========================================================#
+#                 Schedule configuration                  #
+#=========================================================#
+
+SCHEDULE:
+  # Amount of events to display for /schedule next command
+  LIST_EVENT_AMOUNT: 3
 
 #=========================================================#
 #                   World configuration                   #
@@ -936,7 +944,7 @@ BOTTLE:
   - "&bContains: &7<exp> exp levels."
   - "&bRight click to receive exp."
 
-# How much faster should brewing be?
+# How much faster should brew be?
 BREWING_SPEED_MULTIPLIER: 3
 
 COMBAT_LOGGER:
@@ -944,6 +952,15 @@ COMBAT_LOGGER:
   NAME_FORMAT: "&7(CombatLogger) &c<player>"
   # Combat logger removal time in seconds
   TIME: 15
+  # Combat logger type (SKELETON or VILLAGER)
+  TYPE: "SKELETON"
+  # Villager profession. You can use these values:
+  # - FARMER -> 0
+  # - LIBRARIAN -> 1
+  # - PRIEST -> 2
+  # - BLACKSMITH -> 3
+  # - BUTCHER -> 4
+  VILLAGER_PROFESSION: 2
 
 COMBAT_TAG:
   # Combat tag duration in seconds

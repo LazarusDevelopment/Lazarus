@@ -2,6 +2,7 @@ package me.qiooip.lazarus.handlers.logger;
 
 import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
+import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.handlers.event.CombatLoggerSpawnEvent;
 import me.qiooip.lazarus.handlers.manager.Handler;
@@ -25,7 +26,7 @@ public class CombatLoggerHandler extends Handler implements Listener {
 
     public CombatLoggerHandler() {
         this.combatLoggers = new HashMap<>();
-        NmsUtils.getInstance().registerCombatLogger();
+        NmsUtils.getInstance().registerCombatLogger(Config.COMBAT_LOGGER_TYPE);
     }
 
     @Override
@@ -71,8 +72,8 @@ public class CombatLoggerHandler extends Handler implements Listener {
         CombatLoggerSpawnEvent loggerEvent = new CombatLoggerSpawnEvent(player);
 
         if(!loggerEvent.isCancelled()) {
-            CombatLogger logger = NmsUtils.getInstance().spawnCombatLogger(player.getWorld(), player);
-            this.combatLoggers.put(player.getUniqueId(), logger);
+            this.combatLoggers.put(player.getUniqueId(), NmsUtils.getInstance()
+                .spawnCombatLogger(player.getWorld(), player, Config.COMBAT_LOGGER_TYPE));
         }
     }
 }

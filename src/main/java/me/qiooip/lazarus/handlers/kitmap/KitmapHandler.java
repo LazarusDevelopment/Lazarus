@@ -7,8 +7,10 @@ import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.TeleportTimer;
+import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -23,6 +25,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
 
 public class KitmapHandler extends Handler implements Listener {
 
@@ -110,13 +114,18 @@ public class KitmapHandler extends Handler implements Listener {
     private static class ItemClearTask extends BukkitRunnable {
 
         ItemClearTask() {
-            this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, Config.KITMAP_CLEAR_ITEMS_INTERVAL * 20L);
+            this.runTaskTimer(Lazarus.getInstance(), 0L, Config.KITMAP_CLEAR_ITEMS_INTERVAL * 20L);
         }
 
         @Override
         public void run() {
-            Bukkit.getWorlds().forEach(world -> world.getEntities().stream()
-                .filter(entity -> entity instanceof Item).forEach(Entity::remove));
+            for(World world : Bukkit.getWorlds()) {
+                List<Entity> entities = world.getEntities();
+
+                Tasks.async(() -> entities.forEach(entity -> {
+                    if(entity instanceof Item) entity.remove();
+                }));
+            }
         }
     }
 }

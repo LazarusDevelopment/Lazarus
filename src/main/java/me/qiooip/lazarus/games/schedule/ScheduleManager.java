@@ -135,9 +135,9 @@ public class ScheduleManager implements ManagerEnabler {
     }
 
     public void removeScheduleByName(String name) {
-        List<ScheduleData> temp = new ArrayList<>(this.schedules);
+        List<ScheduleData> schedules = new ArrayList<>(this.schedules);
 
-        for(ScheduleData schedule : temp) {
+        for(ScheduleData schedule : schedules) {
             if(schedule.getName().equals(name)) {
                 this.removeSchedule(schedule, false);
             }
@@ -150,7 +150,7 @@ public class ScheduleManager implements ManagerEnabler {
         return this.schedules.stream().filter(schedule -> schedule.getId() == id).findFirst().orElse(null);
     }
 
-    List<ScheduleData> getSchedulesByDay(DayOfWeek day) {
+    public List<ScheduleData> getSchedulesByDay(DayOfWeek day) {
         return this.schedules.stream().filter(schedule -> schedule.getTime().getDayOfWeek() == day).collect(Collectors.toList());
     }
 
@@ -180,7 +180,7 @@ public class ScheduleManager implements ManagerEnabler {
         this.scheduleTask = null;
 
         Messages.sendMessage(Language.SCHEDULE_PREFIX + Language.SCHEDULE_CLEAR_CLEARED
-        .replace("<player>", sender.getName()), "lazarus.staff");
+            .replace("<player>", sender.getName()), "lazarus.staff");
     }
 
     public void listNextSchedules(CommandSender sender) {
@@ -193,12 +193,13 @@ public class ScheduleManager implements ManagerEnabler {
 
         sender.sendMessage(Language.SCHEDULE_COMMAND_HEADER);
 
-        for(int i = 0; i < Math.min(3, this.schedules.size()); i++) {
+        for(int i = 0; i < Math.min(Config.SCHEDULE_LIST_EVENT_AMOUNT, this.schedules.size()); i++) {
             ScheduleData schedule = this.schedules.get(i);
 
-            sender.sendMessage(Language.SCHEDULE_UPCOMING_EVENTS_FORMAT.replace("<id>", String
-            .valueOf(i+1)).replace("<event>", schedule.getName()).replace("<time>", StringUtils
-            .formatMillis(current.until(schedule.getTime(), ChronoUnit.MILLIS))));
+            sender.sendMessage(Language.SCHEDULE_UPCOMING_EVENTS_FORMAT
+                .replace("<id>", String.valueOf(i + 1))
+                .replace("<event>", schedule.getName())
+                .replace("<time>", StringUtils.formatMillis(current.until(schedule.getTime(), ChronoUnit.MILLIS))));
         }
 
         sender.sendMessage(Language.SCHEDULE_COMMAND_FOOTER);
@@ -216,24 +217,27 @@ public class ScheduleManager implements ManagerEnabler {
         sender.sendMessage("");
 
         sender.sendMessage(Language.SCHEDULE_LIST_CURRENT_TIME + LocalDateTime
-        .now(Config.TIMEZONE.toZoneId()).format(this.timeFormatter));
+            .now(Config.TIMEZONE.toZoneId()).format(this.timeFormatter));
 
         sender.sendMessage("");
 
-        String message = sender.hasPermission("lazarus.schedule.admin") ? Language
-        .SCHEDULE_LIST_ADMIN_FORMAT : Language.SCHEDULE_LIST_PLAYER_FORMAT;
+        String message = sender.hasPermission("lazarus.schedule.admin")
+            ? Language.SCHEDULE_LIST_ADMIN_FORMAT : Language.SCHEDULE_LIST_PLAYER_FORMAT;
 
         this.days.forEach(day -> {
             List<ScheduleData> schedules = this.schedules.stream().filter(schedule -> schedule
-            .getTime().getDayOfWeek() == day).collect(Collectors.toList());
+                .getTime().getDayOfWeek() == day).collect(Collectors.toList());
 
             if(schedules.isEmpty()) return;
 
-            sender.sendMessage(Language.SCHEDULE_LIST_DAY_FORMAT.replace("<day>",
-            day.getDisplayName(TextStyle.FULL, Locale.ENGLISH)));
+            sender.sendMessage(Language.SCHEDULE_LIST_DAY_FORMAT
+                .replace("<day>", day.getDisplayName(TextStyle.FULL, Locale.ENGLISH)));
 
-            schedules.forEach(schedule -> sender.sendMessage(message.replace("<id>", String.valueOf(schedule
-            .getId())).replace("<event>", schedule.getName()).replace("<time>", schedule.getTimeString())));
+            schedules.forEach(schedule -> sender.sendMessage(message
+                .replace("<id>", String.valueOf(schedule.getId()))
+                .replace("<event>", schedule.getName())
+                .replace("<time>", schedule.getTimeString())));
+
             sender.sendMessage("");
         });
 

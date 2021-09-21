@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
+import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.tab.PlayerTab;
 import org.bukkit.Bukkit;
@@ -63,7 +64,7 @@ public abstract class NmsUtils {
 
     public abstract Set<Material> getExoticBoneClickables();
 
-    public abstract void registerCombatLogger();
+    public abstract void registerCombatLogger(CombatLoggerType loggerType);
 
     public abstract void registerEnderDragon();
 
@@ -107,7 +108,7 @@ public abstract class NmsUtils {
 
     public abstract void setViewDistance(int amount);
 
-    public abstract CombatLogger spawnCombatLogger(World world, Player player);
+    public abstract CombatLogger spawnCombatLogger(World world, Player player, CombatLoggerType loggerType);
 
     public abstract EnderDragon spawnEnderDragon(Location location, LootData loot);
 

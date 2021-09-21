@@ -94,7 +94,7 @@ public class PlayerTab_1_7 extends ScoreboardBase_1_7 implements PlayerTab {
 
     private void setupTabEntry(int index) {
         String teamName = this.getTeamName(index);
-        this.teamNames[index-1] = teamName;
+        this.teamNames[index - 1] = teamName;
 
         GameProfile profile = new GameProfile(UUID.randomUUID(), teamName);
 
@@ -117,16 +117,14 @@ public class PlayerTab_1_7 extends ScoreboardBase_1_7 implements PlayerTab {
     }
 
     private String getTeamName(int index) {
-        return ChatColor.values()[index / 10].toString()
-            + ChatColor.values()[index % 10].toString()
+        return Color.CHAT_COLOR_CACHE[index / 10].toString()
+            + Color.CHAT_COLOR_CACHE[index % 10].toString()
             + ChatColor.RESET;
     }
 
     private void removePlayersFromTab(CraftPlayer cplayer) {
         for(Player online : Bukkit.getOnlinePlayers()) {
-            PacketPlayOutPlayerInfo removePacket = PacketPlayOutPlayerInfo.removePlayer(((CraftPlayer) online).getHandle());
-
-            NmsUtils.getInstance().sendPacket(cplayer, removePacket);
+            NmsUtils.getInstance().sendPacket(cplayer, PacketPlayOutPlayerInfo.removePlayer(((CraftPlayer) online).getHandle()));
         }
     }
 }

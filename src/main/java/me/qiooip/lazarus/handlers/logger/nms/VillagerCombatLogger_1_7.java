@@ -12,22 +12,23 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
-import net.minecraft.server.v1_8_R3.DamageSource;
-import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.EntityDamageSourceIndirect;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.EntitySkeleton;
-import net.minecraft.server.v1_8_R3.MobEffect;
-import net.minecraft.server.v1_8_R3.MobEffectList;
+import net.minecraft.server.v1_7_R4.DamageSource;
+import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.EntityAgeable;
+import net.minecraft.server.v1_7_R4.EntityDamageSourceIndirect;
+import net.minecraft.server.v1_7_R4.EntityHuman;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.EntityVillager;
+import net.minecraft.server.v1_7_R4.MobEffect;
+import net.minecraft.server.v1_7_R4.MobEffectList;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.ItemStack;
@@ -37,9 +38,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.UUID;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
+public class VillagerCombatLogger_1_7 extends EntityVillager implements CombatLogger {
 
     @Getter private Player player;
     private final int deathban;
@@ -48,10 +48,11 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
 
     private final BukkitTask removeTask;
 
-    public CombatLogger_1_8(World world, Player player) {
+    public VillagerCombatLogger_1_7(World world, Player player) {
         super(((CraftWorld) world).getHandle());
 
         this.setHealth((float) player.getHealth());
+        this.setProfession(Config.COMBAT_LOGGER_VILLAGER_PROFESSION);
         this.fireProof = true;
         this.persistent = true;
 
@@ -110,18 +111,23 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
     }
 
     @Override
-    public void a(EntityLiving entityliving, float f) {
-
-    }
-
-    @Override
-    public void c(int i) {
-
-    }
-
-    @Override
-    public EntityLiving getGoalTarget() {
+    protected Entity findTarget() {
         return null;
+    }
+
+    @Override
+    public EntityHuman b() {
+        return null;
+    }
+
+    @Override
+    public void b(int i) {
+
+    }
+
+    @Override
+    public boolean n(Entity entity) {
+        return true;
     }
 
     @Override
@@ -132,6 +138,16 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
     @Override
     protected void dropDeathLoot(boolean flag, int i) {
 
+    }
+
+    @Override
+    protected void dropEquipment(boolean flag, int i) {
+
+    }
+
+    @Override
+    public EntityAgeable createChild(EntityAgeable entityAgeable) {
+        return null;
     }
 
     @Override
@@ -194,7 +210,7 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
 
                 if(!Config.FACTION_ALLY_FRIENDLY_FIRE && playerFaction.isAlly(damagerFaction)) {
                     damager.sendMessage(Language.FACTIONS_DENY_DAMAGE_ALLIES
-                    .replace("<player>", Config.ALLY_COLOR + this.player.getName()));
+                        .replace("<player>", Config.ALLY_COLOR + this.player.getName()));
                     return false;
                 }
             }
@@ -207,11 +223,7 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
 
     @Override
     public void die(DamageSource damageSource) {
-        Stream.of(this.contents).filter(item -> item != null && item.getType() != Material.AIR)
-        .forEach(item -> world.getWorld().dropItemNaturally(this.bukkitEntity.getLocation(), item));
-
-        Stream.of(this.armor).filter(item -> item != null && item.getType() != Material.AIR)
-        .forEach(item -> world.getWorld().dropItemNaturally(this.bukkitEntity.getLocation(), item));
+        this.dropPlayerItems(this.contents, this.armor, this.getCombatLoggerLocation());
 
         String reason;
         Entity damager = damageSource.getEntity();
@@ -255,7 +267,7 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
         });
 
         Lazarus.getInstance().getDeathbanManager().deathbanPlayer(this.player,
-            this.bukkitEntity.getLocation(), this.deathban, reason);
+        this.bukkitEntity.getLocation(), this.deathban, reason);
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
@@ -277,7 +289,7 @@ public class CombatLogger_1_8 extends EntitySkeleton implements CombatLogger {
         entityPlayer.getBukkitEntity().getInventory().setArmorContents(null);
         entityPlayer.setPosition(this.locX, this.locY, this.locZ);
         entityPlayer.setHealth(0);
-        entityPlayer.getBukkitEntity().saveData();
+        Tasks.async(() -> entityPlayer.getBukkitEntity().saveData());
 
         Lazarus.getInstance().getCombatLoggerHandler().removeCombatLogger(this.player.getUniqueId());
 

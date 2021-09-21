@@ -102,7 +102,7 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
 
     private void setupTabEntry(int index) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), this.getTeamName(index));
-        this.profiles[index-1] = profile;
+        this.profiles[index - 1] = profile;
 
         profile.getProperties().removeAll("textures");
         profile.getProperties().put("textures", TabReflection_1_8.BLANK_SKIN);
@@ -128,8 +128,8 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
     }
 
     private String getTeamName(int index) {
-        return ChatColor.values()[index / 10].toString()
-            + ChatColor.values()[index % 10].toString()
+        return Color.CHAT_COLOR_CACHE[index / 10].toString()
+            + Color.CHAT_COLOR_CACHE[index % 10].toString()
             + ChatColor.RESET;
     }
 

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 public class ItemUtils {
 
@@ -27,6 +28,7 @@ public class ItemUtils {
     private static Map<String, String> ITEMS_BY_MATERIAL;
 
     public static Enchantment FAKE_GLOW;
+    public static Predicate<ItemStack> NOT_NULL_ITEM_FILTER = item -> item != null && item.getType() != Material.AIR;
 
     public static void updateInventory(Player player) {
         Tasks.sync(player::updateInventory);

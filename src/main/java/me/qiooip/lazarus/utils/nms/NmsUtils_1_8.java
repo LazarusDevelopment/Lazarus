@@ -14,7 +14,9 @@ import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_8;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.glass.GlassInfo;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
-import me.qiooip.lazarus.handlers.logger.nms.CombatLogger_1_8;
+import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
+import me.qiooip.lazarus.handlers.logger.nms.SkeletonCombatLogger_1_8;
+import me.qiooip.lazarus.handlers.logger.nms.VillagerCombatLogger_1_8;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.nms.PlayerScoreboard_1_8;
 import me.qiooip.lazarus.tab.PlayerTab;
@@ -199,9 +201,14 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     }
 
     @Override
-    public void registerCombatLogger() {
-        this.setEntityTypesField("d", CombatLogger_1_8.class, "CombatLogger");
-        this.setEntityTypesField("f", CombatLogger_1_8.class, 51);
+    public void registerCombatLogger(CombatLoggerType loggerType) {
+        if(loggerType == CombatLoggerType.SKELETON) {
+            this.setEntityTypesField("d", SkeletonCombatLogger_1_8.class, "CombatLogger");
+            this.setEntityTypesField("f", SkeletonCombatLogger_1_8.class, 51);
+        } else {
+            this.setEntityTypesField("d", VillagerCombatLogger_1_8.class, "CombatLogger");
+            this.setEntityTypesField("f", VillagerCombatLogger_1_8.class, 120);
+        }
     }
 
     @Override
@@ -212,7 +219,7 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
 
     @Override
     public boolean isCombatLogger(Entity entity) {
-        return ((CraftEntity) entity).getHandle() instanceof CombatLogger_1_8;
+        return ((CraftEntity) entity).getHandle() instanceof SkeletonCombatLogger_1_8;
     }
 
     @Override
@@ -463,8 +470,10 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     }
 
     @Override
-    public CombatLogger spawnCombatLogger(World world, Player player) {
-        return new CombatLogger_1_8(world, player);
+    public CombatLogger spawnCombatLogger(World world, Player player, CombatLoggerType loggerType) {
+        return loggerType == CombatLoggerType.SKELETON
+            ? new SkeletonCombatLogger_1_8(world, player)
+            : new VillagerCombatLogger_1_8(world, player);
     }
 
     @Override

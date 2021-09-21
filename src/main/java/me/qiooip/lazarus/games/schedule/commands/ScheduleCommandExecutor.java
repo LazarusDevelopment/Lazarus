@@ -37,7 +37,7 @@ public class ScheduleCommandExecutor extends SubCommandExecutor {
 
         if(sub == null) {
             sender.sendMessage(Language.SCHEDULE_PREFIX + Language.COMMANDS_COMMAND_NOT_FOUND
-            .replace("<command>", args[0]));
+                .replace("<command>", args[0]));
             return true;
         }
 
