@@ -94,7 +94,7 @@ public class BlockEventListener implements Listener {
         return Math.max(Math.abs(location.getBlockX()), Math.abs(location.getBlockZ())) > breakAfter;
     }
 
-    private boolean shouldCancelInteract(Material blockType, ItemStack itemInHand, boolean purgeActive) {
+    private boolean isItemClickable(Material blockType, ItemStack itemInHand, boolean purgeActive) {
         if(blockType == Material.GRASS && itemInHand != null && ItemUtils.isHoeItem(itemInHand.getType())) {
             return true;
         }
@@ -128,10 +128,10 @@ public class BlockEventListener implements Listener {
         Material blockType = block.getType();
 
         boolean purgeActive = Lazarus.getInstance().getPurgeHandler().isActive();
-        boolean cancel = this.shouldCancelInteract(blockType, event.getItem(), purgeActive);
+        boolean clickable = this.isItemClickable(blockType, event.getItem(), purgeActive);
 
         if(event.getAction() == Action.PHYSICAL) {
-            if(cancel && purgeActive && ClaimManager.getInstance().getFactionAt(block) instanceof PlayerFaction) {
+            if(clickable && purgeActive && ClaimManager.getInstance().getFactionAt(block) instanceof PlayerFaction) {
                 return;
             }
 
@@ -144,7 +144,7 @@ public class BlockEventListener implements Listener {
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Faction factionAt = ClaimManager.getInstance().getFactionAt(block);
 
-            if(cancel && purgeActive && factionAt instanceof PlayerFaction) {
+            if(clickable && purgeActive && factionAt instanceof PlayerFaction) {
                 return;
             }
 
@@ -152,11 +152,11 @@ public class BlockEventListener implements Listener {
                 return;
             }
 
-            if(cancel && player.isSneaking() && event.hasItem() && !event.getItem().getType().isBlock()) {
+            if(clickable && player.isSneaking() && event.hasItem() && !event.getItem().getType().isBlock()) {
                 return;
             }
 
-            if(cancel && !this.checkPlayerBuild(player, block.getLocation(), Language.FACTIONS_PROTECTION_DENY_INTERACT, true, factionAt)) {
+            if(clickable && !this.checkPlayerBuild(player, block.getLocation(), Language.FACTIONS_PROTECTION_DENY_INTERACT, true, factionAt)) {
                 event.setCancelled(true);
             }
         }
