@@ -100,6 +100,7 @@ import java.util.function.Function;
 public class NmsUtils_1_8 extends NmsUtils implements Listener {
 
     private final Set<Material> clickableItems;
+    private final Set<Material> purgeClickableItems;
     private final Set<Material> kitmapClickables;
     private final Set<Material> exoticBoneClickables;
 
@@ -124,6 +125,16 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
             Material.HOPPER, Material.DROPPER, Material.DISPENSER, Material.STONE_BUTTON, Material.BED_BLOCK,
             Material.ENCHANTMENT_TABLE, Material.LEVER, Material.TRAP_DOOR, Material.CHEST, Material.DIODE_BLOCK_ON,
             Material.DIODE_BLOCK_OFF, Material.REDSTONE_COMPARATOR_ON, Material.REDSTONE_COMPARATOR_OFF,
+            Material.JUKEBOX, Material.WORKBENCH, Material.ENDER_CHEST, Material.ACACIA_FENCE_GATE,
+            Material.BIRCH_FENCE_GATE, Material.DARK_OAK_FENCE_GATE, Material.JUNGLE_FENCE_GATE,
+            Material.SPRUCE_FENCE_GATE, Material.ACACIA_DOOR, Material.BIRCH_DOOR, Material.DARK_OAK_DOOR,
+            Material.JUNGLE_DOOR, Material.SPRUCE_DOOR);
+
+        this.purgeClickableItems = EnumSet.of(Material.ANVIL, Material.BEACON,
+            Material.FENCE_GATE, Material.WOOD_BUTTON, Material.WOODEN_DOOR, Material.IRON_DOOR_BLOCK,
+            Material.TRAPPED_CHEST, Material.FURNACE, Material.BURNING_FURNACE, Material.BREWING_STAND,
+            Material.HOPPER, Material.DROPPER, Material.DISPENSER, Material.STONE_BUTTON,
+            Material.ENCHANTMENT_TABLE, Material.LEVER, Material.TRAP_DOOR, Material.CHEST,
             Material.JUKEBOX, Material.WORKBENCH, Material.ENDER_CHEST, Material.ACACIA_FENCE_GATE,
             Material.BIRCH_FENCE_GATE, Material.DARK_OAK_FENCE_GATE, Material.JUNGLE_FENCE_GATE,
             Material.SPRUCE_FENCE_GATE, Material.ACACIA_DOOR, Material.BIRCH_DOOR, Material.DARK_OAK_DOOR,
@@ -188,6 +199,11 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     @Override
     public Set<Material> getClickableItems() {
         return this.clickableItems;
+    }
+
+    @Override
+    public Set<Material> getPurgeClickableItems() {
+        return this.purgeClickableItems;
     }
 
     @Override

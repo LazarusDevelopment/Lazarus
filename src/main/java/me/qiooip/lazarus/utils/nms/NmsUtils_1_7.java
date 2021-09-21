@@ -12,9 +12,7 @@ import me.qiooip.lazarus.glass.GlassInfo;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.handlers.logger.nms.SkeletonCombatLogger_1_7;
-import me.qiooip.lazarus.handlers.logger.nms.SkeletonCombatLogger_1_8;
 import me.qiooip.lazarus.handlers.logger.nms.VillagerCombatLogger_1_7;
-import me.qiooip.lazarus.handlers.logger.nms.VillagerCombatLogger_1_8;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.nms.PlayerScoreboard_1_7;
 import me.qiooip.lazarus.tab.PlayerTab;
@@ -98,6 +96,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     private final Set<Material> clickableItems;
+    private final Set<Material> purgeClickableItems;
     private final Set<Material> kitmapClickables;
     private final Set<Material> exoticBoneClickables;
 
@@ -110,6 +109,13 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
             Material.HOPPER, Material.DROPPER, Material.DISPENSER, Material.STONE_BUTTON, Material.BED_BLOCK,
             Material.ENCHANTMENT_TABLE, Material.LEVER, Material.TRAP_DOOR, Material.CHEST, Material.DIODE_BLOCK_ON,
             Material.DIODE_BLOCK_OFF, Material.REDSTONE_COMPARATOR_ON, Material.REDSTONE_COMPARATOR_OFF,
+            Material.JUKEBOX, Material.WORKBENCH, Material.ENDER_CHEST);
+
+        this.purgeClickableItems = EnumSet.of(Material.ANVIL, Material.BEACON,
+            Material.FENCE_GATE, Material.WOOD_BUTTON, Material.WOODEN_DOOR, Material.IRON_DOOR_BLOCK,
+            Material.TRAPPED_CHEST, Material.FURNACE, Material.BURNING_FURNACE, Material.BREWING_STAND,
+            Material.HOPPER, Material.DROPPER, Material.DISPENSER, Material.STONE_BUTTON,
+            Material.ENCHANTMENT_TABLE, Material.LEVER, Material.TRAP_DOOR, Material.CHEST,
             Material.JUKEBOX, Material.WORKBENCH, Material.ENDER_CHEST);
 
         this.kitmapClickables = EnumSet.of(Material.LEVER, Material.WOOD_BUTTON, Material.STONE_BUTTON,
@@ -169,6 +175,11 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     @Override
     public Set<Material> getClickableItems() {
         return this.clickableItems;
+    }
+
+    @Override
+    public Set<Material> getPurgeClickableItems() {
+        return this.purgeClickableItems;
     }
 
     @Override

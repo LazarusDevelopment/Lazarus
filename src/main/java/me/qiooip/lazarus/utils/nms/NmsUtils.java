@@ -60,6 +60,8 @@ public abstract class NmsUtils {
 
     public abstract Set<Material> getClickableItems();
 
+    public abstract Set<Material> getPurgeClickableItems();
+
     public abstract Set<Material> getKitmapClickables();
 
     public abstract Set<Material> getExoticBoneClickables();

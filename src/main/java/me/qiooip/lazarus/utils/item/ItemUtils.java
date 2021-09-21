@@ -14,21 +14,24 @@ import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
 public class ItemUtils {
 
     public static final List<int[]> BLOCK_RELATIVES;
+    public static final Set<Material> HOE_ITEMS;
+    public static final Predicate<ItemStack> NOT_NULL_ITEM_FILTER;
+
+    public static Enchantment FAKE_GLOW;
 
     private static Map<String, String> ITEMS_BY_NAME;
     private static Map<String, String> ITEMS_BY_MATERIAL;
-
-    public static Enchantment FAKE_GLOW;
-    public static Predicate<ItemStack> NOT_NULL_ITEM_FILTER = item -> item != null && item.getType() != Material.AIR;
 
     public static void updateInventory(Player player) {
         Tasks.sync(player::updateInventory);
@@ -153,6 +156,10 @@ public class ItemUtils {
         .put(name, Lazarus.getInstance().getItemsFile().getString(name)));
 
         ITEMS_BY_NAME.forEach((name, id) -> ITEMS_BY_MATERIAL.put(id, name));
+    }
+
+    public static boolean isHoeItem(Material material) {
+        return HOE_ITEMS.contains(material);
     }
 
     public static boolean isOre(Material material) {
@@ -401,6 +408,11 @@ public class ItemUtils {
             }
         }
 
+        NOT_NULL_ITEM_FILTER = item -> item != null && item.getType() != Material.AIR;
+
         FAKE_GLOW = new FakeGlow(70);
+
+        HOE_ITEMS = EnumSet.of(Material.DIAMOND_HOE, Material.GOLD_HOE,
+            Material.IRON_HOE, Material.WOOD_HOE, Material.STONE_HOE);
     }
 }

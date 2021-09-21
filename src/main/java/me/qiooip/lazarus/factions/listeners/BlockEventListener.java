@@ -1,5 +1,6 @@
 package me.qiooip.lazarus.factions.listeners;
 
+import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.Faction;
@@ -11,6 +12,7 @@ import me.qiooip.lazarus.factions.type.WarzoneFaction;
 import me.qiooip.lazarus.factions.type.WildernessFaction;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -44,6 +46,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -58,9 +61,11 @@ public class BlockEventListener implements Listener {
     }
 
     public boolean checkPlayerBuild(Player player, Location location, String message, boolean interactEvent) {
-        if(player.hasPermission("lazarus.factions.bypass") && player.getGameMode() == GameMode.CREATIVE) return true;
+        return this.checkPlayerBuild(player, location, message, interactEvent, ClaimManager.getInstance().getFactionAt(location));
+    }
 
-        Faction factionAt = ClaimManager.getInstance().getFactionAt(location);
+    public boolean checkPlayerBuild(Player player, Location location, String message, boolean interactEvent, Faction factionAt) {
+        if(player.hasPermission("lazarus.factions.bypass") && player.getGameMode() == GameMode.CREATIVE) return true;
 
         if(factionAt instanceof WildernessFaction || FactionsManager.getInstance().getPlayerFaction(player) == factionAt) return true;
         if(factionAt instanceof PlayerFaction && ((PlayerFaction) factionAt).isRaidable()) return true;
@@ -69,7 +74,7 @@ public class BlockEventListener implements Listener {
             if(this.playerCanBreakInWarzone(location)) return true;
 
             if(Config.KITMAP_MODE_ENABLED && interactEvent && NmsUtils.getInstance()
-                .getKitmapClickables().contains(location.getBlock().getType())) return true;
+            .getKitmapClickables().contains(location.getBlock().getType())) return true;
         }
 
         if(message != null) {
@@ -87,6 +92,15 @@ public class BlockEventListener implements Listener {
             : Config.FACTION_WARZONE_BREAK_AFTER_NETHER;
 
         return Math.max(Math.abs(location.getBlockX()), Math.abs(location.getBlockZ())) > breakAfter;
+    }
+
+    private boolean shouldCancelInteract(Material blockType, ItemStack itemInHand, boolean purgeActive) {
+        if(blockType == Material.GRASS && itemInHand != null && ItemUtils.isHoeItem(itemInHand.getType())) {
+            return true;
+        }
+
+        return purgeActive ? NmsUtils.getInstance().getPurgeClickableItems().contains(blockType)
+            : NmsUtils.getInstance().getClickableItems().contains(blockType);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -109,31 +123,42 @@ public class BlockEventListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if(!event.hasBlock()) return;
 
+        Player player = event.getPlayer();
         Block block = event.getClickedBlock();
+        Material blockType = block.getType();
 
-        if(event.getAction() == Action.PHYSICAL && !this.checkPlayerBuild(event.getPlayer(), block.getLocation(), null, true)) {
-            event.setCancelled(true);
-            return;
+        boolean purgeActive = Lazarus.getInstance().getPurgeHandler().isActive();
+        boolean cancel = this.shouldCancelInteract(blockType, event.getItem(), purgeActive);
+
+        if(event.getAction() == Action.PHYSICAL) {
+            if(cancel && purgeActive && ClaimManager.getInstance().getFactionAt(block) instanceof PlayerFaction) {
+                return;
+            }
+
+            if(!this.checkPlayerBuild(player, block.getLocation(), null, true)) {
+                event.setCancelled(true);
+                return;
+            }
         }
 
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Faction factionAt = ClaimManager.getInstance().getFactionAt(block);
 
-        if(this.safezoneClickables.contains(block.getType()) && ClaimManager.getInstance().getFactionAt(block).isSafezone()) {
-            return;
-        }
-        
-        boolean cancel = NmsUtils.getInstance().getClickableItems().contains(block.getType());
+            if(cancel && purgeActive && factionAt instanceof PlayerFaction) {
+                return;
+            }
 
-        if(block.getType() == Material.GRASS && event.hasItem() && event.getItem().getType().name().endsWith("_HOE")) {
-            cancel = true;
-        } else if(cancel && event.getPlayer().isSneaking() && event.hasItem() && !event.getItem().getType().isBlock()) {
-            return;
-        }
+            if(factionAt.isSafezone() && this.safezoneClickables.contains(blockType)) {
+                return;
+            }
 
-        if(cancel && !this.checkPlayerBuild(event.getPlayer(), block.getLocation(), Language.FACTIONS_PROTECTION_DENY_INTERACT, true)) {
-            event.setCancelled(true);
+            if(cancel && player.isSneaking() && event.hasItem() && !event.getItem().getType().isBlock()) {
+                return;
+            }
+
+            if(cancel && !this.checkPlayerBuild(player, block.getLocation(), Language.FACTIONS_PROTECTION_DENY_INTERACT, true, factionAt)) {
+                event.setCancelled(true);
+            }
         }
     }
 
