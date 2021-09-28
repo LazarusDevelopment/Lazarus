@@ -156,7 +156,7 @@ public class SotwHandler extends Handler implements Listener {
 
         if(sender != null) {
             sender.sendMessage(Language.PREFIX + (this.hidePlayers ? Language
-            .SOTW_HIDE_PLAYERS_ENABLED : Language.SOTW_HIDE_PLAYERS_DISABLED));
+                .SOTW_HIDE_PLAYERS_ENABLED : Language.SOTW_HIDE_PLAYERS_DISABLED));
         }
     }
 
@@ -174,13 +174,16 @@ public class SotwHandler extends Handler implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
         if(!this.isActive()) return;
 
-        if(event.getFrom().getBlockX() == event.getTo().getBlockX()
-            && event.getFrom().getBlockY() == event.getTo().getBlockY()
-            && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
+        Location from = event.getFrom();
+        Location to = event.getTo();
 
-        Faction toFaction = ClaimManager.getInstance().getFactionAt(event.getTo());
+        if(from.getBlockX() == to.getBlockX()
+            && from.getBlockY() == to.getBlockY()
+            && from.getBlockZ() == to.getBlockZ()) return;
 
-        if(ClaimManager.getInstance().getFactionAt(event.getFrom()) != toFaction && this.hidePlayers) {
+        Faction toFaction = ClaimManager.getInstance().getFactionAt(to);
+
+        if(ClaimManager.getInstance().getFactionAt(from) != toFaction && this.hidePlayers) {
             this.toggleSotwInvisibility(event.getPlayer(), toFaction);
         }
     }

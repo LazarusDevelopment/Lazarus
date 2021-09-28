@@ -285,9 +285,11 @@ public class FactionsManager implements Listener {
     }
 
     public void setAllRaidable(boolean raidable) {
+        double minDtr = Config.FACTION_MIN_DTR >= 0 ? -6.5 : Config.FACTION_MIN_DTR;
+
         this.factions.values().stream().filter(faction -> faction instanceof PlayerFaction)
             .map(faction -> (PlayerFaction) faction)
-            .forEach(faction -> faction.setDtr(raidable ? Config.FACTION_MIN_DTR : faction.getMaxDtr()));
+            .forEach(faction -> faction.setDtr(raidable ? minDtr : faction.getMaxDtr()));
     }
 
     public void checkHomeTeleports(PlayerFaction faction, String message) {
