@@ -40,7 +40,6 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -201,7 +200,7 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
 
         List<RunningKoth> koths = this.instance.getKothManager().getRunningKoths();
 
-        if(!koths.isEmpty()) {
+        if(!koths.isEmpty() && this.kothNameFunction != null) {
             for(RunningKoth koth : koths) {
                 scoreboard.add(this.kothNameFunction.apply(koth.getKothData().getColoredName()), koth.getScoreboardEntry());
             }
@@ -258,16 +257,16 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
         PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
         if(playerFaction == null) return;
 
-        UUID focused = playerFaction.getFocusedFaction();
+        if(playerFaction.getFocusedFaction() != null) {
+            PlayerFaction focusedFaction = playerFaction.getFocusedAsFaction();
 
-        if(focused != null) {
-            PlayerFaction focusedFaction = FactionsManager.getInstance().getPlayerFactionByUuid(focused);
-
-            scoreboard.addLine(ChatColor.GREEN);
-            scoreboard.add(this.factionFocusFunction.apply(focusedFaction.getName()), "");
-            scoreboard.add(Config.FACTION_FOCUS_DTR_PLACEHOLDER, focusedFaction.getDtrString());
-            scoreboard.add(Config.FACTION_FOCUS_HQ_PLACEHOLDER, focusedFaction.getHomeString());
-            scoreboard.add(Config.FACTION_FOCUS_ONLINE_PLACEHOLDER, String.valueOf(focusedFaction.getOnlineMemberCount()));
+            if(focusedFaction != null && this.factionFocusFunction != null) {
+                scoreboard.addLine(ChatColor.GREEN);
+                scoreboard.add(this.factionFocusFunction.apply(focusedFaction.getName()), "");
+                scoreboard.add(Config.FACTION_FOCUS_DTR_PLACEHOLDER, focusedFaction.getDtrString());
+                scoreboard.add(Config.FACTION_FOCUS_HQ_PLACEHOLDER, focusedFaction.getHomeString());
+                scoreboard.add(Config.FACTION_FOCUS_ONLINE_PLACEHOLDER, String.valueOf(focusedFaction.getOnlineMemberCount()));
+            }
         }
 
         if(playerFaction.getRallyLocation() != null) {

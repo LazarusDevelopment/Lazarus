@@ -68,6 +68,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Getter
 public class FactionsManager implements Listener {
 
     @Getter private static FactionsManager instance;
@@ -75,7 +76,7 @@ public class FactionsManager implements Listener {
     private final File factionsFile;
     private final File playersFile;
 
-    @Getter protected Map<UUID, Faction> factions;
+    protected Map<UUID, Faction> factions;
     protected final Map<String, UUID> factionNames;
 
     protected Map<UUID, FactionPlayer> players;
@@ -451,7 +452,9 @@ public class FactionsManager implements Listener {
             this.players.remove(player.getUuid());
         });
 
+        playerFaction.getFocusedAsFaction().getFocusing().remove(toDisband.getId());
         playerFaction.getAlliesAsFactions().forEach(ally -> ally.getAllies().remove(toDisband.getId()));
+
         return true;
     }
 

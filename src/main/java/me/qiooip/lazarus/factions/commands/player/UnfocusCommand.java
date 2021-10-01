@@ -36,7 +36,7 @@ public class UnfocusCommand extends SubCommand {
             return;
         }
 
-        PlayerFaction target = FactionsManager.getInstance().getPlayerFactionByUuid(faction.getFocusedFaction());
+        PlayerFaction target = faction.getFocusedAsFaction();
 
         if(target == null) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_UNFOCUS_FACTION_DOESNT_EXIST);

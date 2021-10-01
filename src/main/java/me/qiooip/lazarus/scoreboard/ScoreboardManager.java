@@ -38,10 +38,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
 public class ScoreboardManager implements Listener, ManagerEnabler {
 
-    @Getter private final Map<UUID, PlayerScoreboard> scoreboards;
-
+    private final Map<UUID, PlayerScoreboard> scoreboards;
     private final Set<UUID> staffSb;
     private ScoreboardUpdater updater;
 

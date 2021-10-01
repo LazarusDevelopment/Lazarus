@@ -156,11 +156,17 @@ public class PlayerFaction extends Faction {
     }
 
     public List<PlayerFaction> getAlliesAsFactions() {
-        return this.allies.stream().map(FactionsManager.getInstance()::getPlayerFactionByUuid).collect(Collectors.toList());
+        return this.allies.stream().map(FactionsManager.getInstance()::getPlayerFactionByUuid)
+            .filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     public List<PlayerFaction> getFocusingAsFactions() {
-        return this.focusing.stream().map(FactionsManager.getInstance()::getPlayerFactionByUuid).collect(Collectors.toList());
+        return this.focusing.stream().map(FactionsManager.getInstance()::getPlayerFactionByUuid)
+            .filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public PlayerFaction getFocusedAsFaction() {
+        return FactionsManager.getInstance().getPlayerFactionByUuid(this.focusedFaction);
     }
 
     public String getHomeString() {
@@ -378,7 +384,7 @@ public class PlayerFaction extends Faction {
     private List<Player> getOldFocusedFactionPlayers() {
         if(this.focusedFaction == null) return null;
 
-        PlayerFaction currentFocused = FactionsManager.getInstance().getPlayerFactionByUuid(this.focusedFaction);
+        PlayerFaction currentFocused = this.getFocusedAsFaction();
         return currentFocused != null ? currentFocused.getOnlinePlayers() : null;
     }
 

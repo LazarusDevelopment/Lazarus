@@ -381,7 +381,7 @@ public class WaypointManager implements Listener {
             }
             case FOCUSED_FACTION_HOME: {
                 if(faction != null && faction.getFocusedFaction() != null) {
-                    PlayerFaction focusedFaction = FactionsManager.getInstance().getPlayerFactionByUuid(faction.getFocusedFaction());
+                    PlayerFaction focusedFaction = faction.getFocusedAsFaction();
 
                     if(focusedFaction != null && focusedFaction.getHome() != null) {
                         waypoint = typeWaypoint.createWaypoint(focusedFaction.getHome());

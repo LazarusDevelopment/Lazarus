@@ -47,11 +47,12 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+@Getter
 public class ClaimManager implements Listener {
 
     @Getter private static ClaimManager instance;
-    @Getter private final FactionMap factionMap;
 
+    private final FactionMap factionMap;
     private final File claimsFile;
 
     protected List<Claim> claims;
