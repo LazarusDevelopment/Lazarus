@@ -452,9 +452,7 @@ public class FactionsManager implements Listener {
             this.players.remove(player.getUuid());
         });
 
-        playerFaction.getFocusedAsFaction().getFocusing().remove(toDisband.getId());
         playerFaction.getAlliesAsFactions().forEach(ally -> ally.getAllies().remove(toDisband.getId()));
-
         return true;
     }
 
@@ -520,9 +518,9 @@ public class FactionsManager implements Listener {
             .forEach(kothFaction -> this.disbandFaction(kothFaction, Bukkit.getConsoleSender()));
     }
 
-    private void updateFocusNametagsOnDisband(PlayerFaction faction) {
-        List<PlayerFaction> focusingFactions = faction.getFocusingAsFactions();
-        List<Player> ownPlayers = faction.getOnlinePlayers();
+    private void updateFocusNametagsOnDisband(PlayerFaction toDisband) {
+        List<PlayerFaction> focusingFactions = toDisband.getFocusingAsFactions();
+        List<Player> ownPlayers = toDisband.getOnlinePlayers();
 
         List<Player> enemies = new ArrayList<>();
 
@@ -533,6 +531,12 @@ public class FactionsManager implements Listener {
 
         Tasks.async(() -> Lazarus.getInstance().getScoreboardManager()
             .updateTabRelations(enemies, ownPlayers, false));
+
+        PlayerFaction focusedFaction = toDisband.getFocusedAsFaction();
+
+        if(focusedFaction != null) {
+            focusedFaction.getFocusing().remove(toDisband.getId());
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
