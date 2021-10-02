@@ -34,6 +34,7 @@ import me.qiooip.lazarus.factions.type.SpawnFaction;
 import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.koth.KothData;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
@@ -518,7 +519,13 @@ public class FactionsManager implements Listener {
             .forEach(kothFaction -> this.disbandFaction(kothFaction, Bukkit.getConsoleSender()));
     }
 
-    private void updateFocusNametagsOnDisband(PlayerFaction toDisband) {
+    private void updateFocusInfoOnDisband(PlayerFaction toDisband) {
+        PlayerFaction focusedFaction = toDisband.getFocusedAsFaction();
+
+        if(focusedFaction != null) {
+            focusedFaction.getFocusing().remove(toDisband.getId());
+        }
+
         List<PlayerFaction> focusingFactions = toDisband.getFocusingAsFactions();
         List<Player> ownPlayers = toDisband.getOnlinePlayers();
 
@@ -529,14 +536,7 @@ public class FactionsManager implements Listener {
             enemies.addAll(focusing.getOnlinePlayers());
         }
 
-        Tasks.async(() -> Lazarus.getInstance().getScoreboardManager()
-            .updateTabRelations(enemies, ownPlayers, false));
-
-        PlayerFaction focusedFaction = toDisband.getFocusedAsFaction();
-
-        if(focusedFaction != null) {
-            focusedFaction.getFocusing().remove(toDisband.getId());
-        }
+        Tasks.async(() -> ScoreboardManager.getInstance().updateTabRelations(enemies, ownPlayers, false));
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -589,7 +589,7 @@ public class FactionsManager implements Listener {
             PlayerFaction faction = (PlayerFaction) event.getFaction();
             timerManager.getDtrRegenTimer().removeFaction(faction);
 
-            this.updateFocusNametagsOnDisband(faction);
+            this.updateFocusInfoOnDisband(faction);
         }
     }
 

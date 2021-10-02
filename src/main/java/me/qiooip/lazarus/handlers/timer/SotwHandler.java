@@ -6,6 +6,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.handlers.manager.Handler;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
@@ -78,7 +79,7 @@ public class SotwHandler extends Handler implements Listener {
         }
 
         TimerManager.getInstance().getSotwTimer().activate(time);
-        Lazarus.getInstance().getScoreboardManager().updateTabRelations(Bukkit.getOnlinePlayers(), false);
+        ScoreboardManager.getInstance().updateTabRelations(Bukkit.getOnlinePlayers(), false);
 
         Messages.sendMessage(Language.SOTW_STARTED.replace("<time>",
             StringUtils.formatTime(time, FormatType.SECONDS_TO_HOURS)));
@@ -93,7 +94,7 @@ public class SotwHandler extends Handler implements Listener {
         this.sotwEnabledPlayers.clear();
 
         Tasks.async(() -> this.showSotwInvisiblePlayers());
-        Lazarus.getInstance().getScoreboardManager().updateTabRelations(Bukkit.getOnlinePlayers(), false);
+        ScoreboardManager.getInstance().updateTabRelations(Bukkit.getOnlinePlayers(), false);
 
         TimerManager.getInstance().getSotwTimer().cancel();
         Messages.sendMessage(Language.SOTW_ENDED);
@@ -122,7 +123,7 @@ public class SotwHandler extends Handler implements Listener {
             return;
         }
 
-        Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
+        ScoreboardManager.getInstance().updateTabRelations(player, false);
 
         this.sotwEnabledPlayers.add(player.getUniqueId());
         player.sendMessage(Language.PREFIX + Language.SOTW_ENABLED);

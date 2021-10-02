@@ -3,6 +3,7 @@ package me.qiooip.lazarus.timer.scoreboard;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.timer.type.SystemTimer;
 import me.qiooip.lazarus.utils.Messages;
@@ -21,7 +22,7 @@ public class SotwTimer extends SystemTimer implements ScoreboardTimer {
     public void activate(int delay) {
         super.activate(delay, () -> {
             Lazarus.getInstance().getSotwHandler().showSotwInvisiblePlayers();
-            Lazarus.getInstance().getScoreboardManager().updateTabRelations(Bukkit.getOnlinePlayers(), false);
+            ScoreboardManager.getInstance().updateTabRelations(Bukkit.getOnlinePlayers(), false);
 
             Messages.sendMessage(Language.SOTW_ENDED);
         });

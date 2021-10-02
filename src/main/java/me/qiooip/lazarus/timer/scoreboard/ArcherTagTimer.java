@@ -1,8 +1,8 @@
 package me.qiooip.lazarus.timer.scoreboard;
 
-import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
@@ -34,7 +34,7 @@ public class ArcherTagTimer extends PlayerTimer implements ScoreboardTimer {
             Player player = Bukkit.getPlayer(uuid);
 
             if(player != null) {
-                Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
+                ScoreboardManager.getInstance().updateTabRelations(player, false);
             }
         });
     }

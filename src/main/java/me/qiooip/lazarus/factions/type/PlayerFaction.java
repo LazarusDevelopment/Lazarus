@@ -14,6 +14,7 @@ import me.qiooip.lazarus.factions.event.FactionFocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionUnfocusedEvent;
 import me.qiooip.lazarus.factions.event.PlayerUnfocusedEvent;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.StringUtils;
@@ -305,7 +306,7 @@ public class PlayerFaction extends Faction {
 
         Tasks.async(() -> {
             for(FactionPlayer member : this.members.values()) {
-                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+                PlayerScoreboard scoreboard = ScoreboardManager.getInstance().getPlayerScoreboard(member.getUuid());
                 if(scoreboard == null) continue;
 
                 scoreboard.updateRelation(player);
@@ -326,7 +327,7 @@ public class PlayerFaction extends Faction {
 
         Tasks.async(() -> {
             for(FactionPlayer member : this.members.values()) {
-                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+                PlayerScoreboard scoreboard = ScoreboardManager.getInstance().getPlayerScoreboard(member.getUuid());
 
                 if(scoreboard != null) {
                     scoreboard.updateRelation(offlinePlayer.getPlayer());
@@ -346,7 +347,7 @@ public class PlayerFaction extends Faction {
 
         Tasks.async(() -> {
             for(FactionPlayer member : this.members.values()) {
-                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+                PlayerScoreboard scoreboard = ScoreboardManager.getInstance().getPlayerScoreboard(member.getUuid());
                 if(scoreboard == null) continue;
 
                 scoreboard.updateTabRelations(newEnemies);
@@ -368,7 +369,7 @@ public class PlayerFaction extends Faction {
 
         Tasks.async(() -> {
             for(FactionPlayer member : this.members.values()) {
-                PlayerScoreboard scoreboard = Lazarus.getInstance().getScoreboardManager().getPlayerScoreboard(member.getUuid());
+                PlayerScoreboard scoreboard = ScoreboardManager.getInstance().getPlayerScoreboard(member.getUuid());
 
                 if(scoreboard != null) {
                     scoreboard.updateTabRelations(enemies);

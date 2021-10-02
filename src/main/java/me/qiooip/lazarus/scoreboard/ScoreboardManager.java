@@ -41,11 +41,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 public class ScoreboardManager implements Listener, ManagerEnabler {
 
+    @Getter private static ScoreboardManager instance;
+
     private final Map<UUID, PlayerScoreboard> scoreboards;
     private final Set<UUID> staffSb;
     private ScoreboardUpdater updater;
 
     public ScoreboardManager() {
+        instance = this;
+
         this.scoreboards = new ConcurrentHashMap<>();
         this.staffSb = new HashSet<>();
 

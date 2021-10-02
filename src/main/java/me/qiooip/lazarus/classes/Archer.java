@@ -1,12 +1,12 @@
 package me.qiooip.lazarus.classes;
 
-import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.items.ClickableItem;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.classes.manager.PvpClassManager;
 import me.qiooip.lazarus.classes.utils.PvpClassUtils;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
@@ -56,7 +56,7 @@ public class Archer extends PvpClass implements Listener {
 
     private void archerTagPlayer(Player tagger, Player player) {
         TimerManager.getInstance().getArcherTagTimer().activate(player.getUniqueId());
-        Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
+        ScoreboardManager.getInstance().updateTabRelations(player, false);
 
         player.sendMessage(Language.PREFIX + Language.ARCHER_TAG_TAGGED_VICTIM
             .replace("<player>", tagger.getName())
@@ -131,6 +131,6 @@ public class Archer extends PvpClass implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         TimerManager.getInstance().getArcherTagTimer().cancel(event.getPlayer());
-        Lazarus.getInstance().getScoreboardManager().updateTabRelations(event.getPlayer(), false);
+        ScoreboardManager.getInstance().updateTabRelations(event.getPlayer(), false);
     }
 }

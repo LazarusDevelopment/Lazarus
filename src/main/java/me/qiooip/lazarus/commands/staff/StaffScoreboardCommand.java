@@ -1,7 +1,7 @@
 package me.qiooip.lazarus.commands.staff;
 
-import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,7 +16,7 @@ public class StaffScoreboardCommand extends BaseCommand {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
-		
-		Lazarus.getInstance().getScoreboardManager().toggleStaffScoreboard(player);
+
+		ScoreboardManager.getInstance().toggleStaffScoreboard(player);
 	}
 }

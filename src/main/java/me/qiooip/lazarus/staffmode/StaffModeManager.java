@@ -6,6 +6,7 @@ import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.ManagerEnabler;
@@ -144,7 +145,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
             player.sendMessage(Language.PREFIX + Language.STAFF_MODE_ENABLED);
         }
 
-        Lazarus.getInstance().getScoreboardManager().updateTabRelations(player, false);
+        ScoreboardManager.getInstance().updateTabRelations(player, false);
 
         boolean inStaffMode = this.isInStaffMode(player);
 
