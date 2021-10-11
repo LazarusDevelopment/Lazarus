@@ -146,7 +146,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
 
         Set<String> addedEntries = new HashSet<>(this.entries.size());
 
-        for(int i = this.entries.size(); i > 0; i--) {
+        for(int i = Math.min(15, this.entries.size()); i > 0; i--) {
             ScoreboardInput input = this.entries.pollFirst();
             if(input == null) return;
 
@@ -196,6 +196,7 @@ public class PlayerScoreboard_1_7 extends ScoreboardBase_1_7 implements PlayerSc
     @Override
     public void addEmptyLine(ChatColor color) {
         this.entries.addLast(new ScoreboardInput("", color.toString() + Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH, ""));
+        this.lastLine.set(true);
     }
 
     @Override

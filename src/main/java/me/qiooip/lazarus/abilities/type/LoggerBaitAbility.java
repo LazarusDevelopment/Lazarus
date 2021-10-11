@@ -5,11 +5,13 @@ import me.qiooip.lazarus.abilities.AbilityItem;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
+import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.utils.PlayerUtils;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -28,11 +30,7 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
 
     @Override
     protected boolean onItemClick(Player player, PlayerInteractEvent event) {
-        Skeleton skeleton = (Skeleton) player.getWorld().spawnEntity(player.getLocation(), EntityType.SKELETON);
-
-        skeleton.setCustomName(Config.COMBAT_LOGGER_NAME_FORMAT.replace("<player>", player.getName()));
-        skeleton.setCustomNameVisible(true);
-        skeleton.setMetadata("loggerBait", PlayerUtils.TRUE_METADATA_VALUE);
+        this.spawnLoggerEntity(player.getLocation(), player.getName());
 
         InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager
             .getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
@@ -43,5 +41,19 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
 
         event.setCancelled(true);
         return true;
+    }
+
+    private void spawnLoggerEntity(Location location, String playerName) {
+        Entity entity;
+
+        if(Config.COMBAT_LOGGER_TYPE == CombatLoggerType.SKELETON) {
+            entity = location.getWorld().spawnEntity(location, EntityType.SKELETON);
+        } else {
+            entity = location.getWorld().spawnEntity(location, EntityType.VILLAGER);
+        }
+
+        entity.setCustomName(Config.COMBAT_LOGGER_NAME_FORMAT.replace("<player>", playerName));
+        entity.setCustomNameVisible(true);
+        entity.setMetadata("loggerBait", PlayerUtils.TRUE_METADATA_VALUE);
     }
 }
