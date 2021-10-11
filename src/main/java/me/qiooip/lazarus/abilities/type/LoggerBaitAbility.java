@@ -9,8 +9,8 @@ import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
@@ -46,10 +46,10 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
     }
 
     private void spawnLoggerEntity(Location location, String playerName) {
-        Entity entity;
+        LivingEntity entity;
 
         if(Config.COMBAT_LOGGER_TYPE == CombatLoggerType.SKELETON) {
-            entity = location.getWorld().spawnEntity(location, EntityType.SKELETON);
+            entity = (LivingEntity) location.getWorld().spawnEntity(location, EntityType.SKELETON);
         } else {
             Villager villager = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
             villager.setProfession(Profession.getProfession(Config.COMBAT_LOGGER_VILLAGER_PROFESSION));
