@@ -12,6 +12,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -49,7 +51,10 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
         if(Config.COMBAT_LOGGER_TYPE == CombatLoggerType.SKELETON) {
             entity = location.getWorld().spawnEntity(location, EntityType.SKELETON);
         } else {
-            entity = location.getWorld().spawnEntity(location, EntityType.VILLAGER);
+            Villager villager = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
+            villager.setProfession(Profession.getProfession(Config.COMBAT_LOGGER_VILLAGER_PROFESSION));
+
+            entity = villager;
         }
 
         entity.setCustomName(Config.COMBAT_LOGGER_NAME_FORMAT.replace("<player>", playerName));
