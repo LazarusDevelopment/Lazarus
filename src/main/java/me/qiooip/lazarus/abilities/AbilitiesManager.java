@@ -135,7 +135,12 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
     }
 
     public AbilityItem getAbilityItem(ItemStack itemStack) {
-        return this.abilityItems.get(this.calculateItemHash(itemStack.getItemMeta()));
+        if(!itemStack.hasItemMeta()) return null;
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if(!itemMeta.hasDisplayName() || !itemMeta.hasLore()) return null;
+
+        return this.abilityItems.get(this.calculateItemHash(itemMeta));
     }
 
     public boolean isAbilityItem(ItemStack itemStack) {
