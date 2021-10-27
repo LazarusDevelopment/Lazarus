@@ -11,14 +11,18 @@ import java.awt.*;
 public class LunarClientWaypoint {
 
     private String name;
-    private String color;
+    private int rgbColor;
     private boolean forced;
 
+    public void setRgbColor(String colorString) {
+        this.rgbColor = Color.decode(colorString).getRGB();
+    }
+
     public LCWaypoint createWaypoint(Location location, String replace) {
-        return new LCWaypoint(this.name.replace("<name>", replace), location, Color.decode(this.color).getRGB(), this.forced);
+        return new LCWaypoint(this.name.replace("<name>", replace), location, this.rgbColor, this.forced);
     }
 
     public LCWaypoint createWaypoint(Location location) {
-        return new LCWaypoint(this.name, location, Color.decode(this.color).getRGB(), this.forced);
+        return new LCWaypoint(this.name, location, this.rgbColor, this.forced);
     }
 }

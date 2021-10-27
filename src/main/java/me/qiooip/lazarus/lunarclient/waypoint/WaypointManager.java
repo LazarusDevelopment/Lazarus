@@ -81,11 +81,10 @@ public class WaypointManager implements Listener {
         section.getKeys(false).forEach(waypointName -> {
             LunarClientWaypoint lunarClientWaypoint = new LunarClientWaypoint();
             lunarClientWaypoint.setName(Color.translate(section.getString(waypointName + ".NAME")));
-            lunarClientWaypoint.setColor(section.getString(waypointName + ".COLOR"));
+            lunarClientWaypoint.setRgbColor(section.getString(waypointName + ".COLOR"));
             lunarClientWaypoint.setForced(section.getBoolean(waypointName + ".FORCED"));
 
-            PlayerWaypointType type = PlayerWaypointType.valueOf(waypointName);
-            this.waypoints.put(type, lunarClientWaypoint);
+            this.waypoints.put(PlayerWaypointType.valueOf(waypointName), lunarClientWaypoint);
         });
 
         for(PlayerWaypointType type : this.waypointTypes) {

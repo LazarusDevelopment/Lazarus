@@ -7,26 +7,16 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.ConquestManager;
+import me.qiooip.lazarus.handlers.death.DeathMessageHandler;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
-import net.minecraft.server.v1_8_R3.DamageSource;
-import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.EntityAgeable;
-import net.minecraft.server.v1_8_R3.EntityDamageSourceIndirect;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.EntityVillager;
-import net.minecraft.server.v1_8_R3.MobEffect;
-import net.minecraft.server.v1_8_R3.MobEffectList;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
@@ -221,8 +211,6 @@ public class VillagerCombatLogger_1_8 extends EntityVillager implements CombatLo
 
         if(damager instanceof EntityPlayer) {
             Player killer = ((EntityPlayer) damager).getBukkitEntity();
-
-            Lazarus.getInstance().getUserdataManager().getUserdata(killer).addKill();
             Lazarus.getInstance().getKillstreakHandler().checkKillerKillstreak(killer);
 
             PlayerFaction killerFaction = FactionsManager.getInstance().getPlayerFaction(killer);
@@ -231,9 +219,13 @@ public class VillagerCombatLogger_1_8 extends EntityVillager implements CombatLo
                 killerFaction.incrementPoints(Config.FACTION_TOP_KILL);
             }
 
+            DeathMessageHandler deathMessageHandler = Lazarus.getInstance().getDeathMessageHandler();
+
             reason = Language.DEATHMESSAGE_REASON_COMBATLOGGER_KILLER
-                .replace("<player>", Lazarus.getInstance().getDeathMessageHandler().getPlayerName(this.player))
-                .replace("<killer>", Lazarus.getInstance().getDeathMessageHandler().getKillerName(killer));
+                .replace("<player>", deathMessageHandler.getPlayerName(this.player))
+                .replace("<killer>", deathMessageHandler.getKillerName(killer));
+
+            Lazarus.getInstance().getUserdataManager().getUserdata(killer).updateKillStats(reason);
         } else {
             reason = Language.DEATHMESSAGE_REASON_COMBATLOGGER.replace("<player>",
                 Lazarus.getInstance().getDeathMessageHandler().getPlayerName(this.player));

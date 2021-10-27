@@ -36,6 +36,7 @@ public class Userdata {
 
     private List<UUID> ignoring;
     private List<String> notes;
+    private List<String> lastKills;
     private List<String> lastDeaths;
     private Map<String, Long> kitDelays;
 
@@ -52,8 +53,14 @@ public class Userdata {
 
         this.ignoring = new ArrayList<>();
         this.notes = new ArrayList<>();
+        this.lastKills = new ArrayList<>();
         this.lastDeaths = new ArrayList<>();
         this.kitDelays = new HashMap<>();
+    }
+
+    public void updateKillStats(String killMessage) {
+        this.addKill();
+        this.addLastKill(killMessage);
     }
 
     public void addKill() {
@@ -95,18 +102,26 @@ public class Userdata {
         this.ignoring.remove(player.getUniqueId());
     }
 
+    public void addLastKill(String killMessage) {
+        this.addLastKillOrDeathEntry(this.lastKills, killMessage);
+    }
+
     public void addLastDeath(String deathMessage) {
+        this.addLastKillOrDeathEntry(this.lastDeaths, deathMessage);
+    }
+
+    private void addLastKillOrDeathEntry(List<String> list, String message) {
         FastDateFormat fastDateFormat = FastDateFormat.getInstance(Config
-        .DATE_FORMAT, Config.TIMEZONE, Locale.ENGLISH);
+            .DATE_FORMAT, Config.TIMEZONE, Locale.ENGLISH);
 
-        deathMessage = deathMessage.replace('§', '&');
+        message = message.replace('§', '&');
 
-        if(this.lastDeaths.size() < 5) {
-            this.lastDeaths.add(0, fastDateFormat.format(System.currentTimeMillis()) + " - " + deathMessage);
+        if(list.size() < 5) {
+            list.add(0, fastDateFormat.format(System.currentTimeMillis()) + " - " + message);
             return;
         }
 
-        this.lastDeaths.remove(4);
-        this.lastDeaths.add(0, fastDateFormat.format(System.currentTimeMillis()) + " - " + deathMessage);
+        list.remove(4);
+        list.add(0, fastDateFormat.format(System.currentTimeMillis()) + " - " + message);
     }
 }

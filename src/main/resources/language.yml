@@ -1813,6 +1813,12 @@ LAST_DEATHS_COMMAND:
   DEATH_MESSAGE_FORMAT: " &f* &7<deathMessage>"
   NO_DEATHS_YET: "&ePlayer &c<player> &ehas not died yet!"
 
+LAST_KILLS_COMMAND:
+  USAGE: "&cUsage: /lastkills <player>"
+  HEADER_FORMAT: "&eLast &c5 &ekills for player &c<player>&e:"
+  KILL_MESSAGE_FORMAT: " &f* &7<killMessage>"
+  NO_KILLS_YET: "&ePlayer &c<player> &ehas no kills yet!"
+
 LFF_COMMAND:
   COOLDOWN: "&eYou cannot use &clff &efor &c<seconds> &emore seconds!"
   COOLDOWN_EXPIRED: "&eYour &clff &ecooldown has expired."

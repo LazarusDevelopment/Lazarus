@@ -16,6 +16,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,7 +54,12 @@ public class UserdataManager implements Listener {
         String content = FileUtils.readWholeFile(file);
         if(content == null) return;
 
-        this.userdata.put(uuid, Lazarus.getInstance().getGson().fromJson(content, Userdata.class));
+        Userdata userdata = Lazarus.getInstance().getGson().fromJson(content, Userdata.class);
+        this.userdata.put(uuid, userdata);
+
+        if(userdata.getLastKills() == null) {
+            userdata.setLastKills(new ArrayList<>());
+        }
     }
 
     private void saveUserdata(Player player) {

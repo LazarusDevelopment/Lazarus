@@ -253,7 +253,6 @@ public class DynamicEventHandler extends Handler implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-
         Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(player);
 
         userdata.setLastLocation(player.getLocation());
@@ -261,7 +260,8 @@ public class DynamicEventHandler extends Handler implements Listener {
         userdata.addDeath();
 
         if(player.getKiller() != null && player.getKiller().isOnline()) {
-            Lazarus.getInstance().getUserdataManager().getUserdata(player.getKiller()).addKill();
+            Lazarus.getInstance().getUserdataManager()
+                .getUserdata(player.getKiller()).updateKillStats(event.getDeathMessage());
         }
 
         if(Config.LIGHTNING_EFFECT_ON_DEATH) {

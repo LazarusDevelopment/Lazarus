@@ -9,16 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class LastDeathsCommand extends BaseCommand {
+public class LastKillsCommand extends BaseCommand {
 
-	public LastDeathsCommand() {
-		super("lastdeaths", "lazarus.lastdeaths");
+	public LastKillsCommand() {
+		super("lastkills", "lazarus.lastkills");
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length == 0) {
-            sender.sendMessage(Language.PREFIX + Language.LAST_DEATHS_USAGE);
+            sender.sendMessage(Language.PREFIX + Language.LAST_KILLS_COMMAND_USAGE);
             return;
         }
 
@@ -27,18 +27,18 @@ public class LastDeathsCommand extends BaseCommand {
 
         Userdata data = Lazarus.getInstance().getUserdataManager().getUserdata(target);
 				
-        if(data.getLastDeaths().isEmpty()) {
-            sender.sendMessage(Language.PREFIX + Language.LAST_DEATHS_NO_DEATHS_YET
+        if(data.getLastKills().isEmpty()) {
+            sender.sendMessage(Language.PREFIX + Language.LAST_KILLS_COMMAND_NO_KILLS_YET
                 .replace("<player>", target.getName()));
             return;
         }
 				
         sender.sendMessage("");
 
-        sender.sendMessage(Language.LAST_DEATHS_HEADER_FORMAT.replace("<player>", target.getName()));
+        sender.sendMessage(Language.LAST_KILLS_COMMAND_HEADER_FORMAT.replace("<player>", target.getName()));
 
-        data.getLastDeaths().forEach(death -> sender.sendMessage(Language.LAST_DEATHS_DEATH_MESSAGE_FORMAT
-            .replace("<deathMessage>", Color.translate(death))));
+        data.getLastKills().forEach(death -> sender.sendMessage(Language.LAST_KILLS_COMMAND_KILL_MESSAGE_FORMAT
+            .replace("<killMessage>", Color.translate(death))));
 
         sender.sendMessage("");
 	}

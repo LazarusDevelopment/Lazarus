@@ -89,7 +89,6 @@ public class KillallCommand extends BaseCommand {
 
     private void removeEntities(CommandSender sender, String type, EntityType entityType) {
         AtomicInteger total = new AtomicInteger();
-
         AtomicReference<Predicate<Entity>> predicate = new AtomicReference<>();
 
         switch(type) {

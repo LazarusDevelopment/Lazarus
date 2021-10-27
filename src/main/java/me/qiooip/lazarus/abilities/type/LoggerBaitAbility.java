@@ -7,6 +7,7 @@ import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.ConfigFile;
 import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.utils.PlayerUtils;
+import me.qiooip.lazarus.utils.WorldUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -14,15 +15,36 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class LoggerBaitAbility extends AbilityItem implements Listener {
 
+    private final Set<Integer> entityIds;
     private int duration;
 
     public LoggerBaitAbility(ConfigFile config) {
         super(AbilityType.LOGGER_BAIT, "LOGGER_BAIT", config);
+
+        this.entityIds = new HashSet<>();
+    }
+
+    @Override
+    protected void disable() {
+        WorldUtils.forEachEntity(entity -> {
+            if(this.entityIds.contains(entity.getEntityId())) {
+                entity.remove();
+            }
+        });
+
+        this.entityIds.clear();
     }
 
     @Override
@@ -60,5 +82,13 @@ public class LoggerBaitAbility extends AbilityItem implements Listener {
         entity.setCustomName(Config.COMBAT_LOGGER_NAME_FORMAT.replace("<player>", playerName));
         entity.setCustomNameVisible(true);
         entity.setMetadata("loggerBait", PlayerUtils.TRUE_METADATA_VALUE);
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
+
+        this.entityIds.add(entity.getEntityId());
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        this.entityIds.remove(event.getEntity().getEntityId());
     }
 }

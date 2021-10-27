@@ -1110,6 +1110,11 @@ public class Language {
     public static String LAST_DEATHS_DEATH_MESSAGE_FORMAT;
     public static String LAST_DEATHS_NO_DEATHS_YET;
 
+    public static String LAST_KILLS_COMMAND_USAGE;
+    public static String LAST_KILLS_COMMAND_HEADER_FORMAT;
+    public static String LAST_KILLS_COMMAND_KILL_MESSAGE_FORMAT;
+    public static String LAST_KILLS_COMMAND_NO_KILLS_YET;
+
     public static String LFF_COMMAND_COOLDOWN;
     public static String LFF_COMMAND_COOLDOWN_EXPIRED;
     public static String LFF_COMMAND_ALREADY_IN_FACTION;
@@ -2550,6 +2555,11 @@ public class Language {
         LAST_DEATHS_HEADER_FORMAT = language.getString("LAST_DEATHS_COMMAND.HEADER_FORMAT");
         LAST_DEATHS_DEATH_MESSAGE_FORMAT = language.getString("LAST_DEATHS_COMMAND.DEATH_MESSAGE_FORMAT");
         LAST_DEATHS_NO_DEATHS_YET = language.getString("LAST_DEATHS_COMMAND.NO_DEATHS_YET");
+
+        LAST_KILLS_COMMAND_USAGE = language.getString("LAST_KILLS_COMMAND.USAGE");
+        LAST_KILLS_COMMAND_HEADER_FORMAT = language.getString("LAST_KILLS_COMMAND.HEADER_FORMAT");
+        LAST_KILLS_COMMAND_KILL_MESSAGE_FORMAT = language.getString("LAST_KILLS_COMMAND.KILL_MESSAGE_FORMAT");
+        LAST_KILLS_COMMAND_NO_KILLS_YET = language.getString("LAST_KILLS_COMMAND.NO_KILLS_YET");
 
         LFF_COMMAND_COOLDOWN = language.getString("LFF_COMMAND.COOLDOWN");
         LFF_COMMAND_COOLDOWN_EXPIRED = language.getString("LFF_COMMAND.COOLDOWN_EXPIRED");

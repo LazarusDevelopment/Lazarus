@@ -123,7 +123,9 @@ public class KitmapHandler extends Handler implements Listener {
                 List<Entity> entities = world.getEntities();
 
                 Tasks.async(() -> entities.forEach(entity -> {
-                    if(entity instanceof Item) entity.remove();
+                    if(entity instanceof Item) {
+                        entity.remove();
+                    }
                 }));
             }
         }

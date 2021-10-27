@@ -11,6 +11,7 @@ import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -94,6 +95,7 @@ public class MongoUserdataManager extends UserdataManager {
             .append("settings", StringUtils.settingsToString(data.getSettings()))
             .append("ignoring", data.getIgnoring())
             .append("notes", data.getNotes())
+            .append("lastKills", data.getLastKills())
             .append("lastDeaths", data.getLastDeaths())
             .append("kitDelays", data.getKitDelays());
     }
@@ -113,6 +115,7 @@ public class MongoUserdataManager extends UserdataManager {
         data.setSettings(StringUtils.settingsFromString(document.getString("settings")));
         data.setIgnoring((List<UUID>) document.get("ignoring"));
         data.setNotes((List<String>) document.get("notes"));
+        data.setLastKills(document.get("lastKills", new ArrayList<>()));
         data.setLastDeaths((List<String>) document.get("lastDeaths"));
         data.setKitDelays((Map<String, Long>) document.get("kitDelays"));
 

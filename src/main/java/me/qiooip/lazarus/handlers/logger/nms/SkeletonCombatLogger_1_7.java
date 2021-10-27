@@ -7,6 +7,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.conquest.ConquestManager;
+import me.qiooip.lazarus.handlers.death.DeathMessageHandler;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.userdata.Userdata;
@@ -223,8 +224,6 @@ public class SkeletonCombatLogger_1_7 extends EntitySkeleton implements CombatLo
 
         if(damager instanceof EntityPlayer) {
             Player killer = ((EntityPlayer) damager).getBukkitEntity();
-
-            Lazarus.getInstance().getUserdataManager().getUserdata(killer).addKill();
             Lazarus.getInstance().getKillstreakHandler().checkKillerKillstreak(killer);
 
             PlayerFaction killerFaction = FactionsManager.getInstance().getPlayerFaction(killer);
@@ -233,9 +232,13 @@ public class SkeletonCombatLogger_1_7 extends EntitySkeleton implements CombatLo
                 killerFaction.incrementPoints(Config.FACTION_TOP_KILL);
             }
 
+            DeathMessageHandler deathMessageHandler = Lazarus.getInstance().getDeathMessageHandler();
+
             reason = Language.DEATHMESSAGE_REASON_COMBATLOGGER_KILLER
-                .replace("<player>", Lazarus.getInstance().getDeathMessageHandler().getPlayerName(this.player))
-                .replace("<killer>", Lazarus.getInstance().getDeathMessageHandler().getKillerName(killer));
+                .replace("<player>", deathMessageHandler.getPlayerName(this.player))
+                .replace("<killer>", deathMessageHandler.getKillerName(killer));
+
+            Lazarus.getInstance().getUserdataManager().getUserdata(killer).updateKillStats(reason);
         } else {
             reason = Language.DEATHMESSAGE_REASON_COMBATLOGGER.replace("<player>",
                 Lazarus.getInstance().getDeathMessageHandler().getPlayerName(this.player));
