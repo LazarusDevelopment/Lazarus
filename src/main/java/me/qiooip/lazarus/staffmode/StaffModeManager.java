@@ -276,8 +276,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
     @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        if(!this.isInStaffMode(player)) return;
+        if(!event.getInventory().getName().equals("Inventory preview")) return;
 
         event.setCancelled(true);
 
@@ -287,7 +286,7 @@ public class StaffModeManager implements Listener, ManagerEnabler {
         if(!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
         if(!item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Close Preview")) return;
 
-        Tasks.sync(player::closeInventory);
+        Tasks.sync(((Player) event.getWhoClicked())::closeInventory);
     }
 
     @EventHandler
@@ -355,8 +354,10 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if(this.isInStaffMode(event.getPlayer())) {
-            this.disableStaffMode(event.getPlayer(), false);
+        Player player = event.getPlayer();
+
+        if(this.isInStaffMode(player)) {
+            this.disableStaffMode(player, false);
         }
     }
 
