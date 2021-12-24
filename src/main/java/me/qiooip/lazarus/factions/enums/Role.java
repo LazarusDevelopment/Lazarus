@@ -18,11 +18,6 @@ public enum Role {
         return this.ordinal() >= role.ordinal();
     }
 
-    public static String getName(Role role) {
-        if(role == Role.CO_LEADER) return "CoLeader";
-        return StringUtils.capitalize(role.name().toLowerCase());
-    }
-
     public String getName() {
         if(this == Role.CO_LEADER) return "CoLeader";
         return StringUtils.capitalize(this.name().toLowerCase());

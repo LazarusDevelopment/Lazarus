@@ -30,7 +30,7 @@ public class UnfocusCommand extends BaseCommand {
         }
 
         if(!faction.getMember(player).getRole().isAtLeast(Role.CAPTAIN)) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.getName(Role.CAPTAIN)));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.CAPTAIN.getName()));
             return;
         }
 

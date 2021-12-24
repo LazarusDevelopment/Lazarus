@@ -29,7 +29,7 @@ public class UnclaimAllCommand extends SubCommand {
         }
 
         if(faction.getMember(player).getRole() != Role.LEADER) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.getName(Role.LEADER)));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.LEADER.getName()));
             return;
         }
 

@@ -63,7 +63,7 @@ public class PlayerFaction extends Faction {
     private transient Map<UUID, FactionPlayer> members;
     private transient int onlineMemberCount;
 
-    private transient List<String> playerInvitations;
+    private transient Set<String> playerInvitations;
     private transient List<UUID> allyInvitations;
 
     private transient UUID focusedPlayer;
@@ -76,7 +76,7 @@ public class PlayerFaction extends Faction {
 
     public PlayerFaction() {
         this.members = new HashMap<>();
-        this.playerInvitations = new ArrayList<>();
+        this.playerInvitations = new HashSet<>();
         this.allyInvitations = new ArrayList<>();
         this.focusing = new HashSet<>();
     }
@@ -85,7 +85,7 @@ public class PlayerFaction extends Faction {
         super(name);
 
         this.members = new HashMap<>();
-        this.playerInvitations = new ArrayList<>();
+        this.playerInvitations = new HashSet<>();
         this.allyInvitations = new ArrayList<>();
         this.focusing = new HashSet<>();
 

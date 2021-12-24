@@ -24,11 +24,10 @@ public class UninviteCommand extends SubCommand {
         }
 
         Player player = (Player) sender;
-
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
         if(!faction.getMember(player).getRole().isAtLeast(Role.CAPTAIN)) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.getName(Role.CAPTAIN)));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.CAPTAIN.getName()));
             return;
         }
 
@@ -44,7 +43,6 @@ public class UninviteCommand extends SubCommand {
         }
 
         faction.getPlayerInvitations().remove(args[0]);
-
         faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_UNINVITE_UNINVITED.replace("<player>", args[0]));
     }
 }

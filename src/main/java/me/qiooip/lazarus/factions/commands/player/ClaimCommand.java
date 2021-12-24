@@ -31,7 +31,7 @@ public class ClaimCommand extends SubCommand {
         }
 
         if(!faction.getMember(player).getRole().isAtLeast(Role.CO_LEADER)) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.getName(Role.CO_LEADER)));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.CO_LEADER.getName()));
             return;
         }
 
