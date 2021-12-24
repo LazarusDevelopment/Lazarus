@@ -29,7 +29,6 @@ public class LeaderCommand extends SubCommand {
         }
 
         Player player = (Player) sender;
-
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
         if(faction == null) {

@@ -26,6 +26,11 @@ public class UninviteCommand extends SubCommand {
         Player player = (Player) sender;
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
+        if(faction == null) {
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NOT_IN_FACTION_SELF);
+            return;
+        }
+
         if(!faction.getMember(player).getRole().isAtLeast(Role.CAPTAIN)) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.CAPTAIN.getName()));
             return;

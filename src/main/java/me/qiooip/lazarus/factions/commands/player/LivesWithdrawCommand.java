@@ -26,7 +26,6 @@ public class LivesWithdrawCommand extends SubCommand {
         }
 
         Player player = (Player) sender;
-
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
         if(faction == null) {

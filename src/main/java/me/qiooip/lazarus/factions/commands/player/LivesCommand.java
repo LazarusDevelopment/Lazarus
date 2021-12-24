@@ -19,7 +19,6 @@ public class LivesCommand extends SubCommand {
             if(!this.checkConsoleSender(sender)) return;
 
             Player player = (Player) sender;
-
             PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
             if(faction == null) {

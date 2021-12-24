@@ -26,6 +26,6 @@ public class BalanceCommand extends SubCommand {
         }
 
         player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_BALANCE_MESSAGE
-        .replace("<amount>", String.valueOf(faction.getBalance())));
+            .replace("<amount>", String.valueOf(faction.getBalance())));
     }
 }

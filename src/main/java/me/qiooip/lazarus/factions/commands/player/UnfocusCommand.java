@@ -17,7 +17,6 @@ public class UnfocusCommand extends SubCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
         if(faction == null) {
