@@ -4,7 +4,7 @@ import me.qiooip.lazarus.handlers.chat.ChatHandler;
 import me.quartz.hestia.HestiaAPI;
 import org.bukkit.entity.Player;
 
-public class Chat_Hestia extends ChatHandler {
+public class Chat_HestiaCore extends ChatHandler {
 
     @Override
     public String getRankName(Player player) {

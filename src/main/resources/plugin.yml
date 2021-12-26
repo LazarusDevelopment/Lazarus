@@ -13,7 +13,7 @@ softdepend:
 - CoreAPI
 - Core
 - GroupManager
-- Hestia
+- HestiaCore
 - LuckPerms
 - mCore
 - MizuAPI

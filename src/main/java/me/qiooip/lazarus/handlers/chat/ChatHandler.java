@@ -12,6 +12,7 @@ import me.qiooip.lazarus.integration.Chat_Basic;
 import me.qiooip.lazarus.integration.Chat_Chronium;
 import me.qiooip.lazarus.integration.Chat_Core;
 import me.qiooip.lazarus.integration.Chat_GroupManager;
+import me.qiooip.lazarus.integration.Chat_HestiaCore;
 import me.qiooip.lazarus.integration.Chat_LuckPerms;
 import me.qiooip.lazarus.integration.Chat_Mizu;
 import me.qiooip.lazarus.integration.Chat_NCore;
@@ -32,45 +33,50 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.PluginManager;
 
 public class ChatHandler extends Handler implements Listener {
 
     @Getter public static ChatHandler instance;
 
     public static void setup() {
-        if(Bukkit.getPluginManager().isPluginEnabled("AquaCore")) {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+
+        if(pluginManager.isPluginEnabled("AquaCore")) {
             instance = new Chat_AquaCore();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("AtomAPI")) {
+        } else if(pluginManager.isPluginEnabled("AtomAPI")) {
             instance = new Chat_Atom();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("Chronium")) {
+        } else if(pluginManager.isPluginEnabled("Chronium")) {
             instance = new Chat_Chronium();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("CoreAPI")) {
+        } else if(pluginManager.isPluginEnabled("CoreAPI")) {
             instance = new Chat_Basic();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("Core")) {
+        } else if(pluginManager.isPluginEnabled("Core")) {
             instance = new Chat_Core();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("GroupManager")) {
+        } else if(pluginManager.isPluginEnabled("GroupManager")) {
             instance = new Chat_GroupManager();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
+        } else if(pluginManager.isPluginEnabled("HestiaCore")) {
+            instance = new Chat_HestiaCore();
+        } else if(pluginManager.isPluginEnabled("LuckPerms")) {
             instance = new Chat_LuckPerms();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("mCore")) {
+        } else if(pluginManager.isPluginEnabled("mCore")) {
             instance = new Chat_mCore();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("MizuAPI")) {
+        } else if(pluginManager.isPluginEnabled("MizuAPI")) {
             instance = new Chat_Mizu();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("NCore")) {
+        } else if(pluginManager.isPluginEnabled("NCore")) {
             instance = new Chat_NCore();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("PermissionsEx")) {
+        } else if(pluginManager.isPluginEnabled("PermissionsEx")) {
             instance = new Chat_PermissionsEx();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("PowerfulPerms")) {
+        } else if(pluginManager.isPluginEnabled("PowerfulPerms")) {
             instance = new Chat_PowerfulPerms();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("Spark")) {
+        } else if(pluginManager.isPluginEnabled("Spark")) {
             instance = new Chat_Spark();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("UltraPermissions")) {
+        } else if(pluginManager.isPluginEnabled("UltraPermissions")) {
             instance = new Chat_UltraPermissions();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("Zoom")) {
+        } else if(pluginManager.isPluginEnabled("Zoom")) {
             instance = new Chat_Zoom();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("Zoot")) {
+        } else if(pluginManager.isPluginEnabled("Zoot")) {
             instance = new Chat_Zoot();
-        } else if(Bukkit.getPluginManager().isPluginEnabled("zPermissions")) {
+        } else if(pluginManager.isPluginEnabled("zPermissions")) {
             instance = new Chat_zPermissions();
         } else {
             instance = new ChatHandler();
