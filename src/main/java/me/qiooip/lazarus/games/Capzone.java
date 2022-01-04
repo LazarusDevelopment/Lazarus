@@ -48,6 +48,10 @@ public class Capzone {
         return this.players.get(0);
     }
 
+    public boolean isCapper(Player player) {
+        return this.getCapperName().equals(player.getName());
+    }
+
     public int decreaseTime() {
         return --this.time;
     }

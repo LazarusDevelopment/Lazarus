@@ -9,6 +9,8 @@ import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.games.Capzone;
 import me.qiooip.lazarus.games.Placeholder;
 import me.qiooip.lazarus.games.koth.event.KothCappedEvent;
+import me.qiooip.lazarus.games.koth.event.KothKnockedEvent;
+import me.qiooip.lazarus.games.koth.event.KothStartedCappingEvent;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
@@ -63,25 +65,41 @@ public class RunningKoth {
         });
     }
 
-    private void sendStartedCappingMessage(Player player) {
+    private void handlePlayerStartedCapping(Player player) {
         if(player == null) return;
 
         player.sendMessage(Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
-        .parse(this, Language.KOTH_YOU_STARTED_CAPPING));
+            .parse(this, Language.KOTH_YOU_STARTED_CAPPING));
 
         if((this.antiSpamDelay - System.currentTimeMillis()) <= 0) {
             Messages.sendMessageWithoutPlayer(player, Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
-            .parse(this, Language.KOTH_SOMEONE_STARTED_CAPPING));
+                .parse(this, Language.KOTH_SOMEONE_STARTED_CAPPING));
 
             this.antiSpamDelay = System.currentTimeMillis() + Config.KOTH_ANTI_SPAM_MESSAGE_DELAY;
         }
+
+        new KothStartedCappingEvent(this, player);
+    }
+
+    private void handlePlayerKnocked(Player player) {
+        this.capzone.setTime(this.initialCapTime);
+        this.capperChange = System.currentTimeMillis();
+
+        if((this.antiSpamDelay - System.currentTimeMillis()) <= 0) {
+            Messages.sendMessage(Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
+                .parse(this, Language.KOTH_KNOCKED));
+
+            this.antiSpamDelay = System.currentTimeMillis() + Config.KOTH_ANTI_SPAM_MESSAGE_DELAY;
+        }
+
+        new KothKnockedEvent(this, player);
     }
 
     void onPlayerEnterCapzone(Player player) {
         if(Lazarus.getInstance().getStaffModeManager().isInStaffModeOrVanished(player)) return;
 
         if(this.capzone.hasNoPlayers()) {
-            this.sendStartedCappingMessage(player);
+            this.handlePlayerStartedCapping(player);
         }
 
         this.capzone.addPlayer(player);
@@ -90,19 +108,11 @@ public class RunningKoth {
     void onPlayerLeaveCapzone(Player player) {
         if(!this.capzone.getPlayers().contains(player.getName())) return;
 
-        if(this.capzone.getCapperName().equals(player.getName())) {
-            this.capzone.setTime(this.initialCapTime);
-            this.capperChange = System.currentTimeMillis();
-
-            if((this.antiSpamDelay - System.currentTimeMillis()) <= 0) {
-                Messages.sendMessage(Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
-                .parse(this, Language.KOTH_KNOCKED));
-
-                this.antiSpamDelay = System.currentTimeMillis() + Config.KOTH_ANTI_SPAM_MESSAGE_DELAY;
-            }
+        if(this.capzone.isCapper(player)) {
+            this.handlePlayerKnocked(player);
 
             if(this.capzone.getPlayers().size() > 1) {
-                this.sendStartedCappingMessage(this.capzone.getNextCapper());
+                this.handlePlayerStartedCapping(this.capzone.getNextCapper());
             }
         }
 
@@ -115,8 +125,8 @@ public class RunningKoth {
             int nobodyCappingInterval = Config.KOTH_NOBODY_CAPPING_MESSAGE_INTERVAL;
 
             if(nobodyCappingInterval != 0 && timePassed > 0 && timePassed % nobodyCappingInterval == 0) {
-                Messages.sendMessage(Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
-                .parse(this, Language.KOTH_NO_ONE_CAPPING));
+                Messages.sendMessage(Language.KOTH_PREFIX + Placeholder
+                    .RunningKothReplacer.parse(this, Language.KOTH_NO_ONE_CAPPING));
             }
 
             return;
@@ -132,11 +142,11 @@ public class RunningKoth {
         if(cappingInterval != 0 && this.capzone.getTime() % cappingInterval == 0) {
             Player capper = this.capzone.getCapper();
 
-            capper.sendMessage(Language.KOTH_PREFIX + Placeholder.RunningKothReplacer
-            .parse(this, Language.KOTH_YOU_ARE_CAPPING));
+            capper.sendMessage(Language.KOTH_PREFIX + Placeholder
+                .RunningKothReplacer.parse(this, Language.KOTH_YOU_ARE_CAPPING));
 
             Messages.sendMessageWithoutPlayer(capper, Language.KOTH_PREFIX + Placeholder
-            .RunningKothReplacer.parse(this, Language.KOTH_SOMEONE_IS_CAPPING));
+                .RunningKothReplacer.parse(this, Language.KOTH_SOMEONE_IS_CAPPING));
         }
     }
 

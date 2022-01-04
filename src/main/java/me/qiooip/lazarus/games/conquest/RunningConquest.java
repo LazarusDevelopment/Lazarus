@@ -123,7 +123,7 @@ public class RunningConquest extends BukkitRunnable {
         Capzone capzone = this.capzones.get(type);
         if(!capzone.getPlayers().contains(player.getName())) return;
 
-        if(capzone.getCapperName().equals(player.getName())) {
+        if(capzone.isCapper(player)) {
             capzone.setTime(Config.CONQUEST_CAP_TIME);
 
             player.sendMessage(Language.CONQUEST_PREFIX + Language.CONQUEST_STOPPED_CAPPING
