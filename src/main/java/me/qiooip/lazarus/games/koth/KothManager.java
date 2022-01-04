@@ -9,9 +9,7 @@ import me.qiooip.lazarus.factions.type.SystemFaction;
 import me.qiooip.lazarus.factions.type.SystemType;
 import me.qiooip.lazarus.games.Cuboid;
 import me.qiooip.lazarus.games.Placeholder;
-import me.qiooip.lazarus.games.koth.event.KothKnockedEvent;
 import me.qiooip.lazarus.games.koth.event.KothStartEvent;
-import me.qiooip.lazarus.games.koth.event.KothStartedCappingEvent;
 import me.qiooip.lazarus.games.koth.event.KothStopEvent;
 import me.qiooip.lazarus.games.koth.listener.KothEventListeners;
 import me.qiooip.lazarus.games.loot.LootData;
@@ -265,17 +263,5 @@ public class KothManager implements Listener, ManagerEnabler {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         this.togglePlayerCapzone(event.getPlayer(), false);
-    }
-
-    @EventHandler
-    public void a(KothKnockedEvent event) {
-        Messages.sendMessage("Koth: " + event.getKoth().getKothData().getName());
-        Messages.sendMessage("Knocked: " + event.getKnocked().getName());
-    }
-
-    @EventHandler
-    public void b(KothStartedCappingEvent event) {
-        Messages.sendMessage("Koth: " + event.getKoth().getKothData().getName());
-        Messages.sendMessage("Player: " + event.getNewCapper().getName());
     }
 }
