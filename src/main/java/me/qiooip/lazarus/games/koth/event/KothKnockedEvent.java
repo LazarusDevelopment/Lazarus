@@ -14,10 +14,12 @@ public class KothKnockedEvent extends Event {
 
     private final RunningKoth koth;
     private final Player knocked;
+    private final long capTimeMillis;
 
-    public KothKnockedEvent(RunningKoth koth, Player knocked) {
+    public KothKnockedEvent(RunningKoth koth, Player knocked, long capTimeMillis) {
         this.koth = koth;
         this.knocked = knocked;
+        this.capTimeMillis = capTimeMillis;
 
         Bukkit.getPluginManager().callEvent(this);
     }

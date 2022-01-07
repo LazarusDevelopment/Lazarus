@@ -83,6 +83,8 @@ public class RunningKoth {
 
     private void handlePlayerKnocked(Player player) {
         this.capzone.setTime(this.initialCapTime);
+
+        long capTimeMillis = System.currentTimeMillis() - this.capperChange;
         this.capperChange = System.currentTimeMillis();
 
         if((this.antiSpamDelay - System.currentTimeMillis()) <= 0) {
@@ -92,7 +94,7 @@ public class RunningKoth {
             this.antiSpamDelay = System.currentTimeMillis() + Config.KOTH_ANTI_SPAM_MESSAGE_DELAY;
         }
 
-        new KothKnockedEvent(this, player);
+        new KothKnockedEvent(this, player, capTimeMillis);
     }
 
     void onPlayerEnterCapzone(Player player) {
