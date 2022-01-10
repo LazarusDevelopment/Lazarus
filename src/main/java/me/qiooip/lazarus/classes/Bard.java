@@ -43,6 +43,7 @@ public class Bard extends PvpClass {
     private final List<BardHoldableItem> holdables;
 
     private final Map<UUID, Long> messageDelays;
+    private final Map<UUID, Long> holdableItemCooldown;
     private final BardHoldableTask holdableTask;
 
     public Bard(PvpClassManager manager) {
@@ -59,6 +60,7 @@ public class Bard extends PvpClass {
         this.holdables = PvpClassUtils.loadBardHoldableItems();
 
         this.messageDelays = new HashMap<>();
+        this.holdableItemCooldown = new HashMap<>();
         this.holdableTask = new BardHoldableTask();
     }
 
@@ -70,6 +72,8 @@ public class Bard extends PvpClass {
         this.clickables.clear();
         this.holdables.clear();
 
+        this.messageDelays.clear();
+        this.holdableItemCooldown.clear();
         this.holdableTask.cancel();
     }
 
@@ -215,16 +219,28 @@ public class Bard extends PvpClass {
         this.messageDelays.remove(player.getUniqueId());
     }
 
+    private boolean isOnHoldableItemCooldown(Player player) {
+        Long cooldown = this.holdableItemCooldown.get(player.getUniqueId());
+        return cooldown != null && cooldown > System.currentTimeMillis();
+    }
+
+    private void applyHoldableItemCooldown(Player player) {
+        this.holdableItemCooldown.put(player.getUniqueId(), System.currentTimeMillis() + 1000L);
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
-        if(!this.isActive(player)) return;
+        if(!this.isActive(player) || !this.canBard(player, true)) return;
+        if(this.isOnHoldableItemCooldown(player)) return;
 
         BardHoldableItem holdableItem = this.getHoldableItem(player.getItemInHand());
-        if(holdableItem == null || !this.canBard(player, true)) return;
+        if(holdableItem == null) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
+
         this.applyHoldableEffect(player, faction, holdableItem);
+        this.applyHoldableItemCooldown(player);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -235,9 +251,10 @@ public class Bard extends PvpClass {
         if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = event.getPlayer();
+        if(!this.canBard(player, false)) return;
 
         BardClickableItem clickableItem = this.getClickableItem(event.getItem());
-        if(clickableItem == null || !this.canBard(player, false)) return;
+        if(clickableItem == null) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
@@ -281,10 +298,10 @@ public class Bard extends PvpClass {
         public void run() {
             getPlayers().forEach(uuid -> {
                 Player player = Bukkit.getPlayer(uuid);
-                if(player == null) return;
+                if(player == null || !canBard(player, true)) return;
 
                 BardHoldableItem holdableItem = getHoldableItem(player.getItemInHand());
-                if(holdableItem == null || !canBard(player, true)) return;
+                if(holdableItem == null) return;
 
                 PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
                 applyHoldableEffect(player, faction, holdableItem);
