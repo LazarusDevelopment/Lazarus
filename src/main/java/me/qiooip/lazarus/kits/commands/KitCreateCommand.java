@@ -19,7 +19,7 @@ public class KitCreateCommand extends SubCommand {
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 		
-		if(args.length < 2) {
+		if(args.length < 3) {
             player.sendMessage(Language.KIT_PREFIX + Language.KITS_CREATE_USAGE);
 		    return;
 		}

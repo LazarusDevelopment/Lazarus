@@ -1785,7 +1785,7 @@ KITS:
     FULL_INVENTORY: "&eYour &cinventory &eis full. Dropping some items on the &cfloor&e!"
     KITMAP_ONLY_IN_SAFEZONE: "&eThis kit is only obtainable in &6Safezones&e."
   CREATE_COMMAND:
-    USAGE: "&cUsage: /kit create <name> <delay>"
+    USAGE: "&cUsage: /kit create <name> <type> <delay>"
     CREATED: "&eKit &c<kit> &ehas been created."
     INVALID_KIT_TYPE: "&eKit type '&c<type>&e' is not valid."
   EDIT_COMMAND:
