@@ -108,7 +108,6 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
-
         player.setGameMode(GameMode.CREATIVE);
 
         boolean vanished = Lazarus.getInstance().getVanishManager().isVanished(player);

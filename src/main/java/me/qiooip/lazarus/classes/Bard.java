@@ -54,6 +54,7 @@ public class Bard extends PvpClass {
             Material.GOLD_BOOTS
         );
 
+        this.warmup = Config.BARD_WARMUP;
         this.bardPowers = new HashMap<>();
 
         this.clickables = PvpClassUtils.loadBardClickableItems();
@@ -259,9 +260,9 @@ public class Bard extends PvpClass {
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
-        if(timer.isActive(player, "BARDBUFF")) {
+        if(timer.isActive(player, "BARD_BUFF")) {
             player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_ACTIVE_COOLDOWN
-            .replace("<seconds>", timer.getTimeLeft(player, "BARDBUFF")));
+            .replace("<seconds>", timer.getTimeLeft(player, "BARD_BUFF")));
             return;
         }
 
@@ -282,7 +283,7 @@ public class Bard extends PvpClass {
         this.modifyPower(player, clickableItem.getEnergyNeeded());
         ItemUtils.removeOneItem(player);
 
-        timer.activate(player, "BARDBUFF", clickableItem.getCooldown(),
+        timer.activate(player, "BARD_BUFF", clickableItem.getCooldown(),
             Language.PREFIX + Language.BARD_CLICKABLE_COOLDOWN_EXPIRED);
 
         this.applyClickableEffect(player, faction, clickableItem);

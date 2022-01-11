@@ -51,7 +51,11 @@ public class Rogue extends PvpClass implements Listener {
         this.clickables = PvpClassUtils.loadClickableItems(this);
         this.backstabEffects = this.loadBackstabEffects();
 
-        if(Config.ROGUE_CHAIN_ARMOR_RECIPE_ENABLED) this.createArmorRecipe();
+        this.warmup = Config.ROGUE_WARMUP;
+
+        if(Config.ROGUE_CHAIN_ARMOR_RECIPE_ENABLED) {
+            this.createArmorRecipe();
+        }
     }
 
     @Override

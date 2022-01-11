@@ -371,6 +371,18 @@ ROGUE_CLASS:
   BACKSTAB_COOLDOWN: "&eYou cannot &6backstab &efor &c<seconds> &emore seconds."
   BACKSTAB_COOLDOWN_EXPIRED: "&eYour &cbackstab &ecooldown has expired."
 
+MAGE_CLASS:
+  VANISHED_OR_IN_STAFFMODE: "&cYou cannot use &4mage effects &cwhile &6vanished &cor in &6staffmode&c!"
+  CAN_NOT_USE_MAGE_WITH_PVP_TIMER: "&cYou cannot use &4mage effects &cwhile your &6pvp timer &cis active!"
+  CAN_NOT_USE_MAGE_IN_SAFEZONE: "&cYou cannot use &4mage effects &cwhilst in &6safezone&c!"
+  CAN_NOT_USE_MAGE_WHEN_SOTW_NOT_ENABLED: "&cYou cannot use &4mage effects &cwhile your &6sotw protection &cis active!"
+  CLICKABLE_ITEM:
+    ACTIVE_COOLDOWN: "&cYou are on cooldown for &6<seconds> &cmore seconds!"
+    COOLDOWN_EXPIRED: "&cYour &4mage buff &ccooldown has expired."
+    NOT_ENOUGH_ENERGY: "&cThis effect requires &6<energy> &cenergy but you only have &6<currentEnergy>&c!"
+    MESSAGE_ENEMY: "&cYou have given <effect> &cto &6<amount> &cenemies."
+    MESSAGE_OTHERS: "&cYou have been given <effect>&c."
+
 SPAWNERS:
   DISABLE_PLACE:
     NETHER: "&cSpawner &eplacing is disabled in &cnether&e!"

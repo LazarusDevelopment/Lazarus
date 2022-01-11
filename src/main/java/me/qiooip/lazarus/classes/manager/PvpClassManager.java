@@ -5,6 +5,8 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.Archer;
 import me.qiooip.lazarus.classes.Bard;
 import me.qiooip.lazarus.classes.Bard.BardPower;
+import me.qiooip.lazarus.classes.Mage;
+import me.qiooip.lazarus.classes.Mage.MagePower;
 import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.Rogue;
 import me.qiooip.lazarus.classes.event.PvpClassEquipEvent;
@@ -53,6 +55,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(Config.BARD_ACTIVATED) this.registerPvpClass(PvpClassType.BARD.getName(), new Bard(this));
         if(Config.MINER_ACTIVATED) this.registerPvpClass(PvpClassType.MINER.getName(), new Miner(this));
         if(Config.ROGUE_ACTIVATED) this.registerPvpClass(PvpClassType.ROGUE.getName(), new Rogue(this));
+        if(Config.MAGE_ACTIVATED) this.registerPvpClass(PvpClassType.MAGE.getName(), new Mage(this));
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             this.removeInfiniteEffects(player);
@@ -135,6 +138,10 @@ public class PvpClassManager implements Listener, ManagerEnabler {
             ((Bard) event.getPvpClass()).getBardPowers().put(event.getPlayer(), new BardPower());
         }
 
+        if(event.getPvpClass() instanceof Mage) {
+            ((Mage) event.getPvpClass()).getMagePowers().put(event.getPlayer(), new MagePower());
+        }
+
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(event.getPlayer());
         if(faction == null) return;
 
@@ -157,6 +164,10 @@ public class PvpClassManager implements Listener, ManagerEnabler {
     public void onPvpClassUnequip(PvpClassUnequipEvent event) {
         if(event.getPvpClass() instanceof Bard) {
             ((Bard) event.getPvpClass()).getBardPowers().remove(event.getPlayer());
+        }
+
+        if(event.getPvpClass() instanceof Mage) {
+            ((Mage) event.getPvpClass()).getMagePowers().remove(event.getPlayer());
         }
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(event.getPlayer());

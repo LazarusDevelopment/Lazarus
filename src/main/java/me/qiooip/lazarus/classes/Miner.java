@@ -41,6 +41,8 @@ public class Miner extends PvpClass {
             Material.IRON_BOOTS
         );
 
+        this.warmup = Config.MINER_WARMUP;
+
         this.diamondData = new HashMap<>();
         this.loadDiamondData();
     }

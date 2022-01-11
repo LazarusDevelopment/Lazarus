@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.classes.manager;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.event.PvpClassEquipEvent;
@@ -44,8 +45,9 @@ public abstract class PvpClass implements Listener {
 
     private final Set<UUID> players;
     private final List<PotionEffect> effects;
-
     private final Map<UUID, Integer> factionLimit;
+
+    @Setter protected int warmup;
 
     protected PvpClass(PvpClassManager manager, String name, Material helmet, Material chestplate, Material leggings, Material boots) {
         this.manager = manager;
@@ -157,14 +159,12 @@ public abstract class PvpClass implements Listener {
         if(this.isWearingFull(player)) {
             if(this.isWarmupOrActive(player)) return;
 
-            if(PvpClassUtils.getWarmup(this.name) <= 0) {
+            if(this.warmup <= 0) {
                 this.activateClass(player.getUniqueId());
                 return;
             }
 
-            int warmup = PvpClassUtils.getWarmup(this.name);
-            TimerManager.getInstance().getPvpClassWarmupTimer().activate(player, warmup, this);
-
+            TimerManager.getInstance().getPvpClassWarmupTimer().activate(player, this.warmup, this);
             player.sendMessage(Language.PVP_CLASSES_WARMING_UP.replace("<name>", this.getDisplayName()));
             return;
         }

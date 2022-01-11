@@ -254,3 +254,78 @@ ROGUE_CLASS:
       COOLDOWN: 60
       DURATION: 10
       LEVEL: 4
+
+#=========================================================#
+#                     Mage configuration                  #
+#=========================================================#
+
+MAGE_CLASS:
+  # Should mage class be enabled?
+  ENABLED: true
+  # Mage warmup time in seconds
+  WARMUP: 10
+  # Maximum mage energy level
+  MAX_ENERGY: 120
+  # Should we apply combat tag to mage after clickable effect is given?
+  COMBAT_TAG_ON_CLICKABLE_ITEM: true
+  # Effects applied to mage by default
+  PASSIVE_EFFECTS:
+    SPEED: 2
+    REGENERATION: 1
+    DAMAGE_RESISTANCE: 2
+  # Mage clickable potion effects represented by potion effect
+  CLICKABLE_ITEMS:
+    POISON:
+      MATERIAL_ID: "351:2"
+      ENERGY_NEEDED: 45
+      DISTANCE: 25
+      COOLDOWN: 10
+      APPLY_TO_HIMSELF: false
+      DURATION: 5
+      LEVEL: 1
+      CHAT_COLOR: "&4"
+    WITHER:
+      MATERIAL_ID: "375:0"
+      ENERGY_NEEDED: 35
+      DISTANCE: 25
+      COOLDOWN: 10
+      APPLY_TO_HIMSELF: false
+      DURATION: 5
+      LEVEL: 2
+      CHAT_COLOR: "&4"
+    SLOW:
+      MATERIAL_ID: "371:0"
+      ENERGY_NEEDED: 35
+      DISTANCE: 25
+      COOLDOWN: 10
+      APPLY_TO_HIMSELF: false
+      DURATION: 5
+      LEVEL: 2
+      CHAT_COLOR: "&4"
+    CONFUSION:
+      MATERIAL_ID: "295:0"
+      ENERGY_NEEDED: 40
+      DISTANCE: 25
+      COOLDOWN: 10
+      APPLY_TO_HIMSELF: false
+      DURATION: 5
+      LEVEL: 2
+      CHAT_COLOR: "&4"
+    WEAKNESS:
+      MATERIAL_ID: "263:0"
+      ENERGY_NEEDED: 30
+      DISTANCE: 25
+      COOLDOWN: 10
+      APPLY_TO_HIMSELF: false
+      DURATION: 20
+      LEVEL: 2
+      CHAT_COLOR: "&4"
+    HUNGER:
+      MATERIAL_ID: "367:0"
+      ENERGY_NEEDED: 25
+      DISTANCE: 25
+      COOLDOWN: 10
+      APPLY_TO_HIMSELF: false
+      DURATION: 5
+      LEVEL: 2
+      CHAT_COLOR: "&4"

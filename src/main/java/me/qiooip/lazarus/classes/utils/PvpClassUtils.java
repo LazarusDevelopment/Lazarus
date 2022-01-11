@@ -4,8 +4,8 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.items.BardClickableItem;
 import me.qiooip.lazarus.classes.items.BardHoldableItem;
 import me.qiooip.lazarus.classes.items.ClickableItem;
+import me.qiooip.lazarus.classes.items.MageClickableItem;
 import me.qiooip.lazarus.classes.manager.PvpClass;
-import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import org.bukkit.configuration.ConfigurationSection;
@@ -57,6 +57,35 @@ public class PvpClassUtils {
         });
 
         return clickables;
+    }
+
+    public static List<MageClickableItem> loadMageClickableItems() {
+        List<MageClickableItem> bardItems = new ArrayList<>();
+
+        String sectionName = "MAGE_CLASS.CLICKABLE_ITEMS";
+        ConfigurationSection potionSection = Lazarus.getInstance().getClassesFile().getSection(sectionName);
+
+        potionSection.getKeys(false).forEach(potion -> {
+
+            MageClickableItem mageItem = new MageClickableItem();
+
+            ItemStack itemStack = ItemUtils.parseItem(potionSection.getString(potion + ".MATERIAL_ID"));
+            if(itemStack == null) return;
+
+            mageItem.setCooldown(0);
+            mageItem.setItem(itemStack);
+            mageItem.setDistance(potionSection.getInt(potion + ".DISTANCE"));
+            mageItem.setCooldown(potionSection.getInt(potion + ".COOLDOWN"));
+            mageItem.setApplyToHimself(potionSection.getBoolean(potion + ".APPLY_TO_HIMSELF"));
+            mageItem.setEnergyNeeded(potionSection.getInt(potion + ".ENERGY_NEEDED"));
+            mageItem.setChatColor(Color.translate(potionSection.getString(potion + ".CHAT_COLOR", "&b")));
+            mageItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
+                .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+
+            bardItems.add(mageItem);
+        });
+
+        return bardItems;
     }
 
     public static List<BardClickableItem> loadBardClickableItems() {
@@ -113,15 +142,5 @@ public class PvpClassUtils {
         });
 
         return bardItems;
-    }
-
-    public static int getWarmup(String name) {
-        switch(name) {
-            case "Archer": return Config.ARCHER_WARMUP;
-            case "Bard": return Config.BARD_WARMUP;
-            case "Miner": return Config.MINER_WARMUP;
-            case "Rogue": return Config.ROGUE_WARMUP;
-            default: return 0;
-        }
     }
 }

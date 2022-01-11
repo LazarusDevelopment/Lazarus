@@ -39,6 +39,7 @@ public class Archer extends PvpClass implements Listener {
             Material.LEATHER_BOOTS
         );
 
+        this.warmup = Config.ARCHER_WARMUP;
         this.clickables = PvpClassUtils.loadClickableItems(this);
     }
 

@@ -2,6 +2,7 @@ package me.qiooip.lazarus.scoreboard.task;
 
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.Bard;
+import me.qiooip.lazarus.classes.Mage;
 import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
@@ -304,12 +305,21 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
 
                     CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
-                    if(timer.isActive(player, "BARDBUFF")) {
-                        scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARDBUFF") + 's');
+                    if(timer.isActive(player, "BARD_BUFF")) {
+                        scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARD_BUFF") + 's');
+                    }
+                } else if(pvpClass instanceof Mage) {
+                    Mage mage = (Mage) pvpClass;
+                    scoreboard.add(Config.MAGE_ENERGY_PLACEHOLDER, mage.getMagePower(player.getUniqueId()));
+
+                    CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
+
+                    if(timer.isActive(player, "MAGE_BUFF")) {
+                        scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "MAGE_BUFF") + 's');
                     }
                 } else if(pvpClass instanceof Miner && !Config.KITMAP_MODE_ENABLED) {
                     scoreboard.add(Config.MINER_DIAMOND_COUNT_PLACEHOLDER,
-                    player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + "");
+                        player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + "");
                 }
             }
         }

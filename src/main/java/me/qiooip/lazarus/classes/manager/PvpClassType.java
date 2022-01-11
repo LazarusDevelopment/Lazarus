@@ -10,7 +10,8 @@ public enum PvpClassType {
     ARCHER("Archer"),
     BARD("Bard"),
     MINER("Miner"),
-    ROGUE("Rogue");
+    ROGUE("Rogue"),
+    MAGE("Mage");
 
     private final String name;
 }

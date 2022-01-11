@@ -375,11 +375,13 @@ public class Config {
     public static boolean BARD_ACTIVATED;
     public static boolean MINER_ACTIVATED;
     public static boolean ROGUE_ACTIVATED;
+    public static boolean MAGE_ACTIVATED;
 
     public static int ARCHER_WARMUP;
     public static int BARD_WARMUP;
     public static int MINER_WARMUP;
     public static int ROGUE_WARMUP;
+    public static int MAGE_WARMUP;
 
     public static boolean ARCHER_TAG_CAN_TAG_OTHER_ARCHERS;
     public static int ARCHER_TAG_DURATION;
@@ -394,6 +396,9 @@ public class Config {
     public static int ROGUE_BACKSTAB_DAMAGE;
     public static int ROGUE_BACKSTAB_COOLDOWN;
     public static boolean ROGUE_BACKSTAB_EFFECTS_ENABLED;
+
+    public static int MAGE_MAX_ENERGY;
+    public static boolean MAGE_COMBAT_TAG_ON_CLICKABLE_ITEM;
 
     public static Map<Environment, Boolean> ABILITIES_DENY_USAGE_WORLD;
     public static Map<Environment, Boolean> ABILITIES_DENY_USAGE_DISTANCE_ENABLED;
@@ -434,6 +439,7 @@ public class Config {
     public static String PVPCLASS_ACTIVE_PLACEHOLDER;
     public static String ARCHER_TAG_PLACEHOLDER;
     public static String BARD_ENERGY_PLACEHOLDER;
+    public static String MAGE_ENERGY_PLACEHOLDER;
     public static String SALE_PLACEHOLDER;
     public static String KEYSALE_PLACEHOLDER;
     public static String COOLDOWN_PLACEHOLDER;
@@ -890,11 +896,13 @@ public class Config {
         BARD_ACTIVATED = classes.getBoolean("BARD_CLASS.ENABLED");
         MINER_ACTIVATED = classes.getBoolean("MINER_CLASS.ENABLED");
         ROGUE_ACTIVATED = classes.getBoolean("ROGUE_CLASS.ENABLED");
+        MAGE_ACTIVATED = classes.getBoolean("MAGE_CLASS.ENABLED");
 
         ARCHER_WARMUP = classes.getInt("ARCHER_CLASS.WARMUP");
         BARD_WARMUP = classes.getInt("BARD_CLASS.WARMUP");
         MINER_WARMUP = classes.getInt("MINER_CLASS.WARMUP");
         ROGUE_WARMUP = classes.getInt("ROGUE_CLASS.WARMUP");
+        MAGE_WARMUP = classes.getInt("MAGE_CLASS.WARMUP");
 
         ARCHER_TAG_CAN_TAG_OTHER_ARCHERS = classes.getBoolean("ARCHER_CLASS.ARCHER_TAG.CAN_TAG_OTHER_ARCHERS");
         ARCHER_TAG_DURATION = classes.getInt("ARCHER_CLASS.ARCHER_TAG.DURATION");
@@ -909,6 +917,9 @@ public class Config {
         ROGUE_BACKSTAB_DAMAGE = classes.getInt("ROGUE_CLASS.BACKSTAB.DAMAGE");
         ROGUE_BACKSTAB_COOLDOWN = classes.getInt("ROGUE_CLASS.BACKSTAB.COOLDOWN");
         ROGUE_BACKSTAB_EFFECTS_ENABLED = classes.getBoolean("ROGUE_CLASS.BACKSTAB.EFFECTS_ENABLED");
+
+        MAGE_MAX_ENERGY = classes.getInt("MAGE_CLASS.MAX_ENERGY") * 1000;
+        MAGE_COMBAT_TAG_ON_CLICKABLE_ITEM = classes.getBoolean("MAGE_CLASS.COMBAT_TAG_ON_CLICKABLE_ITEM");
 
         ABILITIES_DENY_USAGE_WORLD = new EnumMap<>(Environment.class);
         ABILITIES_DENY_USAGE_WORLD.put(Environment.NORMAL, abilitiesFile.getBoolean("DENY_USAGE.OVERWORLD"));
@@ -960,6 +971,7 @@ public class Config {
         PVPCLASS_ACTIVE_PLACEHOLDER = scoreboard.getString("PVPCLASS_ACTIVE_PLACEHOLDER");
         ARCHER_TAG_PLACEHOLDER = scoreboard.getString("ARCHER_TAG_PLACEHOLDER");
         BARD_ENERGY_PLACEHOLDER = scoreboard.getString("BARD_ENERGY_PLACEHOLDER");
+        MAGE_ENERGY_PLACEHOLDER = scoreboard.getString("MAGE_ENERGY_PLACEHOLDER");
         SALE_PLACEHOLDER = scoreboard.getString("SALE_PLACEHOLDER");
         KEYSALE_PLACEHOLDER = scoreboard.getString("KEYSALE_PLACEHOLDER");
         COOLDOWN_PLACEHOLDER = scoreboard.getString("COOLDOWN_PLACEHOLDER");
