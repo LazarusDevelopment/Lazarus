@@ -762,6 +762,11 @@ KITS:
       - "&7&lKit"
       - "&c&lRogue"
       - ""
+    MAGE:
+      - ""
+      - "&7&lKit"
+      - "&d&lMage"
+      - ""
 
 #=========================================================#
 #             Inventory restore configuration             #
@@ -916,6 +921,17 @@ PLAYER_SETTINGS:
       - ""
       - "&7Scoreboard enabled"
       - "&6\u25CF &cScoreboard disabled"
+
+#=========================================================#
+#                Custom recipe configuration              #
+#=========================================================#
+
+# Chain armor recipe
+CHAIN_ARMOR_RECIPE:
+  # Should we enable custom chain armor recipe?
+  ENABLED: true
+  # What material should we use for custom chain armor recipe?
+  MATERIAL: "IRON_FENCE"
 
 #=========================================================#
 #                  Handlers configuration                 #

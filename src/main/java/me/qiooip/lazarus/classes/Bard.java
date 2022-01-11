@@ -232,11 +232,10 @@ public class Bard extends PvpClass {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
-        if(!this.isActive(player) || !this.canBard(player, true)) return;
-        if(this.isOnHoldableItemCooldown(player)) return;
+        if(!this.isActive(player) || this.isOnHoldableItemCooldown(player)) return;
 
         BardHoldableItem holdableItem = this.getHoldableItem(player.getItemInHand());
-        if(holdableItem == null) return;
+        if(holdableItem == null || !this.canBard(player, true)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
 
@@ -252,10 +251,9 @@ public class Bard extends PvpClass {
         if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = event.getPlayer();
-        if(!this.canBard(player, false)) return;
 
         BardClickableItem clickableItem = this.getClickableItem(event.getItem());
-        if(clickableItem == null) return;
+        if(clickableItem == null || !this.canBard(player, false)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
@@ -299,10 +297,10 @@ public class Bard extends PvpClass {
         public void run() {
             getPlayers().forEach(uuid -> {
                 Player player = Bukkit.getPlayer(uuid);
-                if(player == null || !canBard(player, true)) return;
+                if(player == null) return;
 
                 BardHoldableItem holdableItem = getHoldableItem(player.getItemInHand());
-                if(holdableItem == null) return;
+                if(holdableItem == null || !canBard(player, true)) return;
 
                 PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
                 applyHoldableEffect(player, faction, holdableItem);

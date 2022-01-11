@@ -12,7 +12,6 @@ import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
@@ -27,7 +26,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -48,14 +46,10 @@ public class Rogue extends PvpClass implements Listener {
             Material.CHAINMAIL_BOOTS
         );
 
-        this.clickables = PvpClassUtils.loadClickableItems(this);
-        this.backstabEffects = this.loadBackstabEffects();
-
         this.warmup = Config.ROGUE_WARMUP;
 
-        if(Config.ROGUE_CHAIN_ARMOR_RECIPE_ENABLED) {
-            this.createArmorRecipe();
-        }
+        this.clickables = PvpClassUtils.loadClickableItems(this);
+        this.backstabEffects = this.loadBackstabEffects();
     }
 
     @Override
@@ -81,28 +75,6 @@ public class Rogue extends PvpClass implements Listener {
         });
 
         return effects;
-    }
-
-    private void createArmorRecipe() {
-        ShapedRecipe helmet = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_HELMET, 1));
-        helmet.shape("AAA", "A A", "   ");
-        helmet.setIngredient('A', Config.ROGUE_CHAIN_ARMOR_RECIPE_MATERIAL);
-        Bukkit.addRecipe(helmet);
-
-        ShapedRecipe chestplate = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1));
-        chestplate.shape("A A", "AAA", "AAA");
-        chestplate.setIngredient('A', Config.ROGUE_CHAIN_ARMOR_RECIPE_MATERIAL);
-        Bukkit.addRecipe(chestplate);
-
-        ShapedRecipe leggings = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_LEGGINGS, 1));
-        leggings.shape("AAA", "A A", "A A");
-        leggings.setIngredient('A', Config.ROGUE_CHAIN_ARMOR_RECIPE_MATERIAL);
-        Bukkit.addRecipe(leggings);
-
-        ShapedRecipe boots = new ShapedRecipe(new ItemStack(Material.CHAINMAIL_BOOTS, 1));
-        boots.shape("   ", "A A", "A A");
-        boots.setIngredient('A', Config.ROGUE_CHAIN_ARMOR_RECIPE_MATERIAL);
-        Bukkit.addRecipe(boots);
     }
 
     private ClickableItem getClickableItem(ItemStack item) {

@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.handlers.BorderHandler;
 import me.qiooip.lazarus.handlers.BottleHandler;
+import me.qiooip.lazarus.handlers.CustomRecipeHandler;
 import me.qiooip.lazarus.handlers.DisenchantHandler;
 import me.qiooip.lazarus.handlers.DynamicEventHandler;
 import me.qiooip.lazarus.handlers.ExpAmplifierHandler;
@@ -79,6 +80,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new CombatLoggerHandler());
         this.handlers.add(new CombatTagHandler());
         this.handlers.add(new CrowbarHandler());
+        this.handlers.add(new CustomRecipeHandler());
         this.handlers.add(new DeathMessageHandler());
         this.handlers.add(new DeathSignHandler());
         this.handlers.add(new DisabledBlocksHandler());

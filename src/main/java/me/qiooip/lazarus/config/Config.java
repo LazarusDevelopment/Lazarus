@@ -371,6 +371,9 @@ public class Config {
 
     public static boolean VANISH_ON_JOIN_ENABLED;
 
+    public static boolean CHAIN_ARMOR_RECIPE_ENABLED;
+    public static Material CHAIN_ARMOR_RECIPE_MATERIAL;
+
     public static boolean ARCHER_ACTIVATED;
     public static boolean BARD_ACTIVATED;
     public static boolean MINER_ACTIVATED;
@@ -390,8 +393,6 @@ public class Config {
     public static int BARD_MAX_ENERGY;
     public static boolean BARD_COMBAT_TAG_ON_CLICKABLE_ITEM;
 
-    public static boolean ROGUE_CHAIN_ARMOR_RECIPE_ENABLED;
-    public static Material ROGUE_CHAIN_ARMOR_RECIPE_MATERIAL;
     public static Material ROGUE_BACKSTAB_ITEM;
     public static int ROGUE_BACKSTAB_DAMAGE;
     public static int ROGUE_BACKSTAB_COOLDOWN;
@@ -892,6 +893,9 @@ public class Config {
 
         VANISH_ON_JOIN_ENABLED = config.getBoolean("VANISH.VANISH_ON_JOIN_ENABLED");
 
+        CHAIN_ARMOR_RECIPE_ENABLED = classes.getBoolean("CHAIN_ARMOR_RECIPE.ENABLED");
+        CHAIN_ARMOR_RECIPE_MATERIAL = Material.getMaterial(classes.getString("CHAIN_ARMOR_RECIPE.MATERIAL"));
+
         ARCHER_ACTIVATED = classes.getBoolean("ARCHER_CLASS.ENABLED");
         BARD_ACTIVATED = classes.getBoolean("BARD_CLASS.ENABLED");
         MINER_ACTIVATED = classes.getBoolean("MINER_CLASS.ENABLED");
@@ -911,8 +915,6 @@ public class Config {
         BARD_MAX_ENERGY = classes.getInt("BARD_CLASS.MAX_ENERGY") * 1000;
         BARD_COMBAT_TAG_ON_CLICKABLE_ITEM = classes.getBoolean("BARD_CLASS.COMBAT_TAG_ON_CLICKABLE_ITEM");
 
-        ROGUE_CHAIN_ARMOR_RECIPE_ENABLED = classes.getBoolean("ROGUE_CLASS.CHAIN_ARMOR_RECIPE.ENABLED");
-        ROGUE_CHAIN_ARMOR_RECIPE_MATERIAL = Material.getMaterial(classes.getString("ROGUE_CLASS.CHAIN_ARMOR_RECIPE.MATERIAL"));
         ROGUE_BACKSTAB_ITEM = Material.getMaterial(classes.getString("ROGUE_CLASS.BACKSTAB.ITEM"));
         ROGUE_BACKSTAB_DAMAGE = classes.getInt("ROGUE_CLASS.BACKSTAB.DAMAGE");
         ROGUE_BACKSTAB_COOLDOWN = classes.getInt("ROGUE_CLASS.BACKSTAB.COOLDOWN");

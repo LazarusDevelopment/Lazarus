@@ -134,19 +134,21 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
     @EventHandler(ignoreCancelled = true)
     public void onPvpClassEquip(PvpClassEquipEvent event) {
+        UUID playerUuid = event.getPlayer();
+
         if(event.getPvpClass() instanceof Bard) {
-            ((Bard) event.getPvpClass()).getBardPowers().put(event.getPlayer(), new BardPower());
+            ((Bard) event.getPvpClass()).getBardPowers().put(playerUuid, new BardPower());
         }
 
         if(event.getPvpClass() instanceof Mage) {
-            ((Mage) event.getPvpClass()).getMagePowers().put(event.getPlayer(), new MagePower());
+            ((Mage) event.getPvpClass()).getMagePowers().put(playerUuid, new MagePower());
         }
 
-        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(event.getPlayer());
+        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(playerUuid);
         if(faction == null) return;
 
         if(event.getPvpClass().isAtFactionLimit(faction)) {
-            Player player = Bukkit.getPlayer(event.getPlayer());
+            Player player = Bukkit.getPlayer(playerUuid);
 
             if(player != null) {
                 player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_PVP_CLASS_LIMIT_DENY_EQUIP
@@ -162,15 +164,17 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
     @EventHandler
     public void onPvpClassUnequip(PvpClassUnequipEvent event) {
+        UUID playerUuid = event.getPlayer();
+
         if(event.getPvpClass() instanceof Bard) {
-            ((Bard) event.getPvpClass()).getBardPowers().remove(event.getPlayer());
+            ((Bard) event.getPvpClass()).getBardPowers().remove(playerUuid);
         }
 
         if(event.getPvpClass() instanceof Mage) {
-            ((Mage) event.getPvpClass()).getMagePowers().remove(event.getPlayer());
+            ((Mage) event.getPvpClass()).getMagePowers().remove(playerUuid);
         }
 
-        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(event.getPlayer());
+        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(playerUuid);
         if(faction == null) return;
 
         this.decreaseFactionLimit(event.getPvpClass(), faction);
@@ -246,11 +250,13 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        this.removeInfiniteEffects(event.getPlayer());
-        this.potionEffectRestorer.cachePlayerEffects(event.getPlayer());
+        Player player = event.getPlayer();
 
-        if(event.getPlayer().hasPlayedBefore()) {
-            this.pvpClasses.values().forEach(pvpClass -> pvpClass.checkEquipmentChange(event.getPlayer()));
+        this.removeInfiniteEffects(player);
+        this.potionEffectRestorer.cachePlayerEffects(player);
+
+        if(player.hasPlayedBefore()) {
+            this.pvpClasses.values().forEach(pvpClass -> pvpClass.checkEquipmentChange(player));
         }
     }
 

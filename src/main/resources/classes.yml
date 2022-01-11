@@ -213,12 +213,6 @@ ROGUE_CLASS:
   ENABLED: true
   # Rogue warmup time in seconds
   WARMUP: 10
-  # Rogue custom armor configuration
-  CHAIN_ARMOR_RECIPE:
-    # Should we enable custom chain armor recipe?
-    ENABLED: true
-    # What material should we use for custom chain armor recipe?
-    MATERIAL: "IRON_FENCE"
   # Rogue backstab configuration
   BACKSTAB:
     # Rogue backstab item type

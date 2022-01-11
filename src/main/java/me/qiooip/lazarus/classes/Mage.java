@@ -139,10 +139,9 @@ public class Mage extends PvpClass {
         if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = event.getPlayer();
-        if(!this.canApplyMageEffect(player)) return;
 
         MageClickableItem clickableItem = this.getClickableItem(event.getItem());
-        if(clickableItem == null) return;
+        if(clickableItem == null || !this.canApplyMageEffect(player)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
