@@ -40,22 +40,30 @@ class ScheduleTask extends BukkitRunnable {
         }
 
         this.daySchedules.forEach(schedule -> {
-            if(schedule.getTime().getHour() != date.getHour() || schedule.getTime().getMinute() != date.getMinute()) return;
+            LocalDateTime time = schedule.getTime();
+            if(time.getHour() != date.getHour() || time.getMinute() != date.getMinute()) return;
 
-            String scheduleName = schedule.getName();
-
-            Tasks.sync(() -> {
-                if(scheduleName.equalsIgnoreCase("Conquest")) {
-                    Lazarus.getInstance().getConquestManager().startConquest(Bukkit.getConsoleSender());
-                } else if(scheduleName.equalsIgnoreCase("DTC")) {
-                    Lazarus.getInstance().getDtcManager().startDtc(Bukkit.getConsoleSender(), Config.DTC_CORE_BREAKS);
-                } else if(scheduleName.equalsIgnoreCase("EnderDragon")) {
-                    Lazarus.getInstance().getEnderDragonManager().startEnderDragon(Bukkit.getConsoleSender());
-                } else {
-                    this.startKoth(scheduleName);
-                }
-            });
+            Tasks.sync(() -> this.startScheduledEvent(schedule.getName()));
         });
+    }
+
+    private void startScheduledEvent(String scheduleName) {
+        if(scheduleName.equalsIgnoreCase("Conquest")) {
+            Lazarus.getInstance().getConquestManager().startConquest(Bukkit.getConsoleSender());
+            return;
+        }
+
+        if(scheduleName.equalsIgnoreCase("DTC")) {
+            Lazarus.getInstance().getDtcManager().startDtc(Bukkit.getConsoleSender(), Config.DTC_CORE_BREAKS);
+            return;
+        }
+
+        if(scheduleName.equalsIgnoreCase("EnderDragon")) {
+            Lazarus.getInstance().getEnderDragonManager().startEnderDragon(Bukkit.getConsoleSender());
+            return;
+        }
+
+        this.startKoth(scheduleName);
     }
 
     private void startKoth(String scheduleName) {
