@@ -239,9 +239,13 @@ public class DynamicEventHandler extends Handler implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent event) {
-        if(!Config.DISABLE_EXPLOSIONS_BLOCK_DAMAGE) return;
+        if(Config.DISABLE_EXPLOSIONS_BLOCK_DAMAGE) {
+            event.blockList().clear();
+        }
 
-        event.blockList().clear();
+        if(ClaimManager.getInstance().getFactionAt(event.getLocation()).isSafezone()) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
