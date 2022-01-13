@@ -73,6 +73,10 @@ public class Bomber extends PvpClass implements Listener {
 
         tnt.setFuseTicks(this.tntGun.getFuseTicks());
         tnt.setVelocity(player.getLocation().getDirection().multiply(this.tntGun.getTntVelocity()));
+
+        if(Config.BOMBER_COMBAT_TAG_ON_TNT_USE) {
+            TimerManager.getInstance().getCombatTagTimer().activate(player.getUniqueId());
+        }
     }
 
     @Override

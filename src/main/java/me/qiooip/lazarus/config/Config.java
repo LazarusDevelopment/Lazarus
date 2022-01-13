@@ -403,6 +403,8 @@ public class Config {
     public static int MAGE_MAX_ENERGY;
     public static boolean MAGE_COMBAT_TAG_ON_CLICKABLE_ITEM;
 
+    public static boolean BOMBER_COMBAT_TAG_ON_TNT_USE;
+
     public static Map<Environment, Boolean> ABILITIES_DENY_USAGE_WORLD;
     public static Map<Environment, Boolean> ABILITIES_DENY_USAGE_DISTANCE_ENABLED;
     public static Map<Environment, Integer> ABILITIES_DENY_USAGE_DISTANCE_BLOCKS;
@@ -926,6 +928,8 @@ public class Config {
 
         MAGE_MAX_ENERGY = classes.getInt("MAGE_CLASS.MAX_ENERGY") * 1000;
         MAGE_COMBAT_TAG_ON_CLICKABLE_ITEM = classes.getBoolean("MAGE_CLASS.COMBAT_TAG_ON_CLICKABLE_ITEM");
+
+        BOMBER_COMBAT_TAG_ON_TNT_USE = classes.getBoolean("BOMBER_CLASS.COMBAT_TAG_ON_TNT_USE");
 
         ABILITIES_DENY_USAGE_WORLD = new EnumMap<>(Environment.class);
         ABILITIES_DENY_USAGE_WORLD.put(Environment.NORMAL, abilitiesFile.getBoolean("DENY_USAGE.OVERWORLD"));

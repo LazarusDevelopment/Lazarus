@@ -767,6 +767,11 @@ KITS:
       - "&7&lKit"
       - "&d&lMage"
       - ""
+    BOMBER:
+      - ""
+      - "&7&lKit"
+      - "&7&lBomber"
+      - ""
 
 #=========================================================#
 #             Inventory restore configuration             #
