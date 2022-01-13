@@ -5,6 +5,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.Archer;
 import me.qiooip.lazarus.classes.Bard;
 import me.qiooip.lazarus.classes.Bard.BardPower;
+import me.qiooip.lazarus.classes.Bomber;
 import me.qiooip.lazarus.classes.Mage;
 import me.qiooip.lazarus.classes.Mage.MagePower;
 import me.qiooip.lazarus.classes.Miner;
@@ -56,6 +57,7 @@ public class PvpClassManager implements Listener, ManagerEnabler {
         if(Config.MINER_ACTIVATED) this.registerPvpClass(PvpClassType.MINER.getName(), new Miner(this));
         if(Config.ROGUE_ACTIVATED) this.registerPvpClass(PvpClassType.ROGUE.getName(), new Rogue(this));
         if(Config.MAGE_ACTIVATED) this.registerPvpClass(PvpClassType.MAGE.getName(), new Mage(this));
+        if(Config.BOMBER_ACTIVATED) this.registerPvpClass(PvpClassType.BOMBER.getName(), new Bomber(this));
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             this.removeInfiniteEffects(player);

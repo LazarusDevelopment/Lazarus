@@ -8,6 +8,7 @@ import me.qiooip.lazarus.classes.manager.PvpClassManager;
 import me.qiooip.lazarus.classes.utils.PvpClassUtils;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.GameMode;
@@ -84,6 +85,16 @@ public class Miner extends PvpClass {
         });
 
         sender.sendMessage(Language.MINER_EFFECT_FOOTER);
+    }
+
+    @Override
+    public void applyActiveScoreboardLines(Player player, PlayerScoreboard scoreboard) {
+        super.applyActiveScoreboardLines(player, scoreboard);
+
+        if(!Config.KITMAP_MODE_ENABLED) {
+            int minedDiamonds = player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE);
+            scoreboard.add(Config.MINER_DIAMOND_COUNT_PLACEHOLDER, minedDiamonds + "");
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

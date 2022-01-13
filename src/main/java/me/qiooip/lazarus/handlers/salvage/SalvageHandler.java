@@ -16,7 +16,6 @@ import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.Collection;
 import java.util.EnumMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -44,7 +43,7 @@ public class SalvageHandler extends Handler implements Listener {
         Map<Material, Integer> toAdd = new EnumMap<>(Material.class);
 
         ingredients.stream().filter(Objects::nonNull).forEach(ingredient -> toAdd.put(ingredient
-        .getType(), toAdd.getOrDefault(ingredient.getType(), 0) + ingredient.getAmount()));
+            .getType(), toAdd.getOrDefault(ingredient.getType(), 0) + ingredient.getAmount()));
 
         StringJoiner message = new StringJoiner("\n");
 
@@ -62,7 +61,7 @@ public class SalvageHandler extends Handler implements Listener {
         this.dropRandomEnchantedBook(player, handItem, message);
 
         player.sendMessage(Language.SALVAGE_SALVAGED.replace("<item>", ItemUtils.getItemName(handItem))
-        .replace("<durability>", String.format(Locale.ROOT, "%.2f", salvagePercentage * 100)));
+            .replace("<durability>", String.valueOf((double) Math.round(salvagePercentage * 100 * 100d) / 100d)));
 
         player.sendMessage(message.toString());
     }

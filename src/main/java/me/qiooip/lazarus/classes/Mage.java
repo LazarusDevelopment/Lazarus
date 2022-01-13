@@ -11,6 +11,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
+import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
@@ -27,11 +28,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 public class Mage extends PvpClass {
+
+    public static final String COOLDOWN_KEY = "MAGE_BUFF";
 
     @Getter private final Map<UUID, MagePower> magePowers;
     private final List<MageClickableItem> clickables;
@@ -68,11 +70,23 @@ public class Mage extends PvpClass {
     }
 
     public String getMagePower(UUID uuid) {
-        return String.format(Locale.ROOT, "%.1f", this.getPower(uuid));
+        return String.valueOf((double) Math.round(this.getPower(uuid) * 10d) / 10d);
     }
 
     private void modifyPower(Player player, int amount) {
         this.magePowers.get(player.getUniqueId()).withdrawPower(amount);
+    }
+
+    @Override
+    public void applyActiveScoreboardLines(Player player, PlayerScoreboard scoreboard) {
+        super.applyActiveScoreboardLines(player, scoreboard);
+        scoreboard.add(Config.MAGE_ENERGY_PLACEHOLDER, this.getMagePower(player.getUniqueId()));
+
+        CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
+
+        if(timer.isActive(player, COOLDOWN_KEY)) {
+            scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, COOLDOWN_KEY) + 's');
+        }
     }
 
     private boolean canApplyMageEffect(Player player) {
@@ -146,9 +160,9 @@ public class Mage extends PvpClass {
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
-        if(timer.isActive(player, "MAGE_BUFF")) {
+        if(timer.isActive(player, COOLDOWN_KEY)) {
             player.sendMessage(Language.PREFIX + Language.MAGE_CLICKABLE_ACTIVE_COOLDOWN
-                .replace("<seconds>", timer.getTimeLeft(player, "MAGE_BUFF")));
+                .replace("<seconds>", timer.getTimeLeft(player, COOLDOWN_KEY)));
             return;
         }
 
@@ -169,7 +183,7 @@ public class Mage extends PvpClass {
         this.modifyPower(player, clickableItem.getEnergyNeeded());
         ItemUtils.removeOneItem(player);
 
-        timer.activate(player, "MAGE_BUFF", clickableItem.getCooldown(),
+        timer.activate(player, COOLDOWN_KEY, clickableItem.getCooldown(),
             Language.PREFIX + Language.MAGE_CLICKABLE_COOLDOWN_EXPIRED);
 
         this.applyClickableEffect(player, faction, clickableItem);

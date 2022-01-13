@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -224,7 +223,7 @@ public class PlayerFaction extends Faction {
     }
 
     public String getMaxDtrString() {
-        return String.format(Locale.ROOT, "%.1f", this.getMaxDtr());
+        return String.valueOf((double) Math.round(this.getMaxDtr() * 10d) / 10d);
     }
 
     public String getDtrString() {

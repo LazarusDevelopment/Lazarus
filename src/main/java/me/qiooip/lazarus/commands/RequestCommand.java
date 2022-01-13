@@ -26,7 +26,6 @@ public class RequestCommand extends BaseCommand {
         }
 
         Player player = (Player) sender;
-
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
         if(timer.isActive(player, "REQUEST")) {

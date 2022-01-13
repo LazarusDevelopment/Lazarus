@@ -1,9 +1,6 @@
 package me.qiooip.lazarus.scoreboard.task;
 
 import me.qiooip.lazarus.Lazarus;
-import me.qiooip.lazarus.classes.Bard;
-import me.qiooip.lazarus.classes.Mage;
-import me.qiooip.lazarus.classes.Miner;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.Faction;
@@ -21,8 +18,6 @@ import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
-import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
-import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
 import me.qiooip.lazarus.timer.scoreboard.SotwTimer;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.timer.type.ScoreboardTimer;
@@ -34,8 +29,6 @@ import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -287,41 +280,7 @@ public class ScoreboardUpdaterImpl implements ScoreboardUpdater {
         PvpClass pvpClass = this.instance.getPvpClassManager().getWarmupOrActivePvpClass(player);
 
         if(pvpClass != null) {
-            PvpClassWarmupTimer warmupTimer = TimerManager.getInstance().getPvpClassWarmupTimer();
-
-            if(warmupTimer.isActive(player, pvpClass.getName())) {
-                scoreboard.addLine(ChatColor.BLUE);
-
-                scoreboard.add(warmupTimer.getPlaceholder(),
-                warmupTimer.getScoreboardEntry(player, pvpClass.getName()));
-
-            } else if(pvpClass.isActive(player)) {
-                scoreboard.addLine(ChatColor.BLUE);
-                scoreboard.add(Config.PVPCLASS_ACTIVE_PLACEHOLDER, pvpClass.getDisplayName());
-
-                if(pvpClass instanceof Bard) {
-                    Bard bard = (Bard) pvpClass;
-                    scoreboard.add(Config.BARD_ENERGY_PLACEHOLDER, bard.getBardPower(player.getUniqueId()));
-
-                    CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
-
-                    if(timer.isActive(player, "BARD_BUFF")) {
-                        scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "BARD_BUFF") + 's');
-                    }
-                } else if(pvpClass instanceof Mage) {
-                    Mage mage = (Mage) pvpClass;
-                    scoreboard.add(Config.MAGE_ENERGY_PLACEHOLDER, mage.getMagePower(player.getUniqueId()));
-
-                    CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
-
-                    if(timer.isActive(player, "MAGE_BUFF")) {
-                        scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, "MAGE_BUFF") + 's');
-                    }
-                } else if(pvpClass instanceof Miner && !Config.KITMAP_MODE_ENABLED) {
-                    scoreboard.add(Config.MINER_DIAMOND_COUNT_PLACEHOLDER,
-                        player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + "");
-                }
-            }
+            pvpClass.applyScoreboardLines(player, scoreboard);
         }
     }
 

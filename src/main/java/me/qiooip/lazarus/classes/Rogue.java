@@ -35,6 +35,8 @@ import java.util.List;
 
 public class Rogue extends PvpClass implements Listener {
 
+    public static final String BACKSTAB_COOLDOWN_KEY = "BACKSTAB";
+
     private final List<ClickableItem> clickables;
     private final List<PotionEffect> backstabEffects;
 
@@ -134,9 +136,9 @@ public class Rogue extends PvpClass implements Listener {
         if(Math.abs(playerDirection.angle(damagerDirection)) < 1.4) {
             CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
-            if(timer.isActive(damager, "BACKSTAB")) {
+            if(timer.isActive(damager, BACKSTAB_COOLDOWN_KEY)) {
                 damager.sendMessage(Language.PREFIX + Language.ROGUE_BACKSTAB_COOLDOWN
-                .replace("<seconds>", timer.getTimeLeft(damager, "BACKSTAB")));
+                    .replace("<seconds>", timer.getTimeLeft(damager, BACKSTAB_COOLDOWN_KEY)));
                 return;
             }
 
@@ -146,7 +148,7 @@ public class Rogue extends PvpClass implements Listener {
             damager.playSound(damager.getLocation(), Sound.ITEM_BREAK, 10, 10);
             ItemUtils.removeOneItem(damager);
 
-            timer.activate(damager, "BACKSTAB", Config.ROGUE_BACKSTAB_COOLDOWN,
+            timer.activate(damager, BACKSTAB_COOLDOWN_KEY, Config.ROGUE_BACKSTAB_COOLDOWN,
                 Language.PREFIX + Language.ROGUE_BACKSTAB_COOLDOWN_EXPIRED);
 
             if(Config.ROGUE_BACKSTAB_EFFECTS_ENABLED) {

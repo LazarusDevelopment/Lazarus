@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.StringJoiner;
 
 public class LagCommand extends BaseCommand {
@@ -38,12 +37,16 @@ public class LagCommand extends BaseCommand {
         String uptime = StringUtils.formatDurationWords(System.currentTimeMillis() - Config.START_TIME);
 
         Language.LAG_COMMAND_MESSAGE.forEach(line -> sender.sendMessage(line
-            .replace("<tps>", String.format(Locale.ROOT, "%.2f", finalTps))
+            .replace("<tps>", this.formatTps(finalTps))
             .replace("<uptime>", uptime)
             .replace("<max_memory>", String.valueOf(Runtime.getRuntime().maxMemory() / 1024 / 1024))
             .replace("<allocated_memory>", String.valueOf(Runtime.getRuntime().totalMemory() / 1024 / 1024))
             .replace("<free_memory>", String.valueOf(Runtime.getRuntime().freeMemory() / 1024 / 1024))
             .replace("<worlds>", joiner.toString())));
+    }
+
+    private String formatTps(double tps) {
+        return String.valueOf((double) Math.round(tps * 100d) / 100d);
     }
 }
 

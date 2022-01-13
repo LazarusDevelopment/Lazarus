@@ -12,6 +12,7 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
+import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
@@ -31,14 +32,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 public class Bard extends PvpClass {
 
-    @Getter private final Map<UUID, BardPower> bardPowers;
+    public static final String COOLDOWN_KEY = "BARD_BUFF";
 
+    @Getter private final Map<UUID, BardPower> bardPowers;
     private final List<BardClickableItem> clickables;
     private final List<BardHoldableItem> holdables;
 
@@ -93,7 +94,7 @@ public class Bard extends PvpClass {
     }
 
     public String getBardPower(UUID uuid) {
-        return String.format(Locale.ROOT, "%.1f", this.getPower(uuid));
+        return String.valueOf((double) Math.round(this.getPower(uuid) * 10d) / 10d);
     }
 
     private void modifyPower(Player player, int amount) {
@@ -229,6 +230,18 @@ public class Bard extends PvpClass {
         this.holdableItemCooldown.put(player.getUniqueId(), System.currentTimeMillis() + 1000L);
     }
 
+    @Override
+    public void applyActiveScoreboardLines(Player player, PlayerScoreboard scoreboard) {
+        super.applyActiveScoreboardLines(player, scoreboard);
+        scoreboard.add(Config.BARD_ENERGY_PLACEHOLDER, this.getBardPower(player.getUniqueId()));
+
+        CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
+
+        if(timer.isActive(player, COOLDOWN_KEY)) {
+            scoreboard.add(Config.COOLDOWN_PLACEHOLDER , timer.getTimeLeft(player, COOLDOWN_KEY) + 's');
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
@@ -258,9 +271,9 @@ public class Bard extends PvpClass {
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
         CooldownTimer timer = TimerManager.getInstance().getCooldownTimer();
 
-        if(timer.isActive(player, "BARD_BUFF")) {
+        if(timer.isActive(player, COOLDOWN_KEY)) {
             player.sendMessage(Language.PREFIX + Language.BARD_CLICKABLE_ACTIVE_COOLDOWN
-            .replace("<seconds>", timer.getTimeLeft(player, "BARD_BUFF")));
+                .replace("<seconds>", timer.getTimeLeft(player, COOLDOWN_KEY)));
             return;
         }
 
@@ -281,7 +294,7 @@ public class Bard extends PvpClass {
         this.modifyPower(player, clickableItem.getEnergyNeeded());
         ItemUtils.removeOneItem(player);
 
-        timer.activate(player, "BARD_BUFF", clickableItem.getCooldown(),
+        timer.activate(player, COOLDOWN_KEY, clickableItem.getCooldown(),
             Language.PREFIX + Language.BARD_CLICKABLE_COOLDOWN_EXPIRED);
 
         this.applyClickableEffect(player, faction, clickableItem);

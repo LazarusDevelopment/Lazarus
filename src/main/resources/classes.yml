@@ -323,3 +323,25 @@ MAGE_CLASS:
       DURATION: 5
       LEVEL: 2
       CHAT_COLOR: "&4"
+
+#=========================================================#
+#                   Bomber configuration                  #
+#=========================================================#
+
+BOMBER_CLASS:
+  # Should bomber class be enabled?
+  ENABLED: true
+  # Bomber warmup time in seconds
+  WARMUP: 10
+  # Should we apply combat tag to bomber after using TNT stick?
+  COMBAT_TAG_ON_TNT_USE: true
+  # Effects applied to bomber by default
+  PASSIVE_EFFECTS:
+    SPEED: 3
+    DAMAGE_RESISTANCE: 3
+  # Bomber TNT gun item
+  TNT_GUN:
+    MATERIAL_ID: "280:0"
+    COOLDOWN: 30
+    TNT_VELOCITY: 1.0 # Higher is faster
+    FUSE_TICKS: 30 # TNT fuse time in ticks. Default is 80 (4 seconds).

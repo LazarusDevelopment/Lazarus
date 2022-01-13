@@ -11,12 +11,14 @@ import me.qiooip.lazarus.classes.utils.PvpClassUtils;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
+import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.scoreboard.PvpClassWarmupTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
@@ -181,5 +183,24 @@ public abstract class PvpClass implements Listener {
             this.deactivateClass(player, false);
             player.sendMessage(Language.PVP_CLASSES_DEACTIVATED.replace("<name>", this.getDisplayName()));
         }
+    }
+
+    public final void applyScoreboardLines(Player player, PlayerScoreboard scoreboard) {
+        if(this.isActive(player)) {
+            this.applyActiveScoreboardLines(player, scoreboard);
+            return;
+        }
+
+        PvpClassWarmupTimer timer = TimerManager.getInstance().getPvpClassWarmupTimer();
+
+        if(timer.isActive(player, this.getName())) {
+            scoreboard.addLine(ChatColor.BLUE);
+            scoreboard.add(timer.getPlaceholder(), timer.getScoreboardEntry(player, this.getName()));
+        }
+    }
+
+    public void applyActiveScoreboardLines(Player player, PlayerScoreboard scoreboard) {
+        scoreboard.addLine(ChatColor.BLUE);
+        scoreboard.add(Config.PVPCLASS_ACTIVE_PLACEHOLDER, this.getDisplayName());
     }
 }

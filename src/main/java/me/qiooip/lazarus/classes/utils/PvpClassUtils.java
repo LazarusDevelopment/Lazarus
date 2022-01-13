@@ -3,6 +3,7 @@ package me.qiooip.lazarus.classes.utils;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.items.BardClickableItem;
 import me.qiooip.lazarus.classes.items.BardHoldableItem;
+import me.qiooip.lazarus.classes.items.BomberTntGun;
 import me.qiooip.lazarus.classes.items.ClickableItem;
 import me.qiooip.lazarus.classes.items.MageClickableItem;
 import me.qiooip.lazarus.classes.manager.PvpClass;
@@ -28,7 +29,7 @@ public class PvpClassUtils {
             if(PotionEffectType.getByName(potion) == null) return;
 
             effects.add(new PotionEffect(PotionEffectType.getByName(potion),
-            Integer.MAX_VALUE, section.getInt(potion) - 1));
+                Integer.MAX_VALUE, section.getInt(potion) - 1));
         });
 
         return effects;
@@ -51,7 +52,7 @@ public class PvpClassUtils {
             clickable.setItem(itemStack);
             clickable.setCooldown(potionSection.getInt(potion + ".COOLDOWN"));
             clickable.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
-            .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+                .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 
             clickables.add(clickable);
         });
@@ -110,7 +111,7 @@ public class PvpClassUtils {
             bardItem.setEnergyNeeded(potionSection.getInt(potion + ".ENERGY_NEEDED"));
             bardItem.setChatColor(Color.translate(potionSection.getString(potion + ".CHAT_COLOR", "&b")));
             bardItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
-            .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+                .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 
             bardItems.add(bardItem);
         });
@@ -136,11 +137,29 @@ public class PvpClassUtils {
             bardItem.setCanBardHimself(potionSection.getBoolean(potion + ".CAN_BARD_HIMSELF"));
             bardItem.setDistance(potionSection.getInt(potion + ".DISTANCE"));
             bardItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
-            .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+                .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 
             bardItems.add(bardItem);
         });
 
         return bardItems;
+    }
+
+    public static BomberTntGun loadBomberTntGun() {
+        String sectionName = "BOMBER_CLASS.TNT_GUN";
+        ConfigurationSection section = Lazarus.getInstance().getClassesFile().getSection(sectionName);
+
+        ItemStack itemStack = ItemUtils.parseItem(section.getString("MATERIAL_ID"));
+
+        if(itemStack == null) {
+            Lazarus.getInstance().log("&cBomber TNT gun failed to load!");
+            return null;
+        }
+
+        return new BomberTntGun()
+            .setItem(itemStack)
+            .setCooldown(section.getInt("COOLDOWN"))
+            .setFuseTicks(section.getInt("FUSE_TICKS"))
+            .setTntVelocity(section.getDouble("TNT_VELOCITY"));
     }
 }

@@ -383,6 +383,15 @@ MAGE_CLASS:
     MESSAGE_ENEMY: "&cYou have given <effect> &cto &6<amount> &cenemies."
     MESSAGE_OTHERS: "&cYou have been given <effect>&c."
 
+BOMBER_CLASS:
+  VANISHED_OR_IN_STAFFMODE: "&cYou cannot shoot &4TNT &cwhile &6vanished &cor in &6staffmode&c!"
+  CAN_NOT_SHOOT_TNT_WITH_PVP_TIMER: "&cYou cannot shoot &4TNT &cwhile your &6pvp timer &cis active!"
+  CAN_NOT_SHOOT_TNT_IN_SAFEZONE: "&cYou cannot shoot &4TNT &cwhilst in &6safezone&c!"
+  CAN_NOT_SHOOT_TNT_WHEN_SOTW_NOT_ENABLED: "&cYou cannot shoot &4TNT &cwhile your &6sotw protection &cis active!"
+  TNT_GUN:
+    ACTIVE_COOLDOWN: "&cYou are on cooldown for &6<seconds> &cmore seconds!"
+    COOLDOWN_EXPIRED: "&cYour &4TNT &ccooldown has expired."
+
 SPAWNERS:
   DISABLE_PLACE:
     NETHER: "&cSpawner &eplacing is disabled in &cnether&e!"

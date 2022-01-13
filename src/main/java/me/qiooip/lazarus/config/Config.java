@@ -379,12 +379,14 @@ public class Config {
     public static boolean MINER_ACTIVATED;
     public static boolean ROGUE_ACTIVATED;
     public static boolean MAGE_ACTIVATED;
+    public static boolean BOMBER_ACTIVATED;
 
     public static int ARCHER_WARMUP;
     public static int BARD_WARMUP;
     public static int MINER_WARMUP;
     public static int ROGUE_WARMUP;
     public static int MAGE_WARMUP;
+    public static int BOMBER_WARMUP;
 
     public static boolean ARCHER_TAG_CAN_TAG_OTHER_ARCHERS;
     public static int ARCHER_TAG_DURATION;
@@ -901,12 +903,14 @@ public class Config {
         MINER_ACTIVATED = classes.getBoolean("MINER_CLASS.ENABLED");
         ROGUE_ACTIVATED = classes.getBoolean("ROGUE_CLASS.ENABLED");
         MAGE_ACTIVATED = classes.getBoolean("MAGE_CLASS.ENABLED");
+        BOMBER_ACTIVATED = classes.getBoolean("BOMBER_CLASS.ENABLED");
 
         ARCHER_WARMUP = classes.getInt("ARCHER_CLASS.WARMUP");
         BARD_WARMUP = classes.getInt("BARD_CLASS.WARMUP");
         MINER_WARMUP = classes.getInt("MINER_CLASS.WARMUP");
         ROGUE_WARMUP = classes.getInt("ROGUE_CLASS.WARMUP");
         MAGE_WARMUP = classes.getInt("MAGE_CLASS.WARMUP");
+        BOMBER_WARMUP = classes.getInt("BOMBER_CLASS.WARMUP");
 
         ARCHER_TAG_CAN_TAG_OTHER_ARCHERS = classes.getBoolean("ARCHER_CLASS.ARCHER_TAG.CAN_TAG_OTHER_ARCHERS");
         ARCHER_TAG_DURATION = classes.getInt("ARCHER_CLASS.ARCHER_TAG.DURATION");
