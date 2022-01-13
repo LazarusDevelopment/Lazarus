@@ -42,28 +42,34 @@ class ScheduleTask extends BukkitRunnable {
         this.daySchedules.forEach(schedule -> {
             if(schedule.getTime().getHour() != date.getHour() || schedule.getTime().getMinute() != date.getMinute()) return;
 
+            String scheduleName = schedule.getName();
+
             Tasks.sync(() -> {
-                if(schedule.getName().equalsIgnoreCase("Conquest")) {
+                if(scheduleName.equalsIgnoreCase("Conquest")) {
                     Lazarus.getInstance().getConquestManager().startConquest(Bukkit.getConsoleSender());
-                } else if(schedule.getName().equalsIgnoreCase("DTC")) {
+                } else if(scheduleName.equalsIgnoreCase("DTC")) {
                     Lazarus.getInstance().getDtcManager().startDtc(Bukkit.getConsoleSender(), Config.DTC_CORE_BREAKS);
-                } else if(schedule.getName().equalsIgnoreCase("EnderDragon")) {
+                } else if(scheduleName.equalsIgnoreCase("EnderDragon")) {
                     Lazarus.getInstance().getEnderDragonManager().startEnderDragon(Bukkit.getConsoleSender());
                 } else {
-                    KothManager manager = Lazarus.getInstance().getKothManager();
-
-                    if(manager.isMaxRunningKothsReached()) {
-                        Bukkit.getConsoleSender().sendMessage(Language.KOTH_PREFIX + Language.KOTH_EXCEPTION_MAX_RUNNING_KOTHS_AMOUNT_REACHED);
-                        return;
-                    }
-
-                    KothData koth = manager.getKoth(schedule.getName());
-
-                    if(koth != null) {
-                        manager.startKoth(manager.getKoth(schedule.getName()));
-                    }
+                    this.startKoth(scheduleName);
                 }
             });
         });
+    }
+
+    private void startKoth(String scheduleName) {
+        KothManager manager = Lazarus.getInstance().getKothManager();
+
+        if(manager.isMaxRunningKothsReached()) {
+            Lazarus.getInstance().log(Language.KOTH_PREFIX + Language.KOTH_EXCEPTION_MAX_RUNNING_KOTHS_AMOUNT_REACHED);
+            return;
+        }
+
+        KothData koth = manager.getKoth(scheduleName);
+
+        if(koth != null) {
+            manager.startKoth(koth);
+        }
     }
 }
