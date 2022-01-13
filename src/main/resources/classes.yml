@@ -343,5 +343,5 @@ BOMBER_CLASS:
   TNT_GUN:
     MATERIAL_ID: "280:0"
     COOLDOWN: 30
-    TNT_VELOCITY: 1.0 # Higher is faster
+    TNT_VELOCITY: 1.5 # Higher is faster
     FUSE_TICKS: 30 # TNT fuse time in ticks. Default is 80 (4 seconds).
