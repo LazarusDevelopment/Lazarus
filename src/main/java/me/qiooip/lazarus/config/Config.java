@@ -630,6 +630,8 @@ public class Config {
         FACTION_PVP_CLASS_LIMIT.put("Bard", config.getInt("FACTION_PVP_CLASS_LIMIT.BARD"));
         FACTION_PVP_CLASS_LIMIT.put("Miner", config.getInt("FACTION_PVP_CLASS_LIMIT.MINER"));
         FACTION_PVP_CLASS_LIMIT.put("Rogue", config.getInt("FACTION_PVP_CLASS_LIMIT.ROGUE"));
+        FACTION_PVP_CLASS_LIMIT.put("Mage", config.getInt("FACTION_PVP_CLASS_LIMIT.MAGE"));
+        FACTION_PVP_CLASS_LIMIT.put("Bomber", config.getInt("FACTION_PVP_CLASS_LIMIT.BOMBER"));
 
         FACTION_MAX_ALLIES = config.getInt("FACTION_MAX_ALLIES");
 

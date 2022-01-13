@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.games.koth.KothManager;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
@@ -56,7 +57,11 @@ class ScheduleTask extends BukkitRunnable {
                         return;
                     }
 
-                    manager.startKoth(manager.getKoth(schedule.getName()));
+                    KothData koth = manager.getKoth(schedule.getName());
+
+                    if(koth != null) {
+                        manager.startKoth(manager.getKoth(schedule.getName()));
+                    }
                 }
             });
         });

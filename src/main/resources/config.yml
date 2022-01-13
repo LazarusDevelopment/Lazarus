@@ -379,6 +379,10 @@ FACTION_PVP_CLASS_LIMIT:
   MINER: -1
   # Faction rogue limit
   ROGUE: 2
+  # Faction mage limit
+  MAGE: 2
+  # Faction bomber limit
+  BOMBER: 2
 
 # Max faction ally count (0 to disable)
 FACTION_MAX_ALLIES: 0

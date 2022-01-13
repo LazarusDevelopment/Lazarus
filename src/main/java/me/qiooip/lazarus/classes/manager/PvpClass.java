@@ -153,8 +153,8 @@ public abstract class PvpClass implements Listener {
     }
 
     boolean isAtFactionLimit(PlayerFaction faction) {
-        int limit = Config.FACTION_PVP_CLASS_LIMIT.get(this.getName());
-        return limit != -1 && this.factionLimit.getOrDefault(faction.getId(), -1) >= limit;
+        Integer limit = Config.FACTION_PVP_CLASS_LIMIT.get(this.getName());
+        return limit != null && limit != -1 && this.factionLimit.getOrDefault(faction.getId(), -1) >= limit;
     }
 
     public void checkEquipmentChange(Player player) {

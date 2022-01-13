@@ -55,7 +55,7 @@ public class KillstreakHandler extends Handler implements Listener {
         command.replace("<player>", killer.getName())));
 
         Messages.sendMessage(Language.KITMAP_KILLSTREAK_MESSAGE.replace("<player>", killer
-        .getName()).replace("<amount>", String.valueOf(killerUserdata.getKillstreak())));
+            .getName()).replace("<amount>", String.valueOf(killerUserdata.getKillstreak())));
     }
 
     @EventHandler
@@ -67,7 +67,7 @@ public class KillstreakHandler extends Handler implements Listener {
 
         if(killstreak > 0) {
             victim.sendMessage(Language.PREFIX + Language.KITMAP_KILLSTREAK_ON_DEATH
-            .replace("<amount>", String.valueOf(killstreak)));
+                .replace("<amount>", String.valueOf(killstreak)));
         }
 
         if(event.getEntity().getKiller() != null) {
