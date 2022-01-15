@@ -160,6 +160,8 @@ public class PvpClassUtils {
             .setItem(itemStack)
             .setCooldown(section.getInt("COOLDOWN"))
             .setFuseTicks(section.getInt("FUSE_TICKS"))
-            .setTntVelocity(section.getDouble("TNT_VELOCITY"));
+            .setTntVelocity(section.getDouble("TNT_VELOCITY"))
+            .setKbMaxY(section.getDouble("KNOCKBACK.MAX_Y_VELOCITY"))
+            .setKbYMultiplier(section.getDouble("KNOCKBACK.Y_MULTIPLIER"));
     }
 }

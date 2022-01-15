@@ -11,6 +11,7 @@ import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -19,12 +20,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 public class Bomber extends PvpClass implements Listener {
 
     public static final String COOLDOWN_KEY = "BOMBER_TNT_GUN";
+    public static final String TNT_METADATA = "BOMBER_TNT";
+
     private final BomberTntGun tntGun;
 
     public Bomber(PvpClassManager manager) {
@@ -73,6 +79,7 @@ public class Bomber extends PvpClass implements Listener {
 
         tnt.setFuseTicks(this.tntGun.getFuseTicks());
         tnt.setVelocity(player.getLocation().getDirection().multiply(this.tntGun.getTntVelocity()));
+        tnt.setMetadata(TNT_METADATA, PlayerUtils.TRUE_METADATA_VALUE);
 
         if(Config.BOMBER_COMBAT_TAG_ON_TNT_USE) {
             TimerManager.getInstance().getCombatTagTimer().activate(player.getUniqueId());
@@ -112,5 +119,32 @@ public class Bomber extends PvpClass implements Listener {
 
         timer.activate(player, COOLDOWN_KEY, this.tntGun.getCooldown(),
             Language.PREFIX + Language.BOMBER_TNT_GUN_COOLDOWN_EXPIRED);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof TNTPrimed)) return;
+
+        TNTPrimed tnt = (TNTPrimed) event.getDamager();
+        if(!tnt.hasMetadata(TNT_METADATA)) return;
+
+        Player player = (Player) event.getEntity();
+        player.setMetadata(TNT_METADATA, PlayerUtils.TRUE_METADATA_VALUE);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerVelocity(PlayerVelocityEvent event) {
+        Player player = event.getPlayer();
+        if(!player.hasMetadata(TNT_METADATA)) return;
+
+        Vector velocity = event.getVelocity().normalize();
+
+        Vector newVelocity = velocity.setY(Math.min(Math.pow(velocity.getY()
+            + this.tntGun.getKbYMultiplier(), 1.2), this.tntGun.getKbMaxY()));
+
+        player.removeMetadata(TNT_METADATA, Lazarus.getInstance());
+        player.setVelocity(newVelocity);
+
+        event.setCancelled(true);
     }
 }

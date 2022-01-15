@@ -14,4 +14,7 @@ public class BomberTntGun {
     private int cooldown;
     private int fuseTicks;
     private double tntVelocity;
+
+    private double kbMaxY;
+    private double kbYMultiplier;
 }

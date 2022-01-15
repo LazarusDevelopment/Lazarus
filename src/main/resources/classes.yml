@@ -345,3 +345,7 @@ BOMBER_CLASS:
     COOLDOWN: 30
     TNT_VELOCITY: 1.5 # Higher is faster
     FUSE_TICKS: 30 # TNT fuse time in ticks. Default is 80 (4 seconds).
+    # Player tnt knockback
+    KNOCKBACK:
+      MAX_Y_VELOCITY: 0.90
+      Y_MULTIPLIER: 0.5
