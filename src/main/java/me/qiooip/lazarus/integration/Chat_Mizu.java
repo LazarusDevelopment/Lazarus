@@ -36,10 +36,4 @@ public class Chat_Mizu extends ChatHandler {
         String rankSuffix = MizuAPI.getAPI().getRankSuffix(this.getRankName(player));
         return rankSuffix != null ? rankSuffix : "";
     }
-
-    @Override
-    protected String getChatColor(Player player) {
-        String rankColor = MizuAPI.getAPI().getRankColor(this.getRankName(player));
-        return rankColor != null ? rankColor : "";
-    }
 }
