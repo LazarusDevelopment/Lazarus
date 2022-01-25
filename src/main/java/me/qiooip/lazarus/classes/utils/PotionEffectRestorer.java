@@ -49,6 +49,10 @@ public class PotionEffectRestorer implements Listener {
         this.playerEffectCache.clear();
     }
 
+    public PotionEffect[] getCachedEffects(Player player) {
+        return this.playerEffectCache.get(player.getUniqueId());
+    }
+
     public void removeEffectCache(Player player) {
         this.playerEffectCache.remove(player.getUniqueId());
     }
@@ -87,10 +91,8 @@ public class PotionEffectRestorer implements Listener {
     }
 
     private PotionEffect getPlayerPreviousEffect(Player player, PotionEffectType effectType) {
-        PotionEffect[] playerEffects = this.playerEffectCache.get(player.getUniqueId());
-        if(playerEffects == null) return null;
-
-        return playerEffects[effectType.getId() - 1];
+        PotionEffect[] effectCache = this.getCachedEffects(player);
+        return effectCache != null ? effectCache[effectType.getId() - 1] : null;
     }
 
     public void cachePlayerEffects(Player player) {
@@ -105,14 +107,17 @@ public class PotionEffectRestorer implements Listener {
     }
 
     private void addPotionEffectToCache(Player player, PotionEffect potionEffect) {
-        if(potionEffect != null && potionEffect.getType() != null) {
-            PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+        if(potionEffect == null) return;
+
+        PotionEffect[] effectCache = this.getCachedEffects(player);
+
+        if(effectCache != null) {
             effectCache[potionEffect.getType().getId() - 1] = potionEffect;
         }
     }
 
     private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {
-        PotionEffect[] effectCache = this.playerEffectCache.get(player.getUniqueId());
+        PotionEffect[] effectCache = this.getCachedEffects(player);
 
         if(effectCache != null) {
             effectCache[effectType.getId() - 1] = null;
