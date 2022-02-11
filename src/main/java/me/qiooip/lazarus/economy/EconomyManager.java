@@ -21,7 +21,7 @@ public class EconomyManager implements ManagerEnabler {
     }
 
     public void setBalance(OfflinePlayer player, int amount) {
-        Lazarus.getInstance().getUserdataManager().getUserdata(player).setBalance(amount);
+        Lazarus.getInstance().getUserdataManager().getUserdata(player).changeBalance(amount);
     }
 
     public TransactionResult depositBalance(OfflinePlayer player, int amount) {

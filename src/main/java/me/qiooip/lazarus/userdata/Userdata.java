@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.userdata.event.UserdataValueChangeEvent;
+import me.qiooip.lazarus.userdata.event.UserdataValueType;
 import me.qiooip.lazarus.userdata.settings.Settings;
 import org.apache.commons.lang.time.FastDateFormat;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -58,6 +61,15 @@ public class Userdata {
         this.kitDelays = new HashMap<>();
     }
 
+    public Player getPlayer() {
+        return Bukkit.getPlayer(this.uuid);
+    }
+
+    public void changeBalance(int newBalance) {
+        this.balance = newBalance;
+        new UserdataValueChangeEvent(this, UserdataValueType.BALANCE);
+    }
+
     public void updateKillStats(String killMessage) {
         this.addKill();
         this.addLastKill(killMessage);
@@ -65,10 +77,17 @@ public class Userdata {
 
     public void addKill() {
         this.kills++;
+        new UserdataValueChangeEvent(this, UserdataValueType.KILLS);
+    }
+
+    public void updateDeathStats(String killMessage) {
+        this.addDeath();
+        this.addLastDeath(killMessage);
     }
 
     public void addDeath() {
         this.deaths++;
+        new UserdataValueChangeEvent(this, UserdataValueType.DEATHS);
     }
 
     public void addKillstreak() {

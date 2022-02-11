@@ -254,9 +254,8 @@ public class VillagerCombatLogger_1_7 extends EntityVillager implements CombatLo
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerUUID);
             Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(offlinePlayer);
 
-            userdata.addDeath();
+            userdata.updateDeathStats(reason);
             userdata.setKillstreak(0);
-            userdata.addLastDeath(reason);
         });
 
         Lazarus.getInstance().getDeathbanManager().deathbanPlayer(this.player,

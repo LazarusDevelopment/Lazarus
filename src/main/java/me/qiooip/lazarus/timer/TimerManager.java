@@ -8,6 +8,7 @@ import me.qiooip.lazarus.timer.abilities.AbilitiesTimer;
 import me.qiooip.lazarus.timer.abilities.GlobalAbilitiesTimer;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
+import me.qiooip.lazarus.timer.cooldown.FactionFreezeTimer;
 import me.qiooip.lazarus.timer.cooldown.FactionRallyTimer;
 import me.qiooip.lazarus.timer.cooldown.RankReviveTimer;
 import me.qiooip.lazarus.timer.custom.CustomTimer;
@@ -16,7 +17,6 @@ import me.qiooip.lazarus.timer.scoreboard.ArcherTagTimer;
 import me.qiooip.lazarus.timer.scoreboard.CombatTagTimer;
 import me.qiooip.lazarus.timer.scoreboard.EnderPearlTimer;
 import me.qiooip.lazarus.timer.scoreboard.EotwTimer;
-import me.qiooip.lazarus.timer.cooldown.FactionFreezeTimer;
 import me.qiooip.lazarus.timer.scoreboard.GAppleTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
 import me.qiooip.lazarus.timer.scoreboard.KeySaleTimer;
@@ -42,10 +42,10 @@ public class TimerManager {
 
     private ConfigFile timersFile;
 
-    private final ScheduledThreadPoolExecutor executor;
-    private final PvpClassWarmupTimer pvpClassWarmupTimer;
-    private final GlobalAbilitiesTimer globalAbilitiesTimer;
-    private final AbilitiesTimer abilitiesTimer;
+    private ScheduledThreadPoolExecutor executor;
+    private PvpClassWarmupTimer pvpClassWarmupTimer;
+    private GlobalAbilitiesTimer globalAbilitiesTimer;
+    private AbilitiesTimer abilitiesTimer;
 
     private List<ScoreboardTimer> scoreboardTimers;
 

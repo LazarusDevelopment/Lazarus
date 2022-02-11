@@ -77,6 +77,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new GoldenAppleCommand());
         this.commands.add(new HelpCommand());
         this.commands.add(new LazarusCommand());
+        this.commands.add(new LeaderboardCommand());
         this.commands.add(new LffCommand());
         this.commands.add(new ListCommand());
         this.commands.add(new LogoutCommand());
@@ -100,6 +101,9 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new ToggleFoundOreCommand());
         this.commands.add(new ToggleLightningCommand());
         this.commands.add(new ToggleScoreboardCommand());
+        this.commands.add(new TopBalanceCommand());
+        this.commands.add(new TopDeathsCommand());
+        this.commands.add(new TopKillsCommand());
         this.commands.add(new UnfocusCommand());
 
         this.commands.add(new AdventureCommand());

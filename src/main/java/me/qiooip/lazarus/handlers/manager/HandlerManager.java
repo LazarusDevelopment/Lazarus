@@ -32,6 +32,7 @@ import me.qiooip.lazarus.handlers.elevator.MinecartElevatorHandler;
 import me.qiooip.lazarus.handlers.elevator.SignElevatorHandler;
 import me.qiooip.lazarus.handlers.kitmap.KillstreakHandler;
 import me.qiooip.lazarus.handlers.kitmap.KitmapHandler;
+import me.qiooip.lazarus.handlers.leaderboard.LeaderboardHandler;
 import me.qiooip.lazarus.handlers.limiter.EnchantLimiterHandler;
 import me.qiooip.lazarus.handlers.limiter.EntityLimiterHandler;
 import me.qiooip.lazarus.handlers.limiter.PotionLimiterHandler;
@@ -100,6 +101,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new HeadDropHandler());
         this.handlers.add(new InventoryHandler());
         this.handlers.add(new KillstreakHandler());
+        this.handlers.add(new LeaderboardHandler());
         this.handlers.add(new LogoutHandler());
         this.handlers.add(new MapkitHandler());
         this.handlers.add(new MessagingHandler());

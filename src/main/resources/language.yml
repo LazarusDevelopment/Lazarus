@@ -392,6 +392,22 @@ BOMBER_CLASS:
     ACTIVE_COOLDOWN: "&cYou are on cooldown for &6<seconds> &cmore seconds!"
     COOLDOWN_EXPIRED: "&cYour &4TNT &ccooldown has expired."
 
+LEADERBOARDS:
+  COMMAND_USAGE: "&cUsage: /leaderboard <type>"
+  TYPE_DOESNT_EXIST: "&cLeaderboard type &e<type> &cdoesn't exist!"
+  NO_LEADERBOARDS: "&eThere are no leaderboards for this type."
+  COMMAND_HEADER: "&7&m                                                                                "
+  COMMAND_FOOTER: "&7&m                                                                                "
+  TOP_KILLS:
+    TITLE: "&c&lTop kills leaderboard"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  TOP_DEATHS:
+    TITLE: "&c&lTop deaths leaderboard"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  TOP_BALANCE:
+    TITLE: "&c&lTop balance leaderboard"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b$<value>"
+
 SPAWNERS:
   DISABLE_PLACE:
     NETHER: "&cSpawner &eplacing is disabled in &cnether&e!"

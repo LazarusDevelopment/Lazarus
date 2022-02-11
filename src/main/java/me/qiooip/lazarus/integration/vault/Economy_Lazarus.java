@@ -268,7 +268,7 @@ public class Economy_Lazarus implements Economy {
             return TransactionResult.MAX_BALANCE;
         }
 
-        userdata.setBalance(userdata.getBalance() + amount);
+        userdata.changeBalance(userdata.getBalance() + amount);
         return TransactionResult.SUCCESS;
     }
 
@@ -281,7 +281,7 @@ public class Economy_Lazarus implements Economy {
             return TransactionResult.MIN_BALANCE;
         }
 
-        userdata.setBalance(userdata.getBalance() - amount);
+        userdata.changeBalance(userdata.getBalance() - amount);
         return TransactionResult.SUCCESS;
     }
 }
