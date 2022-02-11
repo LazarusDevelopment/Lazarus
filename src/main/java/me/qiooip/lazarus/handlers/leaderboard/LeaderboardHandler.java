@@ -14,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.util.NavigableSet;
@@ -77,7 +76,7 @@ public class LeaderboardHandler extends Handler implements Listener {
     }
 
     private void updateCacheValue(NavigableSet<UuidCacheEntry<Integer>> cache, Player player, int newValue) {
-        cache.removeIf(entry -> entry.getName().equalsIgnoreCase(player.getName()));
+        cache.removeIf(entry -> entry.getKey().equals(player.getUniqueId()));
         cache.add(new UuidCacheEntry<>(player, newValue));
 
         if(cache.size() > 10) {
@@ -95,6 +94,7 @@ public class LeaderboardHandler extends Handler implements Listener {
 
     public void sendLeaderboardMessage(CommandSender sender, LeaderboardType type) {
         NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
+        System.out.println(leaderboard.getClass().getSimpleName());
 
         if(leaderboard.isEmpty()) {
             sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_NO_LEADERBOARDS);
@@ -128,10 +128,5 @@ public class LeaderboardHandler extends Handler implements Listener {
         Number newValue = event.getNewValue();
 
         this.updateLeaderboardsCache(player, type, newValue);
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-
     }
 }
