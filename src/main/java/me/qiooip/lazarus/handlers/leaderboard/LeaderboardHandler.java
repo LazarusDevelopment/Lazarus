@@ -94,7 +94,6 @@ public class LeaderboardHandler extends Handler implements Listener {
 
     public void sendLeaderboardMessage(CommandSender sender, LeaderboardType type) {
         NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
-        System.out.println(leaderboard.getClass().getSimpleName());
 
         if(leaderboard.isEmpty()) {
             sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_NO_LEADERBOARDS);
