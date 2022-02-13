@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NextKothSchedule {
+public class NextEventSchedule {
 
-    private final String kothName;
+    private final String eventName;
     private final long startTime;
 }

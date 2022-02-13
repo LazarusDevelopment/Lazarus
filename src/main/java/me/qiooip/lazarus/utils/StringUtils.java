@@ -174,7 +174,7 @@ public class StringUtils {
             value += seconds + "s";
         }
 
-        return value.trim();
+        return value.isEmpty() ? "0s" : value.trim();
     }
 
     public static String getPotionEffectName(PotionEffect effect) {

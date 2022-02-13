@@ -3,8 +3,7 @@ package me.qiooip.lazarus.tab.module.impl;
 import lombok.AllArgsConstructor;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.games.koth.RunningKoth;
-import me.qiooip.lazarus.games.schedule.NextKothSchedule;
-import me.qiooip.lazarus.games.schedule.ScheduleManager;
+import me.qiooip.lazarus.games.schedule.NextEventSchedule;
 import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.module.TabModule;
 import me.qiooip.lazarus.utils.ServerUtils;
@@ -19,7 +18,7 @@ import java.util.function.Supplier;
 public class NextKothModule extends TabModule {
 
     private List<Supplier<String>> noneScheduled;
-    private List<NextKothApplyFunction<NextKothSchedule>> scheduled;
+    private List<NextKothApplyFunction<NextEventSchedule>> scheduled;
     private List<NextKothApplyFunction<RunningKoth>> runningKoth;
 
     private int oldLinesCount;
@@ -46,9 +45,9 @@ public class NextKothModule extends TabModule {
         return functions;
     }
 
-    private List<NextKothApplyFunction<NextKothSchedule>> loadScheduledFunctions(ConfigurationSection section) {
+    private List<NextKothApplyFunction<NextEventSchedule>> loadScheduledFunctions(ConfigurationSection section) {
         List<String> lines = section.getStringList("SCHEDULED");
-        List<NextKothApplyFunction<NextKothSchedule>> functions = new ArrayList<>();
+        List<NextKothApplyFunction<NextEventSchedule>> functions = new ArrayList<>();
 
         for(String line : lines) {
             if(line.contains("<startTime>")) {
@@ -56,10 +55,10 @@ public class NextKothModule extends TabModule {
                     schedule -> StringUtils.formatMillis(schedule.getStartTime() - System.currentTimeMillis()),
                     ServerUtils.parsePlaceholderFunction(line, "<startTime>"))
                 );
-            } else if(line.contains("<kothName>")) {
+            } else if(line.contains("<eventName>")) {
                 functions.add(new NextKothApplyFunction<>(
-                    schedule -> schedule.getKothName(),
-                    ServerUtils.parsePlaceholderFunction(line, "<kothName>"))
+                    schedule -> schedule.getEventName(),
+                    ServerUtils.parsePlaceholderFunction(line, "<eventName>"))
                 );
             } else {
                 functions.add(new NextKothApplyFunction<>(s -> "", s -> line));
@@ -108,17 +107,17 @@ public class NextKothModule extends TabModule {
                 linesCount++;
             }
         } else {
-            ScheduleManager manager = Lazarus.getInstance().getScheduleManager();
-            NextKothSchedule nextKoth = manager.getNextKothSchedule();
+            NextEventSchedule nextEvent = Lazarus.getInstance()
+                .getScheduleManager().getNextEventSchedule();
 
-            if(nextKoth == null) {
+            if(nextEvent == null) {
                 for(int i = 0; i < this.noneScheduled.size(); i++) {
                     tab.set(this.startSlot + i, this.noneScheduled.get(i).get());
                     linesCount++;
                 }
             } else {
                 for(int i = 0; i < this.scheduled.size(); i++) {
-                    tab.set(this.startSlot + i, this.scheduled.get(i).applyLine(nextKoth));
+                    tab.set(this.startSlot + i, this.scheduled.get(i).applyLine(nextEvent));
                     linesCount++;
                 }
             }

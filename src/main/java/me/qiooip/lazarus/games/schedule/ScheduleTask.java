@@ -51,6 +51,8 @@ class ScheduleTask extends BukkitRunnable {
     }
 
     private void startScheduledEvent(String scheduleName) {
+        Lazarus.getInstance().getScheduleManager().cacheNextEventSchedule();
+
         if(scheduleName.equalsIgnoreCase("Conquest")) {
             Lazarus.getInstance().getConquestManager().startConquest(Bukkit.getConsoleSender());
             return;

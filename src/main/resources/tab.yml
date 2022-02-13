@@ -38,8 +38,8 @@ NEXT_KOTH_MODULE:
     - "&5&lKoTH"
     - "&7None scheduled"
   SCHEDULED:
-    - "&5&lKoTH"
-    - "&7<kothName>"
+    - "&5&lNext event"
+    - "&7<eventName>"
     - "&5&lStarts in"
     - "&7<startTime>"
   RUNNING_KOTH:

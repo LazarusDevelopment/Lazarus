@@ -42,7 +42,7 @@ public class ScheduleManager implements ManagerEnabler, Listener {
     private final DateTimeFormatter timeFormatter;
 
     private ScheduleTask scheduleTask;
-    private NextKothSchedule nextKothSchedule;
+    private NextEventSchedule nextEventSchedule;
 
     public ScheduleManager() {
         this.scheduleFile = FileUtils.getOrCreateFile(Config.GAMES_DIR, "schedule.json");
@@ -52,7 +52,7 @@ public class ScheduleManager implements ManagerEnabler, Listener {
         this.timeFormatter = DateTimeFormatter.ofPattern("EEEE, " + Config.DATE_FORMAT, Locale.ENGLISH);
 
         this.loadSchedules();
-        this.cacheNextKothSchedule();
+        this.cacheNextEventSchedule();
 
         if(!this.schedules.isEmpty()) {
             this.startScheduleTask();
@@ -97,32 +97,21 @@ public class ScheduleManager implements ManagerEnabler, Listener {
         this.scheduleTask = null;
     }
 
-    public void cacheNextKothSchedule() {
+    public void cacheNextEventSchedule() {
         LocalDateTime current = this.calculateScheduleOffsets();
-        ScheduleData nextKothSchedule = null;
+        ScheduleData nextEventSchedule = this.schedules.isEmpty() ? null : this.schedules.get(0);
 
-        for(ScheduleData schedule : this.schedules) {
-            String name = schedule.getName();
-
-            if(name.equalsIgnoreCase("Conquest")
-                    || name.equalsIgnoreCase("DTC")
-                    || name.equalsIgnoreCase("EnderDragon")) {
-                continue;
-            }
-
-            nextKothSchedule = schedule;
-            break;
-        }
-
-        if(nextKothSchedule == null) {
-            this.nextKothSchedule = null;
+        if(nextEventSchedule == null) {
+            this.nextEventSchedule = null;
             return;
         }
 
-        long untilKoth = current.until(nextKothSchedule.getTime(), ChronoUnit.MILLIS);
+        long untilNextEvent = current.until(nextEventSchedule.getTime(), ChronoUnit.MILLIS);
 
-        this.nextKothSchedule = new NextKothSchedule(nextKothSchedule.getName(),
-            untilKoth + System.currentTimeMillis());
+        this.nextEventSchedule = new NextEventSchedule(
+            nextEventSchedule.getName(),
+            untilNextEvent + System.currentTimeMillis()
+        );
     }
 
     public int createSchedule(String name, DayOfWeek day, String time) {
@@ -294,16 +283,16 @@ public class ScheduleManager implements ManagerEnabler, Listener {
 
     @EventHandler
     public void onScheduleCreate(ScheduleCreateEvent event) {
-        this.cacheNextKothSchedule();
+        this.cacheNextEventSchedule();
     }
 
     @EventHandler
     public void onScheduleDelete(ScheduleDeleteEvent event) {
-        this.cacheNextKothSchedule();
+        this.cacheNextEventSchedule();
     }
 
     @EventHandler
     public void onScheduleClear(ScheduleClearEvent event) {
-        this.cacheNextKothSchedule();
+        this.cacheNextEventSchedule();
     }
 }
