@@ -25,6 +25,10 @@ public class KothData {
     private transient String color;
     private transient LootData loot;
 
+    public KothData(String name) {
+        this.name = name;
+    }
+
     public Faction getFaction() {
         return FactionsManager.getInstance().getFactionByUuid(this.factionId);
     }

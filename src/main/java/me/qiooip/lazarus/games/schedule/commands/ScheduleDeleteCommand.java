@@ -33,6 +33,6 @@ public class ScheduleDeleteCommand extends SubCommand {
         Lazarus.getInstance().getScheduleManager().removeSchedule(schedule, true);
 
         sender.sendMessage(Language.SCHEDULE_PREFIX + Language.SCHEDULE_DELETE_DELETED
-        .replace("<id>", String.valueOf(schedule.getId())));
+            .replace("<id>", String.valueOf(schedule.getId())));
     }
 }

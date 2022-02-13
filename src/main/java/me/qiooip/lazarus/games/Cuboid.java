@@ -44,10 +44,10 @@ public class Cuboid {
 		int z2 = this.maxZ + 1;
 		
 		return this.center = new Location(
-			this.getWorld(),
-			this.minX + (x2 - this.minX) / 2.0,
-			this.minY + (y2 - this.minY) / 2.0,
-			this.minZ + (z2 - this.minZ) / 2.0
+		    this.getWorld(),
+		    this.minX + (x2 - this.minX) / 2.0,
+		    this.minY + (y2 - this.minY) / 2.0,
+		    this.minZ + (z2 - this.minZ) / 2.0
 		);
 	}
 

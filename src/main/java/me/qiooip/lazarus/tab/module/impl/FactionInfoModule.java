@@ -36,7 +36,7 @@ public class FactionInfoModule extends TabModule {
             return;
         }
 
-        tab.set(this.startSlot, this.factionInfo[1][0] + faction.getDtrString() + "&7" + faction.getMaxDtrString());
+        tab.set(this.startSlot, this.factionInfo[1][0] + faction.getDtrString() + "&7/" + faction.getMaxDtrString());
         tab.set(this.startSlot + 1, this.factionInfo[1][1] + faction.getHomeString());
     }
 }

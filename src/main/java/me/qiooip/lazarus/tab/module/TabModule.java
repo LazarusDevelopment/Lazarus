@@ -24,7 +24,7 @@ public abstract class TabModule {
 
     public abstract void apply(PlayerTab tab);
 
-    public void loadAdditionalData(ConfigurationSection moduleSection) {
+    public void loadAdditionalData(ConfigurationSection section) {
 
     }
 }

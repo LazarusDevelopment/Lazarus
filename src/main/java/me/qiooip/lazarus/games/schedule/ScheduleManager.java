@@ -4,14 +4,18 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.games.schedule.event.ScheduleClearEvent;
 import me.qiooip.lazarus.games.schedule.event.ScheduleCreateEvent;
 import me.qiooip.lazarus.games.schedule.event.ScheduleDeleteEvent;
-import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
+import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.time.DayOfWeek;
@@ -29,7 +33,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-public class ScheduleManager implements ManagerEnabler {
+public class ScheduleManager implements ManagerEnabler, Listener {
 
     private final File scheduleFile;
 
@@ -38,20 +42,23 @@ public class ScheduleManager implements ManagerEnabler {
     private final DateTimeFormatter timeFormatter;
 
     private ScheduleTask scheduleTask;
-    private long nextKothMillis;
+    private NextKothSchedule nextKothSchedule;
 
     public ScheduleManager() {
         this.scheduleFile = FileUtils.getOrCreateFile(Config.GAMES_DIR, "schedule.json");
 
         this.schedules = new ArrayList<>();
         this.days = EnumSet.allOf(DayOfWeek.class);
-
         this.timeFormatter = DateTimeFormatter.ofPattern("EEEE, " + Config.DATE_FORMAT, Locale.ENGLISH);
+
         this.loadSchedules();
+        this.cacheNextKothSchedule();
 
         if(!this.schedules.isEmpty()) {
             this.startScheduleTask();
         }
+
+        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void disable() {
@@ -88,6 +95,34 @@ public class ScheduleManager implements ManagerEnabler {
     private void cancelScheduleTask() {
         this.scheduleTask.cancel();
         this.scheduleTask = null;
+    }
+
+    public void cacheNextKothSchedule() {
+        LocalDateTime current = this.calculateScheduleOffsets();
+        ScheduleData nextKothSchedule = null;
+
+        for(ScheduleData schedule : this.schedules) {
+            String name = schedule.getName();
+
+            if(name.equalsIgnoreCase("Conquest")
+                    || name.equalsIgnoreCase("DTC")
+                    || name.equalsIgnoreCase("EnderDragon")) {
+                continue;
+            }
+
+            nextKothSchedule = schedule;
+            break;
+        }
+
+        if(nextKothSchedule == null) {
+            this.nextKothSchedule = null;
+            return;
+        }
+
+        long untilKoth = current.until(nextKothSchedule.getTime(), ChronoUnit.MILLIS);
+
+        this.nextKothSchedule = new NextKothSchedule(nextKothSchedule.getName(),
+            untilKoth + System.currentTimeMillis());
     }
 
     public int createSchedule(String name, DayOfWeek day, String time) {
@@ -190,6 +225,8 @@ public class ScheduleManager implements ManagerEnabler {
         this.scheduleTask.cancel();
         this.scheduleTask = null;
 
+        new ScheduleClearEvent();
+
         Messages.sendMessage(Language.SCHEDULE_PREFIX + Language.SCHEDULE_CLEAR_CLEARED
             .replace("<player>", sender.getName()), "lazarus.staff");
     }
@@ -253,5 +290,20 @@ public class ScheduleManager implements ManagerEnabler {
         });
 
         sender.sendMessage(Language.SCHEDULE_COMMAND_FOOTER);
+    }
+
+    @EventHandler
+    public void onScheduleCreate(ScheduleCreateEvent event) {
+        this.cacheNextKothSchedule();
+    }
+
+    @EventHandler
+    public void onScheduleDelete(ScheduleDeleteEvent event) {
+        this.cacheNextKothSchedule();
+    }
+
+    @EventHandler
+    public void onScheduleClear(ScheduleClearEvent event) {
+        this.cacheNextKothSchedule();
     }
 }
