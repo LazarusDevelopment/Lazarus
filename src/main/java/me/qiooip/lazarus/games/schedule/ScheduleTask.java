@@ -17,10 +17,13 @@ import java.util.List;
 @Getter
 class ScheduleTask extends BukkitRunnable {
 
+    private final ScheduleManager manager;
     private DayOfWeek day;
     private List<ScheduleData> daySchedules;
 
     ScheduleTask(ScheduleManager manager) {
+        this.manager = manager;
+
         this.day = LocalDateTime.now(Config.TIMEZONE.toZoneId()).getDayOfWeek();
         this.daySchedules = manager.getSchedulesByDay(this.day);
 
@@ -78,6 +81,8 @@ class ScheduleTask extends BukkitRunnable {
 
         if(koth != null) {
             manager.startKoth(koth);
+        } else {
+            this.manager.removeScheduleByName(scheduleName);
         }
     }
 }

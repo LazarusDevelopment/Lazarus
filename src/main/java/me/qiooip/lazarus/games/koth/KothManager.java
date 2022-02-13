@@ -116,6 +116,10 @@ public class KothManager implements Listener, ManagerEnabler {
             koth.getKothData().getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
+    public RunningKoth getFirstRunningKoth() {
+        return this.runningKoths.isEmpty() ? null : this.runningKoths.get(0);
+    }
+
     public void createKoth(CommandSender sender, String name, int captime, Cuboid capzone) {
         SystemFaction faction = FactionsManager.getInstance().createSystemFaction(name, SystemType.KOTH, sender);
         LootData loot = Lazarus.getInstance().getLootManager().createLoot(name);
@@ -161,10 +165,10 @@ public class KothManager implements Listener, ManagerEnabler {
         this.runningKoths.remove(runningKoth);
         new KothStopEvent(runningKoth.getKothData());
 
-        if(!this.runningKoths.isEmpty()) return;
-
-        HandlerList.unregisterAll(this);
-        this.cancelTickTask();
+        if(this.runningKoths.isEmpty()) {
+            HandlerList.unregisterAll(this);
+            this.cancelTickTask();
+        }
     }
 
     public void stopAllKoths() {

@@ -17,6 +17,8 @@ public class Cuboid {
 	private int minY, maxY;
 	private int minZ, maxZ;
 
+	private transient Location center;
+
 	public Cuboid() { }
 	
 	public Cuboid(Location loc1, Location loc2) {
@@ -33,11 +35,20 @@ public class Cuboid {
 	}
 
 	public Location getCenter() {
+		if(this.center != null) {
+			return this.center;
+		}
+
 		int x2 = this.maxX + 1;
 		int y2 = this.maxY + 1;
 		int z2 = this.maxZ + 1;
 		
-		return new Location(this.getWorld(), this.minX + (x2 - this.minX) / 2.0, this.minY + (y2 - this.minY) / 2.0, this.minZ + (z2 - this.minZ) / 2.0);
+		return this.center = new Location(
+			this.getWorld(),
+			this.minX + (x2 - this.minX) / 2.0,
+			this.minY + (y2 - this.minY) / 2.0,
+			this.minZ + (z2 - this.minZ) / 2.0
+		);
 	}
 
 	public Location getCenterWithMinY() {

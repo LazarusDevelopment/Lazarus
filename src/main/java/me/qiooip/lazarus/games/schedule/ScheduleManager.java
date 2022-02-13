@@ -1,8 +1,11 @@
 package me.qiooip.lazarus.games.schedule;
 
+import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.games.schedule.event.ScheduleCreateEvent;
+import me.qiooip.lazarus.games.schedule.event.ScheduleDeleteEvent;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
@@ -25,15 +28,17 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter
 public class ScheduleManager implements ManagerEnabler {
 
     private final File scheduleFile;
 
     private List<ScheduleData> schedules;
     private final Set<DayOfWeek> days;
-
     private final DateTimeFormatter timeFormatter;
+
     private ScheduleTask scheduleTask;
+    private long nextKothMillis;
 
     public ScheduleManager() {
         this.scheduleFile = FileUtils.getOrCreateFile(Config.GAMES_DIR, "schedule.json");
@@ -42,9 +47,11 @@ public class ScheduleManager implements ManagerEnabler {
         this.days = EnumSet.allOf(DayOfWeek.class);
 
         this.timeFormatter = DateTimeFormatter.ofPattern("EEEE, " + Config.DATE_FORMAT, Locale.ENGLISH);
-
         this.loadSchedules();
-        if(!this.schedules.isEmpty()) this.startScheduleTask();
+
+        if(!this.schedules.isEmpty()) {
+            this.startScheduleTask();
+        }
     }
 
     public void disable() {
@@ -92,7 +99,6 @@ public class ScheduleManager implements ManagerEnabler {
         schedule.setTimeString(time);
 
         LocalDateTime current = LocalDateTime.now(Config.TIMEZONE.toZoneId());
-
         String[] timeArray = time.split(":");
 
         int dayOfMonth = current.getDayOfMonth() + (day.getValue() - current.getDayOfWeek().getValue());
@@ -105,7 +111,9 @@ public class ScheduleManager implements ManagerEnabler {
 
         schedule.setTime(LocalDateTime.of(current.getYear(), current.getMonth(), dayOfMonth, hours, minutes));
 
-        if(this.scheduleTask == null) this.startScheduleTask();
+        if(this.scheduleTask == null) {
+            this.startScheduleTask();
+        }
 
         this.schedules.add(schedule);
         this.schedules.sort(Comparator.comparing(ScheduleData::getTime));
@@ -114,6 +122,7 @@ public class ScheduleManager implements ManagerEnabler {
             this.scheduleTask.getDaySchedules().add(schedule);
         }
 
+        new ScheduleCreateEvent(schedule);
         return id;
     }
 
@@ -132,6 +141,8 @@ public class ScheduleManager implements ManagerEnabler {
         if(this.schedules.isEmpty()) {
             this.cancelScheduleTask();
         }
+
+        new ScheduleDeleteEvent(schedule);
     }
 
     public void removeScheduleByName(String name) {

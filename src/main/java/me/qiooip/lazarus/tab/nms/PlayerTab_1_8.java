@@ -43,6 +43,11 @@ public class PlayerTab_1_8 extends ScoreboardBase_1_8 implements PlayerTab {
         }
     }
 
+    @Override
+    public Player getPlayer() {
+        return this.player;
+    }
+
     private void setup(CraftPlayer cplayer) {
         this.clientVersion = NmsUtils.getInstance().getClientVersion(cplayer);
 

@@ -31,6 +31,22 @@ PLAYER_LIST_MODULE:
   FACTION_NAME_COLOR: "&5&l"
   PLAYER_COLOR: "&a"
 
+NEXT_KOTH_MODULE:
+  ENABLED: true
+  START_SLOT: 52
+  NONE_SCHEDULED:
+    - "&5&lKoTH"
+    - "&7None scheduled"
+  SCHEDULED:
+    - "&5&lKoTH"
+    - "&7<kothName>"
+    - "&5&lStarts in"
+    - "&7<time>"
+  RUNNING_KOTH:
+    - "&5&l<kothName>"
+    - "&7<capTime>"
+    - "&7<location>"
+
 LEFT:
   - ""
   - ""
@@ -78,10 +94,6 @@ CENTER:
 RIGHT:
   - ""
   - ""
-  - "&5&lEnd portals"
-  - "&71000, 1000"
-  - "&7all quadrants"
-  - ""
   - "&5&lMapKit"
   - "&7Sharp I, Prot I"
   - ""
@@ -90,6 +102,10 @@ RIGHT:
   - ""
   - "&5&lEnd exit"
   - "&7South (0, 50)"
+  - ""
+  - ""
+  - ""
+  - ""
   - ""
   - ""
   - ""

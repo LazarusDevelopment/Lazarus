@@ -38,6 +38,6 @@ public class KothStopCommand extends SubCommand {
         Lazarus.getInstance().getKothManager().stopKoth(runningKoth);
 
         Messages.sendMessage(Language.KOTH_PREFIX + Language.KOTH_STOP_STOPPED
-        .replace("<player>", sender.getName()).replace("<koth>", koth.getName()));
+            .replace("<player>", sender.getName()).replace("<koth>", koth.getName()));
     }
 }

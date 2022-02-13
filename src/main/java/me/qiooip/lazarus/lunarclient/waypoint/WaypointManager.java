@@ -260,12 +260,14 @@ public class WaypointManager implements Listener {
             }
 
             this.kothWaypoints.put(name, waypoint);
-        } else if(this.kothWaypoints.containsKey(name)) {
-            LCWaypoint waypoint = this.kothWaypoints.remove(name);
+            return;
+        }
 
-            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
-                this.removeWaypoint(Bukkit.getPlayer(uuid), waypoint);
-            }
+        LCWaypoint waypoint = this.kothWaypoints.remove(name);
+        if(waypoint == null) return;
+
+        for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
+            this.removeWaypoint(Bukkit.getPlayer(uuid), waypoint);
         }
     }
 

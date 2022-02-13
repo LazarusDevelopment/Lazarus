@@ -1,7 +1,7 @@
 package me.qiooip.lazarus.tab.task;
 
-import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.tab.PlayerTab;
+import me.qiooip.lazarus.tab.module.TabModule;
 
 public interface TabUpdater extends Runnable {
 
@@ -9,7 +9,5 @@ public interface TabUpdater extends Runnable {
 
     void initialSet(PlayerTab tab);
 
-    void updateFactionPlayerList(PlayerTab tab, PlayerFaction faction);
-
-    void clearFactionPlayerList(PlayerTab tab);
+    void registerTabModule(TabModule module);
 }

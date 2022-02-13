@@ -2,18 +2,19 @@ package me.qiooip.lazarus.tab.task;
 
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.ConfigFile;
-import me.qiooip.lazarus.factions.FactionPlayer;
-import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
-import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.tab.PlayerTab;
 import me.qiooip.lazarus.tab.TabManager;
+import me.qiooip.lazarus.tab.module.TabModule;
+import me.qiooip.lazarus.tab.module.impl.FactionInfoModule;
+import me.qiooip.lazarus.tab.module.impl.NextKothModule;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ScheduledFuture;
@@ -26,10 +27,8 @@ import java.util.stream.Stream;
 public class TabUpdaterImpl implements TabUpdater {
 
     private static final String[] FACES = { "S", "SW", "W", "NW", "N", "NE", "E", "SE" };
-    private static final Comparator<FactionPlayer> COMPARATOR = (m1, m2) -> m2.getRole().ordinal() - m1.getRole().ordinal();
 
     private final TabManager manager;
-
     private final Map<Integer, Function<Player, String>> updates;
     private final Map<Integer, String> initialSet;
     private final AtomicInteger counter;
@@ -37,16 +36,9 @@ public class TabUpdaterImpl implements TabUpdater {
     private ScheduledThreadPoolExecutor executor;
     private ScheduledFuture<?> updater;
 
+    private final List<TabModule> tabModules;
     private int locationSlot;
     private Function<Player, String> locationFunction;
-
-    private boolean playerListEnabled;
-    private int playerListStart, numberOfPlayers;
-    private String factionColor, playerColor;
-
-    private boolean factionInfoEnabled;
-    private int factionInfoStart;
-    private String[][] factionInfo;
 
     public TabUpdaterImpl(TabManager manager) {
         this.manager = manager;
@@ -54,11 +46,13 @@ public class TabUpdaterImpl implements TabUpdater {
         this.updates = new HashMap<>();
         this.initialSet = new HashMap<>();
         this.counter = new AtomicInteger();
+        this.tabModules = new ArrayList<>();
 
         this.loadUpdates();
         this.loadInitialSet();
-        this.loadPlayerListModule();
-        this.loadFactionInfoModule();
+
+        this.registerTabModule(new FactionInfoModule());
+        this.registerTabModule(new NextKothModule());
 
         Tasks.syncLater(this::setupTasks, 10L);
     }
@@ -79,6 +73,11 @@ public class TabUpdaterImpl implements TabUpdater {
     }
 
     @Override
+    public void registerTabModule(TabModule tabModule) {
+        this.tabModules.add(tabModule);
+    }
+
+    @Override
     public void run() {
         try {
             for(Player player : Bukkit.getOnlinePlayers()) {
@@ -86,7 +85,9 @@ public class TabUpdaterImpl implements TabUpdater {
                 if(tab == null) continue;
 
                 if(this.counter.getAndIncrement() % 5 == 0) {
-                    this.updateFactionInfo(tab, FactionsManager.getInstance().getPlayerFaction(player));
+                    for(TabModule module : this.tabModules) {
+                        if(module.isEnabled()) module.apply(tab);
+                    }
 
                     for(Entry<Integer, Function<Player, String>> entry : this.updates.entrySet()) {
                         tab.set(entry.getKey(), entry.getValue().apply(player));
@@ -100,43 +101,6 @@ public class TabUpdaterImpl implements TabUpdater {
         } catch(Throwable t) {
             t.printStackTrace();
         }
-    }
-
-    public void updateFactionPlayerList(PlayerTab tab, PlayerFaction faction) {
-        if(!this.playerListEnabled) return;
-
-        this.clearFactionPlayerList(tab);
-
-        tab.set(this.playerListStart, this.factionColor + faction.getName());
-        AtomicInteger count = new AtomicInteger(this.playerListStart + 1);
-
-        faction.getMembers().values().stream()
-            .filter(member -> member.getPlayer() != null)
-            .sorted(COMPARATOR).limit(this.numberOfPlayers)
-        .forEach(member ->
-            tab.set(count.getAndIncrement(), this.playerColor + member.getRole().getPrefix() + member.getName())
-        );
-    }
-
-    public void clearFactionPlayerList(PlayerTab tab) {
-        if(!this.playerListEnabled || tab == null) return;
-
-        for(int i = this.playerListStart; i <= this.playerListStart + this.numberOfPlayers + 1; i++) {
-            tab.set(i, "");
-        }
-    }
-
-    private void updateFactionInfo(PlayerTab tab, PlayerFaction faction) {
-        if(!this.factionInfoEnabled) return;
-
-        if(faction == null) {
-            tab.set(this.factionInfoStart, this.factionInfo[0][0]);
-            tab.set(this.factionInfoStart + 1, this.factionInfo[0][1]);
-            return;
-        }
-
-        tab.set(this.factionInfoStart, this.factionInfo[1][0] + faction.getDtrString() + "&7/" + faction.getMaxDtrString());
-        tab.set(this.factionInfoStart + 1, this.factionInfo[1][1] + faction.getHomeString());
     }
 
     public void initialSet(PlayerTab tab) {
@@ -162,7 +126,7 @@ public class TabUpdaterImpl implements TabUpdater {
         Stream.of("LEFT", "CENTER", "RIGHT", "FAR_RIGHT").forEach(column -> tabFile.getStringList(column).forEach(line -> {
             int slot = count.getAndIncrement();
 
-            if(line.toLowerCase().contains("<location>")) {
+            if(line.contains("<location>")) {
                 String temp = line.replace("<location>", "");
 
                 this.locationFunction = player -> temp + "(" + player.getLocation().getBlockX() + ", "
@@ -179,55 +143,27 @@ public class TabUpdaterImpl implements TabUpdater {
     }
 
     private Function<Player, String> getFunction(String line) {
-        String lowerCase = line.toLowerCase();
-
-        if(lowerCase.contains("<kills>")) {
+        if(line.contains("<kills>")) {
             String temp = line.replace("<kills>", "");
             return player -> temp + Lazarus.getInstance().getUserdataManager().getUserdata(player).getKills();
-        } else if(lowerCase.contains("<deaths>")) {
+        } else if(line.contains("<deaths>")) {
             String temp = line.replace("<deaths>", "");
             return player -> temp + Lazarus.getInstance().getUserdataManager().getUserdata(player).getDeaths();
-        } else if(lowerCase.contains("<lives>")) {
+        } else if(line.contains("<lives>")) {
             String temp = line.replace("<lives>", "");
             return player -> temp + Lazarus.getInstance().getUserdataManager().getUserdata(player).getLives();
-        } else if(lowerCase.contains("<balance>")) {
+        } else if(line.contains("<balance>")) {
             String temp = line.replace("<balance>", "");
             return player -> temp + Lazarus.getInstance().getUserdataManager().getUserdata(player).getBalance();
-        } else if(lowerCase.contains("<faction>")) {
+        } else if(line.contains("<faction>")) {
             String temp = line.replace("<faction>", "");
             return player -> temp + ClaimManager.getInstance().getFactionAt(player).getDisplayName(player);
-        } else if(lowerCase.contains("<online>")) {
+        } else if(line.contains("<online>")) {
             String temp = line.replace("<online>", "");
             return player -> temp + (Math.max(Bukkit.getOnlinePlayers().size() - Lazarus.getInstance()
                 .getVanishManager().vanishedAmount(), 0)) + "/" + Bukkit.getMaxPlayers();
         } else {
             return null;
-        }
-    }
-
-    private void loadPlayerListModule() {
-        ConfigFile tabFile = Lazarus.getInstance().getTabFile();
-        this.playerListEnabled = tabFile.getBoolean("PLAYER_LIST_MODULE.ENABLED");
-
-        this.playerListStart = tabFile.getInt("PLAYER_LIST_MODULE.START_SLOT");
-        this.numberOfPlayers = tabFile.getInt("PLAYER_LIST_MODULE.NUMBER_OF_PLAYERS");
-
-        this.factionColor = tabFile.getString("PLAYER_LIST_MODULE.FACTION_NAME_COLOR");
-        this.playerColor = tabFile.getString("PLAYER_LIST_MODULE.PLAYER_COLOR");
-    }
-
-    private void loadFactionInfoModule() {
-        ConfigFile tabFile = Lazarus.getInstance().getTabFile();
-        this.factionInfoEnabled = tabFile.getBoolean("FACTION_INFO_MODULE.ENABLED");
-
-        this.factionInfoStart = tabFile.getInt("FACTION_INFO_MODULE.START_SLOT");
-        this.factionInfo = new String[2][2];
-
-        this.factionInfo[0] = tabFile.getStringList("FACTION_INFO_MODULE.NO_FACTION").toArray(new String[2]);
-        this.factionInfo[1] = tabFile.getStringList("FACTION_INFO_MODULE.IN_FACTION").toArray(new String[2]);
-
-        for(int i = 0; i < 2; i++) {
-            this.factionInfo[1][i] = this.factionInfo[1][i].replace("<dtr>", "").replace("<home>", "");
         }
     }
 
