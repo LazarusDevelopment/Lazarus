@@ -13,7 +13,6 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class MongoUserdataManager extends UserdataManager {
@@ -101,7 +100,6 @@ public class MongoUserdataManager extends UserdataManager {
             .append("kitDelays", data.getKitDelays());
     }
 
-    @SuppressWarnings("unchecked")
     private Userdata userdataFromDocument(Document document) {
         Userdata data = new Userdata();
 
@@ -115,8 +113,8 @@ public class MongoUserdataManager extends UserdataManager {
         data.setLives(document.getInteger("lives"));
         data.setReclaimUsed(document.getBoolean("reclaimUsed"));
         data.setSettings(StringUtils.settingsFromString(document.getString("settings")));
-        data.setIgnoring((List<UUID>) document.get("ignoring"));
-        data.setNotes((List<String>) document.get("notes"));
+        data.setIgnoring(document.get("ignoring", new ArrayList<>()));
+        data.setNotes(document.get("notes", new ArrayList<>()));
         data.setLastKills(document.get("lastKills", new ArrayList<>()));
         data.setLastDeaths(document.get("lastDeaths", new ArrayList<>()));
         data.setKitDelays(document.get("kitDelays", new HashMap<>()));
