@@ -27,6 +27,11 @@ public enum LeaderboardType {
         Language.LEADERBOARDS_BALANCE_TITLE,
         Language.LEADERBOARDS_BALANCE_LINE_FORMAT,
         Lazarus.getInstance().getLeaderboardHandler().getTopBalance()
+    ),
+    HIGHEST_KILLSTREAK(
+        Language.LEADERBOARDS_KILLSTREAK_TITLE,
+        Language.LEADERBOARDS_KILLSTREAK_LINE_FORMAT,
+        Lazarus.getInstance().getLeaderboardHandler().getHighestKillstreaks()
     );
 
     private final String title;

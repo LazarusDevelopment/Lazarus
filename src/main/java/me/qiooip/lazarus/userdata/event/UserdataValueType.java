@@ -12,7 +12,8 @@ public enum UserdataValueType {
 
     KILLS(Userdata::getKills),
     DEATHS(Userdata::getDeaths),
-    BALANCE(Userdata::getBalance);
+    BALANCE(Userdata::getBalance),
+    HIGHEST_KILLSTREAK(Userdata::getHighestKillstreak);
 
     private final Function<Userdata, Number> consumer;
 

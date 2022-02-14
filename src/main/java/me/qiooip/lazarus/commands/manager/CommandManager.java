@@ -104,6 +104,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new TopBalanceCommand());
         this.commands.add(new TopDeathsCommand());
         this.commands.add(new TopKillsCommand());
+        this.commands.add(new TopKillstreaksCommand());
         this.commands.add(new UnfocusCommand());
 
         this.commands.add(new AdventureCommand());

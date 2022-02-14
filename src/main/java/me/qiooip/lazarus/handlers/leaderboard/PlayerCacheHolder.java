@@ -21,9 +21,13 @@ public class PlayerCacheHolder {
     @SerializedName("topBalance")
     private NavigableSet<UuidCacheEntry<Integer>> topBalance;
 
+    @SerializedName("highestKillstreaks")
+    private NavigableSet<UuidCacheEntry<Integer>> highestKillstreaks;
+
     public PlayerCacheHolder() {
         this.topKills = new TreeSet<>();
         this.topDeaths = new TreeSet<>();
         this.topBalance = new TreeSet<>();
+        this.highestKillstreaks = new TreeSet<>();
     }
 }

@@ -258,7 +258,7 @@ public class SkeletonCombatLogger_1_7 extends EntitySkeleton implements CombatLo
             Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(offlinePlayer);
 
             userdata.updateDeathStats(reason);
-            userdata.setKillstreak(0);
+            userdata.resetKillstreak();
         });
 
         Lazarus.getInstance().getDeathbanManager().deathbanPlayer(this.player,

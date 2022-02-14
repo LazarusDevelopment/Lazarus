@@ -30,6 +30,7 @@ public class Userdata {
     private int kills;
     private int deaths;
     private int killstreak;
+    private int highestKillstreak;
 
     private int balance;
     private int lives;
@@ -92,6 +93,11 @@ public class Userdata {
 
     public void addKillstreak() {
         this.killstreak++;
+
+        if(this.killstreak > this.highestKillstreak) {
+            this.highestKillstreak = this.killstreak;
+            new UserdataValueChangeEvent(this, UserdataValueType.HIGHEST_KILLSTREAK);
+        }
     }
 
     public int resetKillstreak() {

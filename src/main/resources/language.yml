@@ -407,6 +407,9 @@ LEADERBOARDS:
   TOP_BALANCE:
     TITLE: "&c&lTop balance leaderboard"
     LINE_FORMAT: "&7<number>. &a<player> &7- &b$<value>"
+  TOP_KILLSTREAK:
+    TITLE: "&c&lTop killstreak leaderboard"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
 
 SPAWNERS:
   DISABLE_PLACE:

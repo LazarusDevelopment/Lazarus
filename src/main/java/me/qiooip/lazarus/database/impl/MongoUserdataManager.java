@@ -12,8 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class MongoUserdataManager extends UserdataManager {
@@ -89,6 +89,7 @@ public class MongoUserdataManager extends UserdataManager {
             .append("kills", data.getKills())
             .append("deaths", data.getDeaths())
             .append("killstreak", data.getKillstreak())
+            .append("highestKillstreak", data.getHighestKillstreak())
             .append("balance", data.getBalance())
             .append("lives", data.getLives())
             .append("reclaimUsed", data.isReclaimUsed())
@@ -109,6 +110,7 @@ public class MongoUserdataManager extends UserdataManager {
         data.setKills(document.getInteger("kills"));
         data.setDeaths(document.getInteger("deaths"));
         data.setKillstreak(document.getInteger("killstreak"));
+        data.setHighestKillstreak(document.getInteger("highestKillstreak", 0));
         data.setBalance(document.getInteger("balance"));
         data.setLives(document.getInteger("lives"));
         data.setReclaimUsed(document.getBoolean("reclaimUsed"));
@@ -116,8 +118,8 @@ public class MongoUserdataManager extends UserdataManager {
         data.setIgnoring((List<UUID>) document.get("ignoring"));
         data.setNotes((List<String>) document.get("notes"));
         data.setLastKills(document.get("lastKills", new ArrayList<>()));
-        data.setLastDeaths((List<String>) document.get("lastDeaths"));
-        data.setKitDelays((Map<String, Long>) document.get("kitDelays"));
+        data.setLastDeaths(document.get("lastDeaths", new ArrayList<>()));
+        data.setKitDelays(document.get("kitDelays", new HashMap<>()));
 
         return data;
     }

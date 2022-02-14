@@ -63,16 +63,24 @@ public class LeaderboardHandler extends Handler implements Listener {
         return this.playerCacheHolder.getTopBalance();
     }
 
-    public void onKill(Player killer, Number newKills) {
-        this.updateCacheValue(this.getTopKills(), killer, newKills.intValue());
+    public NavigableSet<UuidCacheEntry<Integer>> getHighestKillstreaks() {
+        return this.playerCacheHolder.getHighestKillstreaks();
     }
 
-    public void onDeath(Player victim, Number newDeaths) {
-        this.updateCacheValue(this.getTopDeaths(), victim, newDeaths.intValue());
+    public void onKill(Player killer, int newKills) {
+        this.updateCacheValue(this.getTopKills(), killer, newKills);
     }
 
-    public void onBalanceChange(Player player, Number newBalance) {
-        this.updateCacheValue(this.getTopBalance(), player, newBalance.intValue());
+    public void onDeath(Player victim, int newDeaths) {
+        this.updateCacheValue(this.getTopDeaths(), victim, newDeaths);
+    }
+
+    public void onBalanceChange(Player player, int newBalance) {
+        this.updateCacheValue(this.getTopBalance(), player, newBalance);
+    }
+
+    public void onHighestKillstreakChange(Player player, int newHighestKillstreak) {
+        this.updateCacheValue(this.getHighestKillstreaks(), player, newHighestKillstreak);
     }
 
     private void updateCacheValue(NavigableSet<UuidCacheEntry<Integer>> cache, Player player, int newValue) {
@@ -89,6 +97,7 @@ public class LeaderboardHandler extends Handler implements Listener {
             case KILLS: this.onKill(player, newValue.intValue()); break;
             case DEATHS: this.onDeath(player, newValue.intValue()); break;
             case BALANCE: this.onBalanceChange(player, newValue.intValue()); break;
+            case HIGHEST_KILLSTREAK: this.onHighestKillstreakChange(player, newValue.intValue()); break;
         }
     }
 
