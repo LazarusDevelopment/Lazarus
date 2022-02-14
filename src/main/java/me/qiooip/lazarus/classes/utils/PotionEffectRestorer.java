@@ -4,6 +4,8 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.classes.manager.PvpClassManager;
@@ -32,7 +34,7 @@ public class PotionEffectRestorer implements Listener {
     private final PvpClassManager pvpClassManager;
 
     private final Table<UUID, PotionEffectType, EffectRestore> restorers;
-    private final Map<UUID, PotionEffect[]> playerEffectCache;
+    private final Map<UUID, EffectCache[]> playerEffectCache;
 
     public PotionEffectRestorer(PvpClassManager pvpClassManager) {
         this.pvpClassManager = pvpClassManager;
@@ -49,7 +51,7 @@ public class PotionEffectRestorer implements Listener {
         this.playerEffectCache.clear();
     }
 
-    public PotionEffect[] getCachedEffects(Player player) {
+    public EffectCache[] getCachedEffects(Player player) {
         return this.playerEffectCache.get(player.getUniqueId());
     }
 
@@ -72,15 +74,23 @@ public class PotionEffectRestorer implements Listener {
         this.restorers.put(player.getUniqueId(), current.getType(), effectRestore);
     }
 
-    private EffectRestore createEffectRestore(Player player, PotionEffect currentEffect) {
+    private EffectRestore createEffectRestore(Player player, PotionEffect current) {
         PvpClass pvpClass = this.pvpClassManager.getActivePvpClass(player);
         Predicate<Player> condition = futurePlayer -> true;
 
-        if(currentEffect.getDuration() > INFINITE_DURATION && pvpClass != null) {
+        if(current.getDuration() > INFINITE_DURATION && pvpClass != null) {
             condition = futurePlayer -> pvpClass.isActive(futurePlayer);
         }
 
-        return new EffectRestore(currentEffect, condition);
+        return new EffectRestore(current, condition);
+    }
+
+    private PotionEffect correctEffectDuration(EffectCache effectCache) {
+        PotionEffect current = effectCache.getEffect();
+        long cacheTimestamp = effectCache.getCacheTimestamp();
+
+        int tickDifference = (int) (Math.abs((System.currentTimeMillis() - cacheTimestamp)) / 50);
+        return new PotionEffect(current.getType(), current.getDuration() - tickDifference, current.getAmplifier());
     }
 
     private void handleEffectRestore(Player player, PotionEffectType effectType) {
@@ -90,17 +100,19 @@ public class PotionEffectRestorer implements Listener {
         Tasks.sync(() -> NmsUtils.getInstance().addPotionEffect(player, effect));
     }
 
-    private PotionEffect getPlayerPreviousEffect(Player player, PotionEffectType effectType) {
-        PotionEffect[] effectCache = this.getCachedEffects(player);
+    private EffectCache getPlayerCachedEffect(Player player, PotionEffectType effectType) {
+        EffectCache[] effectCache = this.getCachedEffects(player);
         return effectCache != null ? effectCache[effectType.getId() - 1] : null;
     }
 
     public void cachePlayerEffects(Player player) {
         Collection<PotionEffect> currentEffects = player.getActivePotionEffects();
-        PotionEffect[] effectCache = new PotionEffect[23];
+        EffectCache[] effectCache = new EffectCache[23];
+
+        long currentTime = System.currentTimeMillis();
 
         for(PotionEffect potionEffect : currentEffects) {
-            effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+            effectCache[potionEffect.getType().getId() - 1] = new EffectCache(potionEffect, currentTime);
         }
 
         this.playerEffectCache.put(player.getUniqueId(), effectCache);
@@ -109,18 +121,26 @@ public class PotionEffectRestorer implements Listener {
     private void addPotionEffectToCache(Player player, PotionEffect potionEffect) {
         if(potionEffect == null) return;
 
-        PotionEffect[] effectCache = this.getCachedEffects(player);
+        EffectCache[] effectCache = this.getCachedEffects(player);
 
         if(effectCache != null) {
-            effectCache[potionEffect.getType().getId() - 1] = potionEffect;
+            EffectCache cache = effectCache[potionEffect.getType().getId() - 1];
+
+            if(cache != null) {
+                cache.setEffect(potionEffect);
+                cache.setCacheTimestamp(System.currentTimeMillis());
+            } else {
+                long currentTime = System.currentTimeMillis();
+                effectCache[potionEffect.getType().getId() - 1] = new EffectCache(potionEffect, currentTime);
+            }
         }
     }
 
     private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {
-        PotionEffect[] effectCache = this.getCachedEffects(player);
+        EffectCache[] effectCache = this.getCachedEffects(player);
 
         if(effectCache != null) {
-            effectCache[effectType.getId() - 1] = null;
+            effectCache[effectType.getId() - 1].setEffect(null);
         }
     }
 
@@ -141,13 +161,14 @@ public class PotionEffectRestorer implements Listener {
         Player player = (Player) event.getEntity();
 
         PotionEffect toAdd = ServerUtils.getEffect(event);
-        PotionEffect currentEffect = this.getPlayerPreviousEffect(player, toAdd.getType());
+        EffectCache effectCache = this.getPlayerCachedEffect(player, toAdd.getType());
+
+        if(effectCache != null && effectCache.getEffect() != null) {
+            PotionEffect newEffect = this.correctEffectDuration(effectCache);
+            this.queueEffectRestore(player, toAdd, newEffect);
+        }
 
         this.addPotionEffectToCache(player, toAdd);
-
-        if(currentEffect != null) {
-            this.queueEffectRestore(player, toAdd, currentEffect);
-        }
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -186,5 +207,14 @@ public class PotionEffectRestorer implements Listener {
 
         private final PotionEffect effect;
         private final Predicate<Player> condition;
+    }
+
+    @ToString
+    @Getter @Setter
+    @AllArgsConstructor
+    static class EffectCache {
+
+        private PotionEffect effect;
+        private long cacheTimestamp;
     }
 }
