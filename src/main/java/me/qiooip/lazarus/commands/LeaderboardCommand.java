@@ -2,6 +2,7 @@ package me.qiooip.lazarus.commands;
 
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
+import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.leaderboard.LeaderboardType;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,11 @@ public class LeaderboardCommand extends BaseCommand {
         if(type == null) {
             sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_TYPE_DOESNT_EXIST
                 .replace("<type>", args[0]));
+            return;
+        }
+
+        if(type == LeaderboardType.HIGHEST_KILLSTREAK && !Config.KITMAP_MODE_ENABLED) {
+            sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_KITMAP_MODE_ONLY);
             return;
         }
 
