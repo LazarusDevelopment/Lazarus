@@ -125,12 +125,12 @@ public class PotionEffectRestorer implements Listener {
 
         if(effectCache != null) {
             EffectCache cache = effectCache[potionEffect.getType().getId() - 1];
+            long currentTime = System.currentTimeMillis();
 
             if(cache != null) {
                 cache.setEffect(potionEffect);
-                cache.setCacheTimestamp(System.currentTimeMillis());
+                cache.setCacheTimestamp(currentTime);
             } else {
-                long currentTime = System.currentTimeMillis();
                 effectCache[potionEffect.getType().getId() - 1] = new EffectCache(potionEffect, currentTime);
             }
         }
