@@ -2,18 +2,16 @@ package me.qiooip.lazarus.factions.commands.player;
 
 import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.factions.Faction;
-import me.qiooip.lazarus.factions.FactionsManager;
-import me.qiooip.lazarus.factions.type.PlayerFaction;
+import me.qiooip.lazarus.handlers.leaderboard.entry.UuidCacheEntry;
+import me.qiooip.lazarus.handlers.leaderboard.type.FactionLeaderboardType;
+import me.qiooip.lazarus.handlers.leaderboard.type.LeaderboardType;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NavigableSet;
 
 public class TopCommand extends SubCommand {
 
@@ -25,35 +23,52 @@ public class TopCommand extends SubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Player player = (Player) sender;
-
-        List<Faction> factions = FactionsManager.getInstance().getFactions().values().stream()
-            .filter(faction -> faction instanceof PlayerFaction)
-            .sorted(Comparator.comparing(faction -> ((PlayerFaction) faction).getPoints()).reversed())
-            .limit(10).collect(Collectors.toList());
-
-        if(factions.isEmpty()) {
-            sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_TOP_NO_FACTIONS);
+        if(args.length < 1) {
+            sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_FACTION_COMMAND_USAGE);
             return;
         }
 
-        Language.FACTIONS_TOP_HEADER.forEach(sender::sendMessage);
+        LeaderboardType type = FactionLeaderboardType.getByName(args[0]);
 
-        for(int i = 0; i < factions.size(); i++) {
-            PlayerFaction faction = (PlayerFaction) factions.get(i);
-
-            ComponentBuilder message = new ComponentBuilder(Language.FACTIONS_TOP_FACTION_FORMAT
-                .replace("<number>", String.valueOf(i + 1)).replace("<name>", faction.getName(player))
-                .replace("<points>", String.valueOf(faction.getPoints())));
-
-            String hoverText = Language.FACTIONS_SHOW_HOVER_TEXT.replace("<faction>", faction.getName());
-
-            message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()))
-                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + faction.getName()));
-
-            player.spigot().sendMessage(message.create());
+        if(type == null) {
+            sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_TYPE_DOESNT_EXIST
+                .replace("<type>", args[0]));
+            return;
         }
 
-        Language.FACTIONS_TOP_FOOTER.forEach(sender::sendMessage);
+        NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
+
+        if(leaderboard.isEmpty()) {
+            sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_NO_LEADERBOARDS);
+            return;
+        }
+
+        Player player = (Player) sender;
+        String title = type.getTitle();
+        String lineFormat = type.getLineFormat();
+
+        int index = 1;
+
+        sender.sendMessage(Language.LEADERBOARDS_COMMAND_HEADER);
+        sender.sendMessage(title);
+
+        for(UuidCacheEntry<Integer> entry : leaderboard) {
+            String factionName = entry.getName();
+            String hoverText = Language.FACTIONS_SHOW_HOVER_TEXT.replace("<faction>", factionName);
+
+            ComponentBuilder message = new ComponentBuilder(lineFormat
+                .replace("<number>", String.valueOf(index))
+                .replace("<faction>", factionName)
+                .replace("<value>", String.valueOf(entry.getValue())))
+                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()))
+                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + factionName));
+
+            player.spigot().sendMessage(message.create());
+            index++;
+        }
+
+        sender.sendMessage(Language.LEADERBOARDS_COMMAND_FOOTER);
     }
+
+
 }

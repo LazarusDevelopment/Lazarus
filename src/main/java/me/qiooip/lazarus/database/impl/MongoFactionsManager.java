@@ -155,6 +155,7 @@ public class MongoFactionsManager extends FactionsManager {
                 .append("balance", playerFaction.getBalance())
                 .append("lives", playerFaction.getLives())
                 .append("points", playerFaction.getPoints())
+                .append("kills", playerFaction.getKills())
                 .append("kothsCapped", playerFaction.getKothsCapped())
                 .append("home", LocationUtils.locationToString(playerFaction.getHome()))
                 .append("open", playerFaction.isOpen())
@@ -187,6 +188,7 @@ public class MongoFactionsManager extends FactionsManager {
             faction.setBalance(document.getInteger("balance"));
             faction.setLives(document.getInteger("lives"));
             faction.setPoints(document.getInteger("points"));
+            faction.setKills(document.getInteger("kills", 0));
             faction.setKothsCapped(document.getInteger("kothsCapped", 0));
             faction.setHome(LocationUtils.stringToLocation(document.getString("home")));
             faction.setOpen(document.getBoolean("open"));

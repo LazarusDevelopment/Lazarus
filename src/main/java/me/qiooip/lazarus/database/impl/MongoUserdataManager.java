@@ -32,7 +32,10 @@ public class MongoUserdataManager extends UserdataManager {
             return;
         }
 
-        super.userdata.put(uuid, this.userdataFromDocument(document));
+        Userdata userdata = this.userdataFromDocument(document);
+
+        super.userdata.put(uuid, userdata);
+        this.checkUsernameChange(userdata, name);
     }
 
     @Override

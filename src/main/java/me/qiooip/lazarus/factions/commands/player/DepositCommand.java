@@ -53,9 +53,10 @@ public class DepositCommand extends SubCommand {
         }
 
         Lazarus.getInstance().getEconomyManager().removeBalance(player, amount);
-        faction.setBalance(faction.getBalance() + amount);
+        faction.addBalance(amount);
 
-        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_DEPOSIT_DEPOSITED.replace("<player>",
-        player.getName()).replace("<amount>", String.valueOf(amount)));
+        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_DEPOSIT_DEPOSITED
+            .replace("<player>", player.getName())
+            .replace("<amount>", String.valueOf(amount)));
     }
 }

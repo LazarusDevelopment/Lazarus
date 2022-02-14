@@ -4,7 +4,8 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
-import me.qiooip.lazarus.handlers.leaderboard.LeaderboardType;
+import me.qiooip.lazarus.handlers.leaderboard.type.LeaderboardType;
+import me.qiooip.lazarus.handlers.leaderboard.type.PlayerLeaderboardType;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class LeaderboardCommand extends BaseCommand {
             return;
         }
 
-        LeaderboardType type = LeaderboardType.getByName(args[0]);
+        LeaderboardType type = PlayerLeaderboardType.getByName(args[0]);
 
         if(type == null) {
             sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_TYPE_DOESNT_EXIST
@@ -32,7 +33,7 @@ public class LeaderboardCommand extends BaseCommand {
             return;
         }
 
-        if(type == LeaderboardType.HIGHEST_KILLSTREAK && !Config.KITMAP_MODE_ENABLED) {
+        if(type == PlayerLeaderboardType.HIGHEST_KILLSTREAK && !Config.KITMAP_MODE_ENABLED) {
             sender.sendMessage(Language.PREFIX + Language.LEADERBOARDS_KITMAP_MODE_ONLY);
             return;
         }
@@ -48,11 +49,11 @@ public class LeaderboardCommand extends BaseCommand {
 
         List<String> completions = new ArrayList<>();
 
-        for(LeaderboardType type : LeaderboardType.values()) {
-            String name = type.name();
-            if(!name.startsWith(args[0].toUpperCase())) continue;
+        for(PlayerLeaderboardType type : PlayerLeaderboardType.values()) {
+            String param = type.getParamName();
+            if(!param.startsWith(args[0].toUpperCase())) continue;
 
-            completions.add(name.toLowerCase());
+            completions.add(param.toLowerCase());
         }
 
         return completions;

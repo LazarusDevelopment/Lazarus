@@ -30,12 +30,14 @@ public class SetBalanceCommand extends SubCommand {
 
         int amount = Math.abs(Integer.parseInt(args[1]));
 
-        faction.setBalance(amount);
+        faction.changeBalance(amount);
 
         sender.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_BALANCE_CHANGED_SENDER
-        .replace("<faction>", faction.getName()).replace("<amount>", String.valueOf(amount)));
+            .replace("<faction>", faction.getName())
+            .replace("<amount>", String.valueOf(amount)));
 
         faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_SET_BALANCE_CHANGED_FACTION
-        .replace("<player>", sender.getName()).replace("<amount>", String.valueOf(amount)));
+            .replace("<player>", sender.getName())
+            .replace("<amount>", String.valueOf(amount)));
     }
 }

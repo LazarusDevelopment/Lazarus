@@ -33,7 +33,8 @@ public class WithdrawCommand extends SubCommand {
         }
 
         if(!faction.getMember(player).getRole().isAtLeast(Role.CAPTAIN)) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.CAPTAIN.getName()));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION
+                .replace("<role>", Role.CAPTAIN.getName()));
             return;
         }
 
@@ -48,14 +49,15 @@ public class WithdrawCommand extends SubCommand {
 
         if(amount > faction.getBalance()) {
             player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_WITHDRAW_NOT_ENOUGH_MONEY
-            .replace("<amount>", String.valueOf(faction.getBalance())));
+                .replace("<amount>", String.valueOf(faction.getBalance())));
             return;
         }
 
         Lazarus.getInstance().getEconomyManager().addBalance(player, amount);
-        faction.setBalance(faction.getBalance() - amount);
+        faction.removeBalance(amount);
 
-        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_WITHDRAW_WITHDRAWN.replace("<player>",
-        player.getName()).replace("<amount>", String.valueOf(amount)));
+        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_WITHDRAW_WITHDRAWN
+            .replace("<player>", player.getName())
+            .replace("<amount>", String.valueOf(amount)));
     }
 }

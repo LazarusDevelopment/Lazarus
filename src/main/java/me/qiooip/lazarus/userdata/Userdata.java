@@ -50,9 +50,12 @@ public class Userdata {
         this.uuid = uuid;
         this.name = name;
 
-        this.balance = Config.DEFAULT_BALANCE_PLAYER;
-        this.lives = Config.DEFAULT_LIVES;
+        this.changeKills(0);
+        this.changeDeaths(0);
+        this.changeHighestKillstreak(0);
+        this.changeBalance(Config.DEFAULT_BALANCE_PLAYER);
 
+        this.lives = Config.DEFAULT_LIVES;
         this.settings = new Settings();
 
         this.ignoring = new ArrayList<>();
@@ -66,8 +69,8 @@ public class Userdata {
         return Bukkit.getPlayer(this.uuid);
     }
 
-    public void changeBalance(int newBalance) {
-        this.balance = newBalance;
+    public void changeBalance(int value) {
+        this.balance = value;
         new UserdataValueChangeEvent(this, UserdataValueType.BALANCE);
     }
 
@@ -77,7 +80,11 @@ public class Userdata {
     }
 
     public void addKill() {
-        this.kills++;
+        this.changeKills(this.kills + 1);
+    }
+
+    public void changeKills(int value) {
+        this.kills = value;
         new UserdataValueChangeEvent(this, UserdataValueType.KILLS);
     }
 
@@ -87,16 +94,24 @@ public class Userdata {
     }
 
     public void addDeath() {
-        this.deaths++;
+        this.changeDeaths(this.deaths + 1);
+    }
+
+    public void changeDeaths(int value) {
+        this.deaths = value;
         new UserdataValueChangeEvent(this, UserdataValueType.DEATHS);
+    }
+
+    public void changeHighestKillstreak(int value) {
+        this.highestKillstreak = value;
+        new UserdataValueChangeEvent(this, UserdataValueType.HIGHEST_KILLSTREAK);
     }
 
     public void addKillstreak() {
         this.killstreak++;
 
         if(this.killstreak > this.highestKillstreak) {
-            this.highestKillstreak = this.killstreak;
-            new UserdataValueChangeEvent(this, UserdataValueType.HIGHEST_KILLSTREAK);
+            this.changeHighestKillstreak(this.killstreak);
         }
     }
 

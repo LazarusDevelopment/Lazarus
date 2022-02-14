@@ -9,6 +9,8 @@ import me.qiooip.lazarus.factions.Faction;
 import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.enums.Role;
+import me.qiooip.lazarus.factions.event.FactionDataChangeEvent;
+import me.qiooip.lazarus.factions.event.FactionDataType;
 import me.qiooip.lazarus.factions.event.FactionDtrChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionFocusedEvent;
 import me.qiooip.lazarus.factions.event.FactionUnfocusedEvent;
@@ -35,7 +37,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -50,6 +51,7 @@ public class PlayerFaction extends Faction {
     private int balance;
     private int lives;
     private int points;
+    private int kills;
     private int kothsCapped;
 
     private Location home;
@@ -89,9 +91,12 @@ public class PlayerFaction extends Faction {
         this.focusing = new HashSet<>();
 
         this.allies = new ArrayList<>();
-
         this.dtr = Config.FACTION_DTR_SOLO_FACTION_DTR;
-        this.balance = Config.DEFAULT_BALANCE_FACTION;
+
+        this.changeKills(0);
+        this.changePoints(0);
+        this.changeKothsCapped(0);
+        this.changeBalance(Config.DEFAULT_BALANCE_FACTION);
     }
 
     public void sendMessage(String message) {
@@ -252,12 +257,34 @@ public class PlayerFaction extends Faction {
         }
     }
 
+    public void addKill() {
+        this.changeKills(this.kills + 1);
+    }
+
+    public void incrementKills(int value) {
+        this.changeKills(this.kills + value);
+    }
+
+    public void decrementKills(int value) {
+        this.changeKills(this.kills - value);
+    }
+
+    public void changeKills(int value) {
+        this.kills = value;
+        new FactionDataChangeEvent(this, FactionDataType.KILLS);
+    }
+
     public void addBalance(int amount) {
-        this.balance = this.balance + amount;
+        this.changeBalance(this.balance + amount);
     }
 
     public void removeBalance(int amount) {
-        this.balance = this.balance - amount;
+        this.changeBalance(this.balance - amount);
+    }
+
+    public void changeBalance(int amount) {
+        this.balance = amount;
+        new FactionDataChangeEvent(this, FactionDataType.BALANCE);
     }
 
     public void onDeath(Player player) {
@@ -270,7 +297,7 @@ public class PlayerFaction extends Faction {
             TimerManager.getInstance().getFactionFreezeTimer().activate(this);
         }
 
-        this.setPoints(this.points + Config.FACTION_TOP_DEATH);
+        this.changePoints(this.points + Config.FACTION_TOP_DEATH);
 
         this.sendMessage(Language.FACTIONS_MEMBER_DEATH
             .replace("<player>", player.getName()).replace("<dtrLoss>", "-" + dtrLoss)
@@ -278,15 +305,21 @@ public class PlayerFaction extends Faction {
     }
 
     public void incrementPoints(int value) {
-        this.points += Math.abs(value);
+        this.changePoints(this.points + Math.abs(value));
     }
 
-    public void setPoints(int value) {
+    public void changePoints(int value) {
         this.points = Config.FACTION_TOP_ALLOW_NEGATIVE_POINTS ? value : Math.max(0, value);
+        new FactionDataChangeEvent(this, FactionDataType.POINTS);
     }
 
     public void incrementKothsCapped() {
-        this.kothsCapped++;
+        this.changeKothsCapped(this.kothsCapped + 1);
+    }
+
+    public void changeKothsCapped(int value) {
+        this.kothsCapped = value;
+        new FactionDataChangeEvent(this, FactionDataType.KOTHS_CAPPED);
     }
 
     public boolean isFocusing(Player player) {
@@ -400,15 +433,11 @@ public class PlayerFaction extends Faction {
         StringJoiner members = new StringJoiner(", ");
         StringJoiner allies = new StringJoiner(", ");
 
-        AtomicInteger totalKills = new AtomicInteger();
-
         this.members.values().forEach(member -> {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(member.getUuid());
             Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(offlinePlayer);
 
             if(userdata != null) {
-                totalKills.getAndAdd(userdata.getKills());
-
                 switch(member.getRole()) {
                     case LEADER: leader.set(this.getPlayerNameFormatted(member, userdata)); break;
                     case CO_LEADER: coLeaders.add(this.getPlayerNameFormatted(member, userdata)); break;
@@ -423,7 +452,7 @@ public class PlayerFaction extends Faction {
         List<String> showMessage = new ArrayList<>(Language.FACTIONS_PLAYER_FACTION_SHOW);
 
         boolean isSameFaction = sender instanceof Player && FactionsManager
-        .getInstance().getPlayerFaction((Player) sender) == this;
+            .getInstance().getPlayerFaction((Player) sender) == this;
 
         showMessage.removeIf(line -> line.contains("<co-leaders>") && coLeaders.length() == 0
             || line.contains("<announcement>") && (!isSameFaction || StringUtils.isNullOrEmpty(this.announcement))
@@ -434,7 +463,10 @@ public class PlayerFaction extends Faction {
             || line.contains("<allies>") && allies.length() == 0
             || line.contains("<regen-time>") && !this.isFrozen());
 
-        showMessage.forEach(line -> sender.sendMessage(line
+        StringJoiner joiner = new StringJoiner("\n" + ChatColor.RESET);
+        showMessage.forEach(joiner::add);
+
+        sender.sendMessage(joiner.toString()
             .replace("<faction>", this.getName(sender))
             .replace("<online-count>", String.valueOf(this.getOnlinePlayersCount(sender)))
             .replace("<faction-size>", String.valueOf(this.members.size()))
@@ -442,7 +474,7 @@ public class PlayerFaction extends Faction {
             .replace("<announcement>", this.announcement != null ? this.announcement : "")
             .replace("<autoRevive>", Language.getEnabledOrDisabled(this.autoRevive))
             .replace("<lives>", String.valueOf(this.lives))
-            .replace("<kills>", String.valueOf(totalKills.get()))
+            .replace("<kills>", String.valueOf(this.kills))
             .replace("<leader>", leader.get())
             .replace("<co-leaders>", coLeaders.toString())
             .replace("<captains>", captains.toString())
@@ -454,7 +486,7 @@ public class PlayerFaction extends Faction {
             .replace("<regen-time>", this.getRegeneratingString())
             .replace("<dtr>", this.getDtrString())
             .replace("<dtrMax>", this.getMaxDtrString())
-            .replace("<raidable>", this.getDtrColor() + this.getRaidableString())));
+            .replace("<raidable>", this.getDtrColor() + this.getRaidableString()));
     }
 
     private String getPlayerNameFormatted(FactionPlayer fplayer, Userdata userdata) {

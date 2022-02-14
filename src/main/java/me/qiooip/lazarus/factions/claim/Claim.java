@@ -161,7 +161,7 @@ public class Claim implements Cloneable {
                 location.setY(i);
 
                 Lazarus.getInstance().getGlassManager().generateGlassVisual(player, new GlassInfo(GlassType
-                .CLAIM_MAP, location, i % 4 == 0 ? material : Material.STAINED_GLASS, durability));
+                    .CLAIM_MAP, location, i % 4 == 0 ? material : Material.STAINED_GLASS, durability));
             }
         }
     }

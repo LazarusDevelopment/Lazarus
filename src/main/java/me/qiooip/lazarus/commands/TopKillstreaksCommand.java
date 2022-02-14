@@ -5,7 +5,7 @@ import me.qiooip.lazarus.commands.manager.BaseCommand;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.leaderboard.LeaderboardHandler;
-import me.qiooip.lazarus.handlers.leaderboard.LeaderboardType;
+import me.qiooip.lazarus.handlers.leaderboard.type.PlayerLeaderboardType;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -24,6 +24,6 @@ public class TopKillstreaksCommand extends BaseCommand {
         }
 
         LeaderboardHandler handler = Lazarus.getInstance().getLeaderboardHandler();
-        handler.sendLeaderboardMessage(sender, LeaderboardType.HIGHEST_KILLSTREAK);
+        handler.sendLeaderboardMessage(sender, PlayerLeaderboardType.HIGHEST_KILLSTREAK);
     }
 }

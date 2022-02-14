@@ -3,6 +3,7 @@ package me.qiooip.lazarus.userdata;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.userdata.event.PlayerUsernameChangeEvent;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
@@ -16,7 +17,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,11 +55,9 @@ public class UserdataManager implements Listener {
         if(content == null) return;
 
         Userdata userdata = Lazarus.getInstance().getGson().fromJson(content, Userdata.class);
-        this.userdata.put(uuid, userdata);
 
-        if(userdata.getLastKills() == null) {
-            userdata.setLastKills(new ArrayList<>());
-        }
+        this.userdata.put(uuid, userdata);
+        this.checkUsernameChange(userdata, name);
     }
 
     private void saveUserdata(Player player) {
@@ -104,6 +102,13 @@ public class UserdataManager implements Listener {
         this.userdata.put(player.getUniqueId(), userdata);
 
         return userdata;
+    }
+
+    protected void checkUsernameChange(Userdata userdata, String name) {
+        if(userdata.getName().equals(name)) return;
+
+        userdata.setName(name);
+        new PlayerUsernameChangeEvent(userdata, name);
     }
 
     public void deleteAllUserdata() {

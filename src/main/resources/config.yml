@@ -644,7 +644,7 @@ BORDER_SIZE:
 #                   Economy configuration                 #
 #=========================================================#
 
-# Max balance for players
+# Max balance amount for players
 MAX_BALANCE: 1000000
 
 # Default economy balances

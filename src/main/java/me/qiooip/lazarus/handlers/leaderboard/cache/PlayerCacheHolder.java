@@ -1,4 +1,4 @@
-package me.qiooip.lazarus.handlers.leaderboard;
+package me.qiooip.lazarus.handlers.leaderboard.cache;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -21,13 +21,20 @@ public class PlayerCacheHolder {
     @SerializedName("topBalance")
     private NavigableSet<UuidCacheEntry<Integer>> topBalance;
 
-    @SerializedName("highestKillstreaks")
-    private NavigableSet<UuidCacheEntry<Integer>> highestKillstreaks;
+    @SerializedName("topHighestKillstreak")
+    private NavigableSet<UuidCacheEntry<Integer>> topHighestKillstreak;
 
     public PlayerCacheHolder() {
         this.topKills = new TreeSet<>();
         this.topDeaths = new TreeSet<>();
         this.topBalance = new TreeSet<>();
-        this.highestKillstreaks = new TreeSet<>();
+        this.topHighestKillstreak = new TreeSet<>();
+    }
+
+    public void clear() {
+        this.topKills.clear();
+        this.topDeaths.clear();
+        this.topBalance.clear();
+        this.topHighestKillstreak.clear();
     }
 }

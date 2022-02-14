@@ -15,7 +15,7 @@ import java.util.List;
 public class HardResetCommand extends BaseCommand {
 
     private final String[] TAB_COMPLETIONS = new String[] {
-        "playerfactions", "factionpoints", "userdata", "timers", "deathbans", "all"
+        "playerfactions", "factionpoints", "userdata", "timers", "deathbans", "leaderboards", "all"
     };
 
     public HardResetCommand() {
@@ -66,12 +66,19 @@ public class HardResetCommand extends BaseCommand {
                 Lazarus.getInstance().log("&4===&c=============================================&4===");
                 return;
             }
+            case "leaderboards": {
+                Lazarus.getInstance().log("&4===&c=============================================&4===");
+                Lazarus.getInstance().getLeaderboardHandler().deleteAllLeaderboards();
+                Lazarus.getInstance().log("&4===&c=============================================&4===");
+                return;
+            }
             case "all": {
                 Lazarus.getInstance().log("&4===&c=============================================&4===");
                 ClaimManager.getInstance().deleteAllPlayerFactionClaims();
                 FactionsManager.getInstance().deleteAllPlayerFactions();
                 Lazarus.getInstance().getUserdataManager().deleteAllUserdata();
                 Lazarus.getInstance().getDeathbanManager().deleteAllDeathbans(true);
+                Lazarus.getInstance().getLeaderboardHandler().deleteAllLeaderboards();
                 TimerManager.getInstance().deleteAllTimers();
                 Lazarus.getInstance().log("&4===&c=============================================&4===");
                 return;

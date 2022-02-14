@@ -393,24 +393,37 @@ BOMBER_CLASS:
     COOLDOWN_EXPIRED: "&cYour &4TNT &ccooldown has expired."
 
 LEADERBOARDS:
-  COMMAND_USAGE: "&cUsage: /leaderboard <type>"
+  COMMAND_USAGE: "&cUsage: /leaderboard <kills|deaths|balance|killstreak>"
+  FACTION_COMMAND_USAGE: "&cUsage: /f top <kills|points|balance|koths>"
   TYPE_DOESNT_EXIST: "&cLeaderboard type &e<type> &cdoesn't exist!"
   KITMAP_MODE_ONLY: "&cThis leaderboard type is only available in &ekitmap mode&c."
   NO_LEADERBOARDS: "&eThere are no leaderboards for this type."
   COMMAND_HEADER: "&7&m                                                                                "
   COMMAND_FOOTER: "&7&m                                                                                "
   TOP_KILLS:
-    TITLE: "&c&lTop kills leaderboard"
+    TITLE: "&c&lTop kills"
     LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
   TOP_DEATHS:
-    TITLE: "&c&lTop deaths leaderboard"
+    TITLE: "&c&lTop deaths"
     LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
   TOP_BALANCE:
-    TITLE: "&c&lTop balance leaderboard"
+    TITLE: "&c&lTop balance"
     LINE_FORMAT: "&7<number>. &a<player> &7- &b$<value>"
   TOP_KILLSTREAK:
-    TITLE: "&c&lTop killstreak leaderboard"
+    TITLE: "&c&lTop killstreak"
     LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  FACTION_TOP_KILLS:
+    TITLE: "&c&lTop faction kills"
+    LINE_FORMAT: "&7<number>. &a<faction> &7- &b<value>"
+  FACTION_TOP_POINTS:
+    TITLE: "&c&lTop faction points"
+    LINE_FORMAT: "&7<number>. &a<faction> &7- &b<value>"
+  FACTION_TOP_BALANCE:
+    TITLE: "&c&lTop faction balance"
+    LINE_FORMAT: "&7<number>. &a<faction> &7- &b$<value>"
+  FACTION_TOP_KOTHS_CAPPED:
+    TITLE: "&c&lTop faction koth capped"
+    LINE_FORMAT: "&7<number>. &a<faction> &7- &b<value>"
 
 SPAWNERS:
   DISABLE_PLACE:
@@ -847,14 +860,6 @@ FACTIONS:
     USAGE: "&cUsage: /f thaw <faction>"
     CHANGED_SENDER: "&eYou have unfrozen faction &c<faction>&e."
     CHANGED_FACTION: "&eYour faction has been unfrozen by &c<player>&e."
-  TOP_COMMAND:
-    NO_FACTIONS: "&eThere are &cno factions &eyet."
-    FACTION_FORMAT: " &f<number>. <name> &7(&b<points> points&7)"
-    HEADER:
-      - "&7&m                                                                                "
-      - " &6&lFaction top &7(Top 10 factions)"
-    FOOTER:
-      - "&7&m                                                                                "
   TP_HERE_COMMAND:
     USAGE: "&cUsage: /f tphere <faction>"
     TELEPORTED_SENDER: "&eYou teleported &c<faction> &eto your location."
