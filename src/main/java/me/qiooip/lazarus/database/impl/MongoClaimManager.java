@@ -118,6 +118,6 @@ public class MongoClaimManager extends ClaimManager {
         if(event.getClaimChangeReason() == ClaimChangeReason.CLAIM) return;
 
         Tasks.async(() -> event.getClaims().forEach(claim -> this
-        .getClaimsRepo().deleteOne(Filters.eq("_id", claim.getId()))));
+            .getClaimsRepo().deleteOne(Filters.eq("_id", claim.getId()))));
     }
 }

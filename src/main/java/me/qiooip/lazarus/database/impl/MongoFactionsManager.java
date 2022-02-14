@@ -175,7 +175,6 @@ public class MongoFactionsManager extends FactionsManager {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private Faction factionFromDocument(Document document) {
         if(document.getString("type") == null) {
             PlayerFaction faction = new PlayerFaction();
@@ -193,7 +192,7 @@ public class MongoFactionsManager extends FactionsManager {
             faction.setOpen(document.getBoolean("open"));
             faction.setAutoRevive(document.getBoolean("autoRevive"));
             faction.setFriendlyFire(document.getBoolean("friendlyFire"));
-            faction.setAllies((List<UUID>) document.get("allies"));
+            faction.setAllies(document.get("allies", new ArrayList<>()));
 
             return faction;
         } else {

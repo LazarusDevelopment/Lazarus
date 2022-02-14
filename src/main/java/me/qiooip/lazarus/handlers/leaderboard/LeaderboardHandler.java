@@ -131,10 +131,7 @@ public class LeaderboardHandler extends Handler implements Listener {
 
     @EventHandler
     public void onUserdataValueChange(UserdataValueChangeEvent event) {
-        UserdataValueType type = event.getType();
         Player player = event.getUserdata().getPlayer();
-        Number newValue = event.getNewValue();
-
-        this.updateLeaderboardsCache(player, type, newValue);
+        this.updateLeaderboardsCache(player, event.getType(), event.getNewValue());
     }
 }
