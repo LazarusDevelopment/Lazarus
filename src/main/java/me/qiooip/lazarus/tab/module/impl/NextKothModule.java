@@ -98,27 +98,30 @@ public class NextKothModule extends TabModule {
 
     @Override
     public void apply(PlayerTab tab) {
-        int linesCount = 0;
+        int linesCount;
         RunningKoth koth = Lazarus.getInstance().getKothManager().getFirstRunningKoth();
 
         if(koth != null) {
-            for(int i = 0; i < this.runningKoth.size(); i++) {
+            linesCount = this.runningKoth.size();
+
+            for(int i = 0; i < linesCount; i++) {
                 tab.set(this.startSlot + i, this.runningKoth.get(i).applyLine(koth));
-                linesCount++;
             }
         } else {
             NextEventSchedule nextEvent = Lazarus.getInstance()
                 .getScheduleManager().getNextEventSchedule();
 
             if(nextEvent == null) {
-                for(int i = 0; i < this.noneScheduled.size(); i++) {
+                linesCount = this.noneScheduled.size();
+
+                for(int i = 0; i < linesCount; i++) {
                     tab.set(this.startSlot + i, this.noneScheduled.get(i).get());
-                    linesCount++;
                 }
             } else {
-                for(int i = 0; i < this.scheduled.size(); i++) {
+                linesCount = this.scheduled.size();
+
+                for(int i = 0; i < linesCount; i++) {
                     tab.set(this.startSlot + i, this.scheduled.get(i).applyLine(nextEvent));
-                    linesCount++;
                 }
             }
         }

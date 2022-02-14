@@ -35,7 +35,7 @@ NEXT_KOTH_MODULE:
   ENABLED: true
   START_SLOT: 52
   NONE_SCHEDULED:
-    - "&5&lKoTH"
+    - "&5&lEvent"
     - "&7None scheduled"
   SCHEDULED:
     - "&5&lNext event"

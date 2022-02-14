@@ -244,7 +244,7 @@ public class MongoFactionsManager extends FactionsManager {
                 PlayerFaction playerFaction = (PlayerFaction) faction;
 
                 playerFaction.getMembers().keySet().forEach(uuid -> this
-                .getPlayersRepo().deleteOne(Filters.eq("_id", uuid)));
+                    .getPlayersRepo().deleteOne(Filters.eq("_id", uuid)));
             }
 
             this.getFactionsRepo().deleteOne(Filters.eq("_id", faction.getId()));
