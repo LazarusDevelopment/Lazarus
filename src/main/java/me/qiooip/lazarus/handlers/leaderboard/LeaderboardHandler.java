@@ -26,7 +26,6 @@ import me.qiooip.lazarus.userdata.event.PlayerUsernameChangeEvent;
 import me.qiooip.lazarus.userdata.event.UserdataValueChangeEvent;
 import me.qiooip.lazarus.userdata.event.UserdataValueType;
 import me.qiooip.lazarus.utils.FileUtils;
-import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
@@ -86,13 +85,19 @@ public class LeaderboardHandler extends Handler implements Listener {
         }
     }
 
-    private void updateCacheValue(NavigableSet<UuidCacheEntry<Integer>> cache, UUID key, String name, int newValue) {
-        cache.removeIf(entry -> entry.getKey().equals(key));
-        cache.add(new UuidCacheEntry<>(key, name, newValue));
+    private void updateCacheValue(LeaderboardType type, UUID key, String name, int newValue) {
+        NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
 
-        if(cache.size() > 10) {
-            cache.pollLast();
+        this.removeFromLeaderboard(type, key);
+        leaderboard.add(new UuidCacheEntry<>(key, name, newValue));
+
+        if(leaderboard.size() > 10) {
+            leaderboard.pollLast();
         }
+    }
+
+    private boolean removeFromLeaderboard(LeaderboardType type, UUID key) {
+        return type.getLeaderboard().removeIf(entry -> entry.getKey().equals(key));
     }
 
     private void handlePlayerUsernameChange(Userdata userdata, String newName) {
@@ -100,7 +105,7 @@ public class LeaderboardHandler extends Handler implements Listener {
             UserdataValueType valueType = PlayerLeaderboardType.getUserdataValueTypeFrom(type);
             int newValue = valueType.getNewValue(userdata).intValue();
 
-            this.updateCacheValue(type.getLeaderboard(), userdata.getUuid(), newName, newValue);
+            this.updateCacheValue(type, userdata.getUuid(), newName, newValue);
         }
     }
 
@@ -109,7 +114,7 @@ public class LeaderboardHandler extends Handler implements Listener {
             FactionDataType valueType = FactionLeaderboardType.getFactionDataTypeFrom(type);
             int newValue = valueType.getNewValue(faction).intValue();
 
-            this.updateCacheValue(type.getLeaderboard(), faction.getId(), newName, newValue);
+            this.updateCacheValue(type, faction.getId(), newName, newValue);
         }
     }
 
@@ -117,8 +122,7 @@ public class LeaderboardHandler extends Handler implements Listener {
         Set<FactionLeaderboardType> containingLeaderboards = new HashSet<>();
 
         for(FactionLeaderboardType type : FactionLeaderboardType.values()) {
-            boolean removed = type.getLeaderboard().removeIf(entry
-                -> entry.getKey().equals(disbanded.getId()));
+            boolean removed = this.removeFromLeaderboard(type, disbanded.getId());
 
             if(removed) {
                 containingLeaderboards.add(type);
@@ -201,7 +205,7 @@ public class LeaderboardHandler extends Handler implements Listener {
         int newValue = event.getNewValue().intValue();
         LeaderboardType type = PlayerLeaderboardType.getFromUserdataValueType(event.getType());
 
-        this.updateCacheValue(type.getLeaderboard(), userdata.getUuid(), userdata.getName(), newValue);
+        this.updateCacheValue(type, userdata.getUuid(), userdata.getName(), newValue);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -217,7 +221,7 @@ public class LeaderboardHandler extends Handler implements Listener {
         Faction faction = event.getFaction();
 
         if(faction instanceof PlayerFaction) {
-            Tasks.async(() -> this.removeFactionOnDisband((PlayerFaction) faction));
+            this.removeFactionOnDisband((PlayerFaction) faction);
         }
     }
 
@@ -227,6 +231,6 @@ public class LeaderboardHandler extends Handler implements Listener {
         int newValue = event.getNewValue().intValue();
         LeaderboardType type = FactionLeaderboardType.getFromFactionDataType(event.getType());
 
-        this.updateCacheValue(type.getLeaderboard(), faction.getId(), faction.getName(), newValue);
+        this.updateCacheValue(type, faction.getId(), faction.getName(), newValue);
     }
 }
