@@ -5,30 +5,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.qiooip.lazarus.handlers.leaderboard.entry.UuidCacheEntry;
 
-import java.util.NavigableSet;
-import java.util.TreeSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 @Getter
 @AllArgsConstructor
 public class FactionCacheHolder {
 
     @SerializedName("topKills")
-    private NavigableSet<UuidCacheEntry<Integer>> topKills;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topKills;
 
     @SerializedName("topPoints")
-    private NavigableSet<UuidCacheEntry<Integer>> topPoints;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topPoints;
 
     @SerializedName("topBalance")
-    private NavigableSet<UuidCacheEntry<Integer>> topBalance;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topBalance;
 
     @SerializedName("topKothsCapped")
-    private NavigableSet<UuidCacheEntry<Integer>> topKothsCapped;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topKothsCapped;
 
     public FactionCacheHolder() {
-        this.topKills = new TreeSet<>();
-        this.topPoints = new TreeSet<>();
-        this.topBalance = new TreeSet<>();
-        this.topKothsCapped = new TreeSet<>();
+        this.topKills = new ConcurrentSkipListSet<>();
+        this.topPoints = new ConcurrentSkipListSet<>();
+        this.topBalance = new ConcurrentSkipListSet<>();
+        this.topKothsCapped = new ConcurrentSkipListSet<>();
     }
 
     public void clear() {

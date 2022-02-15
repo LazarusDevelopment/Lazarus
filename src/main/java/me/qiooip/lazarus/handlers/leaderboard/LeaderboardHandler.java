@@ -1,12 +1,17 @@
 package me.qiooip.lazarus.handlers.leaderboard;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.google.gson.Gson;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.factions.Faction;
+import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.event.FactionDataChangeEvent;
 import me.qiooip.lazarus.factions.event.FactionDataType;
+import me.qiooip.lazarus.factions.event.FactionDisbandEvent;
 import me.qiooip.lazarus.factions.event.FactionRenameEvent;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.handlers.leaderboard.cache.FactionCacheHolder;
@@ -21,13 +26,16 @@ import me.qiooip.lazarus.userdata.event.PlayerUsernameChangeEvent;
 import me.qiooip.lazarus.userdata.event.UserdataValueChangeEvent;
 import me.qiooip.lazarus.userdata.event.UserdataValueType;
 import me.qiooip.lazarus.utils.FileUtils;
+import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -38,10 +46,10 @@ public class LeaderboardHandler extends Handler implements Listener {
 
     public LeaderboardHandler() {
         this.playerCacheHolder = this.loadLeaderboardCache(
-            this.getPlayerLeaderboardFile(), PlayerCacheHolder.class, new PlayerCacheHolder());
+            this.getPlayersFile(), PlayerCacheHolder.class, new PlayerCacheHolder());
 
         this.factionCacheHolder = this.loadLeaderboardCache(
-            this.getFactionLeaderboardFile(), FactionCacheHolder.class, new FactionCacheHolder());
+            this.getFactionsFile(), FactionCacheHolder.class, new FactionCacheHolder());
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
@@ -51,11 +59,11 @@ public class LeaderboardHandler extends Handler implements Listener {
         this.saveCache();
     }
 
-    private File getPlayerLeaderboardFile() {
+    private File getPlayersFile() {
         return FileUtils.getOrCreateFile(Config.LEADERBOARDS_DIR, "players.json");
     }
 
-    private File getFactionLeaderboardFile() {
+    private File getFactionsFile() {
         return FileUtils.getOrCreateFile(Config.LEADERBOARDS_DIR, "factions.json");
     }
 
@@ -68,12 +76,12 @@ public class LeaderboardHandler extends Handler implements Listener {
         Gson gson = Lazarus.getInstance().getGson();
 
         if(this.playerCacheHolder != null) {
-            FileUtils.writeString(this.getPlayerLeaderboardFile(),
+            FileUtils.writeString(this.getPlayersFile(),
                 gson.toJson(this.playerCacheHolder, PlayerCacheHolder.class));
         }
 
         if(this.factionCacheHolder != null) {
-            FileUtils.writeString(this.getFactionLeaderboardFile(),
+            FileUtils.writeString(this.getFactionsFile(),
                 gson.toJson(this.factionCacheHolder, FactionCacheHolder.class));
         }
     }
@@ -102,6 +110,48 @@ public class LeaderboardHandler extends Handler implements Listener {
             int newValue = valueType.getNewValue(faction).intValue();
 
             this.updateCacheValue(type.getLeaderboard(), faction.getId(), newName, newValue);
+        }
+    }
+
+    public void removeFactionOnDisband(PlayerFaction disbanded) {
+        Set<FactionLeaderboardType> containingLeaderboards = new HashSet<>();
+
+        for(FactionLeaderboardType type : FactionLeaderboardType.values()) {
+            boolean removed = type.getLeaderboard().removeIf(entry
+                -> entry.getKey().equals(disbanded.getId()));
+
+            if(removed) {
+                containingLeaderboards.add(type);
+            }
+        }
+
+        if(!containingLeaderboards.isEmpty()) {
+            this.reCacheFactionsOnDisband(containingLeaderboards);
+        }
+    }
+
+    private void reCacheFactionsOnDisband(Set<FactionLeaderboardType> leaderboardTypes) {
+        Table<LeaderboardType, PlayerFaction, Integer> scores = HashBasedTable.create();
+
+        for(Faction faction : FactionsManager.getInstance().getFactions().values()) {
+            if(!(faction instanceof PlayerFaction)) continue;
+
+            PlayerFaction playerFaction = (PlayerFaction) faction;
+
+            for(FactionLeaderboardType type : leaderboardTypes) {
+                FactionDataType valueType = FactionLeaderboardType.getFactionDataTypeFrom(type);
+                int dataValue = valueType.getNewValue(playerFaction).intValue();
+
+                scores.put(type, playerFaction, dataValue);
+            }
+        }
+
+        for(FactionLeaderboardType type : leaderboardTypes) {
+            NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
+            leaderboard.clear();
+
+            scores.row(type).forEach((faction, value)
+                -> leaderboard.add(new UuidCacheEntry<>(faction, value)));
         }
     }
 
@@ -160,6 +210,15 @@ public class LeaderboardHandler extends Handler implements Listener {
 
         PlayerFaction playerFaction = (PlayerFaction) event.getFaction();
         this.handleFactionNameChange(playerFaction, event.getNewName());
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onFactionDisband(FactionDisbandEvent event) {
+        Faction faction = event.getFaction();
+
+        if(faction instanceof PlayerFaction) {
+            Tasks.async(() -> this.removeFactionOnDisband((PlayerFaction) faction));
+        }
     }
 
     @EventHandler

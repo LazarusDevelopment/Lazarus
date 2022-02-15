@@ -5,30 +5,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.qiooip.lazarus.handlers.leaderboard.entry.UuidCacheEntry;
 
-import java.util.NavigableSet;
-import java.util.TreeSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 @Getter
 @AllArgsConstructor
 public class PlayerCacheHolder {
 
     @SerializedName("topKills")
-    private NavigableSet<UuidCacheEntry<Integer>> topKills;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topKills;
 
     @SerializedName("topDeaths")
-    private NavigableSet<UuidCacheEntry<Integer>> topDeaths;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topDeaths;
 
     @SerializedName("topBalance")
-    private NavigableSet<UuidCacheEntry<Integer>> topBalance;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topBalance;
 
     @SerializedName("topHighestKillstreak")
-    private NavigableSet<UuidCacheEntry<Integer>> topHighestKillstreak;
+    private ConcurrentSkipListSet<UuidCacheEntry<Integer>> topHighestKillstreak;
 
     public PlayerCacheHolder() {
-        this.topKills = new TreeSet<>();
-        this.topDeaths = new TreeSet<>();
-        this.topBalance = new TreeSet<>();
-        this.topHighestKillstreak = new TreeSet<>();
+        this.topKills = new ConcurrentSkipListSet<>();
+        this.topDeaths = new ConcurrentSkipListSet<>();
+        this.topBalance = new ConcurrentSkipListSet<>();
+        this.topHighestKillstreak = new ConcurrentSkipListSet<>();
     }
 
     public void clear() {
