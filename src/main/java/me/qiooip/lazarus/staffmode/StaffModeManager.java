@@ -275,6 +275,15 @@ public class StaffModeManager implements Listener, ManagerEnabler {
 
     @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+
+        if(this.isInStaffMode(player)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onPreviewInventoryClick(InventoryClickEvent event) {
         if(!event.getInventory().getName().equals("Inventory preview")) return;
 
         event.setCancelled(true);

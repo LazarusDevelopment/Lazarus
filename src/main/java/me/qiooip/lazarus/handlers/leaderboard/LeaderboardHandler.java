@@ -88,7 +88,7 @@ public class LeaderboardHandler extends Handler implements Listener {
     private void updateCacheValue(LeaderboardType type, UUID key, String name, int newValue) {
         NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
 
-        this.removeFromLeaderboard(type, key);
+        leaderboard.removeIf(entry -> entry.getKey().equals(key));
         leaderboard.add(new UuidCacheEntry<>(key, name, newValue));
 
         if(leaderboard.size() > 10) {
