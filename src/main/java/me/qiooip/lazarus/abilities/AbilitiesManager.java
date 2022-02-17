@@ -6,6 +6,7 @@ import me.qiooip.lazarus.abilities.event.AbilityActivatedEvent;
 import me.qiooip.lazarus.abilities.type.AggressivePearlAbility;
 import me.qiooip.lazarus.abilities.type.AntiAbilityBallAbility;
 import me.qiooip.lazarus.abilities.type.AntiRedstoneAbility;
+import me.qiooip.lazarus.abilities.type.AntiTrapStarAbility;
 import me.qiooip.lazarus.abilities.type.CocaineAbility;
 import me.qiooip.lazarus.abilities.type.ComboAbility;
 import me.qiooip.lazarus.abilities.type.ExoticBoneAbility;
@@ -87,6 +88,7 @@ public class AbilitiesManager implements Listener, ManagerEnabler {
         this.loadAbility(new AggressivePearlAbility(config));
         this.loadAbility(new AntiAbilityBallAbility(config));
         this.loadAbility(new AntiRedstoneAbility(config));
+        this.loadAbility(new AntiTrapStarAbility(config));
         this.loadAbility(new CocaineAbility(config));
         this.loadAbility(new ComboAbility(config));
         this.loadAbility(new ExoticBoneAbility(config));
