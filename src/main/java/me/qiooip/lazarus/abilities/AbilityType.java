@@ -22,7 +22,6 @@ public enum AbilityType {
     FAST_PEARL("FastPearl", "&a&lFast Pearl"),
     GUARDIAN_ANGEL("GuardianAngel", "&a&lGuardian Angel"),
     INVISIBILITY("Invisibility", "&a&lInvisibility"),
-    KIT_SWAPPER("KitSwapper", "&a&lKit Swapper"), // TODO
     LOGGER_BAIT("LoggerBait", "&a&lLogger Bait"),
     LUCKY_INGOT("LuckyIngot", "&a&lLucky Ingot"),
     POCKET_BARD("PocketBard", "&a&lPocket Bard"),
@@ -38,7 +37,6 @@ public enum AbilityType {
     SWITCH_STICK("SwitchStick", "&a&lSwitchStick"),
     TANK_INGOT("TankIngot", "&a&lTank Ingot"),
     TIME_WARP("TimeWarp", "&a&lTimeWarp"), // TODO
-    VAMPIRE("Vampire", "&a&lVampire"), // TODO
     WEB_GUN("WebGun", "&a&lWeb Gun");
 
     private final String name;
