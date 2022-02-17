@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.abilities.AbilitiesManager;
 import me.qiooip.lazarus.abilities.AbilityType;
 import me.qiooip.lazarus.abilities.reflection.AbilitiesReflection_1_7;
+import me.qiooip.lazarus.abilities.type.DecoyAbility;
 import me.qiooip.lazarus.abilities.type.InvisibilityAbility;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.games.dragon.EnderDragon;
@@ -523,10 +524,16 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
             } catch(NoSuchElementException ignored) { }
         }
 
-        InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
+        AbilitiesManager manager = AbilitiesManager.getInstance();
 
-        if(ability != null) {
-            ability.hidePlayers(player);
+        InvisibilityAbility invisibilityAbility = (InvisibilityAbility) manager.getAbilityItemByType(AbilityType.INVISIBILITY);
+        if(invisibilityAbility != null) {
+            invisibilityAbility.hidePlayers(player);
+        }
+
+        DecoyAbility decoyAbility = (DecoyAbility) manager.getAbilityItemByType(AbilityType.DECOY);
+        if(decoyAbility != null) {
+            decoyAbility.hidePlayers(player);
         }
     }
 
@@ -583,26 +590,28 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {
-        InvisibilityAbility ability = (InvisibilityAbility) AbilitiesManager.getInstance().getAbilityItemByType(AbilityType.INVISIBILITY);
+        try {
+            AbilitiesManager manager = AbilitiesManager.getInstance();
 
-        if(ability != null) {
+            InvisibilityAbility invisibilityAbility = (InvisibilityAbility) manager.getAbilityItemByType(AbilityType.INVISIBILITY);
+            DecoyAbility decoyAbility = (DecoyAbility) manager.getAbilityItemByType(AbilityType.DECOY);
 
-            try {
-                int entityId = AbilitiesReflection_1_7.getEntityId(equipmentPacket);
-                net.minecraft.server.v1_7_R4.Entity sender = ((CraftPlayer) player).getHandle().world.getEntity(entityId);
+            int entityId = AbilitiesReflection_1_7.getEntityId(equipmentPacket);
+            net.minecraft.server.v1_7_R4.Entity sender = ((CraftPlayer) player).getHandle().world.getEntity(entityId);
+            boolean shouldCancel = (invisibilityAbility != null && invisibilityAbility.getPlayers().contains(sender.getUniqueID()))
+                || (decoyAbility != null && decoyAbility.getPlayers().contains(sender.getUniqueID()));
 
-                if(sender instanceof EntityPlayer && ability.getPlayers().contains(sender.getUniqueID())) {
-                    int slot = AbilitiesReflection_1_7.getSlot(equipmentPacket);
-                    net.minecraft.server.v1_7_R4.ItemStack itemStack = AbilitiesReflection_1_7.getItemStack(equipmentPacket);
+            if(sender instanceof EntityPlayer && shouldCancel) {
+                int slot = AbilitiesReflection_1_7.getSlot(equipmentPacket);
+                net.minecraft.server.v1_7_R4.ItemStack itemStack = AbilitiesReflection_1_7.getItemStack(equipmentPacket);
 
-                    // Make sure we only cancel the armor packets
-                    if(itemStack != null && slot != 0) {
-                        return null;
-                    }
+                // Make sure we only cancel the armor packets
+                if(itemStack != null && slot != 0) {
+                    return null;
                 }
-            } catch (Throwable t) {
-                t.printStackTrace();
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
 
         return equipmentPacket;

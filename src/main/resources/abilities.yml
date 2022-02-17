@@ -167,6 +167,25 @@ COMBO:
       - "&710 seconds after activation you"
       - "&7will receive strength for 1 second!"
 
+DECOY:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&f&lDecoy"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # Duration in seconds
+  DURATION: 60
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "370:0"
+    NAME: "&f&lDecoy"
+    LORE:
+      - "&7Right click the item to give"
+      - "&7your armor invisibility."
+      - "&7If hit, you will become visible!"
+
 EXOTIC_BONE:
   # Should we enable this ability item?
   ENABLED: true

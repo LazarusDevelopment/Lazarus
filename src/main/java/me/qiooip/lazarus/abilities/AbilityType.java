@@ -16,6 +16,7 @@ public enum AbilityType {
     ANTI_TRAP_STAR("AntiTrapStar", "&a&lAnti Trap Star"),
     COCAINE("Cocaine", "&a&lCocaine"),
     COMBO("Combo", "&a&lCombo"),
+    DECOY("Decoy", "&a&lDecoy"),
     EXOTIC_BONE("ExoticBone", "&a&lExotic Bone"),
     FAKE_PEARL("FakePearl", "&a&lFake Pearl"),
     FAST_PEARL("FastPearl", "&a&lFast Pearl"),

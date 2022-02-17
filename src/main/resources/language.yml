@@ -157,6 +157,15 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  DECOY_ABILITY:
+    BECOME_VISIBLE_ON_DAMAGE: "&cYour armor became &avisible &cbecause you were &4damaged&c!"
+    BECOME_VISIBLE_ON_EXPIRE: "&cYour armor became &avisible &cbecause the ability has expired!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName>&7. Your armor will stay invisible until ability expires or you are damaged."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   EXOTIC_BONE_ABILITY:
     TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. You won't be able to interact with blocks for &c<duration>&7!"
     TARGET_EXPIRED: "&7You can from now on interact with blocks."
