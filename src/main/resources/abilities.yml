@@ -93,6 +93,27 @@ ANTI_REDSTONE:
       - "&7pressure plates, buttons and"
       - "&7levers for total of 15 seconds!"
 
+ANTI_TRAP_STAR:
+  # Should we enable this ability item?
+  ENABLED: true
+  # What name should we display in chat?
+  DISPLAY_NAME: "&9&lAnti trap star"
+  # Ability item cooldown in seconds
+  COOLDOWN: 120
+  # When are we going to teleport the player after use in seconds
+  DELAY: 5
+  # For how long should we track player hits in seconds
+  HIT_CACHE: 10
+  # Item used for this ability
+  ITEM:
+    ENCHANTED_GLOW: true
+    MATERIAL_ID: "399:0"
+    NAME: "&9&lAnti Trap Star"
+    LORE:
+      - "&7Teleports you to the player"
+      - "&7that hit you in the last 10"
+      - "&7seconds, with a 5 second delay!"
+
 COCAINE:
   # Should we enable this ability item?
   ENABLED: true

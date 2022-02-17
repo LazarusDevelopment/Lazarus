@@ -124,6 +124,17 @@ ABILITIES:
       - ""
       - "&cCooldown&7: &e<cooldown>"
       - "&7&m                                                                                "
+  ANTI_TRAP_STAR_ABILITY:
+    TARGET_ACTIVATED: "&c<player> &7activated <abilityName> &7on you. They will be teleported to you in &c<delay>&7!"
+    TARGET_TELEPORTED: "&c<player> &7has been teleported to you&7!"
+    PLAYER_TELEPORTED: "&7You have been teleported to &c<player>&7!"
+    CANNOT_USE: "&eYou have not been hit in the last &c<time>&e!"
+    ACTIVATED:
+      - "&7&m                                                                                "
+      - "&7You activated <abilityName> &7on &c<target>&7. You will be teleported to them in &c<duration>&7."
+      - ""
+      - "&cCooldown&7: &e<cooldown>"
+      - "&7&m                                                                                "
   COCAINE_ABILITY:
     EFFECT_FORMAT: "&7* &e<effectName> &7(&b<duration> &7seconds)"
     ACTIVATED:

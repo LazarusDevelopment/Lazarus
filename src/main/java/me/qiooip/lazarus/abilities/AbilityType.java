@@ -13,7 +13,7 @@ public enum AbilityType {
     AGGRESSIVE_PEARL("AggressivePearl", "&a&lAggressive Pearl"),
     ANTI_REDSTONE("AntiRedstone", "&a&lAnti Redstone"),
     ANTI_ABILITY_BALL("AntiAbilityBall", "&a&lAnti Ability Ball"),
-    ANTI_TRAP_STAR("AntiTrapStar", "&a&lAnti Trap Star"), // TODO: Ako ga je igrac hito u zadnjih 10 sekundi, starta counter i nakon 5 sekundi ga tpa to dog igraca
+    ANTI_TRAP_STAR("AntiTrapStar", "&a&lAnti Trap Star"),
     COCAINE("Cocaine", "&a&lCocaine"),
     COMBO("Combo", "&a&lCombo"),
     EXOTIC_BONE("ExoticBone", "&a&lExotic Bone"),
