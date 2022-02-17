@@ -213,7 +213,7 @@ GUARDIAN_ANGEL:
   COOLDOWN: 120
   # Health required for activation
   HEALTH: 4
-  # If the players health goes below the specified health
+  # If the player's health goes below the specified health
   # within specified duration length the ability will work
   # Duration in seconds
   DURATION: 30

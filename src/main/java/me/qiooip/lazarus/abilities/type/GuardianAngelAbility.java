@@ -55,10 +55,9 @@ public class GuardianAngelAbility extends AbilityItem implements Listener {
         if(!(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
-
         CooldownTimer cooldownTimer = TimerManager.getInstance().getCooldownTimer();
-        if(!cooldownTimer.isActive(player, this.cooldownName)) return;
 
+        if(!cooldownTimer.isActive(player, this.cooldownName)) return;
         if(player.getHealth() > this.healthThreshold) return;
 
         player.setHealth(player.getMaxHealth());

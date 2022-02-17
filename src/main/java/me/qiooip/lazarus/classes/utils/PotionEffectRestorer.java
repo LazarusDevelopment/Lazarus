@@ -124,12 +124,12 @@ public class PotionEffectRestorer implements Listener {
         EffectCache[] effectCache = this.getCachedEffects(player);
 
         if(effectCache != null) {
-            EffectCache cache = effectCache[potionEffect.getType().getId() - 1];
+            EffectCache cached = effectCache[potionEffect.getType().getId() - 1];
             long currentTime = System.currentTimeMillis();
 
-            if(cache != null) {
-                cache.setEffect(potionEffect);
-                cache.setCacheTimestamp(currentTime);
+            if(cached != null) {
+                cached.setEffect(potionEffect);
+                cached.setCacheTimestamp(currentTime);
             } else {
                 effectCache[potionEffect.getType().getId() - 1] = new EffectCache(potionEffect, currentTime);
             }
@@ -138,9 +138,12 @@ public class PotionEffectRestorer implements Listener {
 
     private void removePotionEffectFromCache(Player player, PotionEffectType effectType) {
         EffectCache[] effectCache = this.getCachedEffects(player);
+        if(effectCache == null) return;
 
-        if(effectCache != null) {
-            effectCache[effectType.getId() - 1].setEffect(null);
+        EffectCache cached = effectCache[effectType.getId() - 1];
+
+        if(cached != null) {
+            cached.setEffect(null);
         }
     }
 
