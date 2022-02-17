@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class InventoryUtils {
     
     public static String itemStackArrayToBase64(ItemStack[] items) throws IllegalStateException {
-        if(items.length == 0) {
+        if(items == null || items.length == 0) {
             return "";
         }
 

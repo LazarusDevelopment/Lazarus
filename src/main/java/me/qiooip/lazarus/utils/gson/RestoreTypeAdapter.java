@@ -29,8 +29,14 @@ public class RestoreTypeAdapter implements JsonSerializer<InventoryData>, JsonDe
     public InventoryData deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject object = json.getAsJsonObject();
 
-        ItemStack[] contents = InventoryUtils.itemStackArrayFromBase64(object.get("contents").getAsString());
-        ItemStack[] armor = InventoryUtils.itemStackArrayFromBase64(object.get("armor").getAsString());
+        JsonElement contentsJson = object.get("contents");
+        JsonElement armorJson = object.get("armor");
+
+        String contentsString = contentsJson != null ? contentsJson.getAsString() : null;
+        String armorString = armorJson != null ? armorJson.getAsString() : null;
+
+        ItemStack[] contents = InventoryUtils.itemStackArrayFromBase64(contentsString);
+        ItemStack[] armor = InventoryUtils.itemStackArrayFromBase64(armorString);
 
         return new InventoryData(contents, armor);
     }
