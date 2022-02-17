@@ -12,6 +12,7 @@ import me.qiooip.lazarus.handlers.GlisteringMelonHandler;
 import me.qiooip.lazarus.handlers.InventoryHandler;
 import me.qiooip.lazarus.handlers.MapkitHandler;
 import me.qiooip.lazarus.handlers.MobStackHandler;
+import me.qiooip.lazarus.handlers.SpawnTeleportHandler;
 import me.qiooip.lazarus.handlers.StatsHandler;
 import me.qiooip.lazarus.handlers.block.AutoSmeltHandler;
 import me.qiooip.lazarus.handlers.block.CobwebRemoveHandler;
@@ -119,6 +120,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new SettingsHandler());
         this.handlers.add(new SignElevatorHandler());
         this.handlers.add(new SotwHandler());
+        this.handlers.add(new SpawnTeleportHandler());
         this.handlers.add(new StaffChatHandler());
         this.handlers.add(new StatsHandler());
         this.handlers.add(new StattrakHandler());

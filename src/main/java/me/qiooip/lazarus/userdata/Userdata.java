@@ -34,6 +34,7 @@ public class Userdata {
 
     private int balance;
     private int lives;
+    private int spawnCredits;
 
     private boolean reclaimUsed;
     private Settings settings;
@@ -56,8 +57,8 @@ public class Userdata {
         this.changeBalance(Config.DEFAULT_BALANCE_PLAYER);
 
         this.lives = Config.DEFAULT_LIVES;
+        this.spawnCredits = Config.SPAWN_CREDITS_INITIAL_SPAWN_CREDITS;
         this.settings = new Settings();
-
         this.ignoring = new ArrayList<>();
         this.notes = new ArrayList<>();
         this.lastKills = new ArrayList<>();
@@ -128,6 +129,14 @@ public class Userdata {
 
     public void subtractLives(int amount) {
         this.lives -= amount;
+    }
+
+    public void decrementSpawnCredits() {
+        this.spawnCredits--;
+    }
+
+    public void changeSpawnCredits(int value) {
+        this.spawnCredits = value;
     }
 
     public boolean isIgnoring(Player player) {

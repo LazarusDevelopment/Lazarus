@@ -20,7 +20,8 @@ public class TopCommand extends BaseCommand {
         location.setPitch(player.getLocation().getPitch());
         location.setYaw(player.getLocation().getYaw());
 
-        if(!player.teleport(location)) return;
-        player.sendMessage(Language.PREFIX + Language.TOP_COMMAND_MESSAGE);
+        if(player.teleport(location)) {
+            player.sendMessage(Language.PREFIX + Language.TOP_COMMAND_MESSAGE);
+        }
     }
 }

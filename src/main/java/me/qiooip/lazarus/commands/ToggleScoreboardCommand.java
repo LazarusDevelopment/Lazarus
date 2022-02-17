@@ -23,6 +23,6 @@ public class ToggleScoreboardCommand extends BaseCommand {
         data.getSettings().setScoreboard(!data.getSettings().isScoreboard());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isScoreboard()
-        ? Language.TOGGLE_SCOREBOARD_TOGGLED_ON : Language.TOGGLE_SCOREBOARD_TOGGLED_OFF));
+            ? Language.TOGGLE_SCOREBOARD_TOGGLED_ON : Language.TOGGLE_SCOREBOARD_TOGGLED_OFF));
     }
 }

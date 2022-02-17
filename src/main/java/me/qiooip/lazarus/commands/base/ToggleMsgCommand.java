@@ -23,6 +23,6 @@ public class ToggleMsgCommand extends BaseCommand {
         data.getSettings().setMessages(!data.getSettings().isMessages());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isMessages()
-        ? Language.TOGGLE_MESSAGES_TOGGLED_ON : Language.TOGGLE_MESSAGES_TOGGLED_OFF));
+            ? Language.TOGGLE_MESSAGES_TOGGLED_ON : Language.TOGGLE_MESSAGES_TOGGLED_OFF));
     }
 }

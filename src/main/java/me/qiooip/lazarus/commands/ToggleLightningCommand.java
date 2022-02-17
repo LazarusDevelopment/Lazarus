@@ -23,6 +23,6 @@ public class ToggleLightningCommand extends BaseCommand {
         data.getSettings().setLightning(!data.getSettings().isLightning());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isLightning()
-        ? Language.TOGGLE_LIGHTNING_TOGGLED_ON : Language.TOGGLE_LIGHTNING_TOGGLED_OFF));
+            ? Language.TOGGLE_LIGHTNING_TOGGLED_ON : Language.TOGGLE_LIGHTNING_TOGGLED_OFF));
     }
 }

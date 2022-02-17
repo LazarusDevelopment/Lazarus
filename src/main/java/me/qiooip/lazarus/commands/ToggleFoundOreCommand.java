@@ -23,6 +23,6 @@ public class ToggleFoundOreCommand extends BaseCommand {
         data.getSettings().setFoundOre(!data.getSettings().isFoundOre());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isFoundOre()
-        ? Language.TOGGLE_FOUND_ORE_TOGGLED_ON : Language.TOGGLE_FOUND_ORE_TOGGLED_OFF));
+            ? Language.TOGGLE_FOUND_ORE_TOGGLED_ON : Language.TOGGLE_FOUND_ORE_TOGGLED_OFF));
     }
 }

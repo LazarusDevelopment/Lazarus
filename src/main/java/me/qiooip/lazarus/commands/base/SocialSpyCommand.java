@@ -16,7 +16,6 @@ public class SocialSpyCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-
         Lazarus.getInstance().getMessagingHandler().toggleSocialSpy(player);
     }
 }

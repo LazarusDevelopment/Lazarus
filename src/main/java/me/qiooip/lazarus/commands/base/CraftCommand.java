@@ -15,7 +15,6 @@ public class CraftCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-
         player.openWorkbench(player.getLocation(), true);
     }
 }

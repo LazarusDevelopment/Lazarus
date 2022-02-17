@@ -29,9 +29,12 @@ public class FlyCommand extends BaseCommand {
         if(!this.checkPlayer(sender, target, args[0])) return;
 
         target.setAllowFlight(!target.getAllowFlight());
-        target.sendMessage(Language.PREFIX + (target.getAllowFlight() ? Language.FLY_SELF_ENABLED : Language.FLY_SELF_DISABLED));
 
-        sender.sendMessage(Language.PREFIX + (target.getAllowFlight() ? Language.FLY_OTHERS_ENABLED
-        : Language.FLY_OTHERS_DISABLED).replace("<player>", target.getName()));
+        target.sendMessage(Language.PREFIX + (target.getAllowFlight()
+            ? Language.FLY_SELF_ENABLED : Language.FLY_SELF_DISABLED));
+
+        sender.sendMessage(Language.PREFIX + (target.getAllowFlight()
+            ? Language.FLY_OTHERS_ENABLED
+            : Language.FLY_OTHERS_DISABLED).replace("<player>", target.getName()));
     }
 }

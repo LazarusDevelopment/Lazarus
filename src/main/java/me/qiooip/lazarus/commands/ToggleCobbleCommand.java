@@ -23,6 +23,6 @@ public class ToggleCobbleCommand extends BaseCommand {
         data.getSettings().setCobble(!data.getSettings().isCobble());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isCobble()
-        ? Language.TOGGLE_COBBLE_TOGGLED_ON : Language.TOGGLE_COBBLE_TOGGLED_OFF));
+            ? Language.TOGGLE_COBBLE_TOGGLED_ON : Language.TOGGLE_COBBLE_TOGGLED_OFF));
     }
 }

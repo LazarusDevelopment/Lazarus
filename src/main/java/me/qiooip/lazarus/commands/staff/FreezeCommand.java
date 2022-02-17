@@ -27,7 +27,7 @@ public class FreezeCommand extends BaseCommand {
 
         if(sender != target && target.hasPermission("lazarus.freeze.bypass")) {
             sender.sendMessage(Language.PREFIX + Language.FREEZE_CAN_NOT_FREEZE_PLAYER
-            .replace("<player>", target.getName()));
+                .replace("<player>", target.getName()));
             return;
         }
 

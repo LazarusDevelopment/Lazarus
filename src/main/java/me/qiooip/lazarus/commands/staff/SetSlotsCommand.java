@@ -26,7 +26,8 @@ public class SetSlotsCommand extends BaseCommand {
 
         NmsUtils.getInstance().changeServerSlots(amount);
 
-        Language.SET_SLOTS_MESSAGE.forEach(line -> Messages.sendMessage(line.replace("<number>",
-        String.valueOf(amount)).replace("<player>", sender.getName())));
+        Language.SET_SLOTS_MESSAGE.forEach(line -> Messages.sendMessage(line
+            .replace("<number>", String.valueOf(amount))
+            .replace("<player>", sender.getName())));
     }
 }

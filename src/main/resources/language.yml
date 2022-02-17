@@ -2199,9 +2199,20 @@ SOTW:
     - " &c/sotw time &f- &7Check SOTW time left"
     - "&7&m                                                           "
 
-SOUNDS_COMMAND:
-  ENABLED: "&eMessage &csounds &ehave been &aenabled&c."
-  DISABLED: "&eMesage &csounds &ehave been &cdisabled&c."
+SPAWN_CREDITS_COMMAND:
+  USAGE:
+    - "&7&m                                                      "
+    - " &6&lSpawn credits management"
+    - "  &e/spawncredits add <player> <amount>"
+    - "  &e/spawncredits remove <player> <amount>"
+    - "  &e/spawncredits set <player> <amount>"
+    - "&7&m                                                      "
+  AMOUNT_CHANGED: "&eYour spawn credits amount has been changed by &c<sender>&e. New amount: &a<amount>&e."
+  AMOUNT_CHANGED_STAFF: "&c<player>'s &espawn credits amount changed by &c<sender>&e. New amount: &a<amount>&e."
+
+SPAWN_CREDITS:
+  NOT_ENOUGH_CREDITS: "&eYou don't have enough &cspawn credits &eto teleport!"
+  TELEPORTED: "&eTeleported to the spawn. You have &b<amount> spawn credits &eremaining."
 
 SPAWN_COMMAND:
   SPAWN_DOESNT_EXIST: "&eSpawn for world &c<world> &edoes not exist."

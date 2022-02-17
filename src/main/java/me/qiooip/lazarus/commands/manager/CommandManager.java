@@ -58,6 +58,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new SetReclaimCommand());
         this.commands.add(new SetSlotsCommand());
         this.commands.add(new SetSpawnCommand());
+        this.commands.add(new SpawnCreditsCommand());
         this.commands.add(new StaffChatCommand());
         this.commands.add(new StaffModeCommand());
         this.commands.add(new StaffScoreboardCommand());

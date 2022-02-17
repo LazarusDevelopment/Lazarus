@@ -17,7 +17,6 @@ public class LogoutCommand extends BaseCommand {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
-
 		LogoutTimer logoutTimer = TimerManager.getInstance().getLogoutTimer();
 
 		if(logoutTimer.isActive(player)) {
@@ -28,6 +27,6 @@ public class LogoutCommand extends BaseCommand {
 		logoutTimer.activate(player);
 
 		player.sendMessage(Language.PREFIX + Language.LOGOUT_START_MESSAGE
-		.replace("<seconds>", String.valueOf(Config.LOGOUT_DELAY)));
+			.replace("<seconds>", String.valueOf(Config.LOGOUT_DELAY)));
 	}
 }

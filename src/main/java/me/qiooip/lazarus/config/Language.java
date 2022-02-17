@@ -1364,6 +1364,13 @@ public class Language {
     public static List<String> SOTW_ADMIN_COMMAND_USAGE;
     public static List<String> SOTW_PLAYER_COMMAND_USAGE;
 
+    public static List<String> SPAWN_CREDITS_USAGE;
+    public static String SPAWN_CREDITS_AMOUNT_CHANGED;
+    public static String SPAWN_CREDITS_AMOUNT_CHANGED_STAFF;
+
+    public static String SPAWN_CREDITS_NOT_ENOUGH_CREDITS;
+    public static String SPAWN_CREDITS_TELEPORTED;
+
     public static String SPAWN_DOESNT_EXIST;
     public static String SPAWN_ALREADY_TELEPORTING;
     public static String SPAWN_TELEPORTED;
@@ -2865,6 +2872,13 @@ public class Language {
         SOTW_HIDE_PLAYERS_DISABLED = language.getString("SOTW.HIDE_PLAYERS_DISABLED");
         SOTW_ADMIN_COMMAND_USAGE = language.getStringList("SOTW.ADMIN_COMMAND_USAGE");
         SOTW_PLAYER_COMMAND_USAGE = language.getStringList("SOTW.PLAYER_COMMAND_USAGE");
+
+        SPAWN_CREDITS_USAGE = language.getStringList("SPAWN_CREDITS_COMMAND.USAGE");
+        SPAWN_CREDITS_AMOUNT_CHANGED = language.getString("SPAWN_CREDITS_COMMAND.AMOUNT_CHANGED");
+        SPAWN_CREDITS_AMOUNT_CHANGED_STAFF = language.getString("SPAWN_CREDITS_COMMAND.AMOUNT_CHANGED_STAFF");
+
+        SPAWN_CREDITS_NOT_ENOUGH_CREDITS = language.getString("SPAWN_CREDITS.NOT_ENOUGH_CREDITS");
+        SPAWN_CREDITS_TELEPORTED = language.getString("SPAWN_CREDITS.TELEPORTED");
 
         SPAWN_DOESNT_EXIST = language.getString("SPAWN_COMMAND.SPAWN_DOESNT_EXIST");
         SPAWN_ALREADY_TELEPORTING = language.getString("SPAWN_COMMAND.ALREADY_TELEPORTING");

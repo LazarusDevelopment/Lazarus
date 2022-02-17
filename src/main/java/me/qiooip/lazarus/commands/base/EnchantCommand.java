@@ -52,8 +52,10 @@ public class EnchantCommand extends BaseCommand {
 
         if(level == 0) {
             item.removeEnchantment(enchantment);
-            player.sendMessage(Language.PREFIX + Language.ENCHANT_ENCHANT_REMOVED.replace("<item>", ItemUtils
-            .getItemName(item)).replace("<enchantment>", StringUtils.getEnchantName(enchantment)));
+
+            player.sendMessage(Language.PREFIX + Language.ENCHANT_ENCHANT_REMOVED
+                .replace("<item>", ItemUtils.getItemName(item))
+                .replace("<enchantment>", StringUtils.getEnchantName(enchantment)));
             return;
         }
 

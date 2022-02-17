@@ -1237,6 +1237,12 @@ SOTW_TIMER:
   # Should we hide players in safezones
   HIDE_PLAYERS: true
 
+SPAWN_CREDITS:
+  # Initial spawn credits players receive on first join
+  INITIAL_SPAWN_CREDITS: 0
+  # Spawn teleport delay in seconds
+  SPAWN_TELEPORT_DELAY: 10
+
 STAFF_MODE:
   # Should we enable staffmode on join?
   STAFF_MODE_ON_JOIN_ENABLED: false

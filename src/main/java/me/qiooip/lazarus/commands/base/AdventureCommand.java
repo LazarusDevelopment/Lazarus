@@ -33,8 +33,11 @@ public class AdventureCommand extends BaseCommand {
 
         target.setGameMode(GameMode.ADVENTURE);
 
-        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF.replace("<gamemode>", "adventure"));
+        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF
+            .replace("<gamemode>", "adventure"));
+
         sender.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_OTHERS
-        .replace("<player>", target.getName()).replace("<gamemode>", "adventure"));
+            .replace("<player>", target.getName())
+            .replace("<gamemode>", "adventure"));
     }
 }

@@ -28,7 +28,10 @@ public class TeleportHereCommand extends BaseCommand {
 
         if(!target.teleport(player)) return;
 
-        target.sendMessage(Language.PREFIX + Language.TELEPORT_MESSAGE.replace("<player>", player.getName()));
-        player.sendMessage(Language.PREFIX + Language.TELEPORT_HERE_MESSAGE.replace("<player>", target.getName()));
+        target.sendMessage(Language.PREFIX + Language.TELEPORT_MESSAGE
+            .replace("<player>", player.getName()));
+
+        player.sendMessage(Language.PREFIX + Language.TELEPORT_HERE_MESSAGE
+            .replace("<player>", target.getName()));
     }
 }

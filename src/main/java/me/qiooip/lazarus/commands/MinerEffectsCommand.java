@@ -17,7 +17,8 @@ public class MinerEffectsCommand extends BaseCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        PvpClass pvpClass = Lazarus.getInstance().getPvpClassManager().getPvpClassByName(PvpClassType.MINER.getName());
+        PvpClass pvpClass = Lazarus.getInstance().getPvpClassManager()
+            .getPvpClassByName(PvpClassType.MINER.getName());
 
         if(pvpClass instanceof Miner) {
             ((Miner) pvpClass).sendEffectInfo(sender);

@@ -24,6 +24,7 @@ public class ReplyCommand extends BaseCommand {
 
         Player player = (Player) sender;
 
-        Lazarus.getInstance().getMessagingHandler().sendReplyMessage(player, StringUtils.joinArray(args, " ", 1));
+        String message = StringUtils.joinArray(args, " ", 1);
+        Lazarus.getInstance().getMessagingHandler().sendReplyMessage(player, message);
     }
 }

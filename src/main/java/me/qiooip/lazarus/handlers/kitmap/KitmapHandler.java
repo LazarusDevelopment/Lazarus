@@ -6,7 +6,6 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.factions.claim.ClaimManager;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.timer.TimerManager;
-import me.qiooip.lazarus.timer.scoreboard.TeleportTimer;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,13 +16,10 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -45,17 +41,6 @@ public class KitmapHandler extends Handler implements Listener {
         if(this.itemClearTask != null) this.itemClearTask.cancel();
     }
 
-    private void checkPlayerMove(Player player, Location from, Location to) {
-        if(from.getBlockX() == to.getBlockX() && from.getBlockZ() == to.getBlockZ()) return;
-
-        TeleportTimer timer = TimerManager.getInstance().getTeleportTimer();
-
-        if(timer.isActive(player)) {
-            timer.cancel(player);
-            player.sendMessage(Language.PREFIX + Language.SPAWN_TELEPORT_CANCELLED_MOVED);
-        }
-    }
-
     @EventHandler(ignoreCancelled = true)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if(!Config.KITMAP_DISABLE_ITEM_DROP_IN_SAFEZONE) return;
@@ -63,29 +48,6 @@ public class KitmapHandler extends Handler implements Listener {
         if(ClaimManager.getInstance().getFactionAt(event.getPlayer()).isSafezone()) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(Language.FACTION_PREFIX + Language.KITMAP_DENY_ITEM_DROP);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerMove(PlayerMoveEvent event) {
-        this.checkPlayerMove(event.getPlayer(), event.getFrom(), event.getTo());
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
-        this.checkPlayerMove(event.getPlayer(), event.getFrom(), event.getTo());
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onEntityDamage(EntityDamageEvent event) {
-        if(!(event.getEntity() instanceof Player)) return;
-
-        Player player = (Player) event.getEntity();
-        TeleportTimer timer = TimerManager.getInstance().getTeleportTimer();
-
-        if(timer.isActive(player)) {
-            timer.cancel(player);
-            player.sendMessage(Language.PREFIX + Language.SPAWN_TELEPORT_CANCELLED_DAMAGE);
         }
     }
 

@@ -14,7 +14,10 @@ public class DayCommand extends BaseCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Bukkit.getWorlds().stream().filter(world -> world.getEnvironment() == Environment.NORMAL).forEach(world -> world.setTime(0));
+        Bukkit.getWorlds().stream()
+            .filter(world -> world.getEnvironment() == Environment.NORMAL)
+            .forEach(world -> world.setTime(0));
+
         sender.sendMessage(Language.PREFIX + Language.TIME_MESSAGE_DAY);
     }
 }

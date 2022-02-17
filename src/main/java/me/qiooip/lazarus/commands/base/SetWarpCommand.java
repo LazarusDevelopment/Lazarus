@@ -32,7 +32,11 @@ public class SetWarpCommand extends BaseCommand {
         int y = player.getLocation().getBlockY();
         int z = player.getLocation().getBlockZ();
 
-        player.sendMessage(Language.PREFIX + Language.SET_WARP_CREATED.replace("<name>", args[0]).replace("<world>", worldName)
-        .replace("<x>", String.valueOf(x)).replace("<y>", String.valueOf(y)).replace("<z>", String.valueOf(z)));
+        player.sendMessage(Language.PREFIX + Language.SET_WARP_CREATED
+            .replace("<name>", args[0])
+            .replace("<world>", worldName)
+            .replace("<x>", String.valueOf(x))
+            .replace("<y>", String.valueOf(y))
+            .replace("<z>", String.valueOf(z)));
     }
 }

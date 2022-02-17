@@ -348,6 +348,9 @@ public class Config {
     public static boolean SOTW_SPAWN_MOBS_FROM_SPAWNERS_ONLY;
     public static boolean SOTW_HIDE_PLAYERS;
 
+    public static int SPAWN_CREDITS_INITIAL_SPAWN_CREDITS;
+    public static int SPAWN_CREDITS_SPAWN_TELEPORT_DELAY;
+
     public static boolean STAFF_MODE_ON_JOIN_ENABLED;
 
     public static String STATS_INVENTORY_NAME;
@@ -875,6 +878,9 @@ public class Config {
         SOTW_DEFAULT_TIME = config.getInt("SOTW_TIMER.DEFAULT_TIME");
         SOTW_SPAWN_MOBS_FROM_SPAWNERS_ONLY = config.getBoolean("SOTW_TIMER.SPAWN_MOBS_FROM_SPAWNERS_ONLY");
         SOTW_HIDE_PLAYERS = config.getBoolean("SOTW_TIMER.HIDE_PLAYERS");
+
+        SPAWN_CREDITS_INITIAL_SPAWN_CREDITS = config.getInt("SPAWN_CREDITS.INITIAL_SPAWN_CREDITS");
+        SPAWN_CREDITS_SPAWN_TELEPORT_DELAY = config.getInt("SPAWN_CREDITS.SPAWN_TELEPORT_DELAY");
 
         STAFF_MODE_ON_JOIN_ENABLED = config.getBoolean("STAFF_MODE.STAFF_MODE_ON_JOIN_ENABLED");
 

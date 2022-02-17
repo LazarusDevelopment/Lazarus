@@ -27,7 +27,8 @@ public class StaffChatCommand extends BaseCommand {
 
         String message = StringUtils.joinArray(args, " ", 1);
 
-        Messages.sendMessage(Language.STAFF_CHAT_FORMAT.replace("<player>", player.getName())
-        .replace("<message>", message), "lazarus.staffchat");
+        Messages.sendMessage(Language.STAFF_CHAT_FORMAT
+            .replace("<player>", player.getName())
+            .replace("<message>", message), "lazarus.staffchat");
     }
 }

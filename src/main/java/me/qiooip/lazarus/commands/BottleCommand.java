@@ -30,7 +30,7 @@ public class BottleCommand extends BaseCommand {
 
 		if(bottle == null) {
 			player.sendMessage(Language.PREFIX + Language.BOTTLE_NOT_ENOUGH_LEVELS
-			.replace("<level>", String.valueOf(level)));
+				.replace("<level>", String.valueOf(level)));
 			return;
 		}
 

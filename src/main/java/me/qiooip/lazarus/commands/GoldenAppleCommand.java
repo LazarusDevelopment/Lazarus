@@ -30,12 +30,12 @@ public class GoldenAppleCommand extends BaseCommand {
 
         if(appleTimer.isActive(player)) {
             player.sendMessage(Language.PREFIX + Language.NORMAL_APPLE_COMMAND_MESSAGE
-            .replace("<time>", appleTimer.getTimeLeft(player)));
+                .replace("<time>", appleTimer.getTimeLeft(player)));
         }
 
         if(gAppleTimer.isActive(player)) {
             player.sendMessage(Language.PREFIX + Language.ENCHANTED_APPLE_COMMAND_MESSAGE
-            .replace("<time>", gAppleTimer.getDynamicTimeLeft(player)));
+                .replace("<time>", gAppleTimer.getDynamicTimeLeft(player)));
         }
     }
 }

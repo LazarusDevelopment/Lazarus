@@ -34,9 +34,9 @@ public class GodCommand extends BaseCommand {
         NmsUtils.getInstance().toggleInvulnerable(target);
 
         target.sendMessage(Language.PREFIX + (NmsUtils.getInstance().isInvulnerable(target)
-        ? Language.GOD_SELF_ENABLED : Language.GOD_SELF_DISABLED));
+            ? Language.GOD_SELF_ENABLED : Language.GOD_SELF_DISABLED));
 
         sender.sendMessage(Language.PREFIX + (NmsUtils.getInstance().isInvulnerable(target)
-        ? Language.GOD_OTHERS_ENABLED : Language.GOD_OTHERS_DISABLED).replace("<player>", target.getName()));
+            ? Language.GOD_OTHERS_ENABLED : Language.GOD_OTHERS_DISABLED).replace("<player>", target.getName()));
     }
 }

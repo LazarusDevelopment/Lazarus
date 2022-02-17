@@ -33,7 +33,8 @@ public class SetReclaimCommand extends BaseCommand {
         Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(target);
         userdata.setReclaimUsed(Boolean.parseBoolean(args[1]));
 
-        sender.sendMessage(Language.PREFIX + (userdata.isReclaimUsed() ? Language.SET_RECLAIM_SET_USED_MESSAGE
-        : Language.SET_RECLAIM_SET_NOT_USED_MESSAGE).replace("<player>", target.getName()));
+        sender.sendMessage(Language.PREFIX + (userdata.isReclaimUsed()
+            ? Language.SET_RECLAIM_SET_USED_MESSAGE
+            : Language.SET_RECLAIM_SET_NOT_USED_MESSAGE).replace("<player>", target.getName()));
     }
 }

@@ -46,8 +46,9 @@ public class SetSpawnCommand extends BaseCommand {
 
     private void setSpawn(Player player, Environment environment, String world) {
         if(player.getWorld().getEnvironment() != environment) {
-            player.sendMessage(Language.PREFIX + Language.SET_SPAWN_NOT_IN_WORLD.replace("<world>",
-            StringUtils.capitalize(world.toLowerCase())).replace("<world>", world.toLowerCase()));
+            player.sendMessage(Language.PREFIX + Language.SET_SPAWN_NOT_IN_WORLD
+                .replace("<world>", StringUtils.capitalize(world.toLowerCase()))
+                .replace("<world>", world.toLowerCase()));
             return;
         }
 
@@ -61,8 +62,11 @@ public class SetSpawnCommand extends BaseCommand {
         int y = location.getBlockY();
         int z = location.getBlockZ();
 
-        player.sendMessage(Language.PREFIX + Language.SET_SPAWN_SPAWN_SET.replace("<world>", StringUtils.capitalize(world.toLowerCase()))
-        .replace("<x>", String.valueOf(x)).replace("<y>", String.valueOf(y)).replace("<z>", String.valueOf(z)));
+        player.sendMessage(Language.PREFIX + Language.SET_SPAWN_SPAWN_SET
+            .replace("<world>", StringUtils.capitalize(world.toLowerCase()))
+            .replace("<x>", String.valueOf(x))
+            .replace("<y>", String.valueOf(y))
+            .replace("<z>", String.valueOf(z)));
 
         Lazarus.getInstance().getUtilitiesFile().set(world + "_SPAWN", LocationUtils.locationToString(location));
         Lazarus.getInstance().getUtilitiesFile().save();

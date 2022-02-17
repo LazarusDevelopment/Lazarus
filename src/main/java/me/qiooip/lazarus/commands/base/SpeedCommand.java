@@ -44,6 +44,7 @@ public class SpeedCommand extends BaseCommand {
         }
 
         player.sendMessage(Language.PREFIX + Language.SPEED_SPEED_CHANGED
-        .replace("<type>", type).replace("<value>", String.valueOf(amount)));
+            .replace("<type>", type)
+            .replace("<value>", String.valueOf(amount)));
     }
 }

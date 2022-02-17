@@ -26,32 +26,35 @@ public class EconomyCommand extends BaseCommand {
             return;
         }
 
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+        if(!this.checkOfflinePlayer(sender, target, args[1])) return;
+
+        if(!this.checkNumber(sender, args[2])) return;
+        int newAmount = Math.abs(Integer.parseInt(args[2]));
+
         switch(args[0].toLowerCase()) {
             case "give":
             case "add": {
-                this.modifyBalance(sender, Bukkit.getOfflinePlayer(args[1]), args[1], 1, args[2]);
+                this.modifyBalance(sender, target, 1, newAmount);
                 return;
             }
             case "remove": {
-                this.modifyBalance(sender, Bukkit.getOfflinePlayer(args[1]), args[1], 2, args[2]);
+                this.modifyBalance(sender, target, 2, newAmount);
                 return;
             }
             case "set": {
-                this.modifyBalance(sender, Bukkit.getOfflinePlayer(args[1]), args[1], 3, args[2]);
+                this.modifyBalance(sender, target, 3, newAmount);
                 return;
             }
-            default: Language.ECONOMY_ADMIN_COMMAND_USAGE.forEach(sender::sendMessage);
+            default: {
+                Language.ECONOMY_ADMIN_COMMAND_USAGE.forEach(sender::sendMessage);
+            }
         }
     }
 
-    private void modifyBalance(CommandSender sender, OfflinePlayer target, String name, int action, String amount) {
-        if(!this.checkOfflinePlayer(sender, target, name)) return;
-        if(!this.checkNumber(sender, amount)) return;
-
+    private void modifyBalance(CommandSender sender, OfflinePlayer target, int action, int newAmount) {
         EconomyManager manager = Lazarus.getInstance().getEconomyManager();
-
         int balance = manager.getBalance(target);
-        int newAmount = Math.abs(Integer.parseInt(amount));
 
         switch(action) {
             case 1: {

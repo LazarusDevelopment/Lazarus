@@ -30,7 +30,8 @@ public class PingCommand extends BaseCommand {
         Player target = Bukkit.getPlayer(args[0]);
         if(!this.checkPlayer(sender, target, args[0])) return;
 
-        sender.sendMessage(Language.PREFIX + Language.PING_MESSAGE_OTHERS.replace("<player>", target.getName())
-        .replace("<ping>", String.valueOf(NmsUtils.getInstance().getPing(target))));
+        sender.sendMessage(Language.PREFIX + Language.PING_MESSAGE_OTHERS
+            .replace("<player>", target.getName())
+            .replace("<ping>", String.valueOf(NmsUtils.getInstance().getPing(target))));
     }
 }

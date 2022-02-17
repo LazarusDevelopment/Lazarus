@@ -38,6 +38,7 @@ public class KickallCommand extends BaseCommand {
         Lazarus.getInstance().getCombatLoggerHandler().setKickAll(false);
 
         Messages.sendMessage(Language.PREFIX + Language.KICKALL_STAFF_MESSAGE
-        .replace("<player>", sender.getName()).replace("<reason>", reason));
+            .replace("<player>", sender.getName())
+            .replace("<reason>", reason));
     }
 }

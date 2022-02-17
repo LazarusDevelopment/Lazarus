@@ -26,7 +26,8 @@ public class TeleportCommand extends BaseCommand {
         Player target = Bukkit.getPlayer(args[0]);
         if(!this.checkPlayer(sender, target, args[0])) return;
 
-        if(!player.teleport(target)) return;
-        player.sendMessage(Language.PREFIX + Language.TELEPORT_MESSAGE.replace("<player>", target.getName()));
+        if(player.teleport(target)) {
+            player.sendMessage(Language.PREFIX + Language.TELEPORT_MESSAGE.replace("<player>", target.getName()));
+        }
     }
 }

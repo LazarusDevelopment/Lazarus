@@ -44,7 +44,7 @@ public class PvpCommand extends BaseCommand {
                 }
 
                 player.sendMessage(Language.PREFIX + Language.PVP_COMMAND_TIME_STATUS
-                .replace("<time>", timer.getDynamicTimeLeft(player)));
+                    .replace("<time>", timer.getDynamicTimeLeft(player)));
                 return;
             }
             default: Language.PVP_COMMAND_USAGE.forEach(player::sendMessage);

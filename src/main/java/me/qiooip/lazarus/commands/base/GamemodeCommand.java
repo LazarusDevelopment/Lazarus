@@ -51,9 +51,13 @@ public class GamemodeCommand extends BaseCommand {
         }
 
         target.setGameMode(GameMode.valueOf(gamemode));
-        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF.replace("<gamemode>", gamemode.toLowerCase()));
+
+        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF
+            .replace("<gamemode>", gamemode.toLowerCase()));
+
         sender.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_OTHERS
-        .replace("<player>", target.getName()).replace("<gamemode>", gamemode.toLowerCase()));
+            .replace("<player>", target.getName())
+            .replace("<gamemode>", gamemode.toLowerCase()));
     }
 
     private String getGamemodeName(String arg) {

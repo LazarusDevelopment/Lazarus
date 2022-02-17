@@ -10,6 +10,7 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffect;
@@ -72,6 +73,14 @@ public class StringUtils {
             case NETHER: return Language.WORLD_NAMES_NETHER;
             case THE_END: return Language.WORLD_NAMES_THE_END;
             default: return world.getName();
+        }
+    }
+
+    public static String getWorldName(Environment environment) {
+        switch(environment) {
+            case NETHER: return Language.WORLD_NAMES_NETHER;
+            case THE_END: return Language.WORLD_NAMES_THE_END;
+            default: return Language.WORLD_NAMES_OVERWORLD;
         }
     }
 

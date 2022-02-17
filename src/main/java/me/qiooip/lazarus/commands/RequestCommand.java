@@ -30,7 +30,7 @@ public class RequestCommand extends BaseCommand {
 
         if(timer.isActive(player, "REQUEST")) {
             player.sendMessage(Language.PREFIX + Language.REQUEST_COOLDOWN
-            .replace("<seconds>", timer.getTimeLeft(player, "REQUEST")));
+                .replace("<seconds>", timer.getTimeLeft(player, "REQUEST")));
             return;
         }
 
@@ -45,6 +45,6 @@ public class RequestCommand extends BaseCommand {
         player.sendMessage(Language.PREFIX + Language.REQUEST_REQUESTED);
 
         timer.activate(player, "REQUEST", Config.REQUEST_COOLDOWN,
-        Language.PREFIX + Language.REQUEST_COOLDOWN_EXPIRED);
+            Language.PREFIX + Language.REQUEST_COOLDOWN_EXPIRED);
     }
 }

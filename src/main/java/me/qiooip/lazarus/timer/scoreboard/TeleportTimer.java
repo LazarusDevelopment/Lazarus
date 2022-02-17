@@ -7,6 +7,7 @@ import me.qiooip.lazarus.timer.type.ScoreboardTimer;
 import me.qiooip.lazarus.utils.LocationUtils;
 import me.qiooip.lazarus.utils.StringUtils.FormatType;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.Tasks.Callable;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -23,6 +24,13 @@ public class TeleportTimer extends PlayerTimer implements ScoreboardTimer {
 
     public void activate(Player player, Location location) {
         super.activate(player, () -> Tasks.sync(() -> LocationUtils.teleportWithChunkLoad(player, location)));
+    }
+
+    public void activate(Player player, Location location, Callable callable) {
+        super.activate(player, () -> Tasks.sync(() -> {
+            callable.call();
+            LocationUtils.teleportWithChunkLoad(player, location);
+        }));
     }
 
     @Override

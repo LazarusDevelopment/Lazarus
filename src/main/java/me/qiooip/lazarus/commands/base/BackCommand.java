@@ -16,7 +16,6 @@ public class BackCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-
         Userdata data = Lazarus.getInstance().getUserdataManager().getUserdata(player);
 
         if(data.getLastLocation() == null) {

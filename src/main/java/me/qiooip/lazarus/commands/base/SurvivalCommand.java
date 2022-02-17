@@ -33,8 +33,11 @@ public class SurvivalCommand extends BaseCommand {
 
         target.setGameMode(GameMode.SURVIVAL);
 
-        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF.replace("<gamemode>", "survival"));
+        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF
+            .replace("<gamemode>", "survival"));
+
         sender.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_OTHERS
-        .replace("<player>", target.getName()).replace("<gamemode>", "survival"));
+            .replace("<player>", target.getName())
+            .replace("<gamemode>", "survival"));
     }
 }

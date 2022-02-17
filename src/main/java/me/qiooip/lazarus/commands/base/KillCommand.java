@@ -24,7 +24,10 @@ public class KillCommand extends BaseCommand {
 
         target.setHealth(0);
 
-        target.sendMessage(Language.PREFIX + Language.KILL_MESSAGE_SELF.replace("<player>", sender.getName()));
-        sender.sendMessage(Language.PREFIX + Language.KILL_MESSAGE_OTHERS.replace("<player>", target.getName()));
+        target.sendMessage(Language.PREFIX + Language.KILL_MESSAGE_SELF
+            .replace("<player>", sender.getName()));
+
+        sender.sendMessage(Language.PREFIX + Language.KILL_MESSAGE_OTHERS
+            .replace("<player>", target.getName()));
     }
 }

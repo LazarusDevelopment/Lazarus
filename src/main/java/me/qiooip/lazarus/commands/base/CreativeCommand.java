@@ -33,8 +33,11 @@ public class CreativeCommand extends BaseCommand {
 
         target.setGameMode(GameMode.CREATIVE);
 
-        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF.replace("<gamemode>", "creative"));
+        target.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_SELF
+            .replace("<gamemode>", "creative"));
+
         sender.sendMessage(Language.PREFIX + Language.GAMEMODE_MESSAGE_OTHERS
-        .replace("<player>", target.getName()).replace("<gamemode>", "creative"));
+            .replace("<player>", target.getName())
+            .replace("<gamemode>", "creative"));
     }
 }

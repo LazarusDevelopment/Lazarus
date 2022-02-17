@@ -16,7 +16,6 @@ public class MoreCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-
         ItemStack item = player.getItemInHand();
 
         if(item == null || item.getType() == Material.AIR) {

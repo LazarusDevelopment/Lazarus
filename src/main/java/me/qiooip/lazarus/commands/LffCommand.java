@@ -30,7 +30,7 @@ public class LffCommand extends BaseCommand {
 
         if(timer.isActive(player, "LFF")) {
             player.sendMessage(Language.PREFIX + Language.LFF_COMMAND_COOLDOWN
-            .replace("<seconds>", timer.getTimeLeft(player, "LFF")));
+                .replace("<seconds>", timer.getTimeLeft(player, "LFF")));
             return;
         }
 
@@ -40,6 +40,7 @@ public class LffCommand extends BaseCommand {
             .replace("<player>", player.getName())
             .replace("<rankPrefix>", rankPrefix)));
 
-        timer.activate(player, "LFF", Config.LFF_COMMAND_COOLDOWN, Language.PREFIX + Language.LFF_COMMAND_COOLDOWN_EXPIRED);
+        timer.activate(player, "LFF", Config.LFF_COMMAND_COOLDOWN,
+            Language.PREFIX + Language.LFF_COMMAND_COOLDOWN_EXPIRED);
     }
 }

@@ -16,7 +16,6 @@ public class StaffScoreboardCommand extends BaseCommand {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
-
 		ScoreboardManager.getInstance().toggleStaffScoreboard(player);
 	}
 }

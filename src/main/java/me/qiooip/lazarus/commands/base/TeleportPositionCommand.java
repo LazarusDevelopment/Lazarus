@@ -47,8 +47,8 @@ public class TeleportPositionCommand extends BaseCommand {
         if(!player.teleport(where.add(0.5, 0, 0.5))) return;
 
         player.sendMessage(Language.PREFIX + Language.TELEPORT_POSITION_MESSAGE
-        .replace("<x>", String.valueOf(x))
-        .replace("<y>", String.valueOf(y))
-        .replace("<z>", String.valueOf(z)));
+            .replace("<x>", String.valueOf(x))
+            .replace("<y>", String.valueOf(y))
+            .replace("<z>", String.valueOf(z)));
     }
 }

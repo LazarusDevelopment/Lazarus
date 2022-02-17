@@ -33,7 +33,7 @@ public class ReportCommand extends BaseCommand {
 
         if(timer.isActive(player, "REPORT")) {
             player.sendMessage(Language.PREFIX + Language.REPORT_COOLDOWN
-            .replace("<seconds>", timer.getTimeLeft(player, "REPORT")));
+                .replace("<seconds>", timer.getTimeLeft(player, "REPORT")));
             return;
         }
 
@@ -46,9 +46,10 @@ public class ReportCommand extends BaseCommand {
                 .replace("<reason>", reason), "lazarus.report.receive")
         );
 
-        player.sendMessage(Language.PREFIX + Language.REPORT_REPORTED.replace("<player>", target.getName()));
+        player.sendMessage(Language.PREFIX + Language.REPORT_REPORTED
+            .replace("<player>", target.getName()));
 
         timer.activate(player, "REPORT", Config.REPORT_COOLDOWN,
-        Language.PREFIX + Language.REPORT_COOLDOWN_EXPIRED);
+            Language.PREFIX + Language.REPORT_COOLDOWN_EXPIRED);
     }
 }

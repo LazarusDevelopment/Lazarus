@@ -23,6 +23,6 @@ public class ToggleChatCommand extends BaseCommand {
         data.getSettings().setPublicChat(!data.getSettings().isPublicChat());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isPublicChat() ?
-        Language.TOGGLE_PUBLIC_CHAT_TOGGLED_ON : Language.TOGGLE_PUBLIC_CHAT_TOGGLED_OFF));
+            Language.TOGGLE_PUBLIC_CHAT_TOGGLED_ON : Language.TOGGLE_PUBLIC_CHAT_TOGGLED_OFF));
     }
 }

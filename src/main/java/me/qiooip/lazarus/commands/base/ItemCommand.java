@@ -47,7 +47,8 @@ public class ItemCommand extends BaseCommand {
         player.getInventory().addItem(item);
         ItemUtils.updateInventory(player);
 
-        player.sendMessage(Language.PREFIX + Language.ITEM_RECEIVED.replace("<item>",
-        ItemUtils.getItemName(item)).replace("<amount>", String.valueOf(amount)));
+        player.sendMessage(Language.PREFIX + Language.ITEM_RECEIVED
+            .replace("<item>", ItemUtils.getItemName(item))
+            .replace("<amount>", String.valueOf(amount)));
     }
 }

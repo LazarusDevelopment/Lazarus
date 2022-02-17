@@ -23,6 +23,6 @@ public class ToggleDeathMessagesCommand extends BaseCommand {
         data.getSettings().setDeathMessages(!data.getSettings().isDeathMessages());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isDeathMessages()
-        ? Language.TOGGLE_DEATHMESSAGES_TOGGLED_ON : Language.TOGGLE_DEATHMESSAGES_TOGGLED_OFF));
+            ? Language.TOGGLE_DEATHMESSAGES_TOGGLED_ON : Language.TOGGLE_DEATHMESSAGES_TOGGLED_OFF));
     }
 }

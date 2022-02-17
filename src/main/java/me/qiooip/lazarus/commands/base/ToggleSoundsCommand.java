@@ -23,6 +23,6 @@ public class ToggleSoundsCommand extends BaseCommand {
         data.getSettings().setSounds(!data.getSettings().isSounds());
 
         player.sendMessage(Language.PREFIX + (data.getSettings().isSounds()
-        ? Language.TOGGLE_SOUNDS_TOGGLED_ON : Language.TOGGLE_SOUNDS_TOGGLED_OFF));
+            ? Language.TOGGLE_SOUNDS_TOGGLED_ON : Language.TOGGLE_SOUNDS_TOGGLED_OFF));
     }
 }

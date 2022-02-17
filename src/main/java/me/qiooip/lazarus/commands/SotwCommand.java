@@ -57,7 +57,7 @@ public class SotwCommand extends BaseCommand {
 					}
 
 					sender.sendMessage(Language.PREFIX + Language.SOTW_TIME_STATUS
-					.replace("<time>", sotwTimer.getDynamicTimeLeft()));
+						.replace("<time>", sotwTimer.getDynamicTimeLeft()));
 					return;
 				}
 				default: {

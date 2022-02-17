@@ -71,8 +71,9 @@ public class SaleCommand extends BaseCommand {
 
         timer.activate(duration);
 
-        Messages.sendMessage(Language.SALE_STARTED.replace("<type>", name)
-        .replace("<time>", timer.getDynamicTimeLeft()));
+        Messages.sendMessage(Language.SALE_STARTED
+            .replace("<type>", name)
+            .replace("<time>", timer.getDynamicTimeLeft()));
     }
 
     private void stopSaleTimer(CommandSender sender, String name) {
@@ -87,6 +88,7 @@ public class SaleCommand extends BaseCommand {
         timer.cancel();
 
         Messages.sendMessage(Language.PREFIX + Language.SALE_STOPPED
-        .replace("<type>", name).replace("<player>", sender.getName()));
+            .replace("<type>", name)
+            .replace("<player>", sender.getName()));
     }
 }

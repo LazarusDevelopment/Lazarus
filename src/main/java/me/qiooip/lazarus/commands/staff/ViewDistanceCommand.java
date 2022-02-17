@@ -26,7 +26,8 @@ public class ViewDistanceCommand extends BaseCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(args.length == 0) {
-            Language.VIEW_DISTANCE_USAGE.forEach(line -> sender.sendMessage(line.replace("<chunks>", String.valueOf(Bukkit.getViewDistance()))));
+            Language.VIEW_DISTANCE_USAGE.forEach(line -> sender.sendMessage(line
+                .replace("<chunks>", String.valueOf(Bukkit.getViewDistance()))));
             return;
         }
 
@@ -42,8 +43,8 @@ public class ViewDistanceCommand extends BaseCommand {
 
         new ChangeDistanceTask(Math.abs(Integer.parseInt(args[0])), sender);
 
-        Language.VIEW_DISTANCE_STARTED.forEach(line -> sender.sendMessage(line.replace("<seconds>",
-        String.valueOf(Bukkit.getOnlinePlayers().size() / 20))));
+        Language.VIEW_DISTANCE_STARTED.forEach(line -> sender.sendMessage(line
+            .replace("<seconds>", String.valueOf(Bukkit.getOnlinePlayers().size() / 20))));
     }
 
     class ChangeDistanceTask extends BukkitRunnable {

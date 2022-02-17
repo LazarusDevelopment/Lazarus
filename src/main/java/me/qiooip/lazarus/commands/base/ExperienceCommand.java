@@ -31,8 +31,10 @@ public class ExperienceCommand extends BaseCommand {
                 int level = Math.abs(Integer.parseInt(args[2]));
 
                 target.setLevel(target.getLevel() + level);
-                sender.sendMessage(Language.PREFIX + Language.EXPERIENCE_ADDED.replace("<player>",
-                target.getName()).replace("<level>", String.valueOf(level)));
+
+                sender.sendMessage(Language.PREFIX + Language.EXPERIENCE_ADDED
+                    .replace("<player>", target.getName())
+                    .replace("<level>", String.valueOf(level)));
                 return;
             }
             case "remove": {
@@ -44,8 +46,10 @@ public class ExperienceCommand extends BaseCommand {
                 int level = Math.abs(Integer.parseInt(args[2]));
 
                 target.setLevel(Math.max(0, target.getLevel() - level));
-                sender.sendMessage(Language.PREFIX + Language.EXPERIENCE_REMOVED.replace("<player>",
-                target.getName()).replace("<level>", String.valueOf(level)));
+
+                sender.sendMessage(Language.PREFIX + Language.EXPERIENCE_REMOVED
+                    .replace("<player>", target.getName())
+                    .replace("<level>", String.valueOf(level)));
                 return;
             }
             case "set": {
@@ -57,8 +61,10 @@ public class ExperienceCommand extends BaseCommand {
                 int level = Math.abs(Integer.parseInt(args[2]));
 
                 target.setLevel(level);
-                sender.sendMessage(Language.PREFIX + Language.EXPERIENCE_SET.replace("<player>",
-                target.getName()).replace("<level>", String.valueOf(level)));
+
+                sender.sendMessage(Language.PREFIX + Language.EXPERIENCE_SET
+                    .replace("<player>", target.getName())
+                    .replace("<level>", String.valueOf(level)));
                 return;
             }
             default: Language.EXPERIENCE_USAGE.forEach(sender::sendMessage);

@@ -94,6 +94,7 @@ public class MongoUserdataManager extends UserdataManager {
             .append("highestKillstreak", data.getHighestKillstreak())
             .append("balance", data.getBalance())
             .append("lives", data.getLives())
+            .append("spawnCredits", data.getSpawnCredits())
             .append("reclaimUsed", data.isReclaimUsed())
             .append("settings", StringUtils.settingsToString(data.getSettings()))
             .append("ignoring", data.getIgnoring())
@@ -114,6 +115,7 @@ public class MongoUserdataManager extends UserdataManager {
         data.setHighestKillstreak(document.getInteger("highestKillstreak", 0));
         data.setBalance(document.getInteger("balance"));
         data.setLives(document.getInteger("lives"));
+        data.setSpawnCredits(document.getInteger("spawnCredits", 0));
         data.setReclaimUsed(document.getBoolean("reclaimUsed"));
         data.setSettings(StringUtils.settingsFromString(document.getString("settings")));
         data.setIgnoring(document.get("ignoring", new ArrayList<>()));
