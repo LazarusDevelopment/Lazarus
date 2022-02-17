@@ -2,6 +2,7 @@ package me.qiooip.lazarus.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.type.PlayerTimer;
 import me.qiooip.lazarus.userdata.settings.Settings;
@@ -67,9 +68,9 @@ public class StringUtils {
 
     public static String getWorldName(World world) {
         switch(world.getEnvironment()) {
-            case NORMAL: return "World";
-            case NETHER: return "Nether";
-            case THE_END: return "End";
+            case NORMAL: return Language.WORLD_NAMES_OVERWORLD;
+            case NETHER: return Language.WORLD_NAMES_NETHER;
+            case THE_END: return Language.WORLD_NAMES_THE_END;
             default: return world.getName();
         }
     }
@@ -84,7 +85,6 @@ public class StringUtils {
 
     public static String getEntityName(String type) {
         type = type.toLowerCase();
-
         if(!type.contains("_")) return capitalize(type);
 
         return String.join(" ", type.split("_"));

@@ -83,6 +83,11 @@ public class NextKothModule extends TabModule {
                     koth -> StringUtils.getLocationName(koth.getCapzone().getCuboid().getCenter()),
                     ServerUtils.parsePlaceholderFunction(line, "<location>"))
                 );
+            } else if(line.contains("<world>")) {
+                functions.add(new NextKothApplyFunction<>(
+                    koth -> StringUtils.getWorldName(koth.getCapzone().getCuboid().getCenter()),
+                    ServerUtils.parsePlaceholderFunction(line, "<world>"))
+                );
             } else if(line.contains("<kothName>")) {
                 functions.add(new NextKothApplyFunction<>(
                     koth -> koth.getKothData().getName(),

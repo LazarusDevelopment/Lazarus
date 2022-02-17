@@ -32,6 +32,10 @@ public class Language {
 
     public static String NONE_PLACEHOLDER;
 
+    public static String WORLD_NAMES_OVERWORLD;
+    public static String WORLD_NAMES_NETHER;
+    public static String WORLD_NAMES_THE_END;
+
     public static String STAFF_JOIN_MESSAGE;
     public static String STAFF_JOIN_MESSAGE_VANISHED;
     public static String STAFF_QUIT_MESSAGE;
@@ -1518,6 +1522,10 @@ public class Language {
         DISABLED_PLACEHOLDER = language.getString("DISABLED_PLACEHOLDER");
 
         NONE_PLACEHOLDER = language.getString("NONE_PLACEHOLDER");
+
+        WORLD_NAMES_OVERWORLD = language.getString("WORLD_NAMES.OVERWORLD");
+        WORLD_NAMES_NETHER = language.getString("WORLD_NAMES.NETHER");
+        WORLD_NAMES_THE_END = language.getString("WORLD_NAMES.THE_END");
 
         STAFF_JOIN_MESSAGE = language.getString("STAFF_JOIN_MESSAGE");
         STAFF_JOIN_MESSAGE_VANISHED = language.getString("STAFF_JOIN_MESSAGE_VANISHED");

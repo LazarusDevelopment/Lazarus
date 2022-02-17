@@ -22,6 +22,11 @@ DISABLED_PLACEHOLDER: "Disabled"
 
 NONE_PLACEHOLDER: "None"
 
+WORLD_NAMES:
+  OVERWORLD: "World"
+  NETHER: "Nether"
+  THE_END: "End"
+
 STAFF_JOIN_MESSAGE: "&8[&aJoin&8] &a<player>"
 STAFF_JOIN_MESSAGE_VANISHED: "&8[&aJoin&8] &a<player> &8(&cVanished&8)"
 STAFF_QUIT_MESSAGE: "&8[&cQuit&8] &c<player>"
