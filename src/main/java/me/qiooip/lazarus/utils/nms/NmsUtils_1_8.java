@@ -15,6 +15,7 @@ import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_8;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.glass.GlassInfo;
+import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_8.PacketPlayOutEntityTeleportWrapper;
 import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_8.PacketPlayOutSpawnEntityLivingWrapper;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
@@ -42,12 +43,14 @@ import net.minecraft.server.v1_8_R3.MobEffect;
 import net.minecraft.server.v1_8_R3.MobEffectList;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketListener;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig.EnumPlayerDigType;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockPlace;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityWeather;
@@ -398,7 +401,7 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     @Override
     public Scoreboard getPlayerScoreboard(Player player) {
         return player.getScoreboard() == Bukkit.getScoreboardManager()
-        .getMainScoreboard() ? newScoreboard() : player.getScoreboard();
+            .getMainScoreboard() ? newScoreboard() : player.getScoreboard();
     }
 
     @Override
@@ -615,7 +618,7 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
 
     @Override
     public void sendPacket(Player player, Object packet) {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet) packet);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet<? extends PacketListener>) packet);
     }
 
     @Override
@@ -623,8 +626,16 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
         PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
 
         for(Object packet : packets) {
-            connection.sendPacket((Packet) packet);
+            connection.sendPacket((Packet<? extends PacketListener>) packet);
         }
+    }
+
+    @Override
+    public void sendHologramTeleportPacket(Player player, int entityId, Location location) {
+        PacketPlayOutEntityTeleport teleport = PacketPlayOutEntityTeleportWrapper
+            .newTeleportPacket(entityId, location);
+
+        this.sendPacket(player, teleport);
     }
 
     @Override

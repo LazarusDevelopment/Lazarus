@@ -374,7 +374,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     @Override
     public Scoreboard getPlayerScoreboard(Player player) {
         return player.getScoreboard() == Bukkit.getScoreboardManager()
-        .getMainScoreboard() ? newScoreboard() : player.getScoreboard();
+            .getMainScoreboard() ? newScoreboard() : player.getScoreboard();
     }
 
     @Override
@@ -610,6 +610,14 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     }
 
     @Override
+    public void sendHologramTeleportPacket(Player player, int entityId, Location location) {
+        PacketPlayOutEntityTeleport teleport = PacketPlayOutEntityTeleportWrapper
+            .newTeleportPacket(entityId, location);
+
+        this.sendPacket(player, teleport);
+    }
+
+    @Override
     public void sendHologramSpawnPacket(Player player, int entityId, Location location, String message) {
         if(this.getClientVersion(player) < 47) {
             this.spawnClientHologram_1_7(player, entityId, location, message);
@@ -660,10 +668,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         PacketPlayOutSpawnEntityLiving armorStand = PacketPlayOutSpawnEntityLivingWrapper
             .newEntitySpawnPacket(entityId, 30, location, watcher);
 
-        PacketPlayOutEntityTeleport teleport = PacketPlayOutEntityTeleportWrapper
-            .newTeleportPacket(entityId, location);
-
-        this.sendPackets(player, armorStand, teleport);
+        this.sendPacket(player, armorStand);
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {

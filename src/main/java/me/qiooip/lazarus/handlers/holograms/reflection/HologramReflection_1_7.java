@@ -16,14 +16,38 @@ public class HologramReflection_1_7 {
 
     public static class PacketPlayOutEntityTeleportWrapper {
 
+        private static MethodHandle ENTITY_ID_SETTER;
+        private static MethodHandle LOCATION_X_SETTER;
+        private static MethodHandle LOCATION_Y_SETTER;
+        private static MethodHandle LOCATION_Z_SETTER;
+        private static MethodHandle ON_GROUND_SETTER;
+
+        static {
+            try {
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+
+                ENTITY_ID_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityTeleport.class, "a"));
+                LOCATION_X_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityTeleport.class, "b"));
+                LOCATION_Y_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityTeleport.class, "c"));
+                LOCATION_Z_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityTeleport.class, "d"));
+                ON_GROUND_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutEntityTeleport.class, "onGround"));
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+        }
+
         public static PacketPlayOutEntityTeleport newTeleportPacket(int entityId, Location location) {
             PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport();
 
-            packet.a = entityId;
-            packet.b = MathHelper.floor(location.getX() * 32.0);
-            packet.c = MathHelper.floor((location.getY()) * 32.0);
-            packet.d = MathHelper.floor(location.getZ() * 32.0);
-            packet.onGround = true;
+            try {
+                ENTITY_ID_SETTER.invokeExact(packet, entityId);
+                LOCATION_X_SETTER.invokeExact(packet, MathHelper.floor(location.getX() * 32.0));
+                LOCATION_Y_SETTER.invokeExact(packet, MathHelper.floor((location.getY()) * 32.0));
+                LOCATION_Z_SETTER.invokeExact(packet, MathHelper.floor(location.getZ() * 32.0));
+                ON_GROUND_SETTER.invokeExact(packet, true);
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
 
             return packet;
         }

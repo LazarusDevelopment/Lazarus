@@ -126,6 +126,8 @@ public abstract class NmsUtils {
 
     public abstract void sendPackets(Player player, Object... packets);
 
+    public abstract void sendHologramTeleportPacket(Player player, int entityId, Location location);
+
     public abstract void sendHologramSpawnPacket(Player player, int entityId, Location location, String message);
 
     public abstract void sendHologramMessagePacket(Player player, int entityId, String message);
