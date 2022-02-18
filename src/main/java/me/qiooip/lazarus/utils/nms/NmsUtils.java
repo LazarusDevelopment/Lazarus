@@ -123,4 +123,12 @@ public abstract class NmsUtils {
     public abstract void updateArmorFor(Player player, Player target, boolean remove);
 
     public abstract void sendPacket(Player player, Object packet);
+
+    public abstract void sendPackets(Player player, Object... packets);
+
+    public abstract void sendHologramSpawnPacket(Player player, int entityId, Location location, String message);
+
+    public abstract void sendHologramMessagePacket(Player player, int entityId, String message);
+
+    public abstract void sendHologramDestroyPacket(Player player, int entityId);
 }

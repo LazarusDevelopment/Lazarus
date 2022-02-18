@@ -11,6 +11,10 @@ import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_7;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.glass.GlassInfo;
+import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_7.PacketPlayOutAttachEntityWrapper;
+import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_7.PacketPlayOutEntityTeleportWrapper;
+import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_7.PacketPlayOutSpawnEntityLivingWrapper;
+import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_7.PacketPlayOutSpawnEntityWrapper;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.handlers.logger.nms.SkeletonCombatLogger_1_7;
@@ -25,6 +29,7 @@ import me.qiooip.lazarus.utils.item.ItemUtils;
 import net.minecraft.server.v1_7_R4.BlockCocoa;
 import net.minecraft.server.v1_7_R4.Blocks;
 import net.minecraft.server.v1_7_R4.ChatComponentText;
+import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.EntityLightning;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EntityTypes;
@@ -38,8 +43,14 @@ import net.minecraft.server.v1_7_R4.NetworkManager;
 import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketPlayInBlockDig;
 import net.minecraft.server.v1_7_R4.PacketPlayInBlockPlace;
+import net.minecraft.server.v1_7_R4.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityWeather;
 import net.minecraft.server.v1_7_R4.PlayerConnection;
 import net.minecraft.server.v1_7_R4.PlayerList;
@@ -587,6 +598,72 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     @Override
     public void sendPacket(Player player, Object packet) {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet) packet);
+    }
+
+    @Override
+    public void sendPackets(Player player, Object... packets) {
+        PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+
+        for(Object packet : packets) {
+            connection.sendPacket((Packet) packet);
+        }
+    }
+
+    @Override
+    public void sendHologramSpawnPacket(Player player, int entityId, Location location, String message) {
+        if(this.getClientVersion(player) < 47) {
+            this.spawnClientHologram_1_7(player, entityId, location, message);
+        } else {
+            this.spawnClientHologram_1_8(player, entityId, location, message);
+        }
+    }
+
+    @Override
+    public void sendHologramMessagePacket(Player player, int entityId, String message) {
+        DataWatcher watcher = new DataWatcher(null);
+        watcher.a(this.getClientVersion(player) < 47 ? 10 : 2, message);
+
+        this.sendPacket(player, new PacketPlayOutEntityMetadata(entityId, watcher, true));
+    }
+
+    @Override
+    public void sendHologramDestroyPacket(Player player, int entityId) {
+        this.sendPacket(player, new PacketPlayOutEntityDestroy(entityId, entityId + 1));
+    }
+
+    private void spawnClientHologram_1_7(Player player, int entityId, Location location, String message) {
+        DataWatcher watcher = new DataWatcher(null);
+        watcher.a(0, (byte) 0);
+        watcher.a(1, (short) 300);
+        watcher.a(10, message);
+        watcher.a(11, (byte) 1);
+        watcher.a(12, -1700000);
+
+        PacketPlayOutSpawnEntityLiving horse = PacketPlayOutSpawnEntityLivingWrapper
+            .newEntitySpawnPacket(entityId, 100, location, watcher);
+
+        PacketPlayOutSpawnEntity skull = PacketPlayOutSpawnEntityWrapper
+            .newEntitySpawnPacket(entityId + 1, 66, location);
+
+        PacketPlayOutAttachEntity attach = PacketPlayOutAttachEntityWrapper.newAttachEntityPacket(entityId);
+
+        this.sendPackets(player, horse, skull, attach);
+    }
+
+    private void spawnClientHologram_1_8(Player player, int entityId, Location location, String message) {
+        DataWatcher watcher = new DataWatcher(null);
+        watcher.a(0, (byte) 0x20);
+        watcher.a(2, message);
+        watcher.a(3, (byte) 1);
+        watcher.a(10, (byte) 0x16);
+
+        PacketPlayOutSpawnEntityLiving armorStand = PacketPlayOutSpawnEntityLivingWrapper
+            .newEntitySpawnPacket(entityId, 30, location, watcher);
+
+        PacketPlayOutEntityTeleport teleport = PacketPlayOutEntityTeleportWrapper
+            .newTeleportPacket(entityId, location);
+
+        this.sendPackets(player, armorStand, teleport);
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {

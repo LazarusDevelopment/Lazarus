@@ -15,6 +15,7 @@ import me.qiooip.lazarus.games.dragon.EnderDragon;
 import me.qiooip.lazarus.games.dragon.nms.EnderDragon_1_8;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.glass.GlassInfo;
+import me.qiooip.lazarus.handlers.holograms.reflection.HologramReflection_1_8.PacketPlayOutSpawnEntityLivingWrapper;
 import me.qiooip.lazarus.handlers.logger.CombatLogger;
 import me.qiooip.lazarus.handlers.logger.CombatLoggerType;
 import me.qiooip.lazarus.handlers.logger.nms.SkeletonCombatLogger_1_8;
@@ -30,6 +31,7 @@ import net.minecraft.server.v1_8_R3.BlockCocoa;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.DamageSource;
+import net.minecraft.server.v1_8_R3.DataWatcher;
 import net.minecraft.server.v1_8_R3.EntityLightning;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityTypes;
@@ -43,8 +45,11 @@ import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig.EnumPlayerDigType;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockPlace;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityWeather;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.PlayerList;
@@ -611,6 +616,42 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
     @Override
     public void sendPacket(Player player, Object packet) {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet) packet);
+    }
+
+    @Override
+    public void sendPackets(Player player, Object... packets) {
+        PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+
+        for(Object packet : packets) {
+            connection.sendPacket((Packet) packet);
+        }
+    }
+
+    @Override
+    public void sendHologramSpawnPacket(Player player, int entityId, Location location, String message) {
+        DataWatcher watcher = new DataWatcher(null);
+        watcher.a(0, (byte) 0x20);
+        watcher.a(2, message);
+        watcher.a(3, (byte) 1);
+        watcher.a(10, (byte) 0x16);
+
+        PacketPlayOutSpawnEntityLiving armorStand = PacketPlayOutSpawnEntityLivingWrapper
+            .newEntitySpawnPacket(entityId, location, watcher);
+
+        this.sendPacket(player, armorStand);
+    }
+
+    @Override
+    public void sendHologramMessagePacket(Player player, int entityId, String message) {
+        DataWatcher watcher = new DataWatcher(null);
+        watcher.a(2, message);
+
+        this.sendPacket(player, new PacketPlayOutEntityMetadata(entityId, watcher, true));
+    }
+
+    @Override
+    public void sendHologramDestroyPacket(Player player, int entityId) {
+        this.sendPacket(player, new PacketPlayOutEntityDestroy(entityId));
     }
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {

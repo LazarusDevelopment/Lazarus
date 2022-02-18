@@ -1,0 +1,142 @@
+package me.qiooip.lazarus.handlers.holograms.reflection;
+
+import me.qiooip.lazarus.utils.ReflectionUtils;
+import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
+import org.bukkit.Location;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+
+public class HologramReflection_1_7 {
+
+    public static class PacketPlayOutEntityTeleportWrapper {
+
+        public static PacketPlayOutEntityTeleport newTeleportPacket(int entityId, Location location) {
+            PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport();
+
+            packet.a = entityId;
+            packet.b = MathHelper.floor(location.getX() * 32.0);
+            packet.c = MathHelper.floor((location.getY()) * 32.0);
+            packet.d = MathHelper.floor(location.getZ() * 32.0);
+            packet.onGround = true;
+
+            return packet;
+        }
+    }
+
+    public static class PacketPlayOutAttachEntityWrapper {
+
+        private static MethodHandle ENTITY_1_SETTER;
+        private static MethodHandle ENTITY_2_SETTER;
+
+        static {
+            try {
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+
+                ENTITY_1_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutAttachEntity.class, "b"));
+                ENTITY_2_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutAttachEntity.class, "c"));
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+        }
+
+        public static PacketPlayOutAttachEntity newAttachEntityPacket(int entityId) {
+            PacketPlayOutAttachEntity packet = new PacketPlayOutAttachEntity();
+
+            try {
+                ENTITY_1_SETTER.invokeExact(packet, entityId);
+                ENTITY_2_SETTER.invokeExact(packet, entityId + 1);
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+
+            return packet;
+        }
+    }
+
+    public static class PacketPlayOutSpawnEntityWrapper {
+
+        private static MethodHandle ENTITY_ID_SETTER;
+        private static MethodHandle ENTITY_TYPE_SETTER;
+        private static MethodHandle LOCATION_X_SETTER;
+        private static MethodHandle LOCATION_Y_SETTER;
+        private static MethodHandle LOCATION_Z_SETTER;
+
+        static {
+            try {
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+
+                ENTITY_ID_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntity.class, "a"));
+                ENTITY_TYPE_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntity.class, "j"));
+                LOCATION_X_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntity.class, "b"));
+                LOCATION_Y_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntity.class, "c"));
+                LOCATION_Z_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntity.class, "d"));
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+        }
+
+        public static PacketPlayOutSpawnEntity newEntitySpawnPacket(int entityId, int entityType, Location location) {
+            PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity();
+
+            try {
+                ENTITY_ID_SETTER.invokeExact(packet, entityId);
+                ENTITY_TYPE_SETTER.invokeExact(packet, entityType);
+                LOCATION_X_SETTER.invokeExact(packet, MathHelper.floor(location.getX() * 32.0));
+                LOCATION_Y_SETTER.invokeExact(packet, MathHelper.floor((location.getY()) * 32.0));
+                LOCATION_Z_SETTER.invokeExact(packet, MathHelper.floor(location.getZ() * 32.0));
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+
+            return packet;
+        }
+    }
+
+    public static class PacketPlayOutSpawnEntityLivingWrapper {
+
+        private static MethodHandle ENTITY_ID_SETTER;
+        private static MethodHandle ENTITY_TYPE_SETTER;
+        private static MethodHandle LOCATION_X_SETTER;
+        private static MethodHandle LOCATION_Y_SETTER;
+        private static MethodHandle LOCATION_Z_SETTER;
+        private static MethodHandle DATA_WATCHER_SETTER;
+
+        static {
+            try {
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+
+                ENTITY_ID_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntityLiving.class, "a"));
+                ENTITY_TYPE_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntityLiving.class, "b"));
+                LOCATION_X_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntityLiving.class, "c"));
+                LOCATION_Y_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntityLiving.class, "d"));
+                LOCATION_Z_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntityLiving.class, "e"));
+                DATA_WATCHER_SETTER = lookup.unreflectSetter(ReflectionUtils.setAccessibleAndGet(PacketPlayOutSpawnEntityLiving.class, "l"));
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+        }
+
+        public static PacketPlayOutSpawnEntityLiving newEntitySpawnPacket(int entityId, int entityType, Location location, DataWatcher watcher) {
+            PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
+
+            try {
+                ENTITY_ID_SETTER.invokeExact(packet, entityId);
+                ENTITY_TYPE_SETTER.invokeExact(packet, entityType);
+                LOCATION_X_SETTER.invokeExact(packet, MathHelper.floor(location.getX() * 32.0));
+                LOCATION_Y_SETTER.invokeExact(packet, MathHelper.floor((location.getY()) * 32.0));
+                LOCATION_Z_SETTER.invokeExact(packet, MathHelper.floor(location.getZ() * 32.0));
+                DATA_WATCHER_SETTER.invokeExact(packet, watcher);
+            } catch(Throwable t) {
+                t.printStackTrace();
+            }
+
+            return packet;
+        }
+    }
+}

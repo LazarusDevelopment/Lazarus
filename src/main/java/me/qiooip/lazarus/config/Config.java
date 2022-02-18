@@ -38,6 +38,7 @@ public class Config {
     public static File FACTIONS_DIR;
     public static File GAMES_DIR;
     public static File USERDATA_DIR;
+    public static File HOLOGRAMS_DIR;
     public static File LEADERBOARDS_DIR;
 
     public static boolean NETHER_PORTAL_TRANSLATION_ENABLED;
@@ -518,6 +519,7 @@ public class Config {
         FACTIONS_DIR = new File(Lazarus.getInstance().getDataFolder(), "factions");
         GAMES_DIR = new File(Lazarus.getInstance().getDataFolder(), "games");
         USERDATA_DIR = new File(Lazarus.getInstance().getDataFolder(), "userdata");
+        HOLOGRAMS_DIR = new File(Lazarus.getInstance().getDataFolder(), "holograms");
         LEADERBOARDS_DIR = new File(Lazarus.getInstance().getDataFolder(), "leaderboards");
 
         NETHER_PORTAL_TRANSLATION_ENABLED = config.getBoolean("NETHER_PORTAL_POSITION_TRANSLATION.ENABLED");

@@ -31,6 +31,7 @@ import me.qiooip.lazarus.handlers.death.HeadDropHandler;
 import me.qiooip.lazarus.handlers.death.StattrakHandler;
 import me.qiooip.lazarus.handlers.elevator.MinecartElevatorHandler;
 import me.qiooip.lazarus.handlers.elevator.SignElevatorHandler;
+import me.qiooip.lazarus.handlers.holograms.HologramHandler;
 import me.qiooip.lazarus.handlers.kitmap.KillstreakHandler;
 import me.qiooip.lazarus.handlers.kitmap.KitmapHandler;
 import me.qiooip.lazarus.handlers.leaderboard.LeaderboardHandler;
@@ -100,6 +101,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new GlisteringMelonHandler());
         this.handlers.add(new GoldenAppleHandler());
         this.handlers.add(new HeadDropHandler());
+        this.handlers.add(new HologramHandler());
         this.handlers.add(new InventoryHandler());
         this.handlers.add(new KillstreakHandler());
         this.handlers.add(new LeaderboardHandler());

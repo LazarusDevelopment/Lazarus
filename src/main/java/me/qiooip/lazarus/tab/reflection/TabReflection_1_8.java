@@ -33,7 +33,7 @@ public class TabReflection_1_8 {
             }
         }
 
-        public static PacketPlayOutPlayerInfo newAddPacket(com.mojang.authlib.GameProfile gameProfile) {
+        public static PacketPlayOutPlayerInfo newAddPacket(GameProfile gameProfile) {
             PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
 
             try {
