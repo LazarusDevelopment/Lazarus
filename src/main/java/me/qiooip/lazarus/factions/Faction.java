@@ -49,7 +49,7 @@ public abstract class Faction {
 
     private Relation getRelation(CommandSender sender) {
         return sender instanceof Player ? this.getRelation(FactionsManager
-        .getInstance().getPlayerFaction((Player) sender)) : Relation.ENEMY;
+            .getInstance().getPlayerFaction((Player) sender)) : Relation.ENEMY;
     }
 
     private Relation getRelation(Faction other) {
@@ -59,7 +59,7 @@ public abstract class Faction {
         PlayerFaction playerFaction = (PlayerFaction) other;
 
         return faction == playerFaction ? Relation.MEMBER : faction
-        .isAlly(playerFaction) ? Relation.ALLY : Relation.ENEMY;
+            .isAlly(playerFaction) ? Relation.ALLY : Relation.ENEMY;
     }
 
     private String getRelationColor(CommandSender sender) {
@@ -108,7 +108,6 @@ public abstract class Faction {
         if(!(other instanceof Faction)) return false;
 
         Faction faction = (Faction) other;
-
         return Objects.equals(this.id, faction.getId());
     }
 

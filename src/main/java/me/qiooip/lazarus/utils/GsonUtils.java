@@ -17,7 +17,7 @@ import me.qiooip.lazarus.games.koth.KothData;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.games.mountain.MountainData;
 import me.qiooip.lazarus.games.schedule.ScheduleData;
-import me.qiooip.lazarus.handlers.holograms.Hologram;
+import me.qiooip.lazarus.hologram.Hologram;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -42,7 +42,7 @@ public class GsonUtils {
 
     public static final Type PLAYER_TYPE = new TypeToken<Map<UUID, FactionPlayer>>(){}.getType();
 
-    public static final Type HOLOGRAMS_TYPE = new TypeToken<List<Hologram>>(){}.getType();
+    public static final Type HOLOGRAMS_TYPE = new TypeToken<Map<Integer, Hologram>>(){}.getType();
 
     public static Class<?> getFactionClass(String name) {
         switch(name) {

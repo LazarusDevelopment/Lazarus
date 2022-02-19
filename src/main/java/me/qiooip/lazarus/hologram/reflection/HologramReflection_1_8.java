@@ -1,4 +1,4 @@
-package me.qiooip.lazarus.handlers.holograms.reflection;
+package me.qiooip.lazarus.hologram.reflection;
 
 import me.qiooip.lazarus.utils.ReflectionUtils;
 import net.minecraft.server.v1_8_R3.DataWatcher;

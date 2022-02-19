@@ -417,6 +417,72 @@ BOMBER_CLASS:
     ACTIVE_COOLDOWN: "&cYou are on cooldown for &6<seconds> &cmore seconds!"
     COOLDOWN_EXPIRED: "&cYour &4TNT &ccooldown has expired."
 
+HOLOGRAM_LEADERBOARDS:
+  TOP_KILLS:
+    HEADER:
+      - "&c&lTop player kills"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /topkills ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  TOP_DEATHS:
+    HEADER:
+      - "&c&lTop player deaths"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /topdeaths ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  TOP_BALANCE:
+    HEADER:
+      - "&c&lTop player balance"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /topbalance ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  TOP_KILLSTREAK:
+    HEADER:
+      - "&c&lTop player killstreak"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /topkillstreak ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  FACTION_TOP_KILLS:
+    HEADER:
+      - "&c&lTop faction kills"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /f top kills ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  FACTION_TOP_POINTS:
+    HEADER:
+      - "&c&lTop faction points"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /f top points ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  FACTION_TOP_BALANCE:
+    HEADER:
+      - "&c&lTop faction balance"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /f top balance ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+  FACTION_TOP_KOTHS_CAPPED:
+    HEADER:
+      - "&c&lTop faction koths capped"
+      - ""
+    FOOTER:
+      - ""
+      - "&7(( /f top koths ))"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+
 LEADERBOARDS:
   COMMAND_USAGE: "&cUsage: /leaderboard <kills|deaths|balance|killstreak>"
   FACTION_COMMAND_USAGE: "&cUsage: /f top <kills|points|balance|koths>"

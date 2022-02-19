@@ -31,7 +31,6 @@ import me.qiooip.lazarus.handlers.death.HeadDropHandler;
 import me.qiooip.lazarus.handlers.death.StattrakHandler;
 import me.qiooip.lazarus.handlers.elevator.MinecartElevatorHandler;
 import me.qiooip.lazarus.handlers.elevator.SignElevatorHandler;
-import me.qiooip.lazarus.handlers.holograms.HologramHandler;
 import me.qiooip.lazarus.handlers.kitmap.KillstreakHandler;
 import me.qiooip.lazarus.handlers.kitmap.KitmapHandler;
 import me.qiooip.lazarus.handlers.leaderboard.LeaderboardHandler;
@@ -60,6 +59,7 @@ import me.qiooip.lazarus.handlers.timer.LogoutHandler;
 import me.qiooip.lazarus.handlers.timer.PurgeHandler;
 import me.qiooip.lazarus.handlers.timer.PvpProtHandler;
 import me.qiooip.lazarus.handlers.timer.SotwHandler;
+import me.qiooip.lazarus.hologram.HologramHandler;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -101,7 +101,6 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new GlisteringMelonHandler());
         this.handlers.add(new GoldenAppleHandler());
         this.handlers.add(new HeadDropHandler());
-        this.handlers.add(new HologramHandler());
         this.handlers.add(new InventoryHandler());
         this.handlers.add(new KillstreakHandler());
         this.handlers.add(new LeaderboardHandler());
@@ -128,6 +127,7 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new StattrakHandler());
         this.handlers.add(new SubclaimHandler());
         this.handlers.add(new WarpsHandler());
+        this.handlers.add(new HologramHandler());
 
         if(Config.KITMAP_MODE_ENABLED) this.handlers.add(new KitmapHandler());
         if(Config.MOB_STACK_ENABLED) this.handlers.add(new MobStackHandler());
