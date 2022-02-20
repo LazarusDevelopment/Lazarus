@@ -1,26 +1,25 @@
 package me.qiooip.lazarus.hologram;
 
+import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.handlers.manager.Handler;
-import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
+import me.qiooip.lazarus.hologram.task.HologramRenderTask;
 import me.qiooip.lazarus.hologram.type.HologramType;
-import me.qiooip.lazarus.hologram.type.LeaderboardHologramType;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.Tasks;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class HologramHandler extends Handler implements Listener {
 
+    private HologramRenderTask renderTask;
     private Map<Integer, Hologram> holograms;
 
     public HologramHandler() {
@@ -30,6 +29,10 @@ public class HologramHandler extends Handler implements Listener {
     @Override
     public void disable() {
         this.saveHolograms();
+
+        if(this.renderTask != null) {
+            this.renderTask.cancel();
+        }
     }
 
     private File getHologramsFile() {
@@ -46,6 +49,8 @@ public class HologramHandler extends Handler implements Listener {
 
         this.holograms = Lazarus.getInstance().getGson().fromJson(content, GsonUtils.HOLOGRAMS_TYPE);
         this.holograms.values().forEach(Hologram::updateHologramLines);
+
+        this.renderTask = new HologramRenderTask(this);
     }
 
     private void saveHolograms() {
@@ -75,17 +80,6 @@ public class HologramHandler extends Handler implements Listener {
             return;
         }
 
-        Bukkit.getOnlinePlayers().forEach(online -> hologram.removeHologram(online));
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
-        Tasks.syncLater(() -> {
-            LeaderboardHologram hologram = new LeaderboardHologram(1, player.getEyeLocation(), LeaderboardHologramType.PLAYER_DEATHS);
-            hologram.sendHologram(player);
-            this.holograms.put(hologram.getId(), hologram);
-        }, 100L);
+        hologram.forEachViewer(hologram::removeHologram);
     }
 }

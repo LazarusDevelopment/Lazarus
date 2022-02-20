@@ -3,6 +3,7 @@ package me.qiooip.lazarus.hologram;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 @Getter
 @AllArgsConstructor
@@ -70,6 +72,20 @@ public abstract class Hologram {
 
         this.entries.forEach(entry -> nmsUtils
             .sendHologramDestroyPacket(player, entry.getEntityId()));
+    }
+
+    public void forEachViewer(Consumer<Player> action) {
+        for(UUID viewer : this.viewers) {
+            Player player = Bukkit.getPlayer(viewer);
+
+            if(player != null) {
+                action.accept(player);
+            }
+        }
+    }
+
+    public boolean isInSameWorld(Player player) {
+        return player.getWorld().equals(this.location.getWorld());
     }
 
     public abstract void updateHologramLines();
