@@ -4,13 +4,17 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.handlers.manager.Handler;
+import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
 import me.qiooip.lazarus.hologram.task.HologramRenderTask;
 import me.qiooip.lazarus.hologram.type.HologramType;
+import me.qiooip.lazarus.hologram.type.LeaderboardHologramType;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.util.HashMap;
@@ -81,5 +85,16 @@ public class HologramHandler extends Handler implements Listener {
         }
 
         hologram.forEachViewer(hologram::removeHologram);
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        Tasks.syncLater(() -> {
+            LeaderboardHologram hologram = new LeaderboardHologram(1, player.getEyeLocation(), LeaderboardHologramType.PLAYER_DEATHS);
+            hologram.sendHologram(player);
+            this.holograms.put(hologram.getId(), hologram);
+        }, 100L);
     }
 }

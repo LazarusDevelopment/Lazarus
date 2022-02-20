@@ -9,6 +9,8 @@ import lombok.Getter;
 import org.bson.Document;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Getter
 public class MongoManager {
@@ -22,6 +24,8 @@ public class MongoManager {
     private final MongoCollection<Document> userdataRepo;
 
     public MongoManager() {
+        Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
+
         MongoClientSettings.Builder settings = MongoClientSettings.builder();
         settings.applyConnectionString(MongoConfig.getConnectionString());
         settings.applyToConnectionPoolSettings(builder -> builder.maxConnectionIdleTime(60, TimeUnit.SECONDS));

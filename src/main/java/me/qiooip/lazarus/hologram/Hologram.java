@@ -57,7 +57,7 @@ public abstract class Hologram {
     }
 
     public Location getLineLocation(Location parent) {
-        return parent.clone().subtract(0, 0.4, 0);
+        return parent.clone().subtract(0, 0.3, 0);
     }
 
     public void sendHologram(Player player) {
