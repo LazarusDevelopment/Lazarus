@@ -85,7 +85,7 @@ public abstract class Hologram {
     }
 
     public boolean isInSameWorld(Player player) {
-        return player.getWorld().equals(this.location.getWorld());
+        return player.getWorld().getName().equals(this.location.getWorld().getName());
     }
 
     public abstract void updateHologramLines();

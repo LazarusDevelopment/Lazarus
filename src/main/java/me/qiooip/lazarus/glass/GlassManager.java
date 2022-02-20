@@ -155,10 +155,10 @@ public class GlassManager implements Listener, ManagerEnabler {
         this.clearGlassVisuals(player, type, glassInfo -> {
             Location loc = glassInfo.getLocation();
 
-            return loc.getWorld().equals(to.getWorld())
-            && (Math.abs(loc.getBlockX() - to.getBlockX()) > WALL_BORDER_WIDTH
-            || Math.abs(loc.getBlockY() - to.getBlockY()) > WALL_BORDER_HEIGHT
-            || Math.abs(loc.getBlockZ() - to.getBlockZ()) > WALL_BORDER_WIDTH);
+            return loc.getWorld().getName().equals(to.getWorld().getName())
+                && (Math.abs(loc.getBlockX() - to.getBlockX()) > WALL_BORDER_WIDTH
+                || Math.abs(loc.getBlockY() - to.getBlockY()) > WALL_BORDER_HEIGHT
+                || Math.abs(loc.getBlockZ() - to.getBlockZ()) > WALL_BORDER_WIDTH);
         });
 
         Set<Claim> claims = ClaimManager.getInstance().getClaimsInSelection(to.getWorld(),
