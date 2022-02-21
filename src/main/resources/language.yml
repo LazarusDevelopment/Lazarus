@@ -435,6 +435,9 @@ HOLOGRAMS:
     - "&7&m                                                                                "
   EXCEPTIONS:
     DOESNT_EXIST: "&7Hologram with id &b<id> &7doesn't exist!"
+  DELETE_COMMAND:
+    USAGE: "&cUsage: /hologram delete <id>"
+    DELETED: "&7Hologram with id &b<id> &7deleted."
   LIST_COMMAND:
     NO_HOLOGRAMS: "&7There are no &bholograms &7yet!"
     TITLE: " &b&lHologram List"

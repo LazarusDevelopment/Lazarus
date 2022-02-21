@@ -65,10 +65,6 @@ public class HologramManager implements ManagerEnabler {
         return this.holograms.get(id);
     }
 
-    public Hologram removeHologramById(int id) {
-        return this.holograms.remove(id);
-    }
-
     public void createHologram(Player player, HologramType type) {
         Hologram hologram;
     }
@@ -77,7 +73,11 @@ public class HologramManager implements ManagerEnabler {
         Hologram hologram = this.getByCommandParam(sender, hologramId);
         if(hologram == null) return;
 
+        this.holograms.remove(hologramId);
         hologram.forEachViewer(hologram::removeHologram);
+
+        sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_DELETE_DELETED
+            .replace("<id>", String.valueOf(hologramId)));
     }
 
     public void teleportHologram(Player player, int hologramId) {

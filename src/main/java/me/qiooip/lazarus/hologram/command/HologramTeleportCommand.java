@@ -6,10 +6,12 @@ import me.qiooip.lazarus.config.Language;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+
 public class HologramTeleportCommand extends SubCommand {
 
     public HologramTeleportCommand() {
-        super("teleport", "lazarus.holograms", true);
+        super("teleport", Collections.singletonList("tp"), "lazarus.holograms", true);
     }
 
     @Override
