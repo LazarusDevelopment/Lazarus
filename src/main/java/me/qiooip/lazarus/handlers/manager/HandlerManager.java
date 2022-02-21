@@ -59,7 +59,6 @@ import me.qiooip.lazarus.handlers.timer.LogoutHandler;
 import me.qiooip.lazarus.handlers.timer.PurgeHandler;
 import me.qiooip.lazarus.handlers.timer.PvpProtHandler;
 import me.qiooip.lazarus.handlers.timer.SotwHandler;
-import me.qiooip.lazarus.hologram.HologramHandler;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -127,7 +126,6 @@ public class HandlerManager implements ManagerEnabler {
         this.handlers.add(new StattrakHandler());
         this.handlers.add(new SubclaimHandler());
         this.handlers.add(new WarpsHandler());
-        this.handlers.add(new HologramHandler());
 
         if(Config.KITMAP_MODE_ENABLED) this.handlers.add(new KitmapHandler());
         if(Config.MOB_STACK_ENABLED) this.handlers.add(new MobStackHandler());

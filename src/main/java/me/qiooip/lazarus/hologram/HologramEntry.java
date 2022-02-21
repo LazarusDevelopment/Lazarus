@@ -9,7 +9,7 @@ import org.bukkit.Location;
 @AllArgsConstructor
 public class HologramEntry {
 
-    private final int entityId;
-    private final String message;
-    private final Location location;
+    private int entityId;
+    private String message;
+    private Location location;
 }

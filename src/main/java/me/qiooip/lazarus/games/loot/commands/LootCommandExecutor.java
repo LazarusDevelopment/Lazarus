@@ -22,7 +22,8 @@ public class LootCommandExecutor extends SubCommandExecutor {
 
     @Override
     protected List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.loot.admin") ? Language
-        .LOOT_COMMAND_USAGE_ADMIN : Language.LOOT_COMMAND_USAGE_PLAYER;
+        return sender.hasPermission("lazarus.loot.admin")
+            ? Language.LOOT_COMMAND_USAGE_ADMIN
+            : Language.LOOT_COMMAND_USAGE_PLAYER;
     }
 }

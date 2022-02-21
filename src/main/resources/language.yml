@@ -10,6 +10,7 @@ MOUNTAIN_PREFIX: "&8[&6&lMountain&8] "
 ENDER_DRAGON_PREFIX: "&8[&5&lDragon&8] "
 LOOT_PREFIX: "&8[&b&lLoot&8] "
 SCHEDULE_PREFIX: "&8[&6&lSchedule&8] "
+HOLOGRAMS_PREFIX: "&8[&b&lHolograms&8] "
 
 YES_PLACEHOLDER: "Yes"
 NO_PLACEHOLDER: "No"
@@ -416,6 +417,31 @@ BOMBER_CLASS:
   TNT_GUN:
     ACTIVE_COOLDOWN: "&cYou are on cooldown for &6<seconds> &cmore seconds!"
     COOLDOWN_EXPIRED: "&cYour &4TNT &ccooldown has expired."
+
+HOLOGRAMS:
+  COMMAND_HEADER: "&7&m                                                                                "
+  COMMAND_FOOTER: "&7&m                                                                                "
+  COMMAND_USAGE:
+    - "&7&m                                                                                "
+    - " &3&lHologram Help"
+    - "  &b/hologram create <type>&f- &7Create hologram"
+    - "  &b/hologram delete <id> &f- &7Delete hologram"
+    - "  &b/hologram addline <id> <message> &f- &7Add hologram line"
+    - "  &b/hologram removeline <id> <line> &f- &7Remove hologram line"
+    - "  &b/hologram teleport <id> &f- &7Teleport hologram"
+    - "  &b/hologram list &f- &7List all existing holograms"
+    - ""
+    - "  &6Available types&f: &7Normal, Leaderboard"
+    - "&7&m                                                                                "
+  EXCEPTIONS:
+    DOESNT_EXIST: "&7Hologram with id &b<id> &7doesn't exist!"
+  LIST_COMMAND:
+    NO_HOLOGRAMS: "&7There are no &bholograms &7yet!"
+    TITLE: " &b&lHologram List"
+    FORMAT: "  &7- Id: &3<id>&7, location: &b<location>"
+  TELEPORT_COMMAND:
+    USAGE: "&cUsage: /hologram teleport <id>"
+    TELEPORTED: "&7Hologram teleported to your location."
 
 HOLOGRAM_LEADERBOARDS:
   TOP_KILLS:

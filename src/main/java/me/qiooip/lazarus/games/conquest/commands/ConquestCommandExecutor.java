@@ -25,7 +25,8 @@ public class ConquestCommandExecutor extends SubCommandExecutor {
 
     @Override
     protected List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.conquest.admin") ? Language
-        .CONQUEST_COMMAND_USAGE_ADMIN : Language.CONQUEST_COMMAND_USAGE_PLAYER;
+        return sender.hasPermission("lazarus.conquest.admin")
+            ? Language.CONQUEST_COMMAND_USAGE_ADMIN
+            : Language.CONQUEST_COMMAND_USAGE_PLAYER;
     }
 }

@@ -31,6 +31,7 @@ public class KothCommandExecutor extends SubCommandExecutor {
     @Override
     public List<String> getUsageMessage(CommandSender sender) {
         return sender.hasPermission("lazarus.koth.admin")
-            ? Language.KOTH_COMMAND_USAGE_ADMIN : Language.KOTH_COMMAND_USAGE_PLAYER;
+            ? Language.KOTH_COMMAND_USAGE_ADMIN
+            : Language.KOTH_COMMAND_USAGE_PLAYER;
     }
 }

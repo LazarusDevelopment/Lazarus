@@ -2,7 +2,7 @@ package me.qiooip.lazarus.hologram.task;
 
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.hologram.Hologram;
-import me.qiooip.lazarus.hologram.HologramHandler;
+import me.qiooip.lazarus.hologram.HologramManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,9 +15,9 @@ import java.util.UUID;
 public class HologramRenderTask extends BukkitRunnable {
 
     private static final int DISTANCE = 48 * 48;
-    private final HologramHandler handler;
+    private final HologramManager handler;
 
-    public HologramRenderTask(HologramHandler handler) {
+    public HologramRenderTask(HologramManager handler) {
         this.handler = handler;
         this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 40L);
     }

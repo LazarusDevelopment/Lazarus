@@ -27,6 +27,7 @@ public class DtcCommandExecutor extends SubCommandExecutor {
     @Override
     protected List<String> getUsageMessage(CommandSender sender) {
         return sender.hasPermission("lazarus.dtc.admin")
-            ? Language.DTC_COMMAND_USAGE_ADMIN : Language.DTC_COMMAND_USAGE_PLAYER;
+            ? Language.DTC_COMMAND_USAGE_ADMIN
+            : Language.DTC_COMMAND_USAGE_PLAYER;
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>me.qiooip</groupId>
     <artifactId>lazarus</artifactId>
-    <version>1.3.5</version>
+    <version>1.3.6</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.0</version>
+            <version>5.3</version>
             <scope>provided</scope>
         </dependency>
 

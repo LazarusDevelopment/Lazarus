@@ -19,7 +19,9 @@ public class FlyCommand extends BaseCommand {
 
             Player player = (Player) sender;
             player.setAllowFlight(!player.getAllowFlight());
-            player.sendMessage(Language.PREFIX + (player.getAllowFlight() ? Language.FLY_SELF_ENABLED : Language.FLY_SELF_DISABLED));
+
+            player.sendMessage(Language.PREFIX + (player.getAllowFlight()
+                ? Language.FLY_SELF_ENABLED : Language.FLY_SELF_DISABLED));
             return;
         }
 

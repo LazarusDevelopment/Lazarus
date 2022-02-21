@@ -79,7 +79,7 @@ public class SubCommandExecutor extends BukkitCommand {
 
         if(sub == null) {
             sender.sendMessage(this.prefix + Language.COMMANDS_COMMAND_NOT_FOUND
-            .replace("<command>", args[0]));
+                .replace("<command>", args[0]));
             return true;
         }
 

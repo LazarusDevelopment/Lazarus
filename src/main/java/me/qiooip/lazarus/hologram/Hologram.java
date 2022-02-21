@@ -35,14 +35,12 @@ public abstract class Hologram {
     }
 
     public void addEntry(String message, Location location) {
-        if(message.isEmpty()) return;
-
         int entityId = this.getEntityId();
         this.entries.add(new HologramEntry(entityId, message, location));
     }
 
     public void addEntry(int index, String message, Location location) {
-        if(index > this.entries.size() - 1 || message.isEmpty()) return;
+        if(index > this.entries.size() - 1) return;
 
         int entityId = this.getEntityId();
         this.entries.add(index, new HologramEntry(entityId, message, location));
@@ -63,8 +61,12 @@ public abstract class Hologram {
     public void sendHologram(Player player) {
         NmsUtils nmsUtils = NmsUtils.getInstance();
 
-        this.entries.forEach(entry -> nmsUtils.sendHologramSpawnPacket(
-            player, entry.getEntityId(), entry.getLocation(), entry.getMessage()));
+        for(HologramEntry entry : this.entries) {
+            if(entry.getMessage().isEmpty()) continue;
+
+            nmsUtils.sendHologramSpawnPacket(player,
+                entry.getEntityId(), entry.getLocation(), entry.getMessage());
+        }
     }
 
     public void removeHologram(Player player) {
@@ -72,6 +74,22 @@ public abstract class Hologram {
 
         this.entries.forEach(entry -> nmsUtils
             .sendHologramDestroyPacket(player, entry.getEntityId()));
+    }
+
+    public void teleportHologram(Player player) {
+        NmsUtils nmsUtils = NmsUtils.getInstance();
+
+        Location location = player.getEyeLocation().clone();
+        this.location = location;
+
+        for(HologramEntry entry : this.entries) {
+            location = this.getLineLocation(location);
+            entry.setLocation(location);
+
+            if(!entry.getMessage().isEmpty()) {
+                nmsUtils.sendHologramTeleportPacket(player, entry.getEntityId(), location);
+            }
+        }
     }
 
     public void forEachViewer(Consumer<Player> action) {

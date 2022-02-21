@@ -10,6 +10,8 @@ import java.util.List;
 
 public class MountainCommandExecutor extends SubCommandExecutor {
 
+    private final List<String> PLAYER_COMMAND_USAGE;
+
     public MountainCommandExecutor() {
         super("mountain", null);
 
@@ -22,11 +24,14 @@ public class MountainCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new MountainTeleportCommand());
         this.addSubCommand(new MountainTimeCommand());
         this.addSubCommand(new MountainUpdateCommand());
+
+        PLAYER_COMMAND_USAGE = Collections.singletonList(Lazarus
+            .getInstance().getMountainManager().nextRespawnString());
     }
 
     @Override
     public List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.mountain.admin") ? Language.MOUNTAIN_COMMAND_USAGE_ADMIN
-        : Collections.singletonList(Lazarus.getInstance().getMountainManager().nextRespawnString());
+        return sender.hasPermission("lazarus.mountain.admin")
+            ? Language.MOUNTAIN_COMMAND_USAGE_ADMIN : PLAYER_COMMAND_USAGE;
     }
 }

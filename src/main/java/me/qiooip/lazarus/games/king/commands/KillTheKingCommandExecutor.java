@@ -11,6 +11,8 @@ import java.util.List;
 
 public class KillTheKingCommandExecutor extends SubCommandExecutor {
 
+    private final List<String> PLAYER_COMMAND_USAGE;
+
     public KillTheKingCommandExecutor() {
         super("killtheking", Arrays.asList("ktk", "king"), null);
 
@@ -18,11 +20,14 @@ public class KillTheKingCommandExecutor extends SubCommandExecutor {
 
         this.addSubCommand(new KillTheKingStartCommand());
         this.addSubCommand(new KillTheKingStopCommand());
+
+        PLAYER_COMMAND_USAGE = Collections.singletonList(Lazarus
+            .getInstance().getKillTheKingManager().getKingLocationString());
     }
 
     @Override
     protected List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.killtheking.admin") ? Language.KING_COMMAND_USAGE_ADMIN
-        : Collections.singletonList(Lazarus.getInstance().getKillTheKingManager().getKingLocationString());
+        return sender.hasPermission("lazarus.killtheking.admin")
+            ? Language.KING_COMMAND_USAGE_ADMIN : PLAYER_COMMAND_USAGE;
     }
 }

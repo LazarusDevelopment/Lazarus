@@ -25,7 +25,8 @@ public class EnderDragonCommandExecutor extends SubCommandExecutor {
 
     @Override
     public List<String> getUsageMessage(CommandSender sender) {
-        return sender.hasPermission("lazarus.enderdragon.admin") ? Language
-        .ENDER_DRAGON_COMMAND_USAGE_ADMIN : Language.ENDER_DRAGON_COMMAND_USAGE_PLAYER;
+        return sender.hasPermission("lazarus.enderdragon.admin")
+            ? Language.ENDER_DRAGON_COMMAND_USAGE_ADMIN
+            : Language.ENDER_DRAGON_COMMAND_USAGE_PLAYER;
     }
 }

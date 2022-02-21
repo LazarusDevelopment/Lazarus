@@ -23,7 +23,8 @@ public class ScheduleDeleteCommand extends SubCommand {
 
         if(!this.checkNumber(sender, args[0])) return;
 
-        ScheduleData schedule = Lazarus.getInstance().getScheduleManager().getScheduleById(Integer.parseInt(args[0]));
+        int scheduleId = Integer.parseInt(args[0]);
+        ScheduleData schedule = Lazarus.getInstance().getScheduleManager().getScheduleById(scheduleId);
 
         if(schedule == null) {
             sender.sendMessage(Language.SCHEDULE_PREFIX + Language.SCHEDULE_DELETE_DOESNT_EXIST.replace("<id>", args[0]));

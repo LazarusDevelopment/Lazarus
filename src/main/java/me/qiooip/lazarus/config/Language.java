@@ -20,6 +20,7 @@ public class Language {
     public static String ENDER_DRAGON_PREFIX;
     public static String LOOT_PREFIX;
     public static String SCHEDULE_PREFIX;
+    public static String HOLOGRAMS_PREFIX;
 
     public static String YES_PLACEHOLDER;
     public static String NO_PLACEHOLDER;
@@ -200,6 +201,18 @@ public class Language {
     public static String BOMBER_CAN_NOT_SHOOT_TNT_WHEN_SOTW_NOT_ENABLED;
     public static String BOMBER_TNT_GUN_ACTIVE_COOLDOWN;
     public static String BOMBER_TNT_GUN_COOLDOWN_EXPIRED;
+
+    public static String HOLOGRAMS_COMMAND_HEADER;
+    public static String HOLOGRAMS_COMMAND_FOOTER;
+    public static List<String> HOLOGRAMS_COMMAND_USAGE;
+    public static String HOLOGRAMS_EXCEPTIONS_DOESNT_EXIST;
+
+    public static String HOLOGRAMS_LIST_NO_HOLOGRAMS;
+    public static String HOLOGRAMS_LIST_TITLE;
+    public static String HOLOGRAMS_LIST_FORMAT;
+
+    public static String HOLOGRAMS_TELEPORT_USAGE;
+    public static String HOLOGRAMS_TELEPORT_TELEPORTED;
 
     public static List<String> HOLOGRAM_TOP_KILLS_HEADER;
     public static List<String> HOLOGRAM_TOP_KILLS_FOOTER;
@@ -1558,6 +1571,7 @@ public class Language {
         ENDER_DRAGON_PREFIX = language.getString("ENDER_DRAGON_PREFIX");
         LOOT_PREFIX = language.getString("LOOT_PREFIX");
         SCHEDULE_PREFIX = language.getString("SCHEDULE_PREFIX");
+        HOLOGRAMS_PREFIX = language.getString("HOLOGRAMS_PREFIX");
 
         YES_PLACEHOLDER = language.getString("YES_PLACEHOLDER");
         NO_PLACEHOLDER = language.getString("NO_PLACEHOLDER");
@@ -1738,6 +1752,18 @@ public class Language {
         BOMBER_CAN_NOT_SHOOT_TNT_WHEN_SOTW_NOT_ENABLED = language.getString("BOMBER_CLASS.CAN_NOT_SHOOT_TNT_WHEN_SOTW_NOT_ENABLED");
         BOMBER_TNT_GUN_ACTIVE_COOLDOWN = language.getString("BOMBER_CLASS.TNT_GUN.ACTIVE_COOLDOWN");
         BOMBER_TNT_GUN_COOLDOWN_EXPIRED = language.getString("BOMBER_CLASS.TNT_GUN.COOLDOWN_EXPIRED");
+
+        HOLOGRAMS_COMMAND_HEADER = language.getString("HOLOGRAMS.COMMAND_HEADER");
+        HOLOGRAMS_COMMAND_FOOTER =  language.getString("HOLOGRAMS.COMMAND_FOOTER");
+        HOLOGRAMS_COMMAND_USAGE = language.getStringList("HOLOGRAMS.COMMAND_USAGE");
+        HOLOGRAMS_EXCEPTIONS_DOESNT_EXIST = language.getString("HOLOGRAMS.EXCEPTIONS.DOESNT_EXIST");
+
+        HOLOGRAMS_LIST_NO_HOLOGRAMS = language.getString("HOLOGRAMS.LIST_COMMAND.NO_HOLOGRAMS");
+        HOLOGRAMS_LIST_TITLE = language.getString("HOLOGRAMS.LIST_COMMAND.TITLE");
+        HOLOGRAMS_LIST_FORMAT = language.getString("HOLOGRAMS.LIST_COMMAND.FORMAT");
+
+        HOLOGRAMS_TELEPORT_USAGE = language.getString("HOLOGRAMS.TELEPORT_COMMAND.USAGE");
+        HOLOGRAMS_TELEPORT_TELEPORTED = language.getString("HOLOGRAMS.TELEPORT_COMMAND.TELEPORTED");
 
         HOLOGRAM_TOP_KILLS_HEADER = language.getStringList("HOLOGRAM_LEADERBOARDS.TOP_KILLS.HEADER");
         HOLOGRAM_TOP_KILLS_FOOTER = language.getStringList("HOLOGRAM_LEADERBOARDS.TOP_KILLS.FOOTER");
