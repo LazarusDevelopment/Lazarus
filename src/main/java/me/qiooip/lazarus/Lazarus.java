@@ -123,7 +123,6 @@ public class Lazarus extends JavaPlugin {
     private ConfigFile utilitiesFile;
 
     @Setter private MongoManager mongoManager;
-
     @Setter private UserdataManager userdataManager;
     private DeathbanManager deathbanManager;
     private EconomyManager economyManager;
@@ -174,16 +173,19 @@ public class Lazarus extends JavaPlugin {
     private FreezeHandler freezeHandler;
     private InventoryHandler inventoryHandler;
     private KillstreakHandler killstreakHandler;
+    private LeaderboardHandler leaderboardHandler;
     private MapkitHandler mapkitHandler;
     private MessagingHandler messagingHandler;
     private NotesHandler notesHandler;
     private PotionLimiterHandler potionLimiterHandler;
+    private PurgeHandler purgeHandler;
     private RankReviveHandler rankReviveHandler;
     private RebootHandler rebootHandler;
     private ReclaimHandler reclaimHandler;
     private SalvageHandler salvageHandler;
     private SettingsHandler settingsHandler;
     private SotwHandler sotwHandler;
+    private SpawnTeleportHandler spawnTeleportHandler;
     private StaffChatHandler staffChatHandler;
     private StatsHandler statsHandler;
     private WarpsHandler warpsHandler;
