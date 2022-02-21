@@ -34,7 +34,8 @@ public class LivesWithdrawCommand extends SubCommand {
         }
 
         if(!faction.getMember(player).getRole().isAtLeast(Role.CAPTAIN)) {
-            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION.replace("<role>", Role.CAPTAIN.getName()));
+            player.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_NO_PERMISSION
+                .replace("<role>", Role.CAPTAIN.getName()));
             return;
         }
 
@@ -52,7 +53,8 @@ public class LivesWithdrawCommand extends SubCommand {
         faction.setLives(faction.getLives() - amount);
         data.setLives(data.getLives() + amount);
 
-        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_LIVES_WITHDRAWN.replace("<player>",
-        player.getName()).replace("<amount>", String.valueOf(amount)));
+        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_LIVES_WITHDRAWN
+            .replace("<player>", player.getName())
+            .replace("<amount>", String.valueOf(amount)));
     }
 }

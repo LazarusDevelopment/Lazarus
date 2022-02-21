@@ -913,10 +913,14 @@ FACTIONS:
     USAGE: "&cUsage: /f setlives <faction> <amount>"
     CHANGED_SENDER: "&eYou set &c<faction>'s &elives to &b<amount>&e."
     CHANGED_FACTION: "&eYour faction's lives has been set to &b<amount> &eby &c<player>&e."
+  SET_KILLS_COMMAND:
+    USAGE: "&cUsage: /f setkills <faction> <amount>"
+    CHANGED_SENDER: "&eYou set &c<faction>'s &ekills to &b<amount>&e."
+    CHANGED_FACTION: "&eYour faction's kills have been set to &b<amount> &eby &c<player>&e."
   SET_POINTS_COMMAND:
     USAGE: "&cUsage: /f setpoints <faction> <amount>"
     CHANGED_SENDER: "&eYou set &c<faction>'s &epoints to &b<amount>&e."
-    CHANGED_FACTION: "&eYour faction's points has been set to &b<amount> &eby &c<player>&e."
+    CHANGED_FACTION: "&eYour faction's points have been set to &b<amount> &eby &c<player>&e."
   SHOW_COMMAND:
     HOVER_TEXT: "&7Click to view <faction>"
     NAME_FORMAT: "<player>&e[&a<kills>&e]&7"

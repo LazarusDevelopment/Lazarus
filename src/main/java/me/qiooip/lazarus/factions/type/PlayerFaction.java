@@ -261,14 +261,6 @@ public class PlayerFaction extends Faction {
         this.changeKills(this.kills + 1);
     }
 
-    public void incrementKills(int value) {
-        this.changeKills(this.kills + value);
-    }
-
-    public void decrementKills(int value) {
-        this.changeKills(this.kills - value);
-    }
-
     public void changeKills(int value) {
         this.kills = value;
         new FactionDataChangeEvent(this, FactionDataType.KILLS);

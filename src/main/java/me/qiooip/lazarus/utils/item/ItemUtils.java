@@ -152,8 +152,8 @@ public class ItemUtils {
         ITEMS_BY_NAME = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         ITEMS_BY_MATERIAL = new HashMap<>();
 
-        Lazarus.getInstance().getItemsFile().getKeys(false).forEach(name -> ITEMS_BY_NAME
-        .put(name, Lazarus.getInstance().getItemsFile().getString(name)));
+        Lazarus.getInstance().getItemsFile().getKeys(false).forEach(name ->
+            ITEMS_BY_NAME.put(name, Lazarus.getInstance().getItemsFile().getString(name)));
 
         ITEMS_BY_NAME.forEach((name, id) -> ITEMS_BY_MATERIAL.put(id, name));
     }

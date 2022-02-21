@@ -614,12 +614,7 @@ public class FactionsManager implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoinFaction(PlayerJoinFactionEvent event) {
-        Player player = event.getFactionPlayer().getPlayer();
-        Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(player);
-
         PlayerFaction faction = event.getFaction();
-        faction.incrementKills(userdata.getKills());
-
         Tasks.sync(() -> TimerManager.getInstance().getDtrRegenTimer().addFaction(faction, faction.getDtr()));
     }
 
@@ -627,11 +622,7 @@ public class FactionsManager implements Listener {
     public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
         if(event.getReason() == LeaveReason.DISBAND) return;
 
-        Player player = event.getFactionPlayer().getPlayer();
-        Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(player);
-
         PlayerFaction faction = event.getFaction();
-        faction.decrementKills(userdata.getKills());
 
         Tasks.sync(() -> {
             if(faction.getDtr() > faction.getMaxDtr()) {

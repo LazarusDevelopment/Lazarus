@@ -24,6 +24,7 @@ import me.qiooip.lazarus.factions.commands.admin.SaveCommand;
 import me.qiooip.lazarus.factions.commands.admin.SetBalanceCommand;
 import me.qiooip.lazarus.factions.commands.admin.SetDtrCommand;
 import me.qiooip.lazarus.factions.commands.admin.SetFreezeCommand;
+import me.qiooip.lazarus.factions.commands.admin.SetKillsCommand;
 import me.qiooip.lazarus.factions.commands.admin.SetLivesCommand;
 import me.qiooip.lazarus.factions.commands.admin.SetPointsCommand;
 import me.qiooip.lazarus.factions.commands.admin.SystemCreateCommand;
@@ -104,6 +105,7 @@ public class FactionsCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new SetBalanceCommand());
         this.addSubCommand(new SetDtrCommand());
         this.addSubCommand(new SetFreezeCommand());
+        this.addSubCommand(new SetKillsCommand());
         this.addSubCommand(new SetLivesCommand());
         this.addSubCommand(new SetPointsCommand());
         this.addSubCommand(new SystemCreateCommand());
