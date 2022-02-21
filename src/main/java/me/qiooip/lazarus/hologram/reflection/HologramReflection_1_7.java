@@ -146,14 +146,16 @@ public class HologramReflection_1_7 {
             }
         }
 
-        public static PacketPlayOutSpawnEntityLiving newEntityLivingSpawnPacket(int entityId, int entityType, Location location, DataWatcher watcher) {
+        public static PacketPlayOutSpawnEntityLiving newEntityLivingSpawnPacket(int entityId, int entityType, Location location, DataWatcher watcher, int clientVersion) {
             PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
+
+            double locY = clientVersion < 47 ? location.getY() - 54.75 : location.getY();
 
             try {
                 ENTITY_ID_SETTER.invokeExact(packet, entityId);
                 ENTITY_TYPE_SETTER.invokeExact(packet, entityType);
                 LOCATION_X_SETTER.invokeExact(packet, MathHelper.floor(location.getX() * 32.0));
-                LOCATION_Y_SETTER.invokeExact(packet, MathHelper.floor((location.getY() - 54.75) * 32.0));
+                LOCATION_Y_SETTER.invokeExact(packet, MathHelper.floor(locY * 32.0));
                 LOCATION_Z_SETTER.invokeExact(packet, MathHelper.floor(location.getZ() * 32.0));
                 DATA_WATCHER_SETTER.invokeExact(packet, watcher);
             } catch(Throwable t) {

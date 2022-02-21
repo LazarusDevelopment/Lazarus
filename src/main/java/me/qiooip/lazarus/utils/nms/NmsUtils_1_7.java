@@ -620,10 +620,12 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     @Override
     public void sendHologramSpawnPacket(Player player, int entityId, Location location, String message) {
-        if(this.getClientVersion(player) < 47) {
-            this.spawnHologram_1_7(player, entityId, location, message);
+        int clientVersion = this.getClientVersion(player);
+
+        if(clientVersion < 47) {
+            this.spawnHologram_1_7(player, entityId, location, message, clientVersion);
         } else {
-            this.spawnHologram_1_8(player, entityId, location, message);
+            this.spawnHologram_1_8(player, entityId, location, message, clientVersion);
         }
     }
 
@@ -657,7 +659,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         this.sendPacket(player, teleport);
     }
 
-    private void spawnHologram_1_7(Player player, int entityId, Location location, String message) {
+    private void spawnHologram_1_7(Player player, int entityId, Location location, String message, int clientVersion) {
         DataWatcher watcher = new DataWatcher(null);
         watcher.a(0, (byte) 0);
         watcher.a(1, (short) 300);
@@ -666,7 +668,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         watcher.a(12, -1700000);
 
         PacketPlayOutSpawnEntityLiving horse = PacketPlayOutSpawnEntityLivingWrapper
-            .newEntityLivingSpawnPacket(entityId, 100, location, watcher);
+            .newEntityLivingSpawnPacket(entityId, 100, location, watcher, clientVersion);
 
         PacketPlayOutSpawnEntity skull = PacketPlayOutSpawnEntityWrapper
             .newEntitySpawnPacket(entityId + 1, 66, location);
@@ -676,7 +678,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         this.sendPackets(player, horse, skull, attach);
     }
 
-    private void spawnHologram_1_8(Player player, int entityId, Location location, String message) {
+    private void spawnHologram_1_8(Player player, int entityId, Location location, String message, int clientVersion) {
         DataWatcher watcher = new DataWatcher(null);
         watcher.a(0, (byte) 0x20);
         watcher.a(2, message);
@@ -684,7 +686,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         watcher.a(10, (byte) 0x16);
 
         PacketPlayOutSpawnEntityLiving armorStand = PacketPlayOutSpawnEntityLivingWrapper
-            .newEntityLivingSpawnPacket(entityId, 30, location, watcher);
+            .newEntityLivingSpawnPacket(entityId, 30, location, watcher, clientVersion);
 
         this.sendPacket(player, armorStand);
     }
@@ -698,6 +700,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
             int entityId = AbilitiesReflection_1_7.getEntityId(equipmentPacket);
             net.minecraft.server.v1_7_R4.Entity sender = ((CraftPlayer) player).getHandle().world.getEntity(entityId);
+
             boolean shouldCancel = (invisibilityAbility != null && invisibilityAbility.getPlayers().contains(sender.getUniqueID()))
                 || (decoyAbility != null && decoyAbility.getPlayers().contains(sender.getUniqueID()));
 

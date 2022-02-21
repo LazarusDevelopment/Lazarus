@@ -11,21 +11,26 @@ import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class HologramManager implements ManagerEnabler {
+public class HologramManager implements ManagerEnabler, Listener {
 
     private HologramRenderTask renderTask;
     private Map<Integer, Hologram> holograms;
 
     public HologramManager() {
         Tasks.syncLater(() -> this.loadHolograms(), 20L);
+        Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void disable() {
@@ -121,5 +126,14 @@ public class HologramManager implements ManagerEnabler {
         }
 
         sender.sendMessage(Language.HOLOGRAMS_COMMAND_FOOTER);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        for(Hologram hologram : this.holograms.values()) {
+            hologram.getViewers().remove(player.getUniqueId());
+        }
     }
 }

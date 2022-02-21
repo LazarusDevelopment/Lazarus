@@ -43,9 +43,6 @@ public class HologramRenderTask extends BukkitRunnable {
         for(Hologram hologram : holograms) {
             Location hologramLocation = hologram.getLocation();
 
-            Set<UUID> viewers = hologram.getViewers();
-            viewers.removeIf(uuid -> Bukkit.getPlayer(uuid) == null);
-
             for(Player player : Bukkit.getOnlinePlayers()) {
                 if(!hologram.isInSameWorld(player)) continue;
 

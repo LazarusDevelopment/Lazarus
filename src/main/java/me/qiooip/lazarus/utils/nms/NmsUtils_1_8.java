@@ -674,6 +674,7 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
 
             int entityId = AbilitiesReflection_1_8.getEntityId(equipmentPacket);
             net.minecraft.server.v1_8_R3.Entity sender = ((CraftPlayer) player).getHandle().world.a(entityId);
+
             boolean shouldCancel = (invisibilityAbility != null && invisibilityAbility.getPlayers().contains(sender.getUniqueID()))
                 || (decoyAbility != null && decoyAbility.getPlayers().contains(sender.getUniqueID()));
 
