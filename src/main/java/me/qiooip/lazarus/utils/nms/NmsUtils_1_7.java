@@ -611,18 +611,19 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     @Override
     public void sendHologramTeleportPacket(Player player, int entityId, Location location) {
-        PacketPlayOutEntityTeleport teleport = PacketPlayOutEntityTeleportWrapper
-            .newTeleportPacket(entityId, location);
-
-        this.sendPacket(player, teleport);
+        if(this.getClientVersion(player) < 47) {
+            this.teleportHologram_1_7(player, entityId, location);
+        } else {
+            this.teleportHologram_1_8(player, entityId, location);
+        }
     }
 
     @Override
     public void sendHologramSpawnPacket(Player player, int entityId, Location location, String message) {
         if(this.getClientVersion(player) < 47) {
-            this.spawnClientHologram_1_7(player, entityId, location, message);
+            this.spawnHologram_1_7(player, entityId, location, message);
         } else {
-            this.spawnClientHologram_1_8(player, entityId, location, message);
+            this.spawnHologram_1_8(player, entityId, location, message);
         }
     }
 
@@ -639,7 +640,24 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         this.sendPacket(player, new PacketPlayOutEntityDestroy(entityId, entityId + 1));
     }
 
-    private void spawnClientHologram_1_7(Player player, int entityId, Location location, String message) {
+    private void teleportHologram_1_7(Player player, int entityId, Location location) {
+        PacketPlayOutEntityTeleport horseTeleport = PacketPlayOutEntityTeleportWrapper
+            .newTeleportPacket(entityId, location.clone().subtract(0, 54.75, 0));
+
+        PacketPlayOutEntityTeleport skullTeleport = PacketPlayOutEntityTeleportWrapper
+            .newTeleportPacket(entityId + 1, location.clone().add(0, 54.75, 0));
+
+        this.sendPackets(player, horseTeleport, skullTeleport);
+    }
+
+    private void teleportHologram_1_8(Player player, int entityId, Location location) {
+        PacketPlayOutEntityTeleport teleport = PacketPlayOutEntityTeleportWrapper
+            .newTeleportPacket(entityId, location);
+
+        this.sendPacket(player, teleport);
+    }
+
+    private void spawnHologram_1_7(Player player, int entityId, Location location, String message) {
         DataWatcher watcher = new DataWatcher(null);
         watcher.a(0, (byte) 0);
         watcher.a(1, (short) 300);
@@ -648,7 +666,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         watcher.a(12, -1700000);
 
         PacketPlayOutSpawnEntityLiving horse = PacketPlayOutSpawnEntityLivingWrapper
-            .newEntitySpawnPacket(entityId, 100, location, watcher);
+            .newEntityLivingSpawnPacket(entityId, 100, location, watcher);
 
         PacketPlayOutSpawnEntity skull = PacketPlayOutSpawnEntityWrapper
             .newEntitySpawnPacket(entityId + 1, 66, location);
@@ -658,7 +676,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         this.sendPackets(player, horse, skull, attach);
     }
 
-    private void spawnClientHologram_1_8(Player player, int entityId, Location location, String message) {
+    private void spawnHologram_1_8(Player player, int entityId, Location location, String message) {
         DataWatcher watcher = new DataWatcher(null);
         watcher.a(0, (byte) 0x20);
         watcher.a(2, message);
@@ -666,7 +684,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
         watcher.a(10, (byte) 0x16);
 
         PacketPlayOutSpawnEntityLiving armorStand = PacketPlayOutSpawnEntityLivingWrapper
-            .newEntitySpawnPacket(entityId, 30, location, watcher);
+            .newEntityLivingSpawnPacket(entityId, 30, location, watcher);
 
         this.sendPacket(player, armorStand);
     }
