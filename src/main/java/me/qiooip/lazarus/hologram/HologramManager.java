@@ -4,14 +4,17 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
+import me.qiooip.lazarus.hologram.impl.StaticHologram;
 import me.qiooip.lazarus.hologram.task.HologramRenderTask;
-import me.qiooip.lazarus.hologram.type.HologramType;
+import me.qiooip.lazarus.hologram.type.LeaderboardHologramType;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -76,8 +79,33 @@ public class HologramManager implements ManagerEnabler, Listener {
         this.holograms.removeIf(hologram -> hologram.getId() == id);
     }
 
-    public void createHologram(Player player, HologramType type) {
-        Hologram hologram;
+    public void createHologram(Player player, String parameter) {
+        Hologram hologram = this.createHologramFromParameter(player, parameter);
+        if(hologram == null) return;
+
+        hologram.updateHologramLines();
+        Bukkit.getOnlinePlayers().forEach(hologram::sendHologram);
+
+        this.holograms.add(hologram);
+    }
+
+    private Hologram createHologramFromParameter(Player player, String parameter) {
+        Location location = player.getEyeLocation();
+        int hologramId = this.holograms.size() + 1;
+
+        if(parameter.equalsIgnoreCase("normal")) {
+            return new StaticHologram(hologramId, location);
+        } else {
+            LeaderboardHologramType type = LeaderboardHologramType.getByName(parameter);
+
+            if(type != null) {
+                return new LeaderboardHologram(hologramId, location, type);
+            }
+
+            player.sendMessage(Language.HOLOGRAMS_PREFIX + Language
+                .HOLOGRAMS_EXCEPTIONS_TYPE_NOT_FOUND.replace("<type>", parameter));
+            return null;
+        }
     }
 
     public void deleteHologram(CommandSender sender, int hologramId) {

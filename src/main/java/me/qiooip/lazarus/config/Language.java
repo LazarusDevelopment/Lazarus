@@ -206,6 +206,7 @@ public class Language {
     public static String HOLOGRAMS_COMMAND_FOOTER;
     public static List<String> HOLOGRAMS_COMMAND_USAGE;
     public static String HOLOGRAMS_EXCEPTIONS_DOESNT_EXIST;
+    public static String HOLOGRAMS_EXCEPTIONS_TYPE_NOT_FOUND;
 
     public static String HOLOGRAMS_DELETE_USAGE;
     public static String HOLOGRAMS_DELETE_DELETED;
@@ -1764,6 +1765,7 @@ public class Language {
         HOLOGRAMS_COMMAND_FOOTER =  language.getString("HOLOGRAMS.COMMAND_FOOTER");
         HOLOGRAMS_COMMAND_USAGE = language.getStringList("HOLOGRAMS.COMMAND_USAGE");
         HOLOGRAMS_EXCEPTIONS_DOESNT_EXIST = language.getString("HOLOGRAMS.EXCEPTIONS.DOESNT_EXIST");
+        HOLOGRAMS_EXCEPTIONS_TYPE_NOT_FOUND = language.getString("HOLOGRAMS.EXCEPTIONS.TYPE_NOT_FOUND");
 
         HOLOGRAMS_DELETE_USAGE = language.getString("HOLOGRAMS.DELETE_COMMAND.USAGE");
         HOLOGRAMS_DELETE_DELETED = language.getString("HOLOGRAMS.DELETE_COMMAND.DELETED");

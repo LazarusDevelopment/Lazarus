@@ -431,10 +431,13 @@ HOLOGRAMS:
     - "  &b/hologram teleport <id> &f- &7Teleport hologram"
     - "  &b/hologram list &f- &7List all existing holograms"
     - ""
-    - "  &6Available types&f: &7Normal, Leaderboard"
+    - "  &6Available types&f: &7Normal, PlayerKills, PlayerDeaths,"
+    - "    &7PlayerBalance, PlayerKillstreak, FactionKills,"
+    - "    &7FactionPoints, FactionBalance, FactionKoths"
     - "&7&m                                                                                "
   EXCEPTIONS:
     DOESNT_EXIST: "&7Hologram with id &b<id> &7doesn't exist!"
+    TYPE_NOT_FOUND: "&7Hologram type &b<type> &7not found!"
   DELETE_COMMAND:
     USAGE: "&cUsage: /hologram delete <id>"
     DELETED: "&7Hologram with id &b<id> &7deleted."
