@@ -34,6 +34,10 @@ public abstract class Hologram {
         this(id, location, new HashSet<>(), new ArrayList<>());
     }
 
+    public void decrementId() {
+        this.id--;
+    }
+
     public void addEntry(String message, Location location) {
         int entityId = this.getEntityId();
         this.entries.add(new HologramEntry(entityId, message, location));

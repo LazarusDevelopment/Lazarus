@@ -42,7 +42,7 @@ public class GsonUtils {
 
     public static final Type PLAYER_TYPE = new TypeToken<Map<UUID, FactionPlayer>>(){}.getType();
 
-    public static final Type HOLOGRAMS_TYPE = new TypeToken<Map<Integer, Hologram>>(){}.getType();
+    public static final Type HOLOGRAMS_TYPE = new TypeToken<List<Hologram>>(){}.getType();
 
     public static Class<?> getFactionClass(String name) {
         switch(name) {

@@ -19,14 +19,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class HologramManager implements ManagerEnabler, Listener {
 
     private HologramRenderTask renderTask;
-    private Map<Integer, Hologram> holograms;
+    private List<Hologram> holograms;
 
     public HologramManager() {
         Tasks.syncLater(() -> this.loadHolograms(), 20L);
@@ -49,12 +51,12 @@ public class HologramManager implements ManagerEnabler, Listener {
         String content = FileUtils.readWholeFile(this.getHologramsFile());
 
         if(content == null) {
-            this.holograms = new HashMap<>();
+            this.holograms = new ArrayList<>();
             return;
         }
 
         this.holograms = Lazarus.getInstance().getGson().fromJson(content, GsonUtils.HOLOGRAMS_TYPE);
-        this.holograms.values().forEach(Hologram::updateHologramLines);
+        this.holograms.forEach(Hologram::updateHologramLines);
 
         this.renderTask = new HologramRenderTask(this);
     }
@@ -67,7 +69,11 @@ public class HologramManager implements ManagerEnabler, Listener {
     }
 
     public Hologram getHologramById(int id) {
-        return this.holograms.get(id);
+        return this.holograms.stream().filter(hologram -> hologram.getId() == id).findFirst().orElse(null);
+    }
+
+    public void removeHologramById(int id) {
+        this.holograms.removeIf(hologram -> hologram.getId() == id);
     }
 
     public void createHologram(Player player, HologramType type) {
@@ -78,8 +84,14 @@ public class HologramManager implements ManagerEnabler, Listener {
         Hologram hologram = this.getByCommandParam(sender, hologramId);
         if(hologram == null) return;
 
-        this.holograms.remove(hologramId);
+        this.removeHologramById(hologramId);
         hologram.forEachViewer(hologram::removeHologram);
+
+        for(Hologram remaining : this.holograms) {
+            if(remaining.getId() > hologramId) {
+                remaining.decrementId();
+            }
+        }
 
         sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_DELETE_DELETED
             .replace("<id>", String.valueOf(hologramId)));
@@ -117,7 +129,11 @@ public class HologramManager implements ManagerEnabler, Listener {
 
         sender.sendMessage("");
 
-        for(Hologram hologram : this.holograms.values()) {
+        List<Hologram> sorted = this.holograms.stream()
+            .sorted(Comparator.comparing(Hologram::getId))
+            .collect(Collectors.toList());
+
+        for(Hologram hologram : sorted) {
             String location = StringUtils.getLocationNameWithWorld(hologram.getLocation());
 
             sender.sendMessage(Language.HOLOGRAMS_LIST_FORMAT
@@ -132,7 +148,7 @@ public class HologramManager implements ManagerEnabler, Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        for(Hologram hologram : this.holograms.values()) {
+        for(Hologram hologram : this.holograms) {
             hologram.getViewers().remove(player.getUniqueId());
         }
     }

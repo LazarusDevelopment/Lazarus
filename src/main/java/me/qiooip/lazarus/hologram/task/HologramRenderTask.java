@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,7 +37,7 @@ public class HologramRenderTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Collection<Hologram> holograms = this.handler.getHolograms().values();
+        List<Hologram> holograms = this.handler.getHolograms();
         if(holograms.isEmpty()) return;
 
         for(Hologram hologram : holograms) {

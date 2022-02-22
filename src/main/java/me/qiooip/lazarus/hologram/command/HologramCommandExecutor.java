@@ -12,13 +12,14 @@ public class HologramCommandExecutor extends SubCommandExecutor {
     private final List<String> PLAYER_COMMAND_USAGE;
 
     public HologramCommandExecutor() {
-        super("hologram", Language.HOLOGRAMS_COMMAND_USAGE);
+        super("hologram", Collections.singletonList("holo"), Language.HOLOGRAMS_COMMAND_USAGE);
 
         this.setPrefix(Language.HOLOGRAMS_PREFIX);
 
         this.addSubCommand(new HologramAddLineCommand());
         this.addSubCommand(new HologramCreateCommand());
         this.addSubCommand(new HologramDeleteCommand());
+        this.addSubCommand(new HologramInsertLineCommand());
         this.addSubCommand(new HologramListCommand());
         this.addSubCommand(new HologramRemoveLineCommand());
         this.addSubCommand(new HologramTeleportCommand());
