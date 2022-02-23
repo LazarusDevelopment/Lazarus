@@ -188,8 +188,8 @@ public class MongoFactionsManager extends FactionsManager {
             faction.setBalance(document.getInteger("balance"));
             faction.setLives(document.getInteger("lives"));
             faction.setPoints(document.getInteger("points"));
-            faction.setKills(document.getInteger("kills", 0));
-            faction.setKothsCapped(document.getInteger("kothsCapped", 0));
+            faction.setKills(document.getInteger("kills"));
+            faction.setKothsCapped(document.getInteger("kothsCapped"));
             faction.setHome(LocationUtils.stringToLocation(document.getString("home")));
             faction.setOpen(document.getBoolean("open"));
             faction.setAutoRevive(document.getBoolean("autoRevive"));
@@ -208,7 +208,7 @@ public class MongoFactionsManager extends FactionsManager {
                 faction.setDeathban(document.getBoolean("deathban"));
                 faction.setSafezone(document.getBoolean("safezone"));
                 faction.setEnderpearls(document.getBoolean("enderpearls"));
-                faction.setAbilities(document.getBoolean("abilities", true));
+                faction.setAbilities(document.getBoolean("abilities"));
                 faction.setColor(Color.translate(document.getString("color")));
 
             } catch(InstantiationException | IllegalAccessException e) {
@@ -257,6 +257,7 @@ public class MongoFactionsManager extends FactionsManager {
     public void onPlayerLeaveFactionMongo(PlayerLeaveFactionEvent event) {
         if(event.getReason() == LeaveReason.DISBAND) return;
 
-        Tasks.async(() -> this.getPlayersRepo().deleteOne(Filters.eq("_id", event.getFactionPlayer().getUuid())));
+        Tasks.async(() -> this.getPlayersRepo()
+            .deleteOne(Filters.eq("_id", event.getFactionPlayer().getUuid())));
     }
 }

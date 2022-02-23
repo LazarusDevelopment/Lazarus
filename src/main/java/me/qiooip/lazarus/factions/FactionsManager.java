@@ -40,7 +40,6 @@ import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.timer.cooldown.DtrRegenTimer;
 import me.qiooip.lazarus.timer.cooldown.FactionRallyTimer;
 import me.qiooip.lazarus.timer.scoreboard.HomeTimer;
-import me.qiooip.lazarus.userdata.Userdata;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
@@ -98,7 +97,6 @@ public class FactionsManager implements Listener {
 
         this.loadFactions();
         this.loadPlayers();
-        this.factions.values().forEach(this::loadFactionKills);
 
         this.chatSpy = new HashSet<>();
         this.stuckInit = new HashMap<>();
@@ -211,20 +209,6 @@ public class FactionsManager implements Listener {
             spawnFaction.setSafezone(true);
             spawnFaction.setDeathban(false);
         }
-    }
-
-    private void loadFactionKills(Faction faction) {
-        if(!(faction instanceof PlayerFaction)) return;
-
-        PlayerFaction playerFaction = (PlayerFaction) faction;
-        if(playerFaction.getKills() != 0) return;
-
-        playerFaction.changeKills(playerFaction.getMembers().values().stream()
-            .map(FactionPlayer::getUuid)
-            .map(Bukkit::getOfflinePlayer)
-            .map(Lazarus.getInstance().getUserdataManager()::getUserdata)
-            .map(Userdata::getKills)
-            .reduce(0, Integer::sum));
     }
 
     protected void stripFactionColor(Faction faction) {

@@ -28,6 +28,10 @@ public class StaticHologram extends Hologram {
     }
 
     public Location getLastLineLocation() {
+        if(this.entries.isEmpty()) {
+            return this.location;
+        }
+
         return this.entries.get(this.entries.size() - 1).getLocation();
     }
 
@@ -36,14 +40,24 @@ public class StaticHologram extends Hologram {
         this.addEntry(line, this.getLineLocation());
     }
 
-    public void addLine(int index, String line) {
-        this.lines.add(line);
+    public boolean addLine(int index, String line) {
+        if(index < 0 || index > this.entries.size() - 1) {
+            return false;
+        }
+
+        this.lines.add(index, line);
         this.addEntry(index, line, this.getLineLocation());
+        return true;
     }
 
-    public void removeLine(int index) {
+    public boolean removeLine(int index) {
+        if(index < 0 || index > this.entries.size() - 1) {
+            return false;
+        }
+
         this.lines.remove(index);
         this.removeEntry(index);
+        return true;
     }
 
     @Override

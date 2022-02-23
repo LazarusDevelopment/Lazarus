@@ -2,6 +2,7 @@ package me.qiooip.lazarus.hologram;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.qiooip.lazarus.utils.Tasks;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -44,14 +45,12 @@ public abstract class Hologram {
     }
 
     public void addEntry(int index, String message, Location location) {
-        if(index > this.entries.size() - 1) return;
-
         int entityId = this.getEntityId();
         this.entries.add(index, new HologramEntry(entityId, message, location));
     }
 
-    public void removeEntry(int index) {
-        this.entries.remove(index);
+    public HologramEntry removeEntry(int index) {
+        return this.entries.remove(index);
     }
 
     public int getEntityId() {
@@ -104,6 +103,10 @@ public abstract class Hologram {
                 action.accept(player);
             }
         }
+    }
+
+    public void forEachViewerAsync(Consumer<Player> action) {
+        Tasks.async(() -> this.forEachViewer(action));
     }
 
     public boolean isInSameWorld(Player player) {

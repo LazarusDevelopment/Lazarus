@@ -23,7 +23,7 @@ public class NotesHandler extends Handler implements Listener {
         data.getNotes().add(note);
 
         sender.sendMessage(Language.PREFIX + Language.NOTES_COMMAND_NOTE_ADDED
-        .replace("<player>", target.getName()));
+            .replace("<player>", target.getName()));
     }
 
     public void removeNote(CommandSender sender, Player target, String id) {
@@ -36,7 +36,7 @@ public class NotesHandler extends Handler implements Listener {
 
         if(data.getNotes().isEmpty()) {
             sender.sendMessage(Language.PREFIX + Language.NOTES_COMMAND_NO_NOTES
-            .replace("<player>", target.getName()));
+                .replace("<player>", target.getName()));
             return;
         }
 
@@ -44,13 +44,14 @@ public class NotesHandler extends Handler implements Listener {
 
         if((data.getNotes().size() < noteId) || (noteId == 0)) {
             sender.sendMessage(Language.PREFIX + Language.NOTES_COMMAND_NOTE_DOESNT_EXIST
-            .replace("<id>", String.valueOf(noteId)));
+                .replace("<id>", String.valueOf(noteId)));
             return;
         }
 
         data.getNotes().remove(noteId - 1);
+
         sender.sendMessage(Language.PREFIX + Language.NOTES_COMMAND_NOTE_REMOVED
-        .replace("<id>", String.valueOf(noteId)));
+            .replace("<id>", String.valueOf(noteId)));
     }
 
     public void listNotes(CommandSender sender, Player target) {
@@ -58,7 +59,7 @@ public class NotesHandler extends Handler implements Listener {
 
         if(data.getNotes().isEmpty()) {
             sender.sendMessage(Language.PREFIX + Language.NOTES_COMMAND_NO_NOTES
-            .replace("<player>", target.getName()));
+                .replace("<player>", target.getName()));
             return;
         }
 
@@ -81,7 +82,7 @@ public class NotesHandler extends Handler implements Listener {
         Messages.sendMessage("", "lazarus.staff");
 
         Messages.sendMessage(Language.PREFIX + Language.NOTES_COMMAND_MESSAGE
-        .replace("<player>", event.getPlayer().getName()), "lazarus.staff");
+            .replace("<player>", event.getPlayer().getName()), "lazarus.staff");
 
         IntStream.rangeClosed(1, data.getNotes().size()).forEach(i ->
             Messages.sendMessage(Language.NOTES_COMMAND_FORMAT

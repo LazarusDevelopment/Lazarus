@@ -112,10 +112,10 @@ public class MongoUserdataManager extends UserdataManager {
         data.setKills(document.getInteger("kills"));
         data.setDeaths(document.getInteger("deaths"));
         data.setKillstreak(document.getInteger("killstreak"));
-        data.setHighestKillstreak(document.getInteger("highestKillstreak", 0));
+        data.setHighestKillstreak(document.getInteger("highestKillstreak"));
         data.setBalance(document.getInteger("balance"));
         data.setLives(document.getInteger("lives"));
-        data.setSpawnCredits(document.getInteger("spawnCredits", 0));
+        data.setSpawnCredits(document.getInteger("spawnCredits"));
         data.setReclaimUsed(document.getBoolean("reclaimUsed"));
         data.setSettings(StringUtils.settingsFromString(document.getString("settings")));
         data.setIgnoring(document.get("ignoring", new ArrayList<>()));

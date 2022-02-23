@@ -8,11 +8,13 @@ import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
 import me.qiooip.lazarus.hologram.impl.StaticHologram;
 import me.qiooip.lazarus.hologram.task.HologramRenderTask;
 import me.qiooip.lazarus.hologram.type.LeaderboardHologramType;
+import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.FileUtils;
 import me.qiooip.lazarus.utils.GsonUtils;
 import me.qiooip.lazarus.utils.ManagerEnabler;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.Tasks;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -113,7 +115,7 @@ public class HologramManager implements ManagerEnabler, Listener {
         if(hologram == null) return;
 
         this.removeHologramById(hologramId);
-        hologram.forEachViewer(hologram::removeHologram);
+        hologram.forEachViewerAsync(hologram::removeHologram);
 
         for(Hologram remaining : this.holograms) {
             if(remaining.getId() > hologramId) {
@@ -131,6 +133,59 @@ public class HologramManager implements ManagerEnabler, Listener {
 
         hologram.teleportHologram(player);
         player.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_TELEPORT_TELEPORTED);
+    }
+
+    public void addHologramLine(CommandSender sender, int hologramId, String text) {
+        Hologram hologram = this.getByCommandParam(sender, hologramId);
+        if(hologram == null) return;
+
+        if(!(hologram instanceof StaticHologram)) {
+            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_TYPE_MUST_BE_NORMAL);
+            return;
+        }
+
+        StaticHologram staticHologram = (StaticHologram) hologram;
+        staticHologram.addLine(text.equalsIgnoreCase("EMPTY") ? "" : Color.translate(text));
+
+        staticHologram.forEachViewerAsync(viewer -> {
+            staticHologram.removeHologram(viewer);
+            staticHologram.sendHologram(viewer);
+        });
+
+        sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language
+            .HOLOGRAMS_ADD_LINE_LINE_ADDED.replace("<id>", String.valueOf(hologramId)));
+    }
+
+    public void removeHologramLine(CommandSender sender, int hologramId, int lineNumber) {
+        Hologram hologram = this.getByCommandParam(sender, hologramId);
+        if(hologram == null) return;
+
+        if(!(hologram instanceof StaticHologram)) {
+            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_TYPE_MUST_BE_NORMAL);
+            return;
+        }
+
+        StaticHologram staticHologram = (StaticHologram) hologram;
+
+        List<Integer> entityIds = staticHologram.getEntries().stream()
+            .map(HologramEntry::getEntityId).collect(Collectors.toList());
+
+        if(!staticHologram.removeLine(lineNumber - 1)) {
+            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_LINE_DOESNT_EXIST
+                .replace("<lineIndex>", String.valueOf(lineNumber)));
+            return;
+        }
+
+        staticHologram.updateHologramLines();
+        NmsUtils nmsUtils = NmsUtils.getInstance();
+
+        staticHologram.forEachViewerAsync(viewer -> {
+            entityIds.forEach(id -> nmsUtils.sendHologramDestroyPacket(viewer, id));
+            staticHologram.sendHologram(viewer);
+        });
+
+        sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language
+            .HOLOGRAMS_REMOVE_LINE_REMOVED.replace("<id>", String.valueOf(hologramId)));
     }
 
     private Hologram getByCommandParam(CommandSender sender, int hologramId) {

@@ -424,12 +424,13 @@ HOLOGRAMS:
   COMMAND_USAGE:
     - "&7&m                                                                                "
     - " &3&lHologram Help"
-    - "  &b/hologram create <type>&f- &7Create hologram"
-    - "  &b/hologram delete <id> &f- &7Delete hologram"
-    - "  &b/hologram addline <id> <message> &f- &7Add hologram line"
-    - "  &b/hologram removeline <id> <line> &f- &7Remove hologram line"
-    - "  &b/hologram teleport <id> &f- &7Teleport hologram"
-    - "  &b/hologram list &f- &7List all existing holograms"
+    - "  &b/hologram create <type>"
+    - "  &b/hologram delete <id>"
+    - "  &b/hologram addline <id> <text>"
+    - "  &b/hologram insertline <id> <line> <text>"
+    - "  &b/hologram removeline <id> <line>"
+    - "  &b/hologram teleport <id>"
+    - "  &b/hologram list"
     - ""
     - "  &6Available types&f: &7Normal, PlayerKills, PlayerDeaths,"
     - "    &7PlayerBalance, PlayerKillstreak, FactionKills,"
@@ -438,6 +439,11 @@ HOLOGRAMS:
   EXCEPTIONS:
     DOESNT_EXIST: "&7Hologram with id &b<id> &7doesn't exist!"
     TYPE_NOT_FOUND: "&7Hologram type &b<type> &7not found!"
+    TYPE_MUST_BE_NORMAL: "&7You can use this only on &bnormal holograms&7!"
+    LINE_DOESNT_EXIST: "&7Line at index &b<lineIndex> &7doesn't exist!"
+  ADD_LINE_COMMAND:
+    USAGE: "&cUsage: /hologram addline <id> <text>"
+    LINE_ADDED: "&7Added line to the &bhologram <id>&7."
   DELETE_COMMAND:
     USAGE: "&cUsage: /hologram delete <id>"
     DELETED: "&7Hologram with id &b<id> &7deleted."
@@ -445,6 +451,9 @@ HOLOGRAMS:
     NO_HOLOGRAMS: "&7There are no &bholograms &7yet!"
     TITLE: " &b&lHologram List"
     FORMAT: "  &7- Id: &3<id>&7, location: &b<location>"
+  REMOVE_LINE_COMMAND:
+    USAGE: "&cUsage: /hologram removeline <id> <line>"
+    LINE_REMOVED: "&7Removed line from the &bhologram <id>&7."
   TELEPORT_COMMAND:
     USAGE: "&cUsage: /hologram teleport <id>"
     TELEPORTED: "&7Hologram teleported to your location."

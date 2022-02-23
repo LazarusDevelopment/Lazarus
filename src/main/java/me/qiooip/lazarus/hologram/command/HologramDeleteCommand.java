@@ -5,10 +5,12 @@ import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
+
 public class HologramDeleteCommand extends SubCommand {
 
     public HologramDeleteCommand() {
-        super("delete", "lazarus.holograms");
+        super("delete", Collections.singletonList("remove"), "lazarus.holograms");
     }
 
     @Override
