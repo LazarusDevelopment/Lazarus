@@ -171,6 +171,25 @@ public class HologramManager implements ManagerEnabler, Listener {
             .HOLOGRAMS_INSERT_LINE_INSERTED.replace("<id>", String.valueOf(hologramId)));
     }
 
+    public void updateHologramLine(CommandSender sender, int hologramId, int lineNumber, String text) {
+        StaticHologram staticHologram = this.getStaticHologramByCommandParam(sender, hologramId);
+        if(staticHologram == null) return;
+
+        int lineIndex = lineNumber - 1;
+        String lineText = text.equalsIgnoreCase("EMPTY") ? "" : Color.translate(text);
+
+        if(!staticHologram.updateLine(lineIndex, lineText)) {
+            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_LINE_DOESNT_EXIST
+                .replace("<lineIndex>", String.valueOf(lineNumber)));
+            return;
+        }
+
+        staticHologram.refreshForViewersAsync();
+
+        sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language
+            .HOLOGRAMS_UPDATE_LINE_UPDATED.replace("<id>", String.valueOf(hologramId)));
+    }
+
     public void removeHologramLine(CommandSender sender, int hologramId, int lineNumber) {
         StaticHologram staticHologram = this.getStaticHologramByCommandParam(sender, hologramId);
         if(staticHologram == null) return;

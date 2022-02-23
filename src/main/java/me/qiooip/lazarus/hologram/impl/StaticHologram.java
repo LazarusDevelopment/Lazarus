@@ -57,6 +57,16 @@ public class StaticHologram extends Hologram {
         return true;
     }
 
+    public boolean updateLine(int index, String line) {
+        if(index < 0 || index > this.entries.size() - 1) {
+            return false;
+        }
+
+        this.lines.set(index, line);
+        this.getEntry(index).setMessage(line);
+        return true;
+    }
+
     public boolean removeLine(int index) {
         if(index < 0 || index > this.entries.size() - 1) {
             return false;

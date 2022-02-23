@@ -428,6 +428,7 @@ HOLOGRAMS:
     - "  &b/hologram delete <id>"
     - "  &b/hologram addline <id> <text>"
     - "  &b/hologram insertline <id> <line> <text>"
+    - "  &b/hologram updateline <id> <line> <text>"
     - "  &b/hologram removeline <id> <line>"
     - "  &b/hologram teleport <id>"
     - "  &b/hologram list"
@@ -461,6 +462,9 @@ HOLOGRAMS:
   TELEPORT_COMMAND:
     USAGE: "&cUsage: /hologram teleport <id>"
     TELEPORTED: "&7Hologram teleported to your location."
+  UPDATE_LINE_COMMAND:
+    USAGE: "&cUsage: /hologram updateline <id> <line> <text>"
+    LINE_UPDATED: "&7Updated line for &bhologram <id>&7."
 
 HOLOGRAM_LEADERBOARDS:
   TOP_KILLS:
