@@ -49,8 +49,12 @@ public abstract class Hologram {
         this.entries.add(index, new HologramEntry(entityId, message, location));
     }
 
-    public HologramEntry removeEntry(int index) {
-        return this.entries.remove(index);
+    public HologramEntry getEntry(int index) {
+        return this.entries.get(index);
+    }
+
+    public void removeEntry(int index) {
+        this.entries.remove(index);
     }
 
     public int getEntityId() {
@@ -93,6 +97,17 @@ public abstract class Hologram {
                 nmsUtils.sendHologramTeleportPacket(player, entry.getEntityId(), location);
             }
         }
+    }
+
+    public void refreshForViewers() {
+        this.forEachViewer(viewer -> {
+            this.removeHologram(viewer);
+            this.sendHologram(viewer);
+        });
+    }
+
+    public void refreshForViewersAsync() {
+        Tasks.async(() -> this.refreshForViewers());
     }
 
     public void forEachViewer(Consumer<Player> action) {

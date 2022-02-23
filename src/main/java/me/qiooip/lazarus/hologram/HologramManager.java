@@ -77,6 +77,10 @@ public class HologramManager implements ManagerEnabler, Listener {
         return this.holograms.stream().filter(hologram -> hologram.getId() == id).findFirst().orElse(null);
     }
 
+    public void addHologram(Hologram hologram) {
+        this.holograms.add(hologram);
+    }
+
     public void removeHologramById(int id) {
         this.holograms.removeIf(hologram -> hologram.getId() == id);
     }
@@ -88,7 +92,7 @@ public class HologramManager implements ManagerEnabler, Listener {
         hologram.updateHologramLines();
         Bukkit.getOnlinePlayers().forEach(hologram::sendHologram);
 
-        this.holograms.add(hologram);
+        this.addHologram(hologram);
     }
 
     private Hologram createHologramFromParameter(Player player, String parameter) {
@@ -97,17 +101,17 @@ public class HologramManager implements ManagerEnabler, Listener {
 
         if(parameter.equalsIgnoreCase("normal")) {
             return new StaticHologram(hologramId, location);
-        } else {
-            LeaderboardHologramType type = LeaderboardHologramType.getByName(parameter);
-
-            if(type != null) {
-                return new LeaderboardHologram(hologramId, location, type);
-            }
-
-            player.sendMessage(Language.HOLOGRAMS_PREFIX + Language
-                .HOLOGRAMS_EXCEPTIONS_TYPE_NOT_FOUND.replace("<type>", parameter));
-            return null;
         }
+
+        LeaderboardHologramType type = LeaderboardHologramType.getByName(parameter);
+
+        if(type != null) {
+            return new LeaderboardHologram(hologramId, location, type);
+        }
+
+        player.sendMessage(Language.HOLOGRAMS_PREFIX + Language
+            .HOLOGRAMS_EXCEPTIONS_TYPE_NOT_FOUND.replace("<type>", parameter));
+        return null;
     }
 
     public void deleteHologram(CommandSender sender, int hologramId) {
@@ -136,36 +140,40 @@ public class HologramManager implements ManagerEnabler, Listener {
     }
 
     public void addHologramLine(CommandSender sender, int hologramId, String text) {
-        Hologram hologram = this.getByCommandParam(sender, hologramId);
-        if(hologram == null) return;
+        StaticHologram staticHologram = this.getStaticHologramByCommandParam(sender, hologramId);
+        if(staticHologram == null) return;
 
-        if(!(hologram instanceof StaticHologram)) {
-            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_TYPE_MUST_BE_NORMAL);
-            return;
-        }
+        String lineText = text.equalsIgnoreCase("EMPTY") ? "" : Color.translate(text);
 
-        StaticHologram staticHologram = (StaticHologram) hologram;
-        staticHologram.addLine(text.equalsIgnoreCase("EMPTY") ? "" : Color.translate(text));
-
-        staticHologram.forEachViewerAsync(viewer -> {
-            staticHologram.removeHologram(viewer);
-            staticHologram.sendHologram(viewer);
-        });
+        staticHologram.addLine(lineText);
+        staticHologram.refreshForViewersAsync();
 
         sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language
             .HOLOGRAMS_ADD_LINE_LINE_ADDED.replace("<id>", String.valueOf(hologramId)));
     }
 
-    public void removeHologramLine(CommandSender sender, int hologramId, int lineNumber) {
-        Hologram hologram = this.getByCommandParam(sender, hologramId);
-        if(hologram == null) return;
+    public void insertHologramLine(CommandSender sender, int hologramId, int lineNumber, String text) {
+        StaticHologram staticHologram = this.getStaticHologramByCommandParam(sender, hologramId);
+        if(staticHologram == null) return;
 
-        if(!(hologram instanceof StaticHologram)) {
-            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_TYPE_MUST_BE_NORMAL);
+        int lineIndex = lineNumber - 1;
+        String lineText = text.equalsIgnoreCase("EMPTY") ? "" : Color.translate(text);
+
+        if(!staticHologram.addLine(lineIndex, lineText)) {
+            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_CANT_INSERT_LINE
+                .replace("<lineIndex>", String.valueOf(lineNumber)));
             return;
         }
 
-        StaticHologram staticHologram = (StaticHologram) hologram;
+        staticHologram.refreshForViewersAsync();
+
+        sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language
+            .HOLOGRAMS_INSERT_LINE_INSERTED.replace("<id>", String.valueOf(hologramId)));
+    }
+
+    public void removeHologramLine(CommandSender sender, int hologramId, int lineNumber) {
+        StaticHologram staticHologram = this.getStaticHologramByCommandParam(sender, hologramId);
+        if(staticHologram == null) return;
 
         List<Integer> entityIds = staticHologram.getEntries().stream()
             .map(HologramEntry::getEntityId).collect(Collectors.toList());
@@ -199,6 +207,21 @@ public class HologramManager implements ManagerEnabler, Listener {
             .replace("<id>", String.valueOf(hologramId)));
 
         return null;
+    }
+
+    private StaticHologram getStaticHologramByCommandParam(CommandSender sender, int hologramId) {
+        Hologram hologram = this.getByCommandParam(sender, hologramId);
+
+        if(hologram == null) {
+            return null;
+        }
+
+        if(!(hologram instanceof StaticHologram)) {
+            sender.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_EXCEPTIONS_TYPE_MUST_BE_NORMAL);
+            return null;
+        }
+
+        return (StaticHologram) hologram;
     }
 
     public void listAllHolograms(CommandSender sender) {

@@ -440,13 +440,17 @@ HOLOGRAMS:
     DOESNT_EXIST: "&7Hologram with id &b<id> &7doesn't exist!"
     TYPE_NOT_FOUND: "&7Hologram type &b<type> &7not found!"
     TYPE_MUST_BE_NORMAL: "&7You can use this only on &bnormal holograms&7!"
-    LINE_DOESNT_EXIST: "&7Line at index &b<lineIndex> &7doesn't exist!"
+    LINE_DOESNT_EXIST: "&7Line at position &b<lineIndex> &7doesn't exist!"
+    CANT_INSERT_LINE: "&7Can't insert hologram line at position &b<lineIndex>&7!"
   ADD_LINE_COMMAND:
     USAGE: "&cUsage: /hologram addline <id> <text>"
     LINE_ADDED: "&7Added line to the &bhologram <id>&7."
   DELETE_COMMAND:
     USAGE: "&cUsage: /hologram delete <id>"
     DELETED: "&7Hologram with id &b<id> &7deleted."
+  INSERT_LINE_COMMAND:
+    USAGE: "&cUsage: /hologram insertline <id> <line> <text>"
+    LINE_INSERTED: "&7Inserted line to the &bhologram <id>&7."
   LIST_COMMAND:
     NO_HOLOGRAMS: "&7There are no &bholograms &7yet!"
     TITLE: " &b&lHologram List"

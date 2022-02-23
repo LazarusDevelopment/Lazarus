@@ -23,21 +23,21 @@ public class StaticHologram extends Hologram {
         this.updateHologramLines();
     }
 
-    public Location getLineLocation() {
-        return this.getLineLocation(this.getLastLineLocation());
+    public Location getLastLineLocation() {
+        return this.getLineLocationAtIndex(this.entries.size() - 1);
     }
 
-    public Location getLastLineLocation() {
+    public Location getLineLocationAtIndex(int index) {
         if(this.entries.isEmpty()) {
             return this.location;
         }
 
-        return this.entries.get(this.entries.size() - 1).getLocation();
+        return this.entries.get(index).getLocation();
     }
 
     public void addLine(String line) {
         this.lines.add(line);
-        this.addEntry(line, this.getLineLocation());
+        this.addEntry(line, this.getLineLocation(this.getLastLineLocation()));
     }
 
     public boolean addLine(int index, String line) {
@@ -45,8 +45,15 @@ public class StaticHologram extends Hologram {
             return false;
         }
 
+        Location location = this.getLineLocationAtIndex(index);
+
         this.lines.add(index, line);
-        this.addEntry(index, line, this.getLineLocation());
+        this.addEntry(index, line, location);
+
+        for(int i = index; i < this.entries.size(); i++) {
+            this.getEntry(i).setLocation(location = this.getLineLocation(location));
+        }
+
         return true;
     }
 
