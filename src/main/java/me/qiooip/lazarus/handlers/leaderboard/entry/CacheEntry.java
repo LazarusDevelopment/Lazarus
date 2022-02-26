@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public abstract class CacheEntry<K, V extends Comparable<V>> implements Comparable<CacheEntry<K, V>> {
+public abstract class CacheEntry<K extends Comparable<K>, V extends Comparable<V>> implements Comparable<CacheEntry<K, V>> {
 
     protected final K key;
     protected final String name;
@@ -15,7 +15,12 @@ public abstract class CacheEntry<K, V extends Comparable<V>> implements Comparab
     @Override
     public int compareTo(CacheEntry<K, V> other) {
         int valueCompare = -this.value.compareTo(other.getValue());
-        return valueCompare == 0 ? Long.compare(this.timestamp, other.getTimestamp()) : valueCompare;
+        if(valueCompare != 0) return valueCompare;
+
+        int timeCompare = Long.compare(this.timestamp, other.getTimestamp());
+        if(timeCompare != 0) return timeCompare;
+
+        return this.key.compareTo(other.getKey());
     }
 
     @Override

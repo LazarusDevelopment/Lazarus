@@ -38,7 +38,6 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 public class LeaderboardHandler extends Handler implements Listener {
@@ -154,11 +153,8 @@ public class LeaderboardHandler extends Handler implements Listener {
         for(FactionLeaderboardType type : leaderboardTypes) {
             Set<UuidCacheEntry<Integer>> newSet = new ConcurrentSkipListSet<>();
 
-            long time = System.currentTimeMillis();
-            AtomicInteger counter = new AtomicInteger();
-
-            scores.row(type).forEach((faction, value) -> newSet.add(
-                new UuidCacheEntry<>(faction, value, time + counter.getAndIncrement())));
+            scores.row(type).forEach((faction, value)
+                -> newSet.add(new UuidCacheEntry<>(faction, value)));
 
             NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
             leaderboard.clear();
