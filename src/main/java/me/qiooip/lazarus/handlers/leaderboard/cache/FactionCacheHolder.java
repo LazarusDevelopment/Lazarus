@@ -3,11 +3,12 @@ package me.qiooip.lazarus.handlers.leaderboard.cache;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import me.qiooip.lazarus.handlers.leaderboard.entry.UuidCacheEntry;
 
 import java.util.concurrent.ConcurrentSkipListSet;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor
 public class FactionCacheHolder {
 

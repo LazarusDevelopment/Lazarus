@@ -21,7 +21,15 @@ public class UuidCacheEntry<V extends Comparable<V>> extends CacheEntry<UUID, V>
         this(key, name, value, System.currentTimeMillis());
     }
 
+    public UuidCacheEntry(PlayerFaction faction, V value, long timestamp) {
+        this(faction.getId(), faction.getName(), value, timestamp);
+    }
+
     public UuidCacheEntry(UUID key, String name, V value, long timestamp) {
         super(key, name, value, timestamp);
+    }
+
+    public UuidCacheEntry<V> copy() {
+        return new UuidCacheEntry<>(this.getKey(), this.getName(), this.getValue(), this.getTimestamp());
     }
 }

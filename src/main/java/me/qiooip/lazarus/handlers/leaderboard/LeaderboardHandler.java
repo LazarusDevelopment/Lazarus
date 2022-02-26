@@ -26,6 +26,7 @@ import me.qiooip.lazarus.userdata.event.PlayerUsernameChangeEvent;
 import me.qiooip.lazarus.userdata.event.UserdataValueChangeEvent;
 import me.qiooip.lazarus.userdata.event.UserdataValueType;
 import me.qiooip.lazarus.utils.FileUtils;
+import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
@@ -36,6 +37,8 @@ import java.util.HashSet;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 public class LeaderboardHandler extends Handler implements Listener {
@@ -144,18 +147,31 @@ public class LeaderboardHandler extends Handler implements Listener {
 
             for(FactionLeaderboardType type : leaderboardTypes) {
                 FactionDataType valueType = FactionLeaderboardType.getFactionDataTypeFrom(type);
-                int dataValue = valueType.getNewValue(playerFaction).intValue();
-
-                scores.put(type, playerFaction, dataValue);
+                scores.put(type, playerFaction, valueType.getNewValue(playerFaction).intValue());
             }
         }
 
         for(FactionLeaderboardType type : leaderboardTypes) {
+            Set<UuidCacheEntry<Integer>> newSet = new ConcurrentSkipListSet<>();
+
+            long time = System.currentTimeMillis();
+            AtomicInteger counter = new AtomicInteger();
+
+            scores.row(type).forEach((faction, value) -> newSet.add(
+                new UuidCacheEntry<>(faction, value, time + counter.getAndIncrement())));
+
             NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
             leaderboard.clear();
 
-            scores.row(type).forEach((faction, value)
-                -> leaderboard.add(new UuidCacheEntry<>(faction, value)));
+            int i = 0;
+
+            for(UuidCacheEntry<Integer> entry : newSet) {
+                leaderboard.add(entry.copy());
+
+                if(++i >= 10) {
+                    break;
+                }
+            }
         }
     }
 
@@ -221,7 +237,7 @@ public class LeaderboardHandler extends Handler implements Listener {
         Faction faction = event.getFaction();
 
         if(faction instanceof PlayerFaction) {
-            this.removeFactionOnDisband((PlayerFaction) faction);
+            Tasks.async(() -> this.removeFactionOnDisband((PlayerFaction) faction));
         }
     }
 
