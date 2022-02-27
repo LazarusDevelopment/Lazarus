@@ -22,6 +22,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
@@ -46,6 +47,10 @@ public class HologramManager implements ManagerEnabler, Listener {
 
         if(this.renderTask != null) {
             this.renderTask.cancel();
+        }
+
+        if(this.holograms != null && !this.holograms.isEmpty()) {
+            this.holograms.forEach(hologram -> hologram.forEachViewer(hologram::removeHologram));
         }
     }
 
@@ -285,6 +290,11 @@ public class HologramManager implements ManagerEnabler, Listener {
     @EventHandler
     public void onLeaderboardUpdate(LeaderboardUpdateEvent event) {
         this.updateLeaderboardHologram(event.getType());
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Tasks.async(() -> this.renderTask.renderOrRemoveHolograms(event.getPlayer()));
     }
 
     @EventHandler

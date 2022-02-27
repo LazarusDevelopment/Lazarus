@@ -6,7 +6,6 @@ import me.qiooip.lazarus.hologram.HologramManager;
 import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -24,9 +23,18 @@ public class HologramRenderTask extends BukkitRunnable {
         this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 40L);
     }
 
-    private void checkHologramDistance(Player player, Hologram hologram, int distance) {
+    public void renderOrRemoveHolograms(Player player) {
+        for(Hologram hologram : this.handler.getHolograms()) {
+            this.renderOrRemoveHologram(player, hologram);
+        }
+    }
+
+    private void renderOrRemoveHologram(Player player, Hologram hologram) {
+        if(!hologram.isInSameWorld(player)) return;
+
         UUID playerUuid = player.getUniqueId();
         Set<UUID> viewers = hologram.getViewers();
+        int distance = this.getHologramDistance(player, hologram);
 
         if(distance > DISTANCE && viewers.contains(playerUuid)) {
             viewers.remove(playerUuid);
@@ -35,6 +43,10 @@ public class HologramRenderTask extends BukkitRunnable {
             viewers.add(playerUuid);
             hologram.sendHologram(player);
         }
+    }
+
+    private int getHologramDistance(Player player, Hologram hologram) {
+        return (int) Math.round(hologram.getLocation().distanceSquared(player.getLocation()));
     }
 
     private void updateLeaderboardHologram(LeaderboardHologram hologram) {
@@ -54,13 +66,8 @@ public class HologramRenderTask extends BukkitRunnable {
         if(holograms.isEmpty()) return;
 
         for(Hologram hologram : holograms) {
-            Location hologramLocation = hologram.getLocation();
-
             for(Player player : Bukkit.getOnlinePlayers()) {
-                if(!hologram.isInSameWorld(player)) continue;
-
-                int distance = (int) Math.round(hologramLocation.distanceSquared(player.getLocation()));
-                this.checkHologramDistance(player, hologram, distance);
+                this.renderOrRemoveHologram(player, hologram);
             }
 
             if(hologram instanceof LeaderboardHologram) {
