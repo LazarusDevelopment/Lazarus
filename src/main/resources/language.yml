@@ -433,6 +433,8 @@ HOLOGRAMS:
     - "  &b/hologram teleport <id>"
     - "  &b/hologram list"
     - ""
+    - "  &7Use placeholder &b'empty' &7for empty hologram line."
+    - ""
     - "  &6Available types&f: &7Normal, PlayerKills, PlayerDeaths,"
     - "    &7PlayerBalance, PlayerKillstreak, FactionKills,"
     - "    &7FactionPoints, FactionBalance, FactionKoths"
