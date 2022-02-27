@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.handlers.leaderboard.event.LeaderboardUpdateEvent;
 import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
 import me.qiooip.lazarus.hologram.impl.StaticHologram;
 import me.qiooip.lazarus.hologram.task.HologramRenderTask;
@@ -61,7 +62,7 @@ public class HologramManager implements ManagerEnabler, Listener {
         }
 
         this.holograms = Lazarus.getInstance().getGson().fromJson(content, GsonUtils.HOLOGRAMS_TYPE);
-        this.holograms.forEach(Hologram::updateHologramLines);
+        this.holograms.forEach(Hologram::createHologramLines);
 
         this.renderTask = new HologramRenderTask(this);
     }
@@ -89,7 +90,7 @@ public class HologramManager implements ManagerEnabler, Listener {
         Hologram hologram = this.createHologramFromParameter(player, parameter);
         if(hologram == null) return;
 
-        hologram.updateHologramLines();
+        hologram.createHologramLines();
         Bukkit.getOnlinePlayers().forEach(hologram::sendHologram);
 
         this.addHologram(hologram);
@@ -203,7 +204,7 @@ public class HologramManager implements ManagerEnabler, Listener {
             return;
         }
 
-        staticHologram.updateHologramLines();
+        staticHologram.createHologramLines();
         NmsUtils nmsUtils = NmsUtils.getInstance();
 
         staticHologram.forEachViewerAsync(viewer -> {
@@ -267,6 +268,23 @@ public class HologramManager implements ManagerEnabler, Listener {
         }
 
         sender.sendMessage(Language.HOLOGRAMS_COMMAND_FOOTER);
+    }
+
+    public void updateLeaderboardHologram(LeaderboardHologramType type) {
+        for(Hologram hologram : this.holograms) {
+            if(!(hologram instanceof LeaderboardHologram)) continue;
+
+            LeaderboardHologram leaderboardHologram = (LeaderboardHologram) hologram;
+
+            if(leaderboardHologram.getLeaderboardType() == type) {
+                leaderboardHologram.updateHologramLines();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onLeaderboardUpdate(LeaderboardUpdateEvent event) {
+        this.updateLeaderboardHologram(event.getType());
     }
 
     @EventHandler

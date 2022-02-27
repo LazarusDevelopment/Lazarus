@@ -234,6 +234,8 @@ public class Language {
     public static String HOLOGRAMS_UPDATE_LINE_USAGE;
     public static String HOLOGRAMS_UPDATE_LINE_UPDATED;
 
+    public static String HOLOGRAM_EMPTY_LINE_FORMAT;
+
     public static List<String> HOLOGRAM_TOP_KILLS_HEADER;
     public static List<String> HOLOGRAM_TOP_KILLS_FOOTER;
     public static String HOLOGRAM_TOP_KILLS_LINE_FORMAT;
@@ -1808,6 +1810,8 @@ public class Language {
 
         HOLOGRAMS_UPDATE_LINE_USAGE = language.getString("HOLOGRAMS.UPDATE_LINE_COMMAND.USAGE");
         HOLOGRAMS_UPDATE_LINE_UPDATED = language.getString("HOLOGRAMS.UPDATE_LINE_COMMAND.LINE_UPDATED");
+
+        HOLOGRAM_EMPTY_LINE_FORMAT = language.getString("HOLOGRAM_LEADERBOARDS.EMPTY_LINE_FORMAT");
 
         HOLOGRAM_TOP_KILLS_HEADER = language.getStringList("HOLOGRAM_LEADERBOARDS.TOP_KILLS.HEADER");
         HOLOGRAM_TOP_KILLS_FOOTER = language.getStringList("HOLOGRAM_LEADERBOARDS.TOP_KILLS.FOOTER");

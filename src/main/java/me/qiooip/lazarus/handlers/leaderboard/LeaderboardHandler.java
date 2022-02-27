@@ -17,6 +17,7 @@ import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.handlers.leaderboard.cache.FactionCacheHolder;
 import me.qiooip.lazarus.handlers.leaderboard.cache.PlayerCacheHolder;
 import me.qiooip.lazarus.handlers.leaderboard.entry.UuidCacheEntry;
+import me.qiooip.lazarus.handlers.leaderboard.event.LeaderboardUpdateEvent;
 import me.qiooip.lazarus.handlers.leaderboard.type.FactionLeaderboardType;
 import me.qiooip.lazarus.handlers.leaderboard.type.LeaderboardType;
 import me.qiooip.lazarus.handlers.leaderboard.type.PlayerLeaderboardType;
@@ -90,11 +91,16 @@ public class LeaderboardHandler extends Handler implements Listener {
     private void updateCacheValue(LeaderboardType type, UUID key, String name, int newValue) {
         NavigableSet<UuidCacheEntry<Integer>> leaderboard = type.getLeaderboard();
 
-        leaderboard.removeIf(entry -> entry.getKey().equals(key));
+        boolean updated = leaderboard.removeIf(entry -> entry.getKey().equals(key));
         leaderboard.add(new UuidCacheEntry<>(key, name, newValue));
 
         if(leaderboard.size() > 10) {
             leaderboard.pollLast();
+            updated = true;
+        }
+
+        if(updated) {
+            new LeaderboardUpdateEvent(type);
         }
     }
 
@@ -168,6 +174,8 @@ public class LeaderboardHandler extends Handler implements Listener {
                     break;
                 }
             }
+
+            new LeaderboardUpdateEvent(type);
         }
     }
 

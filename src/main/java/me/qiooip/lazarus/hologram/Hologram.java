@@ -57,12 +57,16 @@ public abstract class Hologram {
         this.entries.remove(index);
     }
 
+    public void updateMessage(int index, String message) {
+        this.entries.get(index).setMessage(message);
+    }
+
     public int getEntityId() {
         return ThreadLocalRandom.current().nextInt(100_000_000, 200_000_000);
     }
 
     public Location getLineLocation(Location parent) {
-        return parent.clone().subtract(0, 0.3, 0);
+        return parent.clone().subtract(0, 0.25, 0);
     }
 
     public void sendHologram(Player player) {
@@ -128,5 +132,5 @@ public abstract class Hologram {
         return player.getWorld().getName().equals(this.location.getWorld().getName());
     }
 
-    public abstract void updateHologramLines();
+    public abstract void createHologramLines();
 }

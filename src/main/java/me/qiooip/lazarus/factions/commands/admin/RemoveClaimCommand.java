@@ -37,8 +37,9 @@ public class RemoveClaimCommand extends SubCommand {
 
         PlayerFaction faction = (PlayerFaction) claim.getOwner();
 
-        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_REMOVE_CLAIM_REMOVED_FACTION.replace("<player>",
-        player.getName()).replace("<location>", StringUtils.getLocationNameWithoutY(claim.getCenter())));
+        faction.sendMessage(Language.FACTION_PREFIX + Language.FACTIONS_REMOVE_CLAIM_REMOVED_FACTION
+            .replace("<player>", player.getName())
+            .replace("<location>", StringUtils.getLocationNameWithoutY(claim.getCenter())));
 
         if(faction.getHome() != null && claim.contains(faction.getHome())) {
             faction.setHome(null);

@@ -3,6 +3,8 @@ package me.qiooip.lazarus.hologram.task;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.hologram.Hologram;
 import me.qiooip.lazarus.hologram.HologramManager;
+import me.qiooip.lazarus.hologram.impl.LeaderboardHologram;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -35,6 +37,17 @@ public class HologramRenderTask extends BukkitRunnable {
         }
     }
 
+    private void updateLeaderboardHologram(LeaderboardHologram hologram) {
+        if(!hologram.getUpdate().get()) return;
+
+        NmsUtils nmsUtils = NmsUtils.getInstance();
+
+        hologram.forEachViewer(viewer -> hologram.getEntries().forEach(entry ->
+            nmsUtils.sendHologramMessagePacket(viewer, entry.getEntityId(), entry.getMessage())));
+
+        hologram.getUpdate().set(false);
+    }
+
     @Override
     public void run() {
         List<Hologram> holograms = this.handler.getHolograms();
@@ -48,6 +61,10 @@ public class HologramRenderTask extends BukkitRunnable {
 
                 int distance = (int) Math.round(hologramLocation.distanceSquared(player.getLocation()));
                 this.checkHologramDistance(player, hologram, distance);
+            }
+
+            if(hologram instanceof LeaderboardHologram) {
+                this.updateLeaderboardHologram((LeaderboardHologram) hologram);
             }
         }
     }

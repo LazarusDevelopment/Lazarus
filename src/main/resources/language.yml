@@ -467,6 +467,7 @@ HOLOGRAMS:
     LINE_UPDATED: "&7Updated line for &bhologram <id>&7."
 
 HOLOGRAM_LEADERBOARDS:
+  EMPTY_LINE_FORMAT: "&7<number>. &a*"
   TOP_KILLS:
     HEADER:
       - "&c&lTop player kills"
@@ -490,7 +491,7 @@ HOLOGRAM_LEADERBOARDS:
     FOOTER:
       - ""
       - "&7(( /topbalance ))"
-    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b$<value>"
   TOP_KILLSTREAK:
     HEADER:
       - "&c&lTop player killstreak"
@@ -522,7 +523,7 @@ HOLOGRAM_LEADERBOARDS:
     FOOTER:
       - ""
       - "&7(( /f top balance ))"
-    LINE_FORMAT: "&7<number>. &a<player> &7- &b<value>"
+    LINE_FORMAT: "&7<number>. &a<player> &7- &b$<value>"
   FACTION_TOP_KOTHS_CAPPED:
     HEADER:
       - "&c&lTop faction koths capped"

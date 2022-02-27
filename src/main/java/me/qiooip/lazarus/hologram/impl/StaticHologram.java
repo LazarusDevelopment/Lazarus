@@ -20,7 +20,7 @@ public class StaticHologram extends Hologram {
         this.lines = new ArrayList<>();
         this.lines.add("Hologram " + id + " (edit me)");
 
-        this.updateHologramLines();
+        this.createHologramLines();
     }
 
     public Location getLastLineLocation() {
@@ -78,7 +78,7 @@ public class StaticHologram extends Hologram {
     }
 
     @Override
-    public void updateHologramLines() {
+    public void createHologramLines() {
         this.entries.clear();
         Location lineLocation = this.location.clone();
 
