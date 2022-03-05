@@ -31,6 +31,6 @@ public class MountainUpdateCommand extends SubCommand {
         mountain.cacheMaterials();
 
         sender.sendMessage(Language.MOUNTAIN_PREFIX + Language.MOUNTAIN_UPDATE_UPDATED
-        .replace("<id>", String.valueOf(mountain.getId())));
+            .replace("<id>", String.valueOf(mountain.getId())));
     }
 }
