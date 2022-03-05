@@ -53,8 +53,8 @@ public class ScoreboardManager implements Listener, ManagerEnabler {
         this.scoreboards = new ConcurrentHashMap<>();
         this.staffSb = new HashSet<>();
 
-        Bukkit.getOnlinePlayers().forEach(this::loadScoreboard);
         this.updater = new ScoreboardUpdaterImpl(Lazarus.getInstance(), this);
+        Tasks.sync(() -> Bukkit.getOnlinePlayers().forEach(this::loadScoreboard));
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }

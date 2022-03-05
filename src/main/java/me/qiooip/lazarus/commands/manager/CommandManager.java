@@ -58,7 +58,6 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new SetReclaimCommand());
         this.commands.add(new SetSlotsCommand());
         this.commands.add(new SetSpawnCommand());
-        this.commands.add(new SpawnCreditsCommand());
         this.commands.add(new StaffChatCommand());
         this.commands.add(new StaffModeCommand());
         this.commands.add(new StaffScoreboardCommand());
@@ -93,6 +92,7 @@ public class CommandManager implements ManagerEnabler {
         this.commands.add(new SettingsCommand());
         this.commands.add(new SotwCommand());
         this.commands.add(new SpawnCommand());
+        this.commands.add(new SpawnCreditsCommand());
         this.commands.add(new StatsCommand());
         this.commands.add(new SubclaimCommand());
         this.commands.add(new TellLocationCommand());

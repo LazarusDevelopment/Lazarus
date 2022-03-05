@@ -2031,7 +2031,7 @@ LIST_COMMAND:
 
 LIVES_COMMAND:
   CHECK_SELF: "&eYou have &c<lives> &elives."
-  CHECK_OTHERS: "&ePlayer &c<player> &ehas &c<lives> &elives."
+  CHECK_OTHERS: "&ePlayer &c<player> &ehave &c<lives> &elives."
   PLAYER_NOT_DEATHBANNED: "&ePlayer &c<player> &eis not deathbanned!"
   SUCCESSFULLY_REVIVED_PLAYER: "&eYou successfully revived &c<player>&e."
   SUCCESSFULLY_SENT_LIVES: "&eYou sent &c<amount> &elives to &c<player>&e."
@@ -2322,15 +2322,20 @@ SOTW:
     - "&7&m                                                           "
 
 SPAWN_CREDITS_COMMAND:
-  USAGE:
+  PLAYER_USAGE:
+    - "&eUsage: /spawncredits check <player>"
+  ADMIN_USAGE:
     - "&7&m                                                      "
     - " &6&lSpawn credits management"
+    - "  &e/spawncredits check <player>"
     - "  &e/spawncredits add <player> <amount>"
     - "  &e/spawncredits remove <player> <amount>"
     - "  &e/spawncredits set <player> <amount>"
     - "&7&m                                                      "
   AMOUNT_CHANGED: "&eYour spawn credits amount has been changed by &c<sender>&e. New amount: &a<amount>&e."
   AMOUNT_CHANGED_STAFF: "&c<player>'s &espawn credits amount changed by &c<sender>&e. New amount: &a<amount>&e."
+  AMOUNT_CHECK_SELF: "&eYou have &b<amount> &espawn credits."
+  AMOUNT_CHECK_OTHERS: "&b<player> &ehave &b<amount> &espawn credits."
 
 SPAWN_CREDITS:
   NOT_ENOUGH_CREDITS: "&eYou don't have enough &cspawn credits &eto teleport!"

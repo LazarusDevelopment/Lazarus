@@ -1,4 +1,4 @@
-package me.qiooip.lazarus.commands.staff;
+package me.qiooip.lazarus.commands;
 
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.commands.manager.BaseCommand;
@@ -11,13 +11,28 @@ import org.bukkit.entity.Player;
 public class SpawnCreditsCommand extends BaseCommand {
 
     public SpawnCreditsCommand() {
-        super("spawncredits", "lazarus.spawncredits");
+        super("spawncredits");
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if(!sender.hasPermission("lazarus.spawncredits")) {
+            if(args.length < 1 || !args[0].equalsIgnoreCase("check")) {
+                Language.SPAWN_CREDITS_PLAYER_USAGE.forEach(sender::sendMessage);
+                return;
+            }
+
+            this.sendSpawnCreditsAmount(sender, args);
+            return;
+        }
+
+        if(args.length >= 1 && args[0].equalsIgnoreCase("check")) {
+            this.sendSpawnCreditsAmount(sender, args);
+            return;
+        }
+
         if(args.length < 3) {
-            Language.SPAWN_CREDITS_USAGE.forEach(sender::sendMessage);
+            Language.SPAWN_CREDITS_ADMIN_USAGE.forEach(sender::sendMessage);
             return;
         }
 
@@ -42,9 +57,34 @@ public class SpawnCreditsCommand extends BaseCommand {
                 return;
             }
             default: {
-                Language.SPAWN_CREDITS_USAGE.forEach(sender::sendMessage);
+                Language.SPAWN_CREDITS_ADMIN_USAGE.forEach(sender::sendMessage);
             }
         }
+    }
+
+    private void sendSpawnCreditsAmount(CommandSender sender, String[] args) {
+        Player target;
+
+        if(args.length < 2) {
+            if(!this.checkConsoleSender(sender)) return;
+            target = (Player) sender;
+        } else {
+            target = Bukkit.getPlayer(args[1]);
+            if(!this.checkPlayer(sender, target, args[1])) return;
+        }
+
+        Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(target);
+        String amount = String.valueOf(userdata.getSpawnCredits());
+
+        if(sender == target) {
+           sender.sendMessage(Language.PREFIX + Language.SPAWN_CREDITS_AMOUNT_CHECK_SELF
+               .replace("<amount>", amount));
+           return;
+        }
+
+        sender.sendMessage(Language.PREFIX + Language.SPAWN_CREDITS_AMOUNT_CHECK_OTHERS
+            .replace("<player>", target.getName())
+            .replace("<amount>", amount));
     }
 
     private void modifyAmount(CommandSender sender, Player target, int action, int newAmount) {

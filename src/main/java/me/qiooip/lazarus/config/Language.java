@@ -1435,9 +1435,12 @@ public class Language {
     public static List<String> SOTW_ADMIN_COMMAND_USAGE;
     public static List<String> SOTW_PLAYER_COMMAND_USAGE;
 
-    public static List<String> SPAWN_CREDITS_USAGE;
+    public static List<String> SPAWN_CREDITS_PLAYER_USAGE;
+    public static List<String> SPAWN_CREDITS_ADMIN_USAGE;
     public static String SPAWN_CREDITS_AMOUNT_CHANGED;
     public static String SPAWN_CREDITS_AMOUNT_CHANGED_STAFF;
+    public static String SPAWN_CREDITS_AMOUNT_CHECK_SELF;
+    public static String SPAWN_CREDITS_AMOUNT_CHECK_OTHERS;
 
     public static String SPAWN_CREDITS_NOT_ENOUGH_CREDITS;
     public static String SPAWN_CREDITS_TELEPORTED;
@@ -3015,9 +3018,12 @@ public class Language {
         SOTW_ADMIN_COMMAND_USAGE = language.getStringList("SOTW.ADMIN_COMMAND_USAGE");
         SOTW_PLAYER_COMMAND_USAGE = language.getStringList("SOTW.PLAYER_COMMAND_USAGE");
 
-        SPAWN_CREDITS_USAGE = language.getStringList("SPAWN_CREDITS_COMMAND.USAGE");
+        SPAWN_CREDITS_PLAYER_USAGE = language.getStringList("SPAWN_CREDITS_COMMAND.PLAYER_USAGE");
+        SPAWN_CREDITS_ADMIN_USAGE = language.getStringList("SPAWN_CREDITS_COMMAND.ADMIN_USAGE");
         SPAWN_CREDITS_AMOUNT_CHANGED = language.getString("SPAWN_CREDITS_COMMAND.AMOUNT_CHANGED");
         SPAWN_CREDITS_AMOUNT_CHANGED_STAFF = language.getString("SPAWN_CREDITS_COMMAND.AMOUNT_CHANGED_STAFF");
+        SPAWN_CREDITS_AMOUNT_CHECK_SELF = language.getString("SPAWN_CREDITS_COMMAND.AMOUNT_CHECK_SELF");
+        SPAWN_CREDITS_AMOUNT_CHECK_OTHERS = language.getString("SPAWN_CREDITS_COMMAND.AMOUNT_CHECK_OTHERS");
 
         SPAWN_CREDITS_NOT_ENOUGH_CREDITS = language.getString("SPAWN_CREDITS.NOT_ENOUGH_CREDITS");
         SPAWN_CREDITS_TELEPORTED = language.getString("SPAWN_CREDITS.TELEPORTED");
