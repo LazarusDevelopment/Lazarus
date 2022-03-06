@@ -431,6 +431,7 @@ HOLOGRAMS:
     - "  &b/hologram updateline <id> <line> <text>"
     - "  &b/hologram removeline <id> <line>"
     - "  &b/hologram teleport <id>"
+    - "  &b/hologram teleporthere <id>"
     - "  &b/hologram list"
     - ""
     - "  &7Use placeholder &b'empty' &7for empty hologram line."
@@ -463,6 +464,9 @@ HOLOGRAMS:
     LINE_REMOVED: "&7Removed line from the &bhologram <id>&7."
   TELEPORT_COMMAND:
     USAGE: "&cUsage: /hologram teleport <id>"
+    TELEPORTED: "&7You have been teleported to &bhologram <id>&7."
+  TELEPORT_HERE_COMMAND:
+    USAGE: "&cUsage: /hologram teleporthere <id>"
     TELEPORTED: "&7Hologram teleported to your location."
   UPDATE_LINE_COMMAND:
     USAGE: "&cUsage: /hologram updateline <id> <line> <text>"

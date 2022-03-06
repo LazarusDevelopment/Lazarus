@@ -137,12 +137,22 @@ public class HologramManager implements ManagerEnabler, Listener {
             .replace("<id>", String.valueOf(hologramId)));
     }
 
+    public void teleportToTheHologram(Player player, int hologramId) {
+        Hologram hologram = this.getByCommandParam(player, hologramId);
+        if(hologram == null) return;
+
+        if(!player.teleport(hologram.getLocation())) return;
+
+        player.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_TELEPORT_TELEPORTED
+            .replace("<id>", String.valueOf(hologramId)));
+    }
+
     public void teleportHologram(Player player, int hologramId) {
         Hologram hologram = this.getByCommandParam(player, hologramId);
         if(hologram == null) return;
 
         hologram.teleportHologram(player);
-        player.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_TELEPORT_TELEPORTED);
+        player.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_TELEPORT_HERE_TELEPORTED);
     }
 
     public void addHologramLine(CommandSender sender, int hologramId, String text) {

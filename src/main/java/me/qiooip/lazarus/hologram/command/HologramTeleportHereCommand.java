@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
-public class HologramTeleportCommand extends SubCommand {
+public class HologramTeleportHereCommand extends SubCommand {
 
-    public HologramTeleportCommand() {
-        super("teleport", Collections.singletonList("tp"), "lazarus.holograms", true);
+    public HologramTeleportHereCommand() {
+        super("teleporthere", Collections.singletonList("tphere"), "lazarus.holograms", true);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class HologramTeleportCommand extends SubCommand {
         Player player = (Player) sender;
         int hologramId = Integer.parseInt(args[0]);
 
-        Lazarus.getInstance().getHologramManager().teleportToTheHologram(player, hologramId);
+        Lazarus.getInstance().getHologramManager().teleportHologram(player, hologramId);
     }
 }

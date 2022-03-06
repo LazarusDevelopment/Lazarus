@@ -23,6 +23,7 @@ public class HologramCommandExecutor extends SubCommandExecutor {
         this.addSubCommand(new HologramListCommand());
         this.addSubCommand(new HologramRemoveLineCommand());
         this.addSubCommand(new HologramTeleportCommand());
+        this.addSubCommand(new HologramTeleportHereCommand());
         this.addSubCommand(new HologramUpdateLineCommand());
 
         PLAYER_COMMAND_USAGE = Collections.singletonList(Language.COMMANDS_NO_PERMISSION);
