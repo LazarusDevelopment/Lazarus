@@ -52,7 +52,7 @@ public class CooldownManager implements Listener {
     }
 
     private void addCooldown(UUID uuid, CooldownType type, int duration) {
-        if(!Lazarus.getInstance().getLunarClientManager().getPlayers().contains(uuid)) return;
+        if(!Lazarus.getInstance().getLunarClientManager().isOnLunarClient(uuid)) return;
 
         LunarClientCooldown cooldown = this.cooldowns.get(type);
         if(cooldown == null) return;
@@ -62,7 +62,7 @@ public class CooldownManager implements Listener {
     }
 
     private void removeCooldown(UUID uuid, CooldownType type) {
-        if(!Lazarus.getInstance().getLunarClientManager().getPlayers().contains(uuid)) return;
+        if(!Lazarus.getInstance().getLunarClientManager().isOnLunarClient(uuid)) return;
 
         LunarClientCooldown cooldown = this.cooldowns.get(type);
         if(cooldown == null) return;

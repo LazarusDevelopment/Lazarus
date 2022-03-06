@@ -76,6 +76,7 @@ public class Config {
     public static boolean LUNAR_CLIENT_API_ENABLED;
     public static boolean LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED;
     public static boolean LUNAR_CLIENT_API_STAFF_MODULES_ENABLED;
+    public static boolean LUNAR_CLIENT_API_TEAM_VIEW_ENABLED;
     public static boolean LUNAR_CLIENT_API_COOLDOWNS_ENABLED;
     public static boolean LUNAR_CLIENT_API_NAMETAGS_ENABLED;
     public static String LUNAR_CLIENT_API_NAMETAGS_FACTION;
@@ -578,6 +579,7 @@ public class Config {
         LUNAR_CLIENT_API_ENABLED = config.getBoolean("LUNAR_CLIENT_API_ENABLED");
         LUNAR_CLIENT_API_FORCED_WAYPOINTS_ENABLED = config.getBoolean("FORCED_WAYPOINTS_ENABLED");
         LUNAR_CLIENT_API_STAFF_MODULES_ENABLED = config.getBoolean("STAFF_MODULES_ENABLED");
+        LUNAR_CLIENT_API_TEAM_VIEW_ENABLED = config.getBoolean("TEAM_VIEW_ENABLED");
         LUNAR_CLIENT_API_COOLDOWNS_ENABLED = config.getBoolean("COOLDOWNS_ENABLED");
         LUNAR_CLIENT_API_NAMETAGS_ENABLED = config.getBoolean("NAMETAGS.ENABLED");
         LUNAR_CLIENT_API_NAMETAGS_FACTION = config.getString("NAMETAGS.FACTION");

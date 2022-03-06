@@ -11,6 +11,7 @@ import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.lunarclient.cooldown.CooldownManager;
+import me.qiooip.lazarus.lunarclient.task.TeamViewTask;
 import me.qiooip.lazarus.lunarclient.waypoint.WaypointManager;
 import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public class LunarClientManager implements Listener {
 
     private CooldownManager cooldownManager;
     private WaypointManager waypointManager;
+    private TeamViewTask teamViewTask;
 
     private final Set<UUID> players;
     private final Set<LCPacketServerRule> serverRules;
@@ -46,6 +48,10 @@ public class LunarClientManager implements Listener {
             this.waypointManager = new WaypointManager();
         }
 
+        if(Config.LUNAR_CLIENT_API_TEAM_VIEW_ENABLED) {
+            this.teamViewTask = new TeamViewTask();
+        }
+
         this.setupServerRules();
         this.modSettings = this.setupModSettings();
 
@@ -61,6 +67,10 @@ public class LunarClientManager implements Listener {
 
         if(this.waypointManager != null) {
             this.waypointManager.disable();
+        }
+
+        if(this.teamViewTask != null) {
+            this.teamViewTask.cancel();
         }
     }
 
@@ -97,6 +107,14 @@ public class LunarClientManager implements Listener {
         }
 
         return new LCPacketModSettings(settings);
+    }
+
+    public boolean isOnLunarClient(UUID uuid) {
+        return this.players.contains(uuid);
+    }
+
+    public boolean isOnLunarClient(Player player) {
+        return this.isOnLunarClient(player.getUniqueId());
     }
 
     @EventHandler

@@ -181,6 +181,9 @@ FORCED_WAYPOINTS:
 # Should we enable staff modules
 STAFF_MODULES_ENABLED: true
 
+# Should we enable team view
+TEAM_VIEW_ENABLED: true
+
 # Should we enable cooldowns
 COOLDOWNS_ENABLED: true
 
