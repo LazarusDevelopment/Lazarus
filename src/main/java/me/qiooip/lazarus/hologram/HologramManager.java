@@ -43,6 +43,8 @@ public class HologramManager implements ManagerEnabler, Listener {
 
     private void enable() {
         this.loadHolograms();
+        this.renderTask = new HologramRenderTask(this);
+
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
@@ -72,8 +74,6 @@ public class HologramManager implements ManagerEnabler, Listener {
 
         this.holograms = Lazarus.getInstance().getGson().fromJson(content, GsonUtils.HOLOGRAMS_TYPE);
         this.holograms.forEach(Hologram::createHologramLines);
-
-        this.renderTask = new HologramRenderTask(this);
     }
 
     private void saveHolograms() {
