@@ -304,7 +304,9 @@ public class HologramManager implements ManagerEnabler, Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Tasks.async(() -> this.renderTask.renderOrRemoveHolograms(event.getPlayer()));
+        if(this.renderTask != null) {
+            Tasks.async(() -> this.renderTask.renderOrRemoveHolograms(event.getPlayer()));
+        }
     }
 
     @EventHandler
