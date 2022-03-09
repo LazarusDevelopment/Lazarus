@@ -241,7 +241,7 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
         Bukkit.getOnlinePlayers().forEach(online -> {
             if(player.getWorld() != online.getWorld() || !Lazarus.getInstance().getUserdataManager()
-            .getUserdata(online).getSettings().isLightning()) return;
+                .getUserdata(online).getSettings().isLightning()) return;
 
             double x = loc.getX() - online.getLocation().getX();
             double y = loc.getY() - online.getLocation().getY();
@@ -693,18 +693,22 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {
         try {
+            int entityId = AbilitiesReflection_1_7.getEntityId(equipmentPacket);
+            net.minecraft.server.v1_7_R4.Entity sender = ((CraftPlayer) player).getHandle().world.getEntity(entityId);
+
+            if(!(sender instanceof EntityPlayer)) {
+                return equipmentPacket;
+            }
+
             AbilitiesManager manager = AbilitiesManager.getInstance();
 
             InvisibilityAbility invisibilityAbility = (InvisibilityAbility) manager.getAbilityItemByType(AbilityType.INVISIBILITY);
             DecoyAbility decoyAbility = (DecoyAbility) manager.getAbilityItemByType(AbilityType.DECOY);
 
-            int entityId = AbilitiesReflection_1_7.getEntityId(equipmentPacket);
-            net.minecraft.server.v1_7_R4.Entity sender = ((CraftPlayer) player).getHandle().world.getEntity(entityId);
-
             boolean shouldCancel = (invisibilityAbility != null && invisibilityAbility.getPlayers().contains(sender.getUniqueID()))
                 || (decoyAbility != null && decoyAbility.getPlayers().contains(sender.getUniqueID()));
 
-            if(sender instanceof EntityPlayer && shouldCancel) {
+            if(shouldCancel) {
                 int slot = AbilitiesReflection_1_7.getSlot(equipmentPacket);
                 net.minecraft.server.v1_7_R4.ItemStack itemStack = AbilitiesReflection_1_7.getItemStack(equipmentPacket);
 

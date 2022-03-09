@@ -255,12 +255,13 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
             .getHandle(), loc.getX(), loc.getY(), loc.getZ(), true);
 
         PacketPlayOutSpawnEntityWeather lightningPacket = new PacketPlayOutSpawnEntityWeather(lightning);
+
         PacketPlayOutNamedSoundEffect thunderPacket = new PacketPlayOutNamedSoundEffect("ambient.weather.thunder",
-        loc.getX(), loc.getY(), loc.getZ(), 10000.0F, 0.8F + ThreadLocalRandom.current().nextFloat() * 0.2F);
+            loc.getX(), loc.getY(), loc.getZ(), 10000.0F, 0.8F + ThreadLocalRandom.current().nextFloat() * 0.2F);
 
         Bukkit.getOnlinePlayers().forEach(online -> {
             if(player.getWorld() != online.getWorld() || !Lazarus.getInstance().getUserdataManager()
-            .getUserdata(online).getSettings().isLightning()) return;
+                .getUserdata(online).getSettings().isLightning()) return;
 
             double x = loc.getX() - online.getLocation().getX();
             double y = loc.getY() - online.getLocation().getY();
@@ -667,18 +668,22 @@ public class NmsUtils_1_8 extends NmsUtils implements Listener {
 
     private PacketPlayOutEntityEquipment handlePlayOutEntityEquipmentPacket(Player player, PacketPlayOutEntityEquipment equipmentPacket) {
         try {
+            int entityId = AbilitiesReflection_1_8.getEntityId(equipmentPacket);
+            net.minecraft.server.v1_8_R3.Entity sender = ((CraftPlayer) player).getHandle().world.a(entityId);
+
+            if(!(sender instanceof EntityPlayer)) {
+                return equipmentPacket;
+            }
+
             AbilitiesManager manager = AbilitiesManager.getInstance();
 
             InvisibilityAbility invisibilityAbility = (InvisibilityAbility) manager.getAbilityItemByType(AbilityType.INVISIBILITY);
             DecoyAbility decoyAbility = (DecoyAbility) manager.getAbilityItemByType(AbilityType.DECOY);
 
-            int entityId = AbilitiesReflection_1_8.getEntityId(equipmentPacket);
-            net.minecraft.server.v1_8_R3.Entity sender = ((CraftPlayer) player).getHandle().world.a(entityId);
-
             boolean shouldCancel = (invisibilityAbility != null && invisibilityAbility.getPlayers().contains(sender.getUniqueID()))
                 || (decoyAbility != null && decoyAbility.getPlayers().contains(sender.getUniqueID()));
 
-            if(sender instanceof EntityPlayer && shouldCancel) {
+            if(shouldCancel) {
                 int slot = AbilitiesReflection_1_8.getSlot(equipmentPacket);
                 net.minecraft.server.v1_8_R3.ItemStack itemStack = AbilitiesReflection_1_8.getItemStack(equipmentPacket);
 
