@@ -38,7 +38,11 @@ public class HologramManager implements ManagerEnabler, Listener {
     private List<Hologram> holograms;
 
     public HologramManager() {
-        Tasks.syncLater(() -> this.loadHolograms(), 20L);
+        Tasks.syncLater(() -> this.enable(), 20L);
+    }
+
+    private void enable() {
+        this.loadHolograms();
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
@@ -304,9 +308,7 @@ public class HologramManager implements ManagerEnabler, Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if(this.renderTask != null) {
-            Tasks.async(() -> this.renderTask.renderOrRemoveHolograms(event.getPlayer()));
-        }
+        Tasks.async(() -> this.renderTask.renderOrRemoveHolograms(event.getPlayer()));
     }
 
     @EventHandler
