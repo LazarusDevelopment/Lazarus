@@ -50,6 +50,11 @@ public class SystemFaction extends Faction {
     }
 
     @Override
+    public boolean areEnderpearlEnabled() {
+        return this.enderpearls;
+    }
+
+    @Override
     public boolean shouldCancelPvpTimerEntrance(Player player) {
         return !this.isSafezone();
     }

@@ -20,6 +20,7 @@ import me.qiooip.lazarus.timer.scoreboard.StuckTimer;
 import me.qiooip.lazarus.utils.PlayerUtils;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
+import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
@@ -141,7 +142,7 @@ public class PlayerEventListener implements Listener {
         if(event.getCause() == TeleportCause.ENDER_PEARL) {
             Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getTo());
 
-            if(factionAt instanceof SystemFaction && !((SystemFaction) factionAt).isEnderpearls()) {
+            if(!factionAt.areEnderpearlEnabled()) {
                 this.refundEnderpearl(player, Language.FACTION_PREFIX + Language.FACTIONS_ENDERPEARL_USAGE_DENIED
                     .replace("<faction>", factionAt.getDisplayName(player)));
 
@@ -350,6 +351,11 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
+        if(event.getDamager() instanceof EnderPearl && !playerFactionAt.areEnderpearlEnabled()) {
+            event.setCancelled(true);
+            return;
+        }
+
         PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(player);
         PlayerFaction damagerFaction = FactionsManager.getInstance().getPlayerFaction(damager);
 
@@ -364,7 +370,7 @@ public class PlayerEventListener implements Listener {
             event.setCancelled(true);
 
             damager.sendMessage(Language.FACTIONS_DENY_DAMAGE_ALLIES
-            .replace("<player>", Config.ALLY_COLOR + player.getName()));
+                .replace("<player>", Config.ALLY_COLOR + player.getName()));
         }
     }
 

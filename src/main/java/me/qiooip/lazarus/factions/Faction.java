@@ -94,6 +94,10 @@ public abstract class Faction {
         return false;
     }
 
+    public boolean areEnderpearlEnabled() {
+        return true;
+    }
+
     public boolean shouldCancelPvpTimerEntrance(Player player) {
         return true;
     }
