@@ -31,25 +31,35 @@ public class TeamViewTask extends BukkitRunnable {
         return position;
     }
 
+    private LCPacketTeammates createTeammatePacket(PlayerFaction faction) {
+        Map<UUID, Map<String, Double>> positions = new HashMap<>();
+
+        faction.getOnlinePlayers().forEach(member -> {
+            UUID uuid = member.getUniqueId();
+            positions.put(uuid, this.positionMap(member.getLocation()));
+        });
+
+        FactionPlayer leader = faction.getLeader();
+        UUID leaderUuid = leader.getPlayer() != null ? leader.getUuid() : null;
+
+        return new LCPacketTeammates(leaderUuid, 2000L, positions);
+    }
+
     private void sendTeamViewPackets() {
+        Map<PlayerFaction, LCPacketTeammates> packets = new HashMap<>();
+
         for(Player player : Bukkit.getOnlinePlayers()) {
             if(!Lazarus.getInstance().getLunarClientManager().isOnLunarClient(player)) continue;
 
             PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
-            if(faction == null) continue;
 
-            Map<UUID, Map<String, Double>> positions = new HashMap<>();
-
-            faction.getOnlinePlayers().forEach(member -> {
-                UUID uuid = member.getUniqueId();
-                positions.put(uuid, this.positionMap(member.getLocation()));
-            });
-
-            FactionPlayer leader = faction.getLeader();
-            UUID leaderUuid = leader.getPlayer() != null ? leader.getUuid() : null;
-
-            LunarClientAPI.getInstance().sendPacket(player, new LCPacketTeammates(leaderUuid, 2000L, positions));
+            if(faction != null && !packets.containsKey(faction)) {
+                packets.put(faction, this.createTeammatePacket(faction));
+            }
         }
+
+        packets.forEach((faction, packet) -> faction.getOnlinePlayers().forEach(member
+            -> LunarClientAPI.getInstance().sendPacket(member, packet)));
     }
 
     @Override
