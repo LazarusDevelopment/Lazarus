@@ -6,6 +6,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.factions.FactionPlayer;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
+import me.qiooip.lazarus.lunarclient.LunarClientManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -46,12 +47,15 @@ public class TeamViewTask extends BukkitRunnable {
     }
 
     private void sendTeamViewPackets() {
+        LunarClientManager lcManager = Lazarus.getInstance().getLunarClientManager();
+        FactionsManager factionsManager = FactionsManager.getInstance();
+
         Map<PlayerFaction, LCPacketTeammates> packets = new HashMap<>();
 
         for(Player player : Bukkit.getOnlinePlayers()) {
-            if(!Lazarus.getInstance().getLunarClientManager().isOnLunarClient(player)) continue;
+            if(!lcManager.isOnLunarClient(player)) continue;
 
-            PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
+            PlayerFaction faction = factionsManager.getPlayerFaction(player);
 
             if(faction != null && !packets.containsKey(faction)) {
                 packets.put(faction, this.createTeammatePacket(faction));
