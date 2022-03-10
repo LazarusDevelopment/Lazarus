@@ -18,7 +18,7 @@ import java.util.UUID;
 public class TeamViewTask extends BukkitRunnable {
 
     public TeamViewTask() {
-        this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 30L);
+        this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 20L);
     }
 
     private Map<String, Double> positionMap(Location location) {
