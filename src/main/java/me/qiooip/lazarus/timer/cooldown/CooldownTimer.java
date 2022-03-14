@@ -54,7 +54,7 @@ public class CooldownTimer extends PlayerTimer {
     }
 
     private void cancel(UUID uuid, String cooldown) {
-        if(!this.isActive(uuid)) return;
+        if(!this.isActive(uuid, cooldown)) return;
 
         this.cooldowns.remove(uuid, cooldown).cancel(true);
     }
