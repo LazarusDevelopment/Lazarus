@@ -395,6 +395,7 @@ public class Config {
     public static int BOMBER_WARMUP;
 
     public static boolean ARCHER_TAG_CAN_TAG_OTHER_ARCHERS;
+    public static boolean ARCHER_TAG_REQUIRE_FULL_FORCE;
     public static int ARCHER_TAG_DURATION;
     public static double ARCHER_TAG_DAMAGE_MULTIPLIER;
 
@@ -929,6 +930,7 @@ public class Config {
         BOMBER_WARMUP = classes.getInt("BOMBER_CLASS.WARMUP");
 
         ARCHER_TAG_CAN_TAG_OTHER_ARCHERS = classes.getBoolean("ARCHER_CLASS.ARCHER_TAG.CAN_TAG_OTHER_ARCHERS");
+        ARCHER_TAG_REQUIRE_FULL_FORCE = classes.getBoolean("ARCHER_CLASS.ARCHER_TAG.REQUIRE_FULL_FORCE");
         ARCHER_TAG_DURATION = classes.getInt("ARCHER_CLASS.ARCHER_TAG.DURATION");
         ARCHER_TAG_DAMAGE_MULTIPLIER = classes.getDouble("ARCHER_CLASS.ARCHER_TAG.DAMAGE_MULTIPLIER");
 

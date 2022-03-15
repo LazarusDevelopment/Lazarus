@@ -11,6 +11,8 @@ ARCHER_CLASS:
   ARCHER_TAG:
     # Should we allow archers to tag other archers?
     CAN_TAG_OTHER_ARCHERS: false
+    # Should it require full bow force (pullback)?
+    REQUIRE_FULL_FORCE: false
     # Archer tag duration in seconds
     DURATION: 10
     # Archer tag damage multiplier

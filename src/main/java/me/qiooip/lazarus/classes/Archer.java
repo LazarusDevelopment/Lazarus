@@ -1,5 +1,6 @@
 package me.qiooip.lazarus.classes;
 
+import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.classes.items.ClickableItem;
 import me.qiooip.lazarus.classes.manager.PvpClass;
 import me.qiooip.lazarus.classes.manager.PvpClassManager;
@@ -9,9 +10,9 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.scoreboard.ScoreboardManager;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
+import me.qiooip.lazarus.utils.PlayerUtils;
 import me.qiooip.lazarus.utils.StringUtils;
 import org.bukkit.Material;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -21,13 +22,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
 
 public class Archer extends PvpClass implements Listener {
+
+    private final static String ARROW_FORCE_METADATA = "arrowForce";
 
     private final List<ClickableItem> clickables;
 
@@ -53,6 +59,16 @@ public class Archer extends PvpClass implements Listener {
     private ClickableItem getClickableItem(ItemStack item) {
         return this.clickables.stream().filter(clickable -> clickable.getItem().getType() == item.getType()
             && clickable.getItem().getDurability() == item.getDurability()).findFirst().orElse(null);
+    }
+
+    private float getArrowForceMetadataValue(Entity arrow) {
+        List<MetadataValue> metadataValues = arrow.getMetadata(ARROW_FORCE_METADATA);
+
+        if(metadataValues.isEmpty()) {
+            return 0f;
+        } else {
+            return metadataValues.get(0).asFloat();
+        }
     }
 
     private void archerTagPlayer(Player tagger, Player player) {
@@ -98,22 +114,26 @@ public class Archer extends PvpClass implements Listener {
             + Language.ARCHER_COOLDOWN_EXPIRED.replace("<effect>", potionName));
     }
 
+    @EventHandler
+    public void onEntityShootBow(EntityShootBowEvent event) {
+        if(!(event.getEntity() instanceof Player)) return;
+
+        MetadataValue metadata = new FixedMetadataValue(Lazarus.getInstance(), event.getForce());
+        event.getProjectile().setMetadata(ARROW_FORCE_METADATA, metadata);
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if(!(event.getEntity() instanceof Player)) return;
 
-        Entity damagerEntity = event.getDamager();
-        if(!(damagerEntity instanceof Arrow)) return;
-
-        Arrow arrow = (Arrow) damagerEntity;
-        if(!(arrow.getShooter() instanceof Player)) return;
-
-        Player shooter = (Player) arrow.getShooter();
-        if(shooter == event.getEntity()) return;
-        if(!this.isActive(shooter)) return;
+        Player shooter = PlayerUtils.getArrowShooter(event);
+        if(shooter == null || shooter == event.getEntity() || !this.isActive(shooter)) return;
 
         Player player = (Player) event.getEntity();
         if(this.isActive(player) && !Config.ARCHER_TAG_CAN_TAG_OTHER_ARCHERS) return;
+
+        float arrowForce = this.getArrowForceMetadataValue(event.getDamager());
+        if(Config.ARCHER_TAG_REQUIRE_FULL_FORCE && arrowForce < 0.5) return;
 
         this.archerTagPlayer(shooter, player);
     }

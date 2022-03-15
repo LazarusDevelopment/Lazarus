@@ -3,14 +3,16 @@ package me.qiooip.lazarus.utils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import me.qiooip.lazarus.Lazarus;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class PlayerUtils {
 
@@ -21,18 +23,34 @@ public class PlayerUtils {
     }
 
     public static Player getAttacker(EntityDamageByEntityEvent event) {
-        if(event.getDamager() instanceof Player) {
-            return (Player) event.getDamager();
+        Entity damager = event.getDamager();
+
+        if(damager instanceof Player) {
+            return (Player) damager;
         }
 
-        if(event.getDamager() instanceof Projectile) {
-            Projectile projectile = (Projectile) event.getDamager();
-            if(!(projectile.getShooter() instanceof Player)) return null;
+        if(damager instanceof Projectile) {
+            Projectile projectile = (Projectile) damager;
 
-            return (Player) projectile.getShooter();
+            if(projectile.getShooter() instanceof Player) {
+                return (Player) projectile.getShooter();
+            }
         }
 
         return null;
+    }
+
+    public static Player getArrowShooter(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+
+        if(!(damager instanceof Arrow)) {
+            return null;
+        }
+
+        Projectile arrow = (Arrow) damager;
+        ProjectileSource shooter = arrow.getShooter();
+
+        return shooter instanceof Player ? (Player) shooter : null;
     }
 
     public static boolean removeSplashFromInventory(PlayerInventory inventory) {
