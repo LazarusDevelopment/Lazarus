@@ -2,6 +2,8 @@ package me.qiooip.lazarus.factions.commands.player;
 
 import me.qiooip.lazarus.commands.manager.SubCommand;
 import me.qiooip.lazarus.config.Language;
+import me.qiooip.lazarus.factions.Faction;
+import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.handlers.leaderboard.entry.UuidCacheEntry;
 import me.qiooip.lazarus.handlers.leaderboard.type.FactionLeaderboardType;
 import me.qiooip.lazarus.handlers.leaderboard.type.LeaderboardType;
@@ -16,7 +18,7 @@ import java.util.NavigableSet;
 public class TopCommand extends SubCommand {
 
     public TopCommand() {
-        super("top", true);
+        super("top");
 
         this.setExecuteAsync(true);
     }
@@ -53,7 +55,9 @@ public class TopCommand extends SubCommand {
         sender.sendMessage(title);
 
         for(UuidCacheEntry<Integer> entry : leaderboard) {
-            String factionName = entry.getName();
+            Faction faction = FactionsManager.getInstance().getFactionByUuid(entry.getKey());
+
+            String factionName = faction.getName(sender);
             String hoverText = Language.FACTIONS_SHOW_HOVER_TEXT.replace("<faction>", factionName);
 
             ComponentBuilder message = new ComponentBuilder(lineFormat
@@ -61,7 +65,7 @@ public class TopCommand extends SubCommand {
                 .replace("<faction>", factionName)
                 .replace("<value>", String.valueOf(entry.getValue())))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()))
-                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + factionName));
+                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/f show " + faction.getName()));
 
             player.spigot().sendMessage(message.create());
             index++;
@@ -69,6 +73,4 @@ public class TopCommand extends SubCommand {
 
         sender.sendMessage(Language.LEADERBOARDS_COMMAND_FOOTER);
     }
-
-
 }
