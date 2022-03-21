@@ -22,12 +22,13 @@ public class TeleportTimer extends PlayerTimer implements ScoreboardTimer {
         this.setFormat(FormatType.MILLIS_TO_SECONDS);
     }
 
-    public void activate(Player player, Location location) {
-        super.activate(player, () -> Tasks.sync(() -> LocationUtils.teleportWithChunkLoad(player, location)));
+    public void activate(Player player, int delay, Location location) {
+        super.activate(player, delay, () -> Tasks.sync(()
+            -> LocationUtils.teleportWithChunkLoad(player, location)));
     }
 
-    public void activate(Player player, Location location, Callable callable) {
-        super.activate(player, () -> Tasks.sync(() -> {
+    public void activate(Player player, int delay, Location location, Callable callable) {
+        super.activate(player, delay, () -> Tasks.sync(() -> {
             callable.call();
             LocationUtils.teleportWithChunkLoad(player, location);
         }));

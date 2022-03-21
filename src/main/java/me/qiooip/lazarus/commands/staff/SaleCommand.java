@@ -55,7 +55,7 @@ public class SaleCommand extends BaseCommand {
 
     private void startSaleTime(CommandSender sender, String name, String time) {
         SystemTimer timer = name.equalsIgnoreCase("Store") ? TimerManager.getInstance()
-        .getSaleTimer() : TimerManager.getInstance().getKeySaleTimer();
+            .getSaleTimer() : TimerManager.getInstance().getKeySaleTimer();
 
         if(timer.isActive()) {
             sender.sendMessage(Language.PREFIX + Language.SALE_EXCEPTION_ALREADY_RUNNING.replace("<type>", name));
@@ -78,7 +78,7 @@ public class SaleCommand extends BaseCommand {
 
     private void stopSaleTimer(CommandSender sender, String name) {
         SystemTimer timer = name.equalsIgnoreCase("STORE") ? TimerManager.getInstance()
-        .getSaleTimer() : TimerManager.getInstance().getKeySaleTimer();
+            .getSaleTimer() : TimerManager.getInstance().getKeySaleTimer();
 
         if(!timer.isActive()) {
             sender.sendMessage(Language.PREFIX + Language.SALE_EXCEPTION_NOT_RUNNING.replace("<type>", name));

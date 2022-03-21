@@ -56,9 +56,9 @@ public class SpawnTeleportHandler extends Handler implements Listener {
         }
 
         if(callable == null) {
-            timer.activate(player, spawn);
+            timer.activate(player, delay, spawn);
         } else {
-            timer.activate(player, spawn, callable);
+            timer.activate(player, delay, spawn, callable);
         }
 
         player.sendMessage(Language.PREFIX + Language.SPAWN_TELEPORT_STARTED
