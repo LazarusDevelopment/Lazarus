@@ -24,8 +24,8 @@ public class MobStackHandler extends Handler implements Listener {
 
     @Override
     public void disable() {
-        Bukkit.getWorlds().forEach(world -> world.getLivingEntities().stream().filter(entity ->
-        entity instanceof Monster && entity.isCustomNameVisible()).forEach(LivingEntity::remove));
+        Bukkit.getWorlds().forEach(world -> world.getLivingEntities().stream().filter(entity
+            -> entity instanceof Monster && entity.isCustomNameVisible()).forEach(LivingEntity::remove));
     }
 
     private void unstackEntity(LivingEntity entity) {

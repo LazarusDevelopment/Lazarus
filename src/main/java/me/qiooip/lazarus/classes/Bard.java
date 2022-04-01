@@ -38,6 +38,7 @@ import java.util.UUID;
 public class Bard extends PvpClass {
 
     public static final String COOLDOWN_KEY = "BARD_BUFF";
+    public static final long HOLDABLE_ITEM_COOLDOWN = 2000L;
 
     @Getter private final Map<UUID, BardPower> bardPowers;
     private final List<BardClickableItem> clickables;
@@ -227,7 +228,8 @@ public class Bard extends PvpClass {
     }
 
     private void applyHoldableItemCooldown(Player player) {
-        this.holdableItemCooldown.put(player.getUniqueId(), System.currentTimeMillis() + 1000L);
+        long time = System.currentTimeMillis() + HOLDABLE_ITEM_COOLDOWN;
+        this.holdableItemCooldown.put(player.getUniqueId(), time);
     }
 
     @Override

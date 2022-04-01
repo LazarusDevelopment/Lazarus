@@ -30,6 +30,7 @@ import me.qiooip.lazarus.games.koth.event.KothStopEvent;
 import me.qiooip.lazarus.handlers.event.ExitSetEvent;
 import me.qiooip.lazarus.handlers.event.SpawnSetEvent;
 import me.qiooip.lazarus.utils.Color;
+import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
@@ -121,9 +122,11 @@ public class WaypointManager implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFactionPlayerUnfocused(FactionUnfocusedEvent event) {
-        for(Player player : event.getFaction().getOnlinePlayers()) {
-            this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
-        }
+        Tasks.sync(() -> {
+            for(Player player : event.getFaction().getOnlinePlayers()) {
+                this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
+            }
+        });
     }
 
     @EventHandler
