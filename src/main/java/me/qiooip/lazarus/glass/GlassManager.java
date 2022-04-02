@@ -1,7 +1,5 @@
 package me.qiooip.lazarus.glass;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
@@ -27,10 +25,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 
 public class GlassManager implements Listener, ManagerEnabler {
@@ -41,14 +39,11 @@ public class GlassManager implements Listener, ManagerEnabler {
     private ScheduledThreadPoolExecutor executor;
     private ScheduledFuture<?> updater;
 
-    private final Table<UUID, Location, GlassInfo> glassCache;
-    private final ReentrantLock lock;
-
+    private final Map<UUID, Map<Location, GlassInfo>> glassCache;
     private final Set<Material> overriddenBlocks;
 
     public GlassManager() {
-        this.glassCache = HashBasedTable.create();
-        this.lock = new ReentrantLock();
+        this.glassCache = new ConcurrentHashMap<>();
 
         this.overriddenBlocks = EnumSet.of(Material.AIR, Material.LONG_GRASS, Material.DOUBLE_PLANT,
             Material.YELLOW_FLOWER, Material.RED_ROSE, Material.VINE);
@@ -71,31 +66,41 @@ public class GlassManager implements Listener, ManagerEnabler {
         if(this.executor != null) this.executor.shutdownNow();
     }
 
+    private void addGlassInfo(Player player, GlassInfo info) {
+        this.glassCache.computeIfAbsent(player.getUniqueId(),
+            t -> new ConcurrentHashMap<>()).put(info.getLocation(), info);
+    }
+
+    private void clearGlassInfoForPlayer(Player player) {
+        this.glassCache.remove(player.getUniqueId());
+    }
+
+    private Map<Location, GlassInfo> getGlassInfoForPlayer(Player player) {
+        return this.glassCache.get(player.getUniqueId());
+    }
+
     public GlassInfo getGlassAt(Player player, Location location) {
-        return this.glassCache.get(player.getUniqueId(), location);
+        Map<Location, GlassInfo> glassInfo = this.glassCache.get(player.getUniqueId());
+        return glassInfo != null ? glassInfo.get(location) : null;
     }
 
     public void generateGlassVisual(Player player, GlassInfo info) {
-        if(this.glassCache.contains(player.getUniqueId(), info.getLocation())) return;
+        if(this.getGlassAt(player, info.getLocation()) != null) return;
 
-        int x = info.getLocation().getBlockX() >> 4;
-        int z = info.getLocation().getBlockZ() >> 4;
+        Location location = info.getLocation();
+        int x = location.getBlockX() >> 4;
+        int z = location.getBlockZ() >> 4;
 
-        if(!info.getLocation().getWorld().isChunkLoaded(x, z)) return;
+        if(!location.getWorld().isChunkLoaded(x, z)) return;
 
-        info.getLocation().getWorld().getChunkAtAsync(x, z, (chunk) -> {
-            Material material = info.getLocation().getBlock().getType();
+        UUID uuid = player.getUniqueId();
+
+        location.getWorld().getChunkAtAsync(x, z, (chunk) -> {
+            Material material = location.getBlock().getType();
             if(!this.overriddenBlocks.contains(material)) return;
 
-            player.sendBlockChange(info.getLocation(), info.getMaterial(), info.getData());
-
-            this.lock.lock();
-
-            try {
-                this.glassCache.put(player.getUniqueId(), info.getLocation(), info);
-            } finally {
-                this.lock.unlock();
-            }
+            player.sendBlockChange(location, info.getMaterial(), info.getData());
+            this.addGlassInfo(player, info);
         });
     }
 
@@ -108,27 +113,24 @@ public class GlassManager implements Listener, ManagerEnabler {
     }
 
     private void clearGlassVisuals(Player player, Predicate<GlassInfo> predicate) {
-        this.lock.lock();
+        Map<Location, GlassInfo> glassInfo = this.getGlassInfoForPlayer(player);
+        if(glassInfo == null) return;
 
-        try {
-            Iterator<Entry<Location, GlassInfo>> iterator = this.glassCache.row(player.getUniqueId()).entrySet().iterator();
+        Iterator<Entry<Location, GlassInfo>> iterator = glassInfo.entrySet().iterator();
 
-            while(iterator.hasNext()) {
-                Entry<Location, GlassInfo> entry = iterator.next();
-                if(!predicate.test(entry.getValue())) continue;
+        while(iterator.hasNext()) {
+            Entry<Location, GlassInfo> entry = iterator.next();
+            if(!predicate.test(entry.getValue())) continue;
 
-                Location location = entry.getKey();
+            Location location = entry.getKey();
 
-                if(!location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
-                    iterator.remove();
-                    continue;
-                }
-
-                player.sendBlockChange(entry.getKey(), location.getBlock().getType(), location.getBlock().getData());
+            if(!location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
                 iterator.remove();
+                continue;
             }
-        } finally {
-            this.lock.unlock();
+
+            player.sendBlockChange(entry.getKey(), location.getBlock().getType(), location.getBlock().getData());
+            iterator.remove();
         }
     }
 
@@ -188,15 +190,7 @@ public class GlassManager implements Listener, ManagerEnabler {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-
-        this.lock.lock();
-
-        try {
-            this.glassCache.row(player.getUniqueId()).clear();
-        } finally {
-            this.lock.unlock();
-        }
+        Tasks.async(() -> this.clearGlassInfoForPlayer(event.getPlayer()));
     }
 
     public enum GlassType {
