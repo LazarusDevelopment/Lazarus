@@ -190,7 +190,7 @@ public class GlassManager implements Listener, ManagerEnabler {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Tasks.async(() -> this.clearGlassInfoForPlayer(event.getPlayer()));
+        this.clearGlassInfoForPlayer(event.getPlayer());
     }
 
     public enum GlassType {
