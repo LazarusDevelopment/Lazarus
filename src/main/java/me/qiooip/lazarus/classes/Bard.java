@@ -38,7 +38,7 @@ import java.util.UUID;
 public class Bard extends PvpClass {
 
     public static final String COOLDOWN_KEY = "BARD_BUFF";
-    public static final long HOLDABLE_ITEM_COOLDOWN = 2000L;
+    public static final long HOLDABLE_ITEM_COOLDOWN = 1000L;
 
     @Getter private final Map<UUID, BardPower> bardPowers;
     private final List<BardClickableItem> clickables;
