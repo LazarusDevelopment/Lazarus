@@ -128,6 +128,9 @@ public class PvpClassManager implements Listener, ManagerEnabler {
 
         PotionEffect effect = NmsUtils.getInstance().getPotionEffect(player, toAdd.getType());
 
+        int threshold = toAdd.getDuration() - 50;
+        if(effect.getDuration() > threshold) return;
+
         if(toAdd.getAmplifier() < effect.getAmplifier()) return;
         if(toAdd.getAmplifier() == effect.getAmplifier() && toAdd.getDuration() < effect.getDuration()) return;
 

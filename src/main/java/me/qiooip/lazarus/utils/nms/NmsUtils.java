@@ -90,6 +90,8 @@ public abstract class NmsUtils {
 
     public abstract ItemStack createMobSpawnerItemStack(EntityType spawnerType, String name);
 
+    public abstract int getPotionEffectDuration(Player player, PotionEffectType type);
+
     public abstract PotionEffect getPotionEffect(Player player, PotionEffectType type);
 
     public abstract void addPotionEffect(Player player, PotionEffect effect);

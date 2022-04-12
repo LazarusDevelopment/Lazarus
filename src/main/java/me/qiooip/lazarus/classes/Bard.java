@@ -28,6 +28,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -38,14 +39,12 @@ import java.util.UUID;
 public class Bard extends PvpClass {
 
     public static final String COOLDOWN_KEY = "BARD_BUFF";
-    public static final long HOLDABLE_ITEM_COOLDOWN = 1000L;
 
     @Getter private final Map<UUID, BardPower> bardPowers;
     private final List<BardClickableItem> clickables;
     private final List<BardHoldableItem> holdables;
 
     private final Map<UUID, Long> messageDelays;
-    private final Map<UUID, Long> holdableItemCooldown;
     private final BardHoldableTask holdableTask;
 
     public Bard(PvpClassManager manager) {
@@ -63,7 +62,6 @@ public class Bard extends PvpClass {
         this.holdables = PvpClassUtils.loadBardHoldableItems();
 
         this.messageDelays = new HashMap<>();
-        this.holdableItemCooldown = new HashMap<>();
         this.holdableTask = new BardHoldableTask();
     }
 
@@ -76,7 +74,6 @@ public class Bard extends PvpClass {
         this.holdables.clear();
 
         this.messageDelays.clear();
-        this.holdableItemCooldown.clear();
         this.holdableTask.cancel();
     }
 
@@ -103,10 +100,12 @@ public class Bard extends PvpClass {
     }
 
     private void applyHoldableEffect(Player player, PlayerFaction faction, BardHoldableItem item) {
+        PotionEffect effect = item.getPotionEffect();
+
         if(faction == null) {
             if(!item.isCanBardHimself()) return;
 
-            this.getManager().addPotionEffect(player, item.getPotionEffect());
+            this.getManager().addPotionEffect(player, effect);
             return;
         }
 
@@ -114,7 +113,7 @@ public class Bard extends PvpClass {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
             if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
 
-            this.getManager().addPotionEffect(member, item.getPotionEffect());
+            this.getManager().addPotionEffect(member, effect);
         }
     }
 
@@ -222,16 +221,6 @@ public class Bard extends PvpClass {
         this.messageDelays.remove(player.getUniqueId());
     }
 
-    private boolean isOnHoldableItemCooldown(Player player) {
-        Long cooldown = this.holdableItemCooldown.get(player.getUniqueId());
-        return cooldown != null && cooldown > System.currentTimeMillis();
-    }
-
-    private void applyHoldableItemCooldown(Player player) {
-        long time = System.currentTimeMillis() + HOLDABLE_ITEM_COOLDOWN;
-        this.holdableItemCooldown.put(player.getUniqueId(), time);
-    }
-
     @Override
     public void applyActiveScoreboardLines(Player player, PlayerScoreboard scoreboard) {
         super.applyActiveScoreboardLines(player, scoreboard);
@@ -247,15 +236,13 @@ public class Bard extends PvpClass {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
-        if(!this.isActive(player) || this.isOnHoldableItemCooldown(player)) return;
+        if(!this.isActive(player)) return;
 
         BardHoldableItem holdableItem = this.getHoldableItem(player.getItemInHand());
         if(holdableItem == null || !this.canBard(player, true)) return;
 
         PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
-
         this.applyHoldableEffect(player, faction, holdableItem);
-        this.applyHoldableItemCooldown(player);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

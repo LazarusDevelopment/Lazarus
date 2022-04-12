@@ -337,6 +337,14 @@ public class NmsUtils_1_7 extends NmsUtils implements Listener {
     }
 
     @Override
+    public int getPotionEffectDuration(Player player, PotionEffectType type) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[type.getId()]);
+
+        return nmsEffect != null ? nmsEffect.getDuration() : -1;
+    }
+
+    @Override
     public PotionEffect getPotionEffect(Player player, PotionEffectType type) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         MobEffect nmsEffect = entityPlayer.getEffect(MobEffectList.byId[type.getId()]);
