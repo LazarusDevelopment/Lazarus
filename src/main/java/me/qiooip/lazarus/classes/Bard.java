@@ -17,6 +17,7 @@ import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.item.ItemUtils;
+import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -99,11 +100,18 @@ public class Bard extends PvpClass {
         this.bardPowers.get(player.getUniqueId()).withdrawPower(amount);
     }
 
+    private boolean isOnHoldableDelay(Player player, PotionEffect toAdd) {
+        PotionEffect effect = NmsUtils.getInstance().getPotionEffect(player, toAdd.getType());
+
+        int threshold = toAdd.getDuration() - 50;
+        return effect.getDuration() > threshold;
+    }
+
     private void applyHoldableEffect(Player player, PlayerFaction faction, BardHoldableItem item) {
         PotionEffect effect = item.getPotionEffect();
 
         if(faction == null) {
-            if(!item.isCanBardHimself()) return;
+            if(!item.isCanBardHimself() || this.isOnHoldableDelay(player, effect)) return;
 
             this.getManager().addPotionEffect(player, effect);
             return;
@@ -111,9 +119,11 @@ public class Bard extends PvpClass {
 
         for(Player member : faction.getOnlinePlayers()) {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
-            if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
+            if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistance()) continue;
 
-            this.getManager().addPotionEffect(member, effect);
+            if(!this.isOnHoldableDelay(player, effect)) {
+                this.getManager().addPotionEffect(member, effect);
+            }
         }
     }
 
@@ -151,7 +161,7 @@ public class Bard extends PvpClass {
 
                 for(Player member : faction.getOnlinePlayers()) {
                     if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
-                    if(player.getLocation().distance(member.getLocation()) > item.getDistance()) continue;
+                    if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistance()) continue;
 
                     this.getManager().addPotionEffect(member, item.getPotionEffect());
 

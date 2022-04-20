@@ -79,7 +79,7 @@ public class CustomSpigotListener implements Listener {
         if(block.getType() == Material.AIR && block.getRelative(BlockFace.UP).getType() != Material.AIR && block.getRelative(BlockFace.DOWN).getType() != Material.AIR) {
             cancel = true;
         } else if(this.materials.contains(block.getType())) {
-            if(player.getLocation().getBlock().getLocation().distance(block.getLocation()) < 1.5) {
+            if(player.getLocation().getBlock().getLocation().distanceSquared(block.getLocation()) < 2.25) {
                 cancel = true;
             } else if(block.getRelative(BlockFace.UP).getType() != Material.AIR && block.getRelative(BlockFace.UP).getType().isSolid()) {
                 cancel = true;

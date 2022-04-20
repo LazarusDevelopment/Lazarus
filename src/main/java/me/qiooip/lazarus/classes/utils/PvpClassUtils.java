@@ -135,9 +135,11 @@ public class PvpClassUtils {
             bardItem.setCooldown(0);
             bardItem.setItem(itemStack);
             bardItem.setCanBardHimself(potionSection.getBoolean(potion + ".CAN_BARD_HIMSELF"));
-            bardItem.setDistance(potionSection.getInt(potion + ".DISTANCE"));
             bardItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
                 .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+
+            int distance = potionSection.getInt(potion + ".DISTANCE");
+            bardItem.setDistance(distance * distance);
 
             bardItems.add(bardItem);
         });

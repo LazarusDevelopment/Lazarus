@@ -325,7 +325,8 @@ public class FactionsManager implements Listener {
     }
 
     public boolean hasExceededStuckLimit(Player player) {
-        return this.stuckInit.get(player.getUniqueId()).distance(player.getLocation()) > Config.FACTION_STUCK_ALLOWED_MOVEMENT_RADIUS;
+        Location last = this.stuckInit.get(player.getUniqueId());
+        return last.distanceSquared(player.getLocation()) > Config.FACTION_STUCK_ALLOWED_MOVEMENT_RADIUS;
     }
 
     public boolean joinFaction(Player player, PlayerFaction faction) {

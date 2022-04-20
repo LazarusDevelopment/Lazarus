@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SwitcherAbility extends AbilityItem implements Listener {
 
     private int maxDistance;
+    private int maxDistanceSquared;
     private boolean switchWithTeammates;
     private boolean switchWithAllies;
 
@@ -45,6 +46,7 @@ public class SwitcherAbility extends AbilityItem implements Listener {
     @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
         this.maxDistance = abilitySection.getInt("MAX_DISTANCE");
+        this.maxDistanceSquared = this.maxDistance * this.maxDistance;
         this.switchWithTeammates = abilitySection.getBoolean("SWITCH_WITH_TEAMMATES");
         this.switchWithAllies = abilitySection.getBoolean("SWITCH_WITH_ALLIES");
     }
@@ -111,7 +113,7 @@ public class SwitcherAbility extends AbilityItem implements Listener {
     }
 
     private boolean isSwitchAllowed(Player shooter, Player target) {
-        if(shooter.getLocation().distance(target.getLocation()) > this.maxDistance) {
+        if(shooter.getLocation().distanceSquared(target.getLocation()) > this.maxDistanceSquared) {
             shooter.sendMessage(Language.ABILITIES_PREFIX + Language.ABILITIES_SWITCHER_SWITCH_DENIED_DISTANCE_TOO_FAR);
             return false;
         }

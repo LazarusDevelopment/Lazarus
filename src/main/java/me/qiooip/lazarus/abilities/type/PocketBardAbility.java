@@ -33,7 +33,9 @@ public class PocketBardAbility extends AbilityItem {
 
     @Override
     protected void loadAdditionalData(ConfigurationSection abilitySection) {
-        this.distance = abilitySection.getInt("DISTANCE");
+        int distance = abilitySection.getInt("DISTANCE");
+        this.distance = distance * distance;
+
         this.effects = AbilityUtils.loadEffects(abilitySection);
     }
 
@@ -54,7 +56,8 @@ public class PocketBardAbility extends AbilityItem {
             this.addEffects(player, this.effects);
         } else {
             for(Player member : playerFaction.getOnlinePlayers()) {
-                if(player.getWorld() != member.getWorld() || player.getLocation().distance(member.getLocation()) > this.distance) continue;
+                if(player.getWorld() != member.getWorld()) continue;
+                if(player.getLocation().distanceSquared(member.getLocation()) > this.distance) continue;
 
                 this.addEffects(member, this.effects);
 
