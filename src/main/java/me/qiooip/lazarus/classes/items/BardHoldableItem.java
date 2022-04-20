@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class BardHoldableItem extends ClickableItem {
 
-    private int distance;
+    private int distanceSquared;
     private boolean canBardHimself;
 }

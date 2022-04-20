@@ -119,7 +119,7 @@ public class Bard extends PvpClass {
 
         for(Player member : faction.getOnlinePlayers()) {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
-            if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistance()) continue;
+            if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistanceSquared()) continue;
 
             if(!this.isOnHoldableDelay(player, effect)) {
                 this.getManager().addPotionEffect(member, effect);
@@ -132,7 +132,7 @@ public class Bard extends PvpClass {
             this.getManager().addPotionEffect(player, item.getPotionEffect());
             int amountOfEnemies = 0;
 
-            for(Entity nearby : player.getNearbyEntities(item.getDistance(), item.getDistance(), item.getDistance())) {
+            for(Entity nearby : player.getNearbyEntities(item.getDistanceSquared(), item.getDistanceSquared(), item.getDistanceSquared())) {
                 if(!(nearby instanceof Player)) continue;
 
                 Player enemy = (Player) nearby;
@@ -161,7 +161,7 @@ public class Bard extends PvpClass {
 
                 for(Player member : faction.getOnlinePlayers()) {
                     if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
-                    if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistance()) continue;
+                    if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistanceSquared()) continue;
 
                     this.getManager().addPotionEffect(member, item.getPotionEffect());
 

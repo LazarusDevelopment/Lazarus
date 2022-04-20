@@ -8,7 +8,7 @@ import lombok.Setter;
 public class BardClickableItem extends ClickableItem {
 
     private int energyNeeded;
-    private int distance;
+    private int distanceSquared;
     private int cooldown;
     private boolean canBardHimself;
     private boolean applyToEnemy;

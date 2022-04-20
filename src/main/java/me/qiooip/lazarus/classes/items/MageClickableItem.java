@@ -8,7 +8,7 @@ import lombok.Setter;
 public class MageClickableItem extends ClickableItem {
 
     private int energyNeeded;
-    private int distance;
+    private int distanceSquared;
     private int cooldown;
     private boolean applyToHimself;
     private String chatColor;

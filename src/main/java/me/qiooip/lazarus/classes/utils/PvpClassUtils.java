@@ -75,13 +75,15 @@ public class PvpClassUtils {
 
             mageItem.setCooldown(0);
             mageItem.setItem(itemStack);
-            mageItem.setDistance(potionSection.getInt(potion + ".DISTANCE"));
             mageItem.setCooldown(potionSection.getInt(potion + ".COOLDOWN"));
             mageItem.setApplyToHimself(potionSection.getBoolean(potion + ".APPLY_TO_HIMSELF"));
             mageItem.setEnergyNeeded(potionSection.getInt(potion + ".ENERGY_NEEDED"));
             mageItem.setChatColor(Color.translate(potionSection.getString(potion + ".CHAT_COLOR", "&b")));
             mageItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
                 .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+
+            int distance = potionSection.getInt(potion + ".DISTANCE");
+            mageItem.setDistanceSquared(distance * distance);
 
             bardItems.add(mageItem);
         });
@@ -105,13 +107,15 @@ public class PvpClassUtils {
             bardItem.setCooldown(0);
             bardItem.setItem(itemStack);
             bardItem.setApplyToEnemy(potionSection.getBoolean(potion + ".APPLY_TO_ENEMY"));
-            bardItem.setDistance(potionSection.getInt(potion + ".DISTANCE"));
             bardItem.setCooldown(potionSection.getInt(potion + ".COOLDOWN"));
             bardItem.setCanBardHimself(potionSection.getBoolean(potion + ".CAN_BARD_HIMSELF"));
             bardItem.setEnergyNeeded(potionSection.getInt(potion + ".ENERGY_NEEDED"));
             bardItem.setChatColor(Color.translate(potionSection.getString(potion + ".CHAT_COLOR", "&b")));
             bardItem.setPotionEffect(new PotionEffect(PotionEffectType.getByName(potion), potionSection
                 .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
+
+            int distance = potionSection.getInt(potion + ".DISTANCE");
+            bardItem.setDistanceSquared(distance * distance);
 
             bardItems.add(bardItem);
         });
@@ -139,7 +143,7 @@ public class PvpClassUtils {
                 .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 
             int distance = potionSection.getInt(potion + ".DISTANCE");
-            bardItem.setDistance(distance * distance);
+            bardItem.setDistanceSquared(distance * distance);
 
             bardItems.add(bardItem);
         });
