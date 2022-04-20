@@ -102,6 +102,7 @@ public class Bard extends PvpClass {
 
     private boolean isOnHoldableDelay(Player player, PotionEffect toAdd) {
         PotionEffect effect = NmsUtils.getInstance().getPotionEffect(player, toAdd.getType());
+        if(effect == null) return false;
 
         int threshold = toAdd.getDuration() - 50;
         return effect.getDuration() > threshold;

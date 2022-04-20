@@ -15,6 +15,7 @@ import me.qiooip.lazarus.integration.spigot.DefaultSpigotListener;
 import me.qiooip.lazarus.timer.TimerManager;
 import me.qiooip.lazarus.timer.cooldown.CooldownTimer;
 import me.qiooip.lazarus.userdata.Userdata;
+import me.qiooip.lazarus.userdata.UserdataManager;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.PlayerUtils;
@@ -256,15 +257,18 @@ public class DynamicEventHandler extends Handler implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        UserdataManager manager = Lazarus.getInstance().getUserdataManager();
+
         Player player = event.getEntity();
-        Userdata userdata = Lazarus.getInstance().getUserdataManager().getUserdata(player);
+        Userdata userdata = manager.getUserdata(player);
 
         userdata.setLastLocation(player.getLocation());
         userdata.updateDeathStats(event.getDeathMessage());
 
-        if(player.getKiller() != null && player.getKiller().isOnline()) {
-            Lazarus.getInstance().getUserdataManager()
-                .getUserdata(player.getKiller()).updateKillStats(event.getDeathMessage());
+        Player killer = player.getKiller();
+
+        if(killer != null && player != killer && killer.isOnline()) {
+            manager.getUserdata(killer).updateKillStats(event.getDeathMessage());
         }
 
         if(Config.LIGHTNING_EFFECT_ON_DEATH) {
