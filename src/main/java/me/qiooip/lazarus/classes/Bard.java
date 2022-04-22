@@ -122,7 +122,7 @@ public class Bard extends PvpClass {
             if(player.getWorld() != member.getWorld() || (!item.isCanBardHimself() && player == member)) continue;
             if(player.getLocation().distanceSquared(member.getLocation()) > item.getDistanceSquared()) continue;
 
-            if(!this.isOnHoldableDelay(player, effect)) {
+            if(!this.isOnHoldableDelay(member, effect)) {
                 this.getManager().addPotionEffect(member, effect);
             }
         }
