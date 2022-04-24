@@ -48,12 +48,20 @@ public class PortalHandler extends Handler implements Listener {
         World fromWorld = event.getFrom().getWorld();
         World toWorld = event.getTo().getWorld();
 
-        if(fromWorld.getEnvironment() == Environment.NORMAL && event.getCause() == TeleportCause.END_PORTAL) {
+        Environment environment = fromWorld.getEnvironment();
+        TeleportCause cause = event.getCause();
+
+        if(environment == Environment.NORMAL && cause == TeleportCause.END_PORTAL) {
 
             Location spawn = Config.WORLD_SPAWNS.get(Environment.THE_END);
             event.setTo(spawn == null ? toWorld.getSpawnLocation() : spawn);
 
-        } else if(fromWorld.getEnvironment() == Environment.NETHER && event.getCause() == TeleportCause.NETHER_PORTAL) {
+        } else if(environment == Environment.THE_END && cause == TeleportCause.END_PORTAL) {
+
+            Location exit = Config.WORLD_EXITS.get(Environment.THE_END);
+            event.setTo(exit == null ? toWorld.getSpawnLocation() : exit);
+
+        } else if(environment == Environment.NETHER && cause == TeleportCause.NETHER_PORTAL) {
 
             Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getFrom());
             if(!(factionAt instanceof SpawnFaction)) return;
@@ -63,11 +71,15 @@ public class PortalHandler extends Handler implements Listener {
             Location exit = Config.WORLD_EXITS.get(Environment.NETHER);
             event.setTo(exit == null ? toWorld.getSpawnLocation() : exit);
 
-        } else if(fromWorld.getEnvironment() == Environment.THE_END && event.getCause() == TeleportCause.END_PORTAL) {
+        } else if(environment == Environment.NORMAL && cause == TeleportCause.NETHER_PORTAL) {
 
-            Location exit = Config.WORLD_EXITS.get(Environment.THE_END);
-            event.setTo(exit == null ? toWorld.getSpawnLocation() : exit);
+            Faction factionAt = ClaimManager.getInstance().getFactionAt(event.getFrom());
+            if(!(factionAt instanceof SpawnFaction)) return;
 
+            event.useTravelAgent(false);
+
+            Location spawn = Config.WORLD_SPAWNS.get(Environment.NETHER);
+            event.setTo(spawn == null ? toWorld.getSpawnLocation() : spawn);
         }
     }
 }
