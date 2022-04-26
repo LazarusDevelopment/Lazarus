@@ -52,17 +52,18 @@ public class KillstreakHandler extends Handler implements Listener {
         if(commands == null) return;
 
         commands.forEach(command -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-        command.replace("<player>", killer.getName())));
+            command.replace("<player>", killer.getName())));
 
-        Messages.sendMessage(Language.KITMAP_KILLSTREAK_MESSAGE.replace("<player>", killer
-            .getName()).replace("<amount>", String.valueOf(killerUserdata.getKillstreak())));
+        Messages.sendMessage(Language.KITMAP_KILLSTREAK_MESSAGE
+            .replace("<player>", killer.getName())
+            .replace("<amount>", String.valueOf(killerUserdata.getKillstreak())));
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if(!Config.KITMAP_MODE_ENABLED || !Config.KITMAP_KILLSTREAK_ENABLED) return;
-        Player victim = event.getEntity();
 
+        Player victim = event.getEntity();
         int killstreak = Lazarus.getInstance().getUserdataManager().getUserdata(victim).resetKillstreak();
 
         if(killstreak > 0) {
@@ -70,8 +71,10 @@ public class KillstreakHandler extends Handler implements Listener {
                 .replace("<amount>", String.valueOf(killstreak)));
         }
 
-        if(event.getEntity().getKiller() != null) {
-            this.checkKillerKillstreak(event.getEntity().getKiller());
+        Player killer = victim.getKiller();
+
+        if(killer != null && victim != killer) {
+            this.checkKillerKillstreak(killer);
         }
     }
 }

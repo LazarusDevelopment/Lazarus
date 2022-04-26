@@ -95,9 +95,9 @@ public class StattrakHandler extends Handler implements Listener {
     @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        Player killer = player.getKiller();
 
-        if(player == killer || killer == null) return;
+        Player killer = player.getKiller();
+        if(killer == null || player == killer) return;
 
         ItemStack item = killer.getItemInHand();
         if(item == null || item.getType() == Material.AIR) return;

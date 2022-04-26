@@ -32,8 +32,9 @@ public class HeadDropHandler extends Handler implements Listener {
         Location location = player.getLocation();
         String skullName = Config.HEAD_DROP_NAME_FORMAT.replace("<player>", player.getName());
 
-        ItemStack skullDrop = new ItemBuilder(Material.SKULL_ITEM, 1, 3).setName(skullName)
-        .setSkullOwner(player.getName()).build();
+        ItemStack skullDrop = new ItemBuilder(Material.SKULL_ITEM, 1, 3)
+            .setName(skullName)
+            .setSkullOwner(player.getName()).build();
 
         location.getWorld().dropItemNaturally(location, skullDrop);
     }

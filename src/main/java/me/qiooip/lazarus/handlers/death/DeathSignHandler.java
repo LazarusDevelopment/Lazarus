@@ -64,9 +64,9 @@ public class DeathSignHandler extends Handler implements Listener {
         Player player = event.getEntity();
         Player killer = player.getKiller();
 
-        if((killer == null) || (killer == player)) return;
-
-        event.getDrops().add(this.getDeathSign(player, killer));
+        if(killer != null && killer != player) {
+            event.getDrops().add(this.getDeathSign(player, killer));
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

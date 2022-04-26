@@ -208,14 +208,15 @@ public class SotwHandler extends Handler implements Listener {
         if(killer == null) return;
 
         Location location = event.getEntity().getLocation();
+        List<ItemStack> drops = event.getDrops();
 
         if(killer.getInventory().firstEmpty() == -1) {
-            event.getDrops().forEach(drop -> location.getWorld().dropItemNaturally(location, drop));
+            drops.forEach(drop -> location.getWorld().dropItemNaturally(location, drop));
         } else {
-            event.getDrops().forEach(drop -> killer.getInventory().addItem(drop));
+            drops.forEach(drop -> killer.getInventory().addItem(drop));
         }
 
-        event.getDrops().clear();
+        drops.clear();
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

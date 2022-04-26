@@ -244,12 +244,15 @@ public class PlayerEventListener implements Listener {
             TimerManager.getInstance().getStuckTimer().cancel(victim);
         }
 
-        if(victim.getKiller() != null) {
-            PlayerFaction killerFaction = FactionsManager.getInstance().getPlayerFaction(victim.getKiller());
-            if(killerFaction == null) return;
+        Player killer = victim.getKiller();
 
-            killerFaction.addKill();
-            killerFaction.incrementPoints(Config.FACTION_TOP_KILL);
+        if(killer != null && victim != killer) {
+            PlayerFaction killerFaction = FactionsManager.getInstance().getPlayerFaction(killer);
+
+            if(killerFaction != null) {
+                killerFaction.addKill();
+                killerFaction.incrementPoints(Config.FACTION_TOP_KILL);
+            }
         }
     }
 

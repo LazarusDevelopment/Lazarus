@@ -4,6 +4,7 @@ import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.handlers.manager.Handler;
 import me.qiooip.lazarus.userdata.Userdata;
+import me.qiooip.lazarus.userdata.UserdataManager;
 import me.qiooip.lazarus.utils.StringUtils;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
@@ -30,11 +31,15 @@ public class DeathMessageHandler extends Handler implements Listener {
         String deathMessage = this.getDeathMessage(player);
         event.setDeathMessage(deathMessage);
 
-        Bukkit.getOnlinePlayers().forEach(online -> {
-            if(player != online && player.getKiller() != online && !Lazarus.getInstance()
-            .getUserdataManager().getUserdata(online).getSettings().isDeathMessages()) return;
+        UserdataManager userdataManager = Lazarus.getInstance().getUserdataManager();
 
-            online.sendMessage(deathMessage);
+        Bukkit.getOnlinePlayers().forEach(online -> {
+            Userdata userdata = userdataManager.getUserdata(online);
+            boolean deathMessages = userdata.getSettings().isDeathMessages();
+
+            if(player == online || player.getKiller() == online || deathMessages) {
+                online.sendMessage(deathMessage);
+            }
         });
     }
 

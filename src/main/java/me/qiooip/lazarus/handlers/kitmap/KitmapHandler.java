@@ -53,10 +53,11 @@ public class KitmapHandler extends Handler implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if(event.getEntity().getKiller() == null || !Config.KITMAP_KILL_REWARD_ENABLED) return;
+        Player killer = event.getEntity().getKiller();
+        if(killer == null || !Config.KITMAP_KILL_REWARD_ENABLED) return;
 
-        Config.KITMAP_KILL_REWARD.forEach(command -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            command.replace("<player>", event.getEntity().getKiller().getName())));
+        Config.KITMAP_KILL_REWARD.forEach(command -> Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(), command.replace("<player>", killer.getName())));
     }
 
     @EventHandler

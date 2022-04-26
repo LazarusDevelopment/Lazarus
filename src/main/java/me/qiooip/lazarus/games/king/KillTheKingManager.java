@@ -123,8 +123,9 @@ public class KillTheKingManager implements Listener, ManagerEnabler {
     public void onKingKilled(KingKilledEvent event) {
         this.handleReward(event.getKiller());
 
-        Language.KING_KING_SLAIN.forEach(line -> Messages.sendMessage(line.replace("<king>",
-        event.getKing().getName()).replace("<killer>", event.getKiller().getName())));
+        Language.KING_KING_SLAIN.forEach(line -> Messages.sendMessage(line
+            .replace("<king>", event.getKing().getName())
+            .replace("<killer>", event.getKiller().getName())));
     }
 
     @EventHandler
