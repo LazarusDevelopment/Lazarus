@@ -7,18 +7,21 @@ import me.qiooip.lazarus.config.Language;
 import me.qiooip.lazarus.games.Placeholder;
 import me.qiooip.lazarus.games.loot.LootData;
 import me.qiooip.lazarus.utils.LocationUtils;
-import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.ManagerEnabler;
+import me.qiooip.lazarus.utils.Messages;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.PortalType;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCreatePortalEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class EnderDragonManager implements Listener, ManagerEnabler {
 
@@ -27,7 +30,7 @@ public class EnderDragonManager implements Listener, ManagerEnabler {
 
     public EnderDragonManager() {
         this.spawnLocation = LocationUtils.stringToLocation(Lazarus.getInstance()
-        .getUtilitiesFile().getString("ENDER_DRAGON_SPAWN"));
+            .getUtilitiesFile().getString("ENDER_DRAGON_SPAWN"));
 
         NmsUtils.getInstance().registerEnderDragon();
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
@@ -91,5 +94,20 @@ public class EnderDragonManager implements Listener, ManagerEnabler {
         if(event.getEntity().getType() != EntityType.ENDER_DRAGON) return;
 
         event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onChunkUnload(ChunkUnloadEvent event) {
+        Entity entity = this.enderDragon.getDragonBukkitEntity();
+        Location location = entity.getLocation();
+
+        int x = location.getBlockX() >> 4;
+        int z = location.getBlockZ() >> 4;
+
+        Chunk chunk = event.getChunk();
+
+        if(chunk.getX() == x && chunk.getZ() == z) {
+            event.setCancelled(true);
+        }
     }
 }
