@@ -98,6 +98,8 @@ public class EnderDragonManager implements Listener, ManagerEnabler {
 
     @EventHandler(ignoreCancelled = true)
     public void onChunkUnload(ChunkUnloadEvent event) {
+        if(!this.isActive()) return;
+
         Entity entity = this.enderDragon.getDragonBukkitEntity();
         Location location = entity.getLocation();
 
