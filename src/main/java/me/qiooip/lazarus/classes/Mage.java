@@ -120,7 +120,7 @@ public class Mage extends PvpClass {
 
         int amountOfEnemies = 0;
 
-        for(Entity nearby : player.getNearbyEntities(item.getDistanceSquared(), item.getDistanceSquared(), item.getDistanceSquared())) {
+        for(Entity nearby : player.getNearbyEntities(item.getDistance(), item.getDistance(), item.getDistance())) {
             if(!(nearby instanceof Player)) continue;
 
             Player enemy = (Player) nearby;

@@ -83,6 +83,8 @@ public class PvpClassUtils {
                 .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 
             int distance = potionSection.getInt(potion + ".DISTANCE");
+
+            mageItem.setDistance(distance);
             mageItem.setDistanceSquared(distance * distance);
 
             bardItems.add(mageItem);
@@ -115,6 +117,8 @@ public class PvpClassUtils {
                 .getInt(potion + ".DURATION") * 20, potionSection.getInt(potion + ".LEVEL") - 1));
 
             int distance = potionSection.getInt(potion + ".DISTANCE");
+
+            bardItem.setDistance(distance);
             bardItem.setDistanceSquared(distance * distance);
 
             bardItems.add(bardItem);

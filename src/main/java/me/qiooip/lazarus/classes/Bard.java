@@ -122,7 +122,7 @@ public class Bard extends PvpClass {
             this.getManager().addPotionEffect(player, item.getPotionEffect());
             int amountOfEnemies = 0;
 
-            for(Entity nearby : player.getNearbyEntities(item.getDistanceSquared(), item.getDistanceSquared(), item.getDistanceSquared())) {
+            for(Entity nearby : player.getNearbyEntities(item.getDistance(), item.getDistance(), item.getDistance())) {
                 if(!(nearby instanceof Player)) continue;
 
                 Player enemy = (Player) nearby;
