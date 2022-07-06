@@ -215,6 +215,9 @@ public class Language {
     public static String HOLOGRAMS_ADD_LINE_USAGE;
     public static String HOLOGRAMS_ADD_LINE_LINE_ADDED;
 
+    public static String HOLOGRAMS_CREATE_USAGE;
+    public static String HOLOGRAMS_CREATE_CREATED;
+
     public static String HOLOGRAMS_DELETE_USAGE;
     public static String HOLOGRAMS_DELETE_DELETED;
 
@@ -1797,6 +1800,9 @@ public class Language {
 
         HOLOGRAMS_ADD_LINE_USAGE = language.getString("HOLOGRAMS.ADD_LINE_COMMAND.USAGE");
         HOLOGRAMS_ADD_LINE_LINE_ADDED = language.getString("HOLOGRAMS.ADD_LINE_COMMAND.LINE_ADDED");
+
+        HOLOGRAMS_CREATE_USAGE = language.getString("HOLOGRAMS.CREATE_COMMAND.USAGE");
+        HOLOGRAMS_CREATE_CREATED = language.getString("HOLOGRAMS.CREATE_COMMAND.CREATED");
 
         HOLOGRAMS_DELETE_USAGE = language.getString("HOLOGRAMS.DELETE_COMMAND.USAGE");
         HOLOGRAMS_DELETE_DELETED = language.getString("HOLOGRAMS.DELETE_COMMAND.DELETED");

@@ -449,6 +449,9 @@ HOLOGRAMS:
   ADD_LINE_COMMAND:
     USAGE: "&cUsage: /hologram addline <id> <text>"
     LINE_ADDED: "&7Added line to the &bhologram <id>&7."
+  CREATE_COMMAND:
+    USAGE: "&cUsage: /hologram create <type>"
+    CREATED: "&7Created new hologram at your &clocation&7."
   DELETE_COMMAND:
     USAGE: "&cUsage: /hologram delete <id>"
     DELETED: "&7Hologram with id &b<id> &7deleted."

@@ -103,6 +103,7 @@ public class HologramManager implements ManagerEnabler, Listener {
         Bukkit.getOnlinePlayers().forEach(hologram::sendHologram);
 
         this.addHologram(hologram);
+        player.sendMessage(Language.HOLOGRAMS_PREFIX + Language.HOLOGRAMS_CREATE_CREATED);
     }
 
     private Hologram createHologramFromParameter(Player player, String parameter) {
