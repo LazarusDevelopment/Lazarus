@@ -1,8 +1,9 @@
 package me.qiooip.lazarus.lunarclient.waypoint;
 
-import com.lunarclient.bukkitapi.object.LCWaypoint;
+import com.lunarclient.apollo.module.waypoint.Waypoint;
 import lombok.Getter;
 import lombok.Setter;
+import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Location;
 
 import java.awt.*;
@@ -11,18 +12,26 @@ import java.awt.*;
 public class LunarClientWaypoint {
 
     private String name;
-    private int rgbColor;
+    private Color rgbColor;
     private boolean forced;
 
     public void setRgbColor(String colorString) {
-        this.rgbColor = Color.decode(colorString).getRGB();
+        this.rgbColor = Color.decode(colorString);
     }
 
-    public LCWaypoint createWaypoint(Location location, String replace) {
-        return new LCWaypoint(this.name.replace("<name>", replace), location, this.rgbColor, this.forced);
+    private Waypoint createNewWaypoint(Location location, String name) {
+        return Waypoint.builder()
+            .name(name)
+            .color(this.rgbColor)
+            .location(ApolloUtils.toApolloBlockLocation(location))
+            .build();
     }
 
-    public LCWaypoint createWaypoint(Location location) {
-        return new LCWaypoint(this.name, location, this.rgbColor, this.forced);
+    public Waypoint createWaypoint(Location location) {
+        return this.createNewWaypoint(location, this.name);
+    }
+
+    public Waypoint createWaypoint(Location location, String replacement) {
+        return this.createNewWaypoint(location, this.name.replace("<name>", replacement));
     }
 }

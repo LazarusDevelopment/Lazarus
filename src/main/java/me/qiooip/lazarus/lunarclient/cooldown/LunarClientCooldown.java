@@ -1,23 +1,43 @@
 package me.qiooip.lazarus.lunarclient.cooldown;
 
-import com.lunarclient.bukkitapi.cooldown.LCCooldown;
-import lombok.Getter;
-import lombok.Setter;
+import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.common.icon.Icon;
+import com.lunarclient.apollo.common.icon.ItemStackIcon;
+import com.lunarclient.apollo.module.cooldown.Cooldown;
+import com.lunarclient.apollo.module.cooldown.CooldownModule;
+import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Material;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.util.UUID;
 
-@Getter @Setter
 public class LunarClientCooldown {
 
-    private String name;
-    private Material material;
+    private final static CooldownModule MODULE = Apollo.getModuleManager().getModule(CooldownModule.class);
 
-    public LCCooldown createCooldown(int duration) {
-        return new LCCooldown(this.name, duration, TimeUnit.SECONDS, this.material);
+    private final String name;
+    private final Icon icon;
+
+    public LunarClientCooldown(String name, Material material) {
+        this.name = name;
+
+        this.icon = ItemStackIcon.builder()
+            .itemId(material.getId())
+            .itemName(material.name())
+            .build();
     }
 
-    public LCCooldown clearCooldown() {
-        return new LCCooldown(this.name, 1, TimeUnit.SECONDS, this.material);
+    public void createCooldown(UUID playerId, int duration) {
+        Cooldown cooldown = Cooldown.builder()
+            .name(this.name)
+            .icon(this.icon)
+            .duration(Duration.ofSeconds(duration))
+            .build();
+
+        ApolloUtils.runForPlayer(playerId, ap -> MODULE.displayCooldown(ap, cooldown));
+    }
+
+    public void clearCooldown(UUID playerId) {
+        ApolloUtils.runForPlayer(playerId, ap -> MODULE.removeCooldown(ap, this.name));
     }
 }

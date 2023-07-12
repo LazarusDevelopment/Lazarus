@@ -1,17 +1,15 @@
 package me.qiooip.lazarus.lunarclient.task;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
-import com.lunarclient.bukkitapi.nethandler.LCPacket;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketTeammates;
+import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.module.team.TeamModule;
+import com.lunarclient.apollo.player.ApolloPlayer;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
-import me.qiooip.lazarus.lunarclient.LunarClientManager;
-import org.bukkit.Bukkit;
+import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -20,7 +18,10 @@ import java.util.UUID;
 
 public class TeamViewTask extends BukkitRunnable {
 
+    private final TeamModule teamModule;
+
     public TeamViewTask() {
+        this.teamModule = Apollo.getModuleManager().getModule(TeamModule.class);
         this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 20L);
     }
 
@@ -56,20 +57,17 @@ public class TeamViewTask extends BukkitRunnable {
     private void sendPerWorldPackets(PlayerFaction faction, Map<Environment, LCPacket> packets) {
         faction.getOnlinePlayers().forEach(member -> {
             LCPacket packet = packets.get(member.getWorld().getEnvironment());
-            LunarClientAPI.getInstance().sendPacket(member, packet);
+            ApolloUtils.runForPlayer(member, ap -> this.teamModule.updateTeamMembers(ap, null));
         });
     }
 
     private void sendTeamViewPackets() {
-        LunarClientManager lcManager = Lazarus.getInstance().getLunarClientManager();
         FactionsManager factionsManager = FactionsManager.getInstance();
 
         Map<PlayerFaction, Map<Environment, LCPacket>> factions = new HashMap<>();
 
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(!lcManager.isOnLunarClient(player)) continue;
-
-            PlayerFaction faction = factionsManager.getPlayerFaction(player);
+        for(ApolloPlayer player : Apollo.getPlayerManager().getPlayers()) {
+            PlayerFaction faction = factionsManager.getPlayerFaction(player.getUniqueId());
 
             if(faction != null && !factions.containsKey(faction)) {
                 factions.put(faction, this.createTeammatePackets(faction));

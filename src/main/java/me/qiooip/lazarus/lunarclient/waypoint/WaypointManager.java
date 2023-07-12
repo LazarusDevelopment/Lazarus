@@ -2,10 +2,13 @@ package me.qiooip.lazarus.lunarclient.waypoint;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import com.lunarclient.bukkitapi.LunarClientAPI;
-import com.lunarclient.bukkitapi.event.LCPlayerRegisterEvent;
-import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
-import com.lunarclient.bukkitapi.object.LCWaypoint;
+import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.audience.Audience;
+import com.lunarclient.apollo.event.player.ApolloRegisterPlayerEvent;
+import com.lunarclient.apollo.event.player.ApolloUnregisterPlayerEvent;
+import com.lunarclient.apollo.module.waypoint.Waypoint;
+import com.lunarclient.apollo.module.waypoint.WaypointModule;
+import com.lunarclient.apollo.player.ApolloPlayer;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
@@ -29,6 +32,7 @@ import me.qiooip.lazarus.games.koth.event.KothStartEvent;
 import me.qiooip.lazarus.games.koth.event.KothStopEvent;
 import me.qiooip.lazarus.handlers.event.ExitSetEvent;
 import me.qiooip.lazarus.handlers.event.SpawnSetEvent;
+import me.qiooip.lazarus.utils.ApolloUtils;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
@@ -47,11 +51,13 @@ public class WaypointManager implements Listener {
 
     private final Map<PlayerWaypointType, LunarClientWaypoint> waypoints;
 
-    private final Map<PlayerWaypointType, LCWaypoint> globalWaypoints;
-    private final Map<String, LCWaypoint> kothWaypoints;
+    private final Map<PlayerWaypointType, Waypoint> globalWaypoints;
+    private final Map<String, Waypoint> kothWaypoints;
 
-    private final Table<UUID, PlayerWaypointType, LCWaypoint> playerWaypoints;
+    private final Table<UUID, PlayerWaypointType, Waypoint> playerWaypoints;
     private final PlayerWaypointType[] waypointTypes;
+
+    private final WaypointModule waypointModule;
 
     public WaypointManager() {
         this.waypoints = new HashMap<>();
@@ -62,8 +68,9 @@ public class WaypointManager implements Listener {
         this.playerWaypoints = HashBasedTable.create();
 
         this.waypointTypes = PlayerWaypointType.values();
-        this.setupWaypoints();
+        this.waypointModule = Apollo.getModuleManager().getModule(WaypointModule.class);
 
+        this.setupWaypoints();
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
@@ -185,28 +192,32 @@ public class WaypointManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRegisterLCEvent(LCPlayerRegisterEvent event) {
+    public void onPlayerRegisterLCEvent(ApolloRegisterPlayerEvent event) {
         this.registerPlayerWaypoints(event.getPlayer());
     }
 
     @EventHandler
-    public void onPlayerUnregisterLC(LCPlayerUnregisterEvent event) {
-        Player player = event.getPlayer();
+    public void onPlayerUnregisterLC(ApolloUnregisterPlayerEvent event) {
+        ApolloPlayer player = event.getPlayer();
 
         if(this.playerWaypoints.containsRow(player.getUniqueId())) {
-            for(LCWaypoint waypoint : this.playerWaypoints.values()) {
+            for(Waypoint waypoint : this.playerWaypoints.values()) {
                 this.removeWaypoint(player, waypoint);
             }
 
             this.playerWaypoints.row(player.getUniqueId()).clear();
         }
 
-        for(LCWaypoint waypoint : this.kothWaypoints.values()) {
+        for(Waypoint waypoint : this.kothWaypoints.values()) {
             this.removeWaypoint(player, waypoint);
         }
     }
 
     private void updatePlayerFactionChange(Player player) {
+        ApolloUtils.runForPlayer(player, this::updatePlayerFactionChange);
+    }
+
+    private void updatePlayerFactionChange(ApolloPlayer player) {
         this.updateWaypoint(player, PlayerWaypointType.FACTION_RALLY);
         this.updateWaypoint(player, PlayerWaypointType.FACTION_HOME);
         this.updateWaypoint(player, PlayerWaypointType.FOCUSED_FACTION_HOME);
@@ -219,12 +230,12 @@ public class WaypointManager implements Listener {
         this.updateGlobalWaypoints(PlayerWaypointType.CONQUEST_YELLOW, true);
     }
 
-    private void registerPlayerWaypoints(Player player) {
+    private void registerPlayerWaypoints(ApolloPlayer player) {
         for(PlayerWaypointType type : this.waypointTypes) {
             this.updateWaypoint(player, type);
         }
 
-        for(LCWaypoint waypoint : this.kothWaypoints.values()) {
+        for(Waypoint waypoint : this.kothWaypoints.values()) {
             this.addWaypoint(player, waypoint);
         }
     }
@@ -255,22 +266,19 @@ public class WaypointManager implements Listener {
         String name = data.getName();
 
         if(add) {
-            LCWaypoint waypoint = this.waypoints.get(PlayerWaypointType.KOTH)
+            Waypoint waypoint = this.waypoints.get(PlayerWaypointType.KOTH)
                 .createWaypoint(data.getCuboid().getCenterWithMinY(), name);
 
-            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
-                this.addWaypoint(Bukkit.getPlayer(uuid), waypoint);
-            }
-
+            this.addWaypoint(Audience.ofEveryone(), waypoint);
             this.kothWaypoints.put(name, waypoint);
+
             return;
         }
 
-        LCWaypoint waypoint = this.kothWaypoints.remove(name);
-        if(waypoint == null) return;
+        Waypoint waypoint = this.kothWaypoints.remove(name);
 
-        for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
-            this.removeWaypoint(Bukkit.getPlayer(uuid), waypoint);
+        if(waypoint != null) {
+            this.removeWaypoint(Audience.ofEveryone(), waypoint);
         }
     }
 
@@ -278,13 +286,11 @@ public class WaypointManager implements Listener {
         if(!this.waypoints.containsKey(type)) return;
 
         if(update) {
-            if(this.globalWaypoints.containsKey(type)) {
-                for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
-                    this.removeWaypoint(Bukkit.getPlayer(uuid), this.globalWaypoints.get(type));
-                }
-            }
+            Waypoint waypoint = this.globalWaypoints.remove(type);
 
-            this.globalWaypoints.remove(type);
+            if(waypoint != null) {
+                this.removeWaypoint(Audience.ofEveryone(), waypoint);
+            }
         }
 
         switch(type) {
@@ -333,18 +339,20 @@ public class WaypointManager implements Listener {
         }
 
         if(update) {
-            for(UUID uuid : Lazarus.getInstance().getLunarClientManager().getPlayers()) {
+            for(ApolloPlayer player : Apollo.getPlayerManager().getPlayers()) {
                 for(PlayerWaypointType pwt : this.globalWaypoints.keySet()) {
-                    this.updateWaypoint(Bukkit.getPlayer(uuid), pwt);
+                    this.updateWaypoint(player, pwt);
                 }
             }
         }
     }
 
     private void updateWaypoint(Player player, PlayerWaypointType type) {
-        if(player == null) return;
+        ApolloUtils.runForPlayer(player, ap -> this.updateWaypoint(ap, type));
+    }
 
-        LCWaypoint lcWaypoint = this.playerWaypoints.remove(player.getUniqueId(), type);
+    private void updateWaypoint(ApolloPlayer player, PlayerWaypointType type) {
+        Waypoint lcWaypoint = this.playerWaypoints.remove(player.getUniqueId(), type);
 
         if(lcWaypoint != null) {
             this.removeWaypoint(player, lcWaypoint);
@@ -352,9 +360,9 @@ public class WaypointManager implements Listener {
 
         if(!this.waypoints.containsKey(type)) return;
 
-        LCWaypoint waypoint = null;
+        Waypoint waypoint = null;
         LunarClientWaypoint typeWaypoint = this.waypoints.get(type);
-        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player);
+        PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(player.getUniqueId());
 
         switch(type) {
             case SPAWN:
@@ -402,13 +410,11 @@ public class WaypointManager implements Listener {
         }
     }
 
-    private void addWaypoint(Player player, LCWaypoint waypoint) {
-        if(player == null) return;
-        LunarClientAPI.getInstance().sendWaypoint(player, waypoint);
+    private void addWaypoint(Audience audience, Waypoint waypoint) {
+        this.waypointModule.displayWaypoint(audience, waypoint);
     }
 
-    private void removeWaypoint(Player player, LCWaypoint waypoint) {
-        if(player == null) return;
-        LunarClientAPI.getInstance().removeWaypoint(player, waypoint);
+    private void removeWaypoint(Audience audience, Waypoint waypoint) {
+        this.waypointModule.removeWaypoint(audience, waypoint);
     }
 }

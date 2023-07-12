@@ -1,6 +1,9 @@
 package me.qiooip.lazarus.scoreboard.nms;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
+import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.common.Component;
+import com.lunarclient.apollo.module.nametag.Nametag;
+import com.lunarclient.apollo.module.nametag.NametagModule;
 import lombok.Setter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
@@ -10,6 +13,7 @@ import me.qiooip.lazarus.scoreboard.PlayerScoreboard;
 import me.qiooip.lazarus.scoreboard.ScoreboardInput;
 import me.qiooip.lazarus.scoreboard.base.ScoreboardBase_1_8;
 import me.qiooip.lazarus.timer.TimerManager;
+import me.qiooip.lazarus.utils.ApolloUtils;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.nms.NmsUtils;
 import org.bukkit.ChatColor;
@@ -32,6 +36,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
 
     private static final String SB_LINE = Config.SCOREBOARD_LINE_COLOR + ChatColor.STRIKETHROUGH + "------";
     private static final ScoreboardInput EMPTY_INPUT = new ScoreboardInput("", "", "");
+    private static final NametagModule NAMETAG_MODULE = Apollo.getModuleManager().getModule(NametagModule.class);
 
     private final Deque<ScoreboardInput> entries;
     private Set<String> lastEntries;
@@ -292,16 +297,16 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
             PlayerFaction playerFaction = FactionsManager.getInstance().getPlayerFaction(this.player);
 
             for(Player online : players) {
-                List<String> nametag = null;
+                List<Component> nametag = null;
 
                 if(Config.LUNAR_CLIENT_API_ENABLED && Config.LUNAR_CLIENT_API_NAMETAGS_ENABLED) {
                     nametag = new ArrayList<>();
                     PlayerFaction faction = FactionsManager.getInstance().getPlayerFaction(online);
 
                     if(faction != null) {
-                        nametag.add(Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
+                        nametag.add(ApolloUtils.textComponent(Config.LUNAR_CLIENT_API_NAMETAGS_FACTION
                             .replace("<faction>", faction.getName(this.player))
-                            .replace("<dtr>", faction.getDtrString()));
+                            .replace("<dtr>", faction.getDtrString())));
                     }
                 }
 
@@ -312,48 +317,54 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
                     this.addAndUpdate(online, nametag, this.members, lunarOnly);
                     continue;
                 } else if(playerFaction == null) {
+                    Team updateTeam = this.enemies;
+
                     if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-                        this.addAndUpdate(online, nametag, this.invis, lunarOnly);
+                        updateTeam = this.invis;
                     } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
-                        this.addAndUpdate(online, nametag, this.archers, lunarOnly);
+                        updateTeam = this.archers;
                     } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
-                        this.addAndUpdate(online, nametag, this.sotw, lunarOnly);
-                    } else {
-                        this.addAndUpdate(online, nametag, this.enemies, lunarOnly);
+                        updateTeam = this.sotw;
                     }
+
+                    this.addAndUpdate(online, nametag, updateTeam, lunarOnly);
                     continue;
                 }
 
                 PlayerFaction targetFaction = FactionsManager.getInstance().getPlayerFaction(online);
                 boolean isMemberOrAlly = playerFaction == targetFaction || playerFaction.isAlly(targetFaction);
 
+                Team updateTeam = this.enemies;
+
                 if(this.invis != null && online.hasPotionEffect(PotionEffectType.INVISIBILITY) && !isMemberOrAlly) {
-                    this.addAndUpdate(online, nametag, this.invis, lunarOnly);
+                    updateTeam = this.invis;
                 } else if(playerFaction.isFocusing(online) || playerFaction.isFocusing(targetFaction)) {
-                    this.addAndUpdate(online, nametag, this.focused, lunarOnly);
+                    updateTeam = this.focused;
                 } else if(playerFaction == targetFaction) {
-                    this.addAndUpdate(online, nametag, this.members, lunarOnly);
+                    updateTeam = this.members;
                 } else if(playerFaction.isAlly(targetFaction)) {
-                    this.addAndUpdate(online, nametag, this.allies, lunarOnly);
+                    updateTeam = this.allies;
                 } else if(TimerManager.getInstance().getArcherTagTimer().isActive(online)) {
-                    this.addAndUpdate(online, nametag, this.archers, lunarOnly);
+                    updateTeam = this.archers;
                 } else if(Lazarus.getInstance().getSotwHandler().isUnderSotwProtection(online)) {
-                    this.addAndUpdate(online, nametag, this.sotw, lunarOnly);
-                } else {
-                    this.addAndUpdate(online, nametag, this.enemies, lunarOnly);
+                    updateTeam = this.sotw;
                 }
+
+                this.addAndUpdate(online, nametag, updateTeam, lunarOnly);
             }
         }
     }
 
-    private void addAndUpdate(Player online, List<String> nametag, Team team, boolean lunarOnly) {
+    private void addAndUpdate(Player online, List<Component> nametagLines, Team team, boolean lunarOnly) {
         if(!lunarOnly) {
             team.addEntry(online.getName());
         }
 
-        if(nametag != null) {
-            nametag.add(team.getPrefix() + online.getName());
-            LunarClientAPI.getInstance().overrideNametag(online, nametag, this.player);
+        if(nametagLines != null) {
+            nametagLines.add(ApolloUtils.textComponent(team.getPrefix() + online.getName()));
+
+            Nametag nametag = Nametag.builder().lines(nametagLines).build();
+            ApolloUtils.runForPlayer(this.player, ap -> NAMETAG_MODULE.overrideNametag(ap, online.getUniqueId(), nametag));
         }
     }
 }

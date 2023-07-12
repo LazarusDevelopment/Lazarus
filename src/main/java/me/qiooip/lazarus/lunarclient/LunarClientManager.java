@@ -1,12 +1,10 @@
 package me.qiooip.lazarus.lunarclient;
 
-import com.lunarclient.bukkitapi.LunarClientAPI;
-import com.lunarclient.bukkitapi.event.LCPlayerRegisterEvent;
-import com.lunarclient.bukkitapi.event.LCPlayerUnregisterEvent;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketModSettings;
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketServerRule;
-import com.lunarclient.bukkitapi.nethandler.client.obj.ModSettings;
-import com.lunarclient.bukkitapi.nethandler.client.obj.ServerRule;
+import com.google.common.collect.Lists;
+import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.module.staffmod.StaffMod;
+import com.lunarclient.apollo.module.staffmod.StaffModModule;
+import com.lunarclient.apollo.player.ApolloPlayer;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
@@ -14,16 +12,15 @@ import me.qiooip.lazarus.lunarclient.cooldown.CooldownManager;
 import me.qiooip.lazarus.lunarclient.task.TeamViewTask;
 import me.qiooip.lazarus.lunarclient.waypoint.WaypointManager;
 import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
+import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Getter
 public class LunarClientManager implements Listener {
@@ -32,14 +29,10 @@ public class LunarClientManager implements Listener {
     private WaypointManager waypointManager;
     private TeamViewTask teamViewTask;
 
-    private final Set<UUID> players;
-    private final Set<LCPacketServerRule> serverRules;
-    private final LCPacketModSettings modSettings;
+    private final StaffModModule staffModModule;
+    private final List<StaffMod> staffMods = Lists.newArrayList(StaffMod.XRAY);
 
     public LunarClientManager() {
-        this.players = new HashSet<>();
-        this.serverRules = new HashSet<>();
-
         if(Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED) {
             this.cooldownManager = new CooldownManager();
         }
@@ -52,15 +45,12 @@ public class LunarClientManager implements Listener {
             this.teamViewTask = new TeamViewTask();
         }
 
-        this.setupServerRules();
-        this.modSettings = this.setupModSettings();
+        this.staffModModule = Apollo.getModuleManager().getModule(StaffModModule.class);
 
         Bukkit.getPluginManager().registerEvents(this, Lazarus.getInstance());
     }
 
     public void disable() {
-        this.players.clear();
-
         if(this.cooldownManager != null) {
             this.cooldownManager.disable();
         }
@@ -74,43 +64,8 @@ public class LunarClientManager implements Listener {
         }
     }
 
-    private void setupServerRules() {
-        ConfigurationSection section = Lazarus.getInstance().getConfig().getSection("SERVER_RULES");
-
-        section.getKeys(false).forEach(key -> {
-            ServerRule rule;
-
-            try {
-                rule = ServerRule.valueOf(key);
-            } catch (IllegalArgumentException e) {
-                return;
-            }
-
-            LCPacketServerRule serverRule;
-            Object value = section.get(key);
-
-            if(value instanceof String) {
-                serverRule = new LCPacketServerRule(rule, section.getString(key));
-            } else {
-                serverRule = new LCPacketServerRule(rule, section.getBoolean(key));
-            }
-
-            this.serverRules.add(serverRule);
-        });
-    }
-
-    private LCPacketModSettings setupModSettings() {
-        ModSettings settings = new ModSettings();
-
-        for(String id : Config.LUNAR_CLIENT_FORCE_DISABLED_MODS) {
-            settings.addModSetting(id, new ModSettings.ModSetting(false, new HashMap<>()));
-        }
-
-        return new LCPacketModSettings(settings);
-    }
-
     public boolean isOnLunarClient(UUID uuid) {
-        return this.players.contains(uuid);
+        return Apollo.getPlayerManager().hasSupport(uuid);
     }
 
     public boolean isOnLunarClient(Player player) {
@@ -118,38 +73,18 @@ public class LunarClientManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRegisterLC(LCPlayerRegisterEvent event) {
-        Player player = event.getPlayer();
-        this.players.add(player.getUniqueId());
-
-        this.sendRules(player);
-
-        if(!Config.LUNAR_CLIENT_FORCE_DISABLED_MODS.isEmpty()) {
-            LunarClientAPI.getInstance().sendPacket(player, this.modSettings);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerUnregisterLC(LCPlayerUnregisterEvent event) {
-        this.players.remove(event.getPlayer().getUniqueId());
-    }
-
-    @EventHandler
     public void onStaffModeToggle(StaffModeToggleEvent event) {
         if(!Config.LUNAR_CLIENT_API_STAFF_MODULES_ENABLED) return;
 
         Player player = event.getPlayer();
+        Consumer<ApolloPlayer> consumer;
 
         if(event.isEnable()) {
-            LunarClientAPI.getInstance().giveAllStaffModules(player);
+            consumer = ap -> this.staffModModule.enableStaffMods(ap, this.staffMods);
         } else {
-            LunarClientAPI.getInstance().disableAllStaffModules(player);
+            consumer = ap -> this.staffModModule.disableStaffMods(ap, this.staffMods);
         }
-    }
 
-    private void sendRules(Player player) {
-        for(LCPacketServerRule packet : this.serverRules) {
-            LunarClientAPI.getInstance().sendPacket(player, packet);
-        }
+        ApolloUtils.runForPlayer(player.getUniqueId(), consumer);
     }
 }
