@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.utils;
 
 import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.audience.Audience;
 import com.lunarclient.apollo.common.Component;
 import com.lunarclient.apollo.common.location.ApolloBlockLocation;
 import com.lunarclient.apollo.common.location.ApolloLocation;
@@ -8,6 +9,9 @@ import com.lunarclient.apollo.player.ApolloPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -19,6 +23,15 @@ public class ApolloUtils {
 
     public static void runForPlayer(UUID playerId, Consumer<ApolloPlayer> playerConsumer) {
         Apollo.getPlayerManager().getPlayer(playerId).ifPresent(playerConsumer);
+    }
+
+    public static Audience getAudienceFrom(Collection<Player> players) {
+        List<ApolloPlayer> apolloPlayers = new ArrayList<>();
+
+        players.forEach(player -> Apollo.getPlayerManager()
+            .getPlayer(player.getUniqueId()).ifPresent(apolloPlayers::add));
+
+        return Audience.of(apolloPlayers);
     }
 
     public static Component textComponent(String content) {

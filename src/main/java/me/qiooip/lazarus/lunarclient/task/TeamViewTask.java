@@ -1,6 +1,10 @@
 package me.qiooip.lazarus.lunarclient.task;
 
 import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.audience.Audience;
+import com.lunarclient.apollo.common.ApolloColors;
+import com.lunarclient.apollo.common.Component;
+import com.lunarclient.apollo.module.team.TeamMember;
 import com.lunarclient.apollo.module.team.TeamModule;
 import com.lunarclient.apollo.player.ApolloPlayer;
 import lombok.Getter;
@@ -9,10 +13,12 @@ import me.qiooip.lazarus.factions.FactionsManager;
 import me.qiooip.lazarus.factions.type.PlayerFaction;
 import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Location;
-import org.bukkit.World.Environment;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,65 +28,57 @@ public class TeamViewTask extends BukkitRunnable {
 
     public TeamViewTask() {
         this.teamModule = Apollo.getModuleManager().getModule(TeamModule.class);
-        this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 20L);
+        this.runTaskTimerAsynchronously(Lazarus.getInstance(), 0L, 5L);
     }
 
-    private Map<String, Double> positionMap(Location location) {
-        Map<String, Double> position = new HashMap<>();
+    private TeamMember createTeamMember(Player member) {
+        Location location = member.getLocation();
 
-        position.put("x", location.getX());
-        position.put("y", location.getY());
-        position.put("z", location.getZ());
-
-        return position;
+        return TeamMember.builder()
+            .playerUuid(member.getUniqueId())
+            .displayName(Component.builder()
+                .content(member.getName())
+                .color(ApolloColors.GREEN)
+                .build())
+            .markerColor(ApolloColors.WHITE)
+            .location(ApolloUtils.toApolloLocation(location))
+            .build();
     }
 
-    private Map<Environment, LCPacket> createTeammatePackets(PlayerFaction faction) {
-        Map<Environment, PositionMap> positions = new HashMap<>();
-
-        faction.getOnlinePlayers().forEach(member -> {
-            Environment env = member.getWorld().getEnvironment();
-            UUID uuid = member.getUniqueId();
-
-            positions.computeIfAbsent(env, t -> new PositionMap())
-                .addPosition(uuid, this.positionMap(member.getLocation()));
-        });
-
-        Map<Environment, LCPacket> packets = new HashMap<>();
-
-        positions.forEach((env, positionMap) -> packets.put(env,
-            new LCPacketTeammates(null, 2000L, positionMap.getPositions())));
-
-        return packets;
+    public void resetPlayerTeamView(UUID playerId) {
+        ApolloUtils.runForPlayer(playerId, this.teamModule::resetTeamMembers);
     }
 
-    private void sendPerWorldPackets(PlayerFaction faction, Map<Environment, LCPacket> packets) {
-        faction.getOnlinePlayers().forEach(member -> {
-            LCPacket packet = packets.get(member.getWorld().getEnvironment());
-            ApolloUtils.runForPlayer(member, ap -> this.teamModule.updateTeamMembers(ap, null));
-        });
+    private List<TeamMember> createTeamViewMembers(PlayerFaction faction) {
+        List<TeamMember> members = new ArrayList<>();
+        faction.getOnlinePlayers().forEach(member -> members.add(this.createTeamMember(member)));
+        return members;
     }
 
-    private void sendTeamViewPackets() {
+    private void sendTeamViewUpdate(PlayerFaction faction, List<TeamMember> members) {
+        Audience factionPlayers = ApolloUtils.getAudienceFrom(faction.getOnlinePlayers());
+        this.teamModule.updateTeamMembers(factionPlayers, members);
+    }
+
+    private void updateTeamViewMembers() {
         FactionsManager factionsManager = FactionsManager.getInstance();
-
-        Map<PlayerFaction, Map<Environment, LCPacket>> factions = new HashMap<>();
+        Map<PlayerFaction, List<TeamMember>> factions = new HashMap<>();
 
         for(ApolloPlayer player : Apollo.getPlayerManager().getPlayers()) {
             PlayerFaction faction = factionsManager.getPlayerFaction(player.getUniqueId());
 
             if(faction != null && !factions.containsKey(faction)) {
-                factions.put(faction, this.createTeammatePackets(faction));
+                factions.put(faction, this.createTeamViewMembers(faction));
             }
         }
 
-        factions.forEach((faction, packets) -> this.sendPerWorldPackets(faction, packets));
+        factions.forEach((faction, members) -> this.sendTeamViewUpdate(faction, members));
     }
 
     @Override
     public void run() {
         try {
-            this.sendTeamViewPackets();
+            this.updateTeamViewMembers();
         } catch(Throwable t) {
             t.printStackTrace();
         }

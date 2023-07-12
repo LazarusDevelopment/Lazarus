@@ -8,6 +8,7 @@ import com.lunarclient.apollo.player.ApolloPlayer;
 import lombok.Getter;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
+import me.qiooip.lazarus.factions.event.PlayerLeaveFactionEvent;
 import me.qiooip.lazarus.lunarclient.cooldown.CooldownManager;
 import me.qiooip.lazarus.lunarclient.task.TeamViewTask;
 import me.qiooip.lazarus.lunarclient.waypoint.WaypointManager;
@@ -70,6 +71,13 @@ public class LunarClientManager implements Listener {
 
     public boolean isOnLunarClient(Player player) {
         return this.isOnLunarClient(player.getUniqueId());
+    }
+
+    @EventHandler
+    public void onPlayerLeaveFaction(PlayerLeaveFactionEvent event) {
+        if(this.teamViewTask != null) {
+            this.teamViewTask.resetPlayerTeamView(event.getFactionPlayer().getUuid());
+        }
     }
 
     @EventHandler
