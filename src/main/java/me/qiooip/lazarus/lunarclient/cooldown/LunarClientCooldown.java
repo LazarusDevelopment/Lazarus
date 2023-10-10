@@ -1,11 +1,11 @@
 package me.qiooip.lazarus.lunarclient.cooldown;
 
 import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.BukkitApollo;
 import com.lunarclient.apollo.common.icon.Icon;
 import com.lunarclient.apollo.common.icon.ItemStackIcon;
 import com.lunarclient.apollo.module.cooldown.Cooldown;
 import com.lunarclient.apollo.module.cooldown.CooldownModule;
-import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Material;
 
 import java.time.Duration;
@@ -34,10 +34,10 @@ public class LunarClientCooldown {
             .duration(Duration.ofSeconds(duration))
             .build();
 
-        ApolloUtils.runForPlayer(playerId, ap -> MODULE.displayCooldown(ap, cooldown));
+        BukkitApollo.runForPlayer(playerId, ap -> MODULE.displayCooldown(ap, cooldown));
     }
 
     public void clearCooldown(UUID playerId) {
-        ApolloUtils.runForPlayer(playerId, ap -> MODULE.removeCooldown(ap, this.name));
+        BukkitApollo.runForPlayer(playerId, ap -> MODULE.removeCooldown(ap, this.name));
     }
 }

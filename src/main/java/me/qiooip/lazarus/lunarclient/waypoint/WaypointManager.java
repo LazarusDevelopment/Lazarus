@@ -3,12 +3,13 @@ package me.qiooip.lazarus.lunarclient.waypoint;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.lunarclient.apollo.Apollo;
-import com.lunarclient.apollo.audience.Audience;
+import com.lunarclient.apollo.BukkitApollo;
 import com.lunarclient.apollo.event.player.ApolloRegisterPlayerEvent;
 import com.lunarclient.apollo.event.player.ApolloUnregisterPlayerEvent;
 import com.lunarclient.apollo.module.waypoint.Waypoint;
 import com.lunarclient.apollo.module.waypoint.WaypointModule;
 import com.lunarclient.apollo.player.ApolloPlayer;
+import com.lunarclient.apollo.recipients.Recipients;
 import me.qiooip.lazarus.Lazarus;
 import me.qiooip.lazarus.config.Config;
 import me.qiooip.lazarus.factions.FactionsManager;
@@ -32,7 +33,6 @@ import me.qiooip.lazarus.games.koth.event.KothStartEvent;
 import me.qiooip.lazarus.games.koth.event.KothStopEvent;
 import me.qiooip.lazarus.handlers.event.ExitSetEvent;
 import me.qiooip.lazarus.handlers.event.SpawnSetEvent;
-import me.qiooip.lazarus.utils.ApolloUtils;
 import me.qiooip.lazarus.utils.Color;
 import me.qiooip.lazarus.utils.Tasks;
 import org.bukkit.Bukkit;
@@ -214,7 +214,7 @@ public class WaypointManager implements Listener {
     }
 
     private void updatePlayerFactionChange(Player player) {
-        ApolloUtils.runForPlayer(player, this::updatePlayerFactionChange);
+        BukkitApollo.runForPlayer(player, this::updatePlayerFactionChange);
     }
 
     private void updatePlayerFactionChange(ApolloPlayer player) {
@@ -269,7 +269,7 @@ public class WaypointManager implements Listener {
             Waypoint waypoint = this.waypoints.get(PlayerWaypointType.KOTH)
                 .createWaypoint(data.getCuboid().getCenterWithMinY(), name);
 
-            this.addWaypoint(Audience.ofEveryone(), waypoint);
+            this.addWaypoint(Recipients.ofEveryone(), waypoint);
             this.kothWaypoints.put(name, waypoint);
 
             return;
@@ -278,7 +278,7 @@ public class WaypointManager implements Listener {
         Waypoint waypoint = this.kothWaypoints.remove(name);
 
         if(waypoint != null) {
-            this.removeWaypoint(Audience.ofEveryone(), waypoint);
+            this.removeWaypoint(Recipients.ofEveryone(), waypoint);
         }
     }
 
@@ -289,7 +289,7 @@ public class WaypointManager implements Listener {
             Waypoint waypoint = this.globalWaypoints.remove(type);
 
             if(waypoint != null) {
-                this.removeWaypoint(Audience.ofEveryone(), waypoint);
+                this.removeWaypoint(Recipients.ofEveryone(), waypoint);
             }
         }
 
@@ -348,7 +348,7 @@ public class WaypointManager implements Listener {
     }
 
     private void updateWaypoint(Player player, PlayerWaypointType type) {
-        ApolloUtils.runForPlayer(player, ap -> this.updateWaypoint(ap, type));
+        BukkitApollo.runForPlayer(player, ap -> this.updateWaypoint(ap, type));
     }
 
     private void updateWaypoint(ApolloPlayer player, PlayerWaypointType type) {
@@ -410,11 +410,11 @@ public class WaypointManager implements Listener {
         }
     }
 
-    private void addWaypoint(Audience audience, Waypoint waypoint) {
-        this.waypointModule.displayWaypoint(audience, waypoint);
+    private void addWaypoint(Recipients recipients, Waypoint waypoint) {
+        this.waypointModule.displayWaypoint(recipients, waypoint);
     }
 
-    private void removeWaypoint(Audience audience, Waypoint waypoint) {
-        this.waypointModule.removeWaypoint(audience, waypoint);
+    private void removeWaypoint(Recipients recipients, Waypoint waypoint) {
+        this.waypointModule.removeWaypoint(recipients, waypoint);
     }
 }

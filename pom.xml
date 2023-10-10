@@ -206,10 +206,11 @@
             <scope>provided</scope>
         </dependency>
 
+<!--        TODO: Directly from maven-->
         <dependency>
             <groupId>com.lunarclient</groupId>
             <artifactId>apollo</artifactId>
-            <version>0.1.0</version>
+            <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
 

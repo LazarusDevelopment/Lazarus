@@ -1,9 +1,9 @@
 package me.qiooip.lazarus.lunarclient.waypoint;
 
+import com.lunarclient.apollo.BukkitApollo;
 import com.lunarclient.apollo.module.waypoint.Waypoint;
 import lombok.Getter;
 import lombok.Setter;
-import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Location;
 
 import java.awt.*;
@@ -23,7 +23,7 @@ public class LunarClientWaypoint {
         return Waypoint.builder()
             .name(name)
             .color(this.rgbColor)
-            .location(ApolloUtils.toApolloBlockLocation(location))
+            .location(BukkitApollo.toApolloBlockLocation(location))
             .build();
     }
 

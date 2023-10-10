@@ -1,7 +1,7 @@
 package me.qiooip.lazarus.lunarclient;
 
-import com.google.common.collect.Lists;
 import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.BukkitApollo;
 import com.lunarclient.apollo.module.staffmod.StaffMod;
 import com.lunarclient.apollo.module.staffmod.StaffModModule;
 import com.lunarclient.apollo.player.ApolloPlayer;
@@ -13,7 +13,6 @@ import me.qiooip.lazarus.lunarclient.cooldown.CooldownManager;
 import me.qiooip.lazarus.lunarclient.task.TeamViewTask;
 import me.qiooip.lazarus.lunarclient.waypoint.WaypointManager;
 import me.qiooip.lazarus.staffmode.event.StaffModeToggleEvent;
-import me.qiooip.lazarus.utils.ApolloUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +30,6 @@ public class LunarClientManager implements Listener {
     private TeamViewTask teamViewTask;
 
     private final StaffModModule staffModModule;
-    private final List<StaffMod> staffMods = Lists.newArrayList(StaffMod.XRAY);
 
     public LunarClientManager() {
         if(Config.LUNAR_CLIENT_API_COOLDOWNS_ENABLED) {
@@ -88,11 +86,11 @@ public class LunarClientManager implements Listener {
         Consumer<ApolloPlayer> consumer;
 
         if(event.isEnable()) {
-            consumer = ap -> this.staffModModule.enableStaffMods(ap, this.staffMods);
+            consumer = this.staffModModule::enableAllaStaffMods;
         } else {
-            consumer = ap -> this.staffModModule.disableStaffMods(ap, this.staffMods);
+            consumer = this.staffModModule::disableAllStaffMods;
         }
 
-        ApolloUtils.runForPlayer(player.getUniqueId(), consumer);
+        BukkitApollo.runForPlayer(player.getUniqueId(), consumer);
     }
 }

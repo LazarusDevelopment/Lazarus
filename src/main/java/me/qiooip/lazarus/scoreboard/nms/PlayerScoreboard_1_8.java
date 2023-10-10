@@ -1,6 +1,7 @@
 package me.qiooip.lazarus.scoreboard.nms;
 
 import com.lunarclient.apollo.Apollo;
+import com.lunarclient.apollo.BukkitApollo;
 import com.lunarclient.apollo.common.Component;
 import com.lunarclient.apollo.module.nametag.Nametag;
 import com.lunarclient.apollo.module.nametag.NametagModule;
@@ -364,7 +365,7 @@ public class PlayerScoreboard_1_8 extends ScoreboardBase_1_8 implements PlayerSc
             nametagLines.add(ApolloUtils.textComponent(team.getPrefix() + online.getName()));
 
             Nametag nametag = Nametag.builder().lines(nametagLines).build();
-            ApolloUtils.runForPlayer(this.player, ap -> NAMETAG_MODULE.overrideNametag(ap, online.getUniqueId(), nametag));
+            BukkitApollo.runForPlayer(this.player, ap -> NAMETAG_MODULE.overrideNametag(ap, online.getUniqueId(), nametag));
         }
     }
 }
