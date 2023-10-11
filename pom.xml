@@ -23,6 +23,12 @@
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com</url>
         </repository>
+
+        <repository>
+            <id>lunarclient</id>
+            <url>https://repo.lunarclient.dev</url>
+        </repository>
+
     </repositories>
 
     <dependencies>
@@ -209,8 +215,8 @@
 <!--        TODO: Directly from maven-->
         <dependency>
             <groupId>com.lunarclient</groupId>
-            <artifactId>apollo</artifactId>
-            <version>1.0.0</version>
+            <artifactId>apollo-api</artifactId>
+            <version>0.1.1</version>
             <scope>provided</scope>
         </dependency>
 
